@@ -26,8 +26,6 @@ app.get('/', async (req, res) => {
   const getmininginfoResult = await getmininginfoResponse.json();
   const getmininginfo = getmininginfoResult.result;
 
-  console.log("getmininginfo", getmininginfo)
-
   res.render('main',{
     blocks: getmininginfo.blocks,
     averageblockfees: getmininginfo.averageblockfees
