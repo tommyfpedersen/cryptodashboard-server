@@ -1,0 +1,53 @@
+@font-face {
+    font-family: maven;
+    src: url(fonts/MavenPro-VariableFont_wght.ttf);
+}
+
+body{
+    background-color: rgb(246, 246, 246);
+    color: #444;
+    font-family: maven;
+}
+
+.header {
+    font-size: 32px;
+    text-transform: uppercase;
+    padding: 10px 10px 20px 10px;
+}
+.header-bold{
+    font-weight: bold;
+}
+.header-version{
+    font-size: 12px;
+    text-transform:none;
+}
+
+.section{
+    padding: 10px;  
+}
+.card{
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid grey;
+    padding: 10px;
+    /* width: 300px; */
+}
+.card-header{
+    padding-bottom: 10px;
+}
+.card-sub-title{
+    text-transform: uppercase;
+}
+.card-sub-title-value{
+    font-size: 30px;
+    /* font-weight: bold; */
+    padding-bottom: 20px;
+}
+
+/*  mobile view */
+@media only screen and (max-width: 800px) {
+    .card{
+        /* width: 100%;
+        padding: 10px; */
+    }
+}
