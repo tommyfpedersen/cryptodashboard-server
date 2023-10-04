@@ -2,14 +2,31 @@ require('dotenv').config();
 
 /* express */
 const express = require('express');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 app.use(express.json());
 app.use(cors({
-  origin: '*' // <-- which domains can access this API
+  origin: 'cryptodashboard.faldt.net' // <-- which domains can access this API
 }));
 
+/* helmet */
+const helmet = require("helmet");
+app.use(helmet());
+app.use(helmet.hidePoweredBy({ setTo:
+  'Powered by Code'
+}));
+
+app.use(
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      "script-src": ["self","cryptodashboard.faldt.net"],
+      "style-src": ["self","cryptodashboard.faldt.net"],
+    },
+  })
+);
 /* routes */
 // const addressindexRouter = require('./routes/addressindex');
 // app.use('/addressindex', addressindexRouter);
@@ -26,9 +43,19 @@ app.get('/', async (req, res) => {
   const getmininginfoResult = await getmininginfoResponse.json();
   const getmininginfo = getmininginfoResult.result;
 
+  let online = false;
+  let statusMessage = "Updating Verus Node"
+
+  if(getmininginfo){
+    online = true;
+    statusMessage = "Verus Node Running";
+  }
+
   res.render('main',{
-    blocks: getmininginfo.blocks,
-    averageblockfees: getmininginfo.averageblockfees
+    blocks: getmininginfo?.blocks, //!== undefined ? getmininginfo.blocks : "null",
+    averageblockfees: getmininginfo?.averageblockfees, //|| "null"
+    online: online,
+    statusMessage: statusMessage
   })
 })
 
