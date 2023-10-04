@@ -18,15 +18,16 @@ app.use(helmet.hidePoweredBy({ setTo:
   'Powered by Code'
 }));
 
-app.use(
-  helmet.contentSecurityPolicy({
-    useDefaults: true,
-    directives: {
-      "script-src": ["self","cryptodashboard.faldt.net"],
-      "style-src": ["self","cryptodashboard.faldt.net"],
-    },
-  })
-);
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     useDefaults: true,
+//     directives: {
+//       "script-src": ["self","cryptodashboard.faldt.net"],
+//       "style-src": ["self","cryptodashboard.faldt.net"],
+//     },
+//   })
+// );
+
 /* routes */
 // const addressindexRouter = require('./routes/addressindex');
 // app.use('/addressindex', addressindexRouter);
