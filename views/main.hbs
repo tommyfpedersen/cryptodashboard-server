@@ -18,11 +18,16 @@
             </div>
             <div class="card-content">
                 {{#if online}}
-                <div class="card-sub-title">blockheight</div> 
-                <div id="verus-block-height" class="card-sub-title-value"> {{{blocks}}}</div> 
+                <div class="card-sub-title">block height</div> 
+                <div id="verus-block-height" class="card-sub-title-value"> {{{blocks}}} </div> 
+                <div class="card-sub-details">{{{blockLastSend}}}</div>
+
+                <div class="card-sub-title">block reward</div> 
+                <div id="verus-block-reward" class="card-sub-title-value"> {{{blockReward}}} VRSC</div> 
                 
                 <div class="card-sub-title">average block fees (fee pool size)</div>
                 <div id="verus-average-fee-pool-size" class="card-sub-title-value">{{{averageblockfees}}} VRSC</div> 
+                <div class="card-sub-details">Calculated from the last 100 blocks</div>
                 {{else}}
                 {{{statusMessage}}}
                 {{/if}}

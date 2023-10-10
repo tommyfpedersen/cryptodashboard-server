@@ -14,8 +14,9 @@ app.use(cors({
 /* helmet */
 const helmet = require("helmet");
 app.use(helmet());
-app.use(helmet.hidePoweredBy({ setTo:
-  'Powered by Code'
+app.use(helmet.hidePoweredBy({
+  setTo:
+    'Powered by Code'
 }));
 
 // app.use(
@@ -47,13 +48,30 @@ app.get('/', async (req, res) => {
   let online = false;
   let statusMessage = "Updating Verus Node"
 
-  if(getmininginfo){
+  if (getmininginfo) {
     online = true;
     statusMessage = "Verus Node Running";
   }
 
-  res.render('main',{
+  const getblocksubsidyResponse = await fetch("http://localhost:9009/mining/getblocksubsidy/" + getmininginfo.blocks);
+  const getblocksubsidyResult = await getblocksubsidyResponse.json();
+  const getblocksubsidy = getblocksubsidyResult.result;
+
+  const getpeerinfoResponse = await fetch("http://localhost:9009/network/getpeerinfo/");
+  const getpeerinfoResult = await getpeerinfoResponse.json();
+  const getpeerinfo = getpeerinfoResult.result[0];
+  let blockLastSend = "";
+ 
+  if(getpeerinfo){
+   blockLastSend = new Date(getpeerinfo.lastsend * 1000).toLocaleString(); 
+  }
+  
+  console.log("blockLastSend",blockLastSend);
+
+  res.render('main', {
     blocks: getmininginfo?.blocks, //!== undefined ? getmininginfo.blocks : "null",
+    blockLastSend: blockLastSend,
+    blockReward: getblocksubsidy?.miner,
     averageblockfees: getmininginfo?.averageblockfees, //|| "null"
     online: online,
     statusMessage: statusMessage
@@ -66,8 +84,8 @@ app.set('views', './views')
 app.set('view engine', 'hbs')
 
 app.use(express.static(__dirname + "/public", {
-  index: false, 
-  immutable: true, 
+  index: false,
+  immutable: true,
   cacheControl: true,
   maxAge: "30d"
 }));
