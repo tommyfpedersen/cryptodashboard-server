@@ -46,27 +46,26 @@ app.get('/', async (req, res) => {
   const getmininginfo = getmininginfoResult.result;
 
   let online = false;
-  let statusMessage = "Updating Verus Node"
+  let statusMessage = "Updating Verus Node..."
 
   if (getmininginfo) {
     online = true;
     statusMessage = "Verus Node Running";
   }
 
-  const getblocksubsidyResponse = await fetch("http://localhost:9009/mining/getblocksubsidy/" + getmininginfo.blocks);
+  const getblocksubsidyResponse = await fetch("http://localhost:9009/mining/getblocksubsidy/" + getmininginfo?.blocks);
   const getblocksubsidyResult = await getblocksubsidyResponse.json();
   const getblocksubsidy = getblocksubsidyResult.result;
 
   const getpeerinfoResponse = await fetch("http://localhost:9009/network/getpeerinfo/");
-  const getpeerinfoResult = await getpeerinfoResponse.json();
-  const getpeerinfo = getpeerinfoResult.result[0];
   let blockLastSend = "";
- 
-  if(getpeerinfo){
-   blockLastSend = new Date(getpeerinfo.lastsend * 1000).toLocaleString(); 
+  const getpeerinfoResult = await getpeerinfoResponse.json();
+  const getpeerinfo = getpeerinfoResult.result;
+
+  if (getpeerinfo) {
+    blockLastSend = new Date(getpeerinfo[0].lastsend * 1000).toLocaleString();
   }
-  
-  console.log("blockLastSend",blockLastSend);
+
 
   res.render('main', {
     blocks: getmininginfo?.blocks, //!== undefined ? getmininginfo.blocks : "null",
