@@ -19,15 +19,19 @@ app.use(helmet.hidePoweredBy({
     'Powered by Code'
 }));
 
-// app.use(
-//   helmet.contentSecurityPolicy({
-//     useDefaults: true,
-//     directives: {
-//       "script-src": ["self","cryptodashboard.faldt.net"],
-//       "style-src": ["self","cryptodashboard.faldt.net"],
-//     },
-//   })
-// );
+app.use(
+  helmet.contentSecurityPolicy({
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'","cryptodashboard.faldt.net"],
+      styleSrc: ["'self'","cryptodashboard.faldt.net"],
+      reportOnly: false,
+      setAllHeaders: false,
+      // directives: {
+      //   "script-src": ["'self'","cryptodashboard.faldt.net"],
+      //   "style-src": ["'self'","cryptodashboard.faldt.net"],
+      // },
+    })
+);
 
 /* routes */
 // const addressindexRouter = require('./routes/addressindex');
@@ -66,6 +70,10 @@ app.get('/', async (req, res) => {
     blockLastSend = new Date(getpeerinfo[0].lastsend * 1000).toLocaleString();
   }
 
+//   const updateScript = `<script>
+//   console.log("test")
+// </script>`;
+
 
   res.render('main', {
     blocks: getmininginfo?.blocks, //!== undefined ? getmininginfo.blocks : "null",
@@ -73,7 +81,8 @@ app.get('/', async (req, res) => {
     blockReward: getblocksubsidy?.miner,
     averageblockfees: getmininginfo?.averageblockfees, //|| "null"
     online: online,
-    statusMessage: statusMessage
+    statusMessage: statusMessage,
+    // updateScript: updateScript
   })
 })
 
