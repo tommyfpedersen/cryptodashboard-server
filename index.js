@@ -70,6 +70,17 @@ app.get('/', async (req, res) => {
     blockLastSend = new Date(getpeerinfo[0].lastsend * 1000).toLocaleString();
   }
 
+  const getblockResponse = await fetch("http://localhost:9009/blockchain/getblock/" + getmininginfo?.blocks);
+  const getblockResult = await getblockResponse.json();
+  const getblock = getblockResult.result;
+  let blockFeeReward = "";
+  let feeReward = "";
+  if(getblock){
+    blockFeeReward = getblock.tx[0].vout[0].value;
+    feeReward = Math.floor( (blockFeeReward - getblocksubsidy?.miner) * 100000000)/100000000;
+  }
+  //console.log("value", Math.floor( (blockFeeReward - getblocksubsidy?.miner) * 100000000)/100000000)
+
 //   const updateScript = `<script>
 //   console.log("test")
 // </script>`;
@@ -79,6 +90,7 @@ app.get('/', async (req, res) => {
     blocks: getmininginfo?.blocks, //!== undefined ? getmininginfo.blocks : "null",
     blockLastSend: blockLastSend,
     blockReward: getblocksubsidy?.miner,
+    feeReward: feeReward,
     averageblockfees: getmininginfo?.averageblockfees, //|| "null"
     online: online,
     statusMessage: statusMessage,
