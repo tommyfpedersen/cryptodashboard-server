@@ -21,16 +21,16 @@ app.use(helmet.hidePoweredBy({
 
 app.use(
   helmet.contentSecurityPolicy({
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'","cryptodashboard.faldt.net"],
-      styleSrc: ["'self'","cryptodashboard.faldt.net"],
-      reportOnly: false,
-      setAllHeaders: false,
-      // directives: {
-      //   "script-src": ["'self'","cryptodashboard.faldt.net"],
-      //   "style-src": ["'self'","cryptodashboard.faldt.net"],
-      // },
-    })
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'", "cryptodashboard.faldt.net"],
+    styleSrc: ["'self'", "cryptodashboard.faldt.net"],
+    reportOnly: false,
+    setAllHeaders: false,
+    // directives: {
+    //   "script-src": ["'self'","cryptodashboard.faldt.net"],
+    //   "style-src": ["'self'","cryptodashboard.faldt.net"],
+    // },
+  })
 );
 
 /* routes */
@@ -73,17 +73,21 @@ app.get('/', async (req, res) => {
   const getblockResponse = await fetch("http://localhost:9009/blockchain/getblock/" + getmininginfo?.blocks);
   const getblockResult = await getblockResponse.json();
   const getblock = getblockResult.result;
-  let blockFeeReward = "";
+  let blockFeeReward = 0;
   let feeReward = "";
-  if(getblock){
-    blockFeeReward = getblock.tx[0].vout[0].value;
-    feeReward = Math.floor( (blockFeeReward - getblocksubsidy?.miner) * 100000000)/100000000;
+  if (getblock) {
+    blockFeeReward = 0;
+    getblock.tx[0].vout.map((item) => {
+      blockFeeReward = blockFeeReward + item.value;
+    })
+
+    feeReward = Math.round((blockFeeReward - getblocksubsidy?.miner) * 100000000) / 100000000;
   }
   //console.log("value", Math.floor( (blockFeeReward - getblocksubsidy?.miner) * 100000000)/100000000)
 
-//   const updateScript = `<script>
-//   console.log("test")
-// </script>`;
+  //   const updateScript = `<script>
+  //   console.log("test")
+  // </script>`;
 
 
   res.render('main', {
