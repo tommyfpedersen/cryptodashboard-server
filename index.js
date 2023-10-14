@@ -89,11 +89,11 @@ app.get('/', async (req, res) => {
   const getcurrencyResult = await getcurrencyResponse.json();
   const getcurrency = getcurrencyResult.result;
 
-  // console.log("currencies", getcurrency.currencies);
-
-  // getcurrency.currencynames.foreach((elm)=>{
-
-  // })
+  // make cache to spare the api
+  // https://api.coingecko.com/api/v3/coins/verus-coin
+  // https://api.coingecko.com/api/v3/coins/ethereum
+  // https://api.coingecko.com/api/v3/coins/maker
+  // https://api.coingecko.com/api/v3/coins/dai 
 
   let currencyIdArray = Object.values(getcurrency.currencies);
   let currencyNames = Object.entries(getcurrency.currencynames);
@@ -115,15 +115,16 @@ app.get('/', async (req, res) => {
         currency.currencyId = currencyId;
         currency.currencyName = item[1];
        
-        currencyBridgeArray.push({currency:currency});
+      //  currencyBridgeArray.push({currency:currency});
+        currencyBridgeArray.push(currency);
       }
 
     })
   })
 
-  console.log("currencyIdArray ", currencyIdArray);
-  console.log("currencyNames ", currencyNames);
-  console.log("currencyBridgeArray ", currencyBridgeArray);
+  // console.log("currencyIdArray ", currencyIdArray);
+  // console.log("currencyNames ", currencyNames);
+  // console.log("currencyBridgeArray ", currencyBridgeArray);
 
 
  

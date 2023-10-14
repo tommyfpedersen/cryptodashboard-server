@@ -43,10 +43,12 @@
                 <div id="verus-average-fee-pool-size" class="card-sub-title-value">{{{averageblockfees}}} VRSC</div>
                 <div class="card-sub-details">Calculated from the last 100 blocks</div>
 
-                {{#with currency}}
-                {{currencyName}} {{reserves}}
-                {{/with}}
+                <div class="card-sub-title">VRSC-ETH Bridge information</div>
 
+                {{#each currencyBridgeArray}}
+                <div class="card-sub-title-value">{{currencyName}} {{reserves}} </div>
+                {{/each}}
+                <div class="card-sub-details">Preconversion mode (Ends around Fri, 20 Oct 2023 18:50:56)</div>
                 {{else}}
                 {{{statusMessage}}}
                 {{/if}}
