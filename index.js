@@ -83,6 +83,51 @@ app.get('/', async (req, res) => {
 
     feeReward = Math.round((blockFeeReward - getblocksubsidy?.miner) * 100000000) / 100000000;
   }
+
+  /* VRSC-ETH Bridge information reserves */
+  const getcurrencyResponse = await fetch("http://localhost:9009/multichain/getcurrency/bridge.veth");
+  const getcurrencyResult = await getcurrencyResponse.json();
+  const getcurrency = getcurrencyResult.result;
+
+  // console.log("currencies", getcurrency.currencies);
+
+  // getcurrency.currencynames.foreach((elm)=>{
+
+  // })
+
+  let currencyIdArray = Object.values(getcurrency.currencies);
+  let currencyNames = Object.entries(getcurrency.currencynames);
+  let currencyBridgeArray = [];
+
+  currencyIdArray.forEach((currencyId) => {
+
+    currencyNames.forEach((item)=>{
+      let currency = {}
+      if(item[0] === currencyId){
+
+        getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency)=>{
+          if(reservesCurrency.currencyid === currencyId){
+            currency.reserves = reservesCurrency.reserves;
+            currency.priceinreserve = reservesCurrency.priceinreserve;
+          }
+        })
+        
+        currency.currencyId = currencyId;
+        currency.currencyName = item[1];
+       
+        currencyBridgeArray.push({currency:currency});
+      }
+
+    })
+  })
+
+  console.log("currencyIdArray ", currencyIdArray);
+  console.log("currencyNames ", currencyNames);
+  console.log("currencyBridgeArray ", currencyBridgeArray);
+
+
+ 
+
   //console.log("value", Math.floor( (blockFeeReward - getblocksubsidy?.miner) * 100000000)/100000000)
 
   //   const updateScript = `<script>
@@ -98,6 +143,7 @@ app.get('/', async (req, res) => {
     averageblockfees: getmininginfo?.averageblockfees, //|| "null"
     online: online,
     statusMessage: statusMessage,
+    currencyBridgeArray: currencyBridgeArray
     // updateScript: updateScript
   })
 })
