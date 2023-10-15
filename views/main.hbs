@@ -29,6 +29,8 @@
             </div>
             <div class="card-content">
                 {{#if online}}
+                <div class="card-title">Block and Fee Pool Rewards</div>
+
                 <div class="card-sub-title">block height</div>
                 <div id="verus-block-height" class="card-sub-title-value"> {{{blocks}}} </div>
                 <div class="card-sub-details">{{{blockLastSend}}}</div>
@@ -43,12 +45,21 @@
                 <div id="verus-average-fee-pool-size" class="card-sub-title-value">{{{averageblockfees}}} VRSC</div>
                 <div class="card-sub-details">Calculated from the last 100 blocks</div>
 
-                <div class="card-sub-title">VRSC-ETH Bridge information</div>
+                <div class="card-title">VRSC-ETH Bridge Reserves</div>
+
+                <div class="card-sub-title">Estimated bridge reserves value</div>
+                <div class="card-sub-title-value">$ {{{estimatedBridgeValue}}}</div>
+                <div class="card-sub-details">Source: api.coingecko.com</div>
+                <div class="card-sub-details">Preconversion mode (Ends around Fri, 20 Oct 2023 18:50:56)</div>
+
 
                 {{#each currencyBridgeArray}}
-                <div class="card-sub-title-value">{{currencyName}} {{reserves}} </div>
+                <div class="card-sub-title">{{currencyName}}</div>
+                <div class="card-sub-title-value"> {{reserves}} </div>
+
                 {{/each}}
-                <div class="card-sub-details">Preconversion mode (Ends around Fri, 20 Oct 2023 18:50:56)</div>
+                
+
                 {{else}}
                 {{{statusMessage}}}
                 {{/if}}

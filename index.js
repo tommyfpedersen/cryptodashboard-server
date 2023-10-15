@@ -33,17 +33,19 @@ app.use(
   })
 );
 
-/* routes */
-// const addressindexRouter = require('./routes/addressindex');
-// app.use('/addressindex', addressindexRouter);
+/* cache */
+let cacheStartTime = Date.now();
+let coolDownTime = 5000;
+let estimatedBridgeValueCache = 0;
+let pageLoads = 0;
 
-// const miningRouter = require('./routes/mining');
-// app.use('/mining', miningRouter);
 
-// const networkRouter = require('./routes/network');
-// app.use('/network', networkRouter);
-
+/* dashboard */
 app.get('/', async (req, res) => {
+
+  /* page loads */
+  pageLoads++;
+  console.log("page loads: ", pageLoads);
 
   const getmininginfoResponse = await fetch("http://localhost:9009/mining/getmininginfo")
   const getmininginfoResult = await getmininginfoResponse.json();
@@ -84,68 +86,105 @@ app.get('/', async (req, res) => {
     feeReward = Math.round((blockFeeReward - getblocksubsidy?.miner) * 100000000) / 100000000;
   }
 
-  /* VRSC-ETH Bridge information reserves */
+  /* VRSC-ETH Bridge reserves */
   const getcurrencyResponse = await fetch("http://localhost:9009/multichain/getcurrency/bridge.veth");
   const getcurrencyResult = await getcurrencyResponse.json();
   const getcurrency = getcurrencyResult.result;
-
-  // make cache to spare the api
-  // https://api.coingecko.com/api/v3/coins/verus-coin
-  // https://api.coingecko.com/api/v3/coins/ethereum
-  // https://api.coingecko.com/api/v3/coins/maker
-  // https://api.coingecko.com/api/v3/coins/dai 
 
   let currencyIdArray = Object.values(getcurrency.currencies);
   let currencyNames = Object.entries(getcurrency.currencynames);
   let currencyBridgeArray = [];
 
   currencyIdArray.forEach((currencyId) => {
-
-    currencyNames.forEach((item)=>{
+    currencyNames.forEach((item) => {
       let currency = {}
-      if(item[0] === currencyId){
-
-        getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency)=>{
-          if(reservesCurrency.currencyid === currencyId){
+      if (item[0] === currencyId) {
+        getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
+          if (reservesCurrency.currencyid === currencyId) {
             currency.reserves = reservesCurrency.reserves;
             currency.priceinreserve = reservesCurrency.priceinreserve;
           }
         })
-        
         currency.currencyId = currencyId;
         currency.currencyName = item[1];
-       
-      //  currencyBridgeArray.push({currency:currency});
         currencyBridgeArray.push(currency);
       }
-
     })
   })
 
-  // console.log("currencyIdArray ", currencyIdArray);
-  // console.log("currencyNames ", currencyNames);
-  // console.log("currencyBridgeArray ", currencyBridgeArray);
+  /* Get price from coingecko */
+  // VRSC: i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV
+  // DAI: iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM
+  // MKR: iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4
+  // ETH: i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X
+  let estimatedBridgeValue = 0;
 
+  if (cacheStartTime + coolDownTime < Date.now()) {
+    let priceArray = [];
 
- 
+    //VRSC
+    let vrscPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/verus-coin");
+    const vrscPriceResult = await vrscPriceResponse.json();
+    const vrscPrice = vrscPriceResult;
 
-  //console.log("value", Math.floor( (blockFeeReward - getblocksubsidy?.miner) * 100000000)/100000000)
+    priceArray.push({
+      currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+      price: vrscPrice.market_data.current_price.usd
+    })
 
-  //   const updateScript = `<script>
-  //   console.log("test")
-  // </script>`;
+    //DAI
+    let daiPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/dai");
+    const daiPriceResult = await daiPriceResponse.json();
+    const daiPrice = daiPriceResult;
 
+    priceArray.push({
+      currencyId: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
+      price: daiPrice.market_data.current_price.usd
+    })
+
+    //MKR
+    let mkrPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/maker");
+    const mkrPriceResult = await mkrPriceResponse.json();
+    const mkrPrice = mkrPriceResult;
+
+    priceArray.push({
+      currencyId: "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4",
+      price: mkrPrice.market_data.current_price.usd
+    })
+
+    //ETH
+    let ethPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/ethereum");
+    const ethPriceResult = await ethPriceResponse.json();
+    const ethPrice = ethPriceResult;
+
+    priceArray.push({
+      currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
+      price: ethPrice.market_data.current_price.usd
+    })
+
+    /* estimated value of bridge */
+    currencyBridgeArray.forEach((currency) => {
+      priceArray.forEach((price) => {
+        if (currency.currencyId === price.currencyId) {
+          estimatedBridgeValue = estimatedBridgeValue + (currency.reserves * price.price);
+        }
+      })
+    })
+    estimatedBridgeValueCache = estimatedBridgeValue = Math.round(estimatedBridgeValue * 100) / 100;
+
+    cacheStartTime = Date.now();
+  }
 
   res.render('main', {
-    blocks: getmininginfo?.blocks, //!== undefined ? getmininginfo.blocks : "null",
+    blocks: getmininginfo?.blocks,
     blockLastSend: blockLastSend,
     blockReward: getblocksubsidy?.miner,
     feeReward: feeReward,
-    averageblockfees: getmininginfo?.averageblockfees, //|| "null"
+    averageblockfees: getmininginfo?.averageblockfees,
     online: online,
     statusMessage: statusMessage,
-    currencyBridgeArray: currencyBridgeArray
-    // updateScript: updateScript
+    currencyBridgeArray: currencyBridgeArray,
+    estimatedBridgeValue: estimatedBridgeValueCache
   })
 })
 
