@@ -36,7 +36,7 @@ app.use(
 /* cache */
 let cacheStartTime = Date.now();
 let coolDownTime = 5000;
-let estimatedBridgeValueCache = 0;
+let estimatedCoingeckoBridgeValueCache = 0;
 let pageLoads = 0;
 
 
@@ -94,6 +94,7 @@ app.get('/', async (req, res) => {
   let currencyIdArray = Object.values(getcurrency.currencies);
   let currencyNames = Object.entries(getcurrency.currencynames);
   let currencyBridgeArray = [];
+  let estimatedBridgeValue = 0;
 
   currencyIdArray.forEach((currencyId) => {
     currencyNames.forEach((item) => {
@@ -104,6 +105,9 @@ app.get('/', async (req, res) => {
             currency.reserves = reservesCurrency.reserves;
             currency.priceinreserve = reservesCurrency.priceinreserve;
           }
+          if(reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM"){
+            estimatedBridgeValue = Math.round(reservesCurrency.reserves * 4 *100)/100;
+          }
         })
         currency.currencyId = currencyId;
         currency.currencyName = item[1];
@@ -112,12 +116,14 @@ app.get('/', async (req, res) => {
     })
   })
 
+  /* Total Bridge Value 4x DAI -  estimatedCoingeckoBridgeValue*/
+
   /* Get price from coingecko */
   // VRSC: i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV
   // DAI: iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM
   // MKR: iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4
   // ETH: i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X
-  let estimatedBridgeValue = 0;
+  let estimatedCoingeckoBridgeValue = 0;
 
   if (cacheStartTime + coolDownTime < Date.now()) {
     let priceArray = [];
@@ -166,11 +172,11 @@ app.get('/', async (req, res) => {
     currencyBridgeArray.forEach((currency) => {
       priceArray.forEach((price) => {
         if (currency.currencyId === price.currencyId) {
-          estimatedBridgeValue = estimatedBridgeValue + (currency.reserves * price.price);
+          estimatedCoingeckoBridgeValue = estimatedCoingeckoBridgeValue + (currency.reserves * price.price);
         }
       })
     })
-    estimatedBridgeValueCache = estimatedBridgeValue = Math.round(estimatedBridgeValue * 100) / 100;
+    estimatedCoingeckoBridgeValueCache = estimatedCoingeckoBridgeValue = Math.round(estimatedCoingeckoBridgeValue * 100) / 100;
 
     cacheStartTime = Date.now();
   }
@@ -184,7 +190,8 @@ app.get('/', async (req, res) => {
     online: online,
     statusMessage: statusMessage,
     currencyBridgeArray: currencyBridgeArray,
-    estimatedBridgeValue: estimatedBridgeValueCache
+    estimatedBridgeValue: estimatedBridgeValue,
+    estimatedCoingeckoBridgeValue: estimatedCoingeckoBridgeValueCache
   })
 })
 

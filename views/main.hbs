@@ -59,13 +59,16 @@
                 <div class="card-title">VRSC-ETH Bridge Reserves</div>
 
                 {{#each currencyBridgeArray}}
-                <div class="card-sub-title">{{currencyName}}</div>
+                <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
                 <div class="card-sub-title-value"> {{reserves}} </div>
 
                 {{/each}}
 
                 <div class="card-sub-title">Estimated bridge reserves value</div>
                 <div class="card-sub-title-value">$ {{{estimatedBridgeValue}}}</div>
+
+                <div class="card-sub-title">Estimated bridge reserves value (coingecko.com)</div>
+                <div class="card-sub-title-value">$ {{{estimatedCoingeckoBridgeValue}}}</div>
                 <div class="card-sub-details">Market data: api.coingecko.com</div>
                 <div class="card-sub-details">Preconversion mode (Ends around Fri, 20 Oct 2023 18:50:56)</div>
 
