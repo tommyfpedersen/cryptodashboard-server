@@ -91,30 +91,34 @@ app.get('/', async (req, res) => {
   const getcurrencyResult = await getcurrencyResponse.json();
   const getcurrency = getcurrencyResult.result;
 
-  let currencyIdArray = Object.values(getcurrency.currencies);
-  let currencyNames = Object.entries(getcurrency.currencynames);
+
   let currencyBridgeArray = [];
   let estimatedBridgeValue = 0;
+  if (getcurrency) {
+    let currencyIdArray = Object.values(getcurrency.currencies);
+    let currencyNames = Object.entries(getcurrency.currencynames);
 
-  currencyIdArray.forEach((currencyId) => {
-    currencyNames.forEach((item) => {
-      let currency = {}
-      if (item[0] === currencyId) {
-        getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
-          if (reservesCurrency.currencyid === currencyId) {
-            currency.reserves = reservesCurrency.reserves;
-            currency.priceinreserve = reservesCurrency.priceinreserve;
-          }
-          if(reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM"){
-            estimatedBridgeValue = Math.round(reservesCurrency.reserves * 4 *100)/100;
-          }
-        })
-        currency.currencyId = currencyId;
-        currency.currencyName = item[1];
-        currencyBridgeArray.push(currency);
-      }
+
+    currencyIdArray.forEach((currencyId) => {
+      currencyNames.forEach((item) => {
+        let currency = {}
+        if (item[0] === currencyId) {
+          getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
+            if (reservesCurrency.currencyid === currencyId) {
+              currency.reserves = reservesCurrency.reserves;
+              currency.priceinreserve = reservesCurrency.priceinreserve;
+            }
+            if (reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
+              estimatedBridgeValue = Math.round(reservesCurrency.reserves * 4 * 100) / 100;
+            }
+          })
+          currency.currencyId = currencyId;
+          currency.currencyName = item[1];
+          currencyBridgeArray.push(currency);
+        }
+      })
     })
-  })
+  }
 
   /* Total Bridge Value 4x DAI -  estimatedCoingeckoBridgeValue*/
 
