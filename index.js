@@ -203,7 +203,6 @@ app.get('/', async (req, res) => {
   }
 
   if (cacheStartTime + coolDownTime < Date.now()) {
-    console.log("currencyBridgeArray", currencyBridgeArray)
 
     /* estimated value of bridge */
     currencyBridgeArray.forEach((currency) => {
