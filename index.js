@@ -86,40 +86,6 @@ app.get('/', async (req, res) => {
     feeReward = Math.round((blockFeeReward - getblocksubsidy?.miner) * 100000000) / 100000000;
   }
 
-  /* VRSC-ETH Bridge reserves */
-  const getcurrencyResponse = await fetch("http://localhost:9009/multichain/getcurrency/bridge.veth");
-  const getcurrencyResult = await getcurrencyResponse.json();
-  const getcurrency = getcurrencyResult.result;
-
-
-  let currencyBridgeArray = [];
-  let estimatedBridgeValue = 0;
-  if (getcurrency) {
-    let currencyIdArray = Object.values(getcurrency.currencies);
-    let currencyNames = Object.entries(getcurrency.currencynames);
-
-
-    currencyIdArray.forEach((currencyId) => {
-      currencyNames.forEach((item) => {
-        let currency = {}
-        if (item[0] === currencyId) {
-          getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
-            if (reservesCurrency.currencyid === currencyId) {
-              currency.reserves = reservesCurrency.reserves;
-              currency.priceinreserve = reservesCurrency.priceinreserve;
-            }
-            if (reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
-              estimatedBridgeValue = Math.round(reservesCurrency.reserves * 4 * 100) / 100;
-            }
-          })
-          currency.currencyId = currencyId;
-          currency.currencyName = item[1];
-          currencyBridgeArray.push(currency);
-        }
-      })
-    })
-  }
-
   /* Total Bridge Value 4x DAI -  estimatedCoingeckoBridgeValue*/
 
   /* Get price from coingecko */
@@ -128,10 +94,10 @@ app.get('/', async (req, res) => {
   // MKR: iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4
   // ETH: i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X
   let estimatedCoingeckoBridgeValue = 0;
+  let priceArray = [];
 
   if (cacheStartTime + coolDownTime < Date.now()) {
-    let priceArray = [];
-
+    
     //VRSC
     let vrscPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/verus-coin");
     const vrscPriceResult = await vrscPriceResponse.json();
@@ -174,6 +140,71 @@ app.get('/', async (req, res) => {
       })
     }
 
+
+  }
+
+
+  /* VRSC-ETH Bridge reserves */
+  const getcurrencyResponse = await fetch("http://localhost:9009/multichain/getcurrency/bridge.veth");
+  const getcurrencyResult = await getcurrencyResponse.json();
+  const getcurrency = getcurrencyResult.result;
+
+  let currencyBridgeArray = [];
+  let daiReserve = 0;
+  let estimatedBridgeValue = 0;
+  if (getcurrency) {
+    let currencyIdArray = Object.values(getcurrency.currencies);
+    let currencyNames = Object.entries(getcurrency.currencynames);
+
+    /* find dai value*/
+    currencyIdArray.forEach((currencyId) => {
+      currencyNames.forEach((item) => {
+        let currency = {}
+        if (item[0] === currencyId) {
+          getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
+            if (reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
+              daiReserve = reservesCurrency.reserves;
+            }
+          })
+        }
+      })
+    })
+
+    currencyIdArray.forEach((currencyId) => {
+      currencyNames.forEach((item) => {
+        let currency = {}
+        if (item[0] === currencyId) {
+          getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
+            if (reservesCurrency.currencyid === currencyId) {
+              currency.reserves = reservesCurrency.reserves;
+              currency.priceinreserve = reservesCurrency.priceinreserve;
+              currency.price = Math.round(daiReserve / currency.reserves * 100) / 100;
+            }
+
+            if(priceArray.length >0){
+              priceArray.forEach((price)=>{
+                if(price.currencyId === currencyId){
+                  currency.coingeckoprice =  Math.round(price.price* 100) / 100;
+                }
+              })
+            }
+          
+
+            if (reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
+              estimatedBridgeValue = Math.round(reservesCurrency.reserves * 4 * 100) / 100;
+            }
+          })
+          currency.currencyId = currencyId;
+          currency.currencyName = item[1];
+          currencyBridgeArray.push(currency);
+        }
+      })
+    })
+  }
+
+  if (cacheStartTime + coolDownTime < Date.now()) {
+    console.log("currencyBridgeArray", currencyBridgeArray)
+
     /* estimated value of bridge */
     currencyBridgeArray.forEach((currency) => {
       priceArray.forEach((price) => {
@@ -186,6 +217,7 @@ app.get('/', async (req, res) => {
 
     cacheStartTime = Date.now();
   }
+
 
   res.render('main', {
     blocks: getmininginfo?.blocks,
