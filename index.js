@@ -137,40 +137,42 @@ app.get('/', async (req, res) => {
     const vrscPriceResult = await vrscPriceResponse.json();
     const vrscPrice = vrscPriceResult;
 
-    priceArray.push({
-      currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
-      price: vrscPrice.market_data.current_price.usd
-    })
+    if (vrscPrice) {
+      priceArray.push({
+        currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        price: vrscPrice.market_data.current_price.usd
+      })
 
-    //DAI
-    let daiPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/dai");
-    const daiPriceResult = await daiPriceResponse.json();
-    const daiPrice = daiPriceResult;
+      //DAI
+      let daiPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/dai");
+      const daiPriceResult = await daiPriceResponse.json();
+      const daiPrice = daiPriceResult;
 
-    priceArray.push({
-      currencyId: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
-      price: daiPrice.market_data.current_price.usd
-    })
+      priceArray.push({
+        currencyId: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
+        price: daiPrice.market_data.current_price.usd
+      })
 
-    //MKR
-    let mkrPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/maker");
-    const mkrPriceResult = await mkrPriceResponse.json();
-    const mkrPrice = mkrPriceResult;
+      //MKR
+      let mkrPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/maker");
+      const mkrPriceResult = await mkrPriceResponse.json();
+      const mkrPrice = mkrPriceResult;
 
-    priceArray.push({
-      currencyId: "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4",
-      price: mkrPrice.market_data.current_price.usd
-    })
+      priceArray.push({
+        currencyId: "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4",
+        price: mkrPrice.market_data.current_price.usd
+      })
 
-    //ETH
-    let ethPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/ethereum");
-    const ethPriceResult = await ethPriceResponse.json();
-    const ethPrice = ethPriceResult;
+      //ETH
+      let ethPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/ethereum");
+      const ethPriceResult = await ethPriceResponse.json();
+      const ethPrice = ethPriceResult;
 
-    priceArray.push({
-      currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
-      price: ethPrice.market_data.current_price.usd
-    })
+      priceArray.push({
+        currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
+        price: ethPrice.market_data.current_price.usd
+      })
+    }
 
     /* estimated value of bridge */
     currencyBridgeArray.forEach((currency) => {
