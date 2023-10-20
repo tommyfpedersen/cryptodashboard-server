@@ -35,10 +35,10 @@ app.use(
 
 /* cache */
 let cacheStartTime = Date.now();
-let coolDownTime = 5000;
+let coolDownTime = 30000;
 let estimatedCoingeckoBridgeValueCache = 0;
 let pageLoads = 0;
-
+let priceArray = [];
 
 /* dashboard */
 app.get('/', async (req, res) => {
@@ -94,10 +94,13 @@ app.get('/', async (req, res) => {
   // MKR: iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4
   // ETH: i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X
   let estimatedCoingeckoBridgeValue = 0;
-  let priceArray = [];
+  
+
+ // console.log("array")
 
   if (cacheStartTime + coolDownTime < Date.now()) {
-    
+    priceArray = [];
+   
     //VRSC
     let vrscPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/verus-coin");
     const vrscPriceResult = await vrscPriceResponse.json();
@@ -138,7 +141,7 @@ app.get('/', async (req, res) => {
       let ethPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/ethereum");
       const ethPriceResult = await ethPriceResponse.json();
       const ethPrice = ethPriceResult;
-
+//console.log("ethPrice", ethPrice)
       if(ethPrice){
         priceArray.push({
           currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
@@ -211,6 +214,7 @@ app.get('/', async (req, res) => {
   }
 
   if (cacheStartTime + coolDownTime < Date.now()) {
+   
 
     /* estimated value of bridge */
     currencyBridgeArray.forEach((currency) => {
@@ -222,6 +226,8 @@ app.get('/', async (req, res) => {
     })
     estimatedCoingeckoBridgeValueCache = estimatedCoingeckoBridgeValue = Math.round(estimatedCoingeckoBridgeValue * 100) / 100;
 
+   // console.log("REset cache",priceArray)
+   // 
     cacheStartTime = Date.now();
   }
 
