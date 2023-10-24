@@ -34,7 +34,9 @@ body{
     border: 1px solid grey;
     padding: 10px 10px 20px 10px;
     margin-bottom: 10px;
-    /* width: 300px; */
+    width: 375px;
+    display: inline-block;
+    vertical-align: top;
 }
 .card-header{
     /* padding-bottom: 10px; */
