@@ -59,6 +59,15 @@ body{
 .card-sub-details{
     font-size: 14px;
 }
+.bottom{
+    padding:10px;
+}
+.sub-title{
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 20px;
+}
+
 
 /*  mobile view */
 @media only screen and (max-width: 800px) {
