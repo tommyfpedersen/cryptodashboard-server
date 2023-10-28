@@ -187,7 +187,7 @@ app.get('/', async (req, res) => {
         if (item[0] === currencyId) {
           getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
             if (reservesCurrency.currencyid === currencyId) {
-              currency.reserves = reservesCurrency.reserves;
+              currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
               currency.priceinreserve = reservesCurrency.priceinreserve;
               currency.price = Math.round(daiReserve / currency.reserves * 100) / 100;
             }
@@ -202,7 +202,7 @@ app.get('/', async (req, res) => {
           
 
             if (reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
-              estimatedBridgeValue = Math.round(reservesCurrency.reserves * 4 * 100) / 100;
+              estimatedBridgeValue = (Math.round(reservesCurrency.reserves * 4 * 100) / 100).toLocaleString();
             }
           })
           currency.currencyId = currencyId;
@@ -223,11 +223,14 @@ app.get('/', async (req, res) => {
           estimatedCoingeckoBridgeValue = estimatedCoingeckoBridgeValue + (currency.reserves * price.price);
         }
       })
+      currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 8 });
     })
-    estimatedCoingeckoBridgeValueCache = estimatedCoingeckoBridgeValue = Math.round(estimatedCoingeckoBridgeValue * 100) / 100;
+    estimatedCoingeckoBridgeValueCache = (estimatedCoingeckoBridgeValue = Math.round(estimatedCoingeckoBridgeValue * 100) / 100).toLocaleString();
 
    // console.log("REset cache",priceArray)
-   // 
+   //var n = 34523453.345;
+//console.log(n.toLocaleString());    // "34,523,453.345" 
+
     cacheStartTime = Date.now();
   }
 
