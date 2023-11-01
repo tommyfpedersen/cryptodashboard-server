@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/styles.css">
-    {{!--
-    <script src="assets/main.js"></script> --}}
+   
+
     <title>Cryptodashboard</title>
 </head>
 
-<body>
+<body onload="init()">
     <div class="header">
         <span class="header-bold">Crypto</span>dashboard <span class="header-version">v1.0.0</span>
     </div>
@@ -25,6 +25,25 @@
                     d="M706.112 2.583c389.515 0 705.751 316.236 705.751 705.75 0 389.515-316.236 705.751-705.751 705.751-389.514 0-705.75-316.236-705.75-705.751 0-389.514 316.236-705.75 705.75-705.75zM360.104 257.87c26.652-22.821 64.047-41.568 96.557-28.367 58.458 23.737 215.52 340.387 215.52 340.387S891.874 257.773 970.78 229.312c26.919-9.71 63.823 7.368 91.97 28.411 98.786 73.854 108.992 176.891 100.453 205.476-10.736 35.937-556.441 728.342-556.442 728.342-16.319-6.656-339.656-606.781-357.178-709.466-16.745-98.131 40.226-164.807 110.521-224.205z">
                 </path>
             </svg>
+        </div>
+         <div class="card">
+            <div class="card-content">
+                {{#if online}}
+                <div class="card-title">Check your address balance</div>
+
+                <div class="card-sub-title">Verus address</div>
+                <div class="card-sub-title-value"><input id="get-address-balance" class="card-input" value="RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7" ></div>
+
+                {{#each getAddressBalanceArray}}
+                <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
+                <div class="card-sub-title-value"> {{amount}} </div>
+                {{/each}}
+
+                {{else}}
+                {{{statusMessage}}}
+                {{/if}}
+
+            </div>
         </div>
         <div class="card">
 
@@ -82,6 +101,7 @@
 
             </div>
         </div>
+       
     </div>
       <div class="bottom">
         <div class="sub-title">Donation</div>
@@ -91,5 +111,5 @@
     </div>
     {{{updateScript}}}
 </body>
-
+    <script src="main.js"></script>
 </html>

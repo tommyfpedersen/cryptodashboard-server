@@ -12,26 +12,22 @@ app.use(cors({
 }));
 
 /* helmet */
-const helmet = require("helmet");
-app.use(helmet());
-app.use(helmet.hidePoweredBy({
-  setTo:
-    'Powered by Code'
-}));
+// const helmet = require("helmet");
+// app.use(helmet());
+// app.use(helmet.hidePoweredBy({
+//   setTo:
+//     'Powered by Code'
+// }));
 
-app.use(
-  helmet.contentSecurityPolicy({
-    defaultSrc: ["'self'"],
-    scriptSrc: ["'self'", "cryptodashboard.faldt.net"],
-    styleSrc: ["'self'", "cryptodashboard.faldt.net"],
-    reportOnly: false,
-    setAllHeaders: false,
-    // directives: {
-    //   "script-src": ["'self'","cryptodashboard.faldt.net"],
-    //   "style-src": ["'self'","cryptodashboard.faldt.net"],
-    // },
-  })
-);
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     defaultSrc: ["'self'"],
+//     scriptSrc: ["'self'", "cryptodashboard.faldt.net"],
+//     styleSrc: ["'self'", "cryptodashboard.faldt.net"],
+//     reportOnly: false,
+//     setAllHeaders: false,
+//   })
+// );
 
 /* cache */
 let cacheStartTime = Date.now();
@@ -94,13 +90,13 @@ app.get('/', async (req, res) => {
   // MKR: iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4
   // ETH: i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X
   let estimatedCoingeckoBridgeValue = 0;
-  
 
- // console.log("array")
+
+  // console.log("array")
 
   if (cacheStartTime + coolDownTime < Date.now()) {
     priceArray = [];
-   
+
     //VRSC
     let vrscPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/verus-coin");
     const vrscPriceResult = await vrscPriceResponse.json();
@@ -117,38 +113,38 @@ app.get('/', async (req, res) => {
       const daiPriceResult = await daiPriceResponse.json();
       const daiPrice = daiPriceResult;
 
-      if(daiPrice){
+      if (daiPrice) {
         priceArray.push({
           currencyId: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
           price: daiPrice.market_data.current_price.usd
         })
       }
-    
+
 
       //MKR
       let mkrPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/maker");
       const mkrPriceResult = await mkrPriceResponse.json();
       const mkrPrice = mkrPriceResult;
 
-      if(mkrPrice){
+      if (mkrPrice) {
         priceArray.push({
           currencyId: "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4",
           price: mkrPrice.market_data.current_price.usd
         })
       }
-     
+
       //ETH
       let ethPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/ethereum");
       const ethPriceResult = await ethPriceResponse.json();
       const ethPrice = ethPriceResult;
-//console.log("ethPrice", ethPrice)
-      if(ethPrice){
+      //console.log("ethPrice", ethPrice)
+      if (ethPrice) {
         priceArray.push({
           currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
           price: ethPrice.market_data.current_price.usd
         })
       }
-      
+
     }
 
 
@@ -192,14 +188,14 @@ app.get('/', async (req, res) => {
               currency.price = Math.round(daiReserve / currency.reserves * 100) / 100;
             }
 
-            if(priceArray.length >0){
-              priceArray.forEach((price)=>{
-                if(price.currencyId === currencyId){
-                  currency.coingeckoprice =  Math.round(price.price* 100) / 100;
+            if (priceArray.length > 0) {
+              priceArray.forEach((price) => {
+                if (price.currencyId === currencyId) {
+                  currency.coingeckoprice = Math.round(price.price * 100) / 100;
                 }
               })
             }
-          
+
 
             if (reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
               estimatedBridgeValue = (Math.round(reservesCurrency.reserves * 4 * 100) / 100).toLocaleString();
@@ -214,7 +210,7 @@ app.get('/', async (req, res) => {
   }
 
   if (cacheStartTime + coolDownTime < Date.now()) {
-   
+
 
     /* estimated value of bridge */
     currencyBridgeArray.forEach((currency) => {
@@ -226,12 +222,40 @@ app.get('/', async (req, res) => {
       currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 8 });
     })
     estimatedCoingeckoBridgeValueCache = (estimatedCoingeckoBridgeValue = Math.round(estimatedCoingeckoBridgeValue * 100) / 100).toLocaleString();
-
-   // console.log("REset cache",priceArray)
-   //var n = 34523453.345;
-//console.log(n.toLocaleString());    // "34,523,453.345" 
-
     cacheStartTime = Date.now();
+  }
+
+  /* Get address balance */
+  let getAddressBalanceArray = [];
+  let verusAddress = "";
+  if (req.query.address) {
+    verusAddress = decodeURIComponent(req.query.address);
+  } else {
+    verusAddress = "RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7";
+  }
+  const getAddressBalanceResponse = await fetch("http://localhost:9009/addressindex/getaddressbalance/" + verusAddress);
+  const getAddressBalanceResult = await getAddressBalanceResponse.json();
+  const getAddressBalance = getAddressBalanceResult.result;
+
+  if (getAddressBalance.currencybalance) {
+    // console.log(Object.keys(getAddressBalance.currencybalance))
+
+    let currencyIdArray = Object.keys(getAddressBalance.currencybalance);
+
+    currencyIdArray.forEach((item) => {
+      if ("i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" === item) {
+        getAddressBalanceArray.push({ currencyName: "VRSC", amount: getAddressBalance.currencybalance.i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV })
+      }
+      if ("iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM" === item) {
+        getAddressBalanceArray.push({ currencyName: "DAI.vETH", amount: getAddressBalance.currencybalance.iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM })
+      }
+      if ("iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4" === item) {
+        getAddressBalanceArray.push({ currencyName: "MKR.vETH", amount: getAddressBalance.currencybalance.iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4 })
+      }
+      if ("i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X" === item) {
+        getAddressBalanceArray.push({ currencyName: "vETH", amount: getAddressBalance.currencybalance.i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X })
+      }
+    })
   }
 
 
@@ -245,7 +269,8 @@ app.get('/', async (req, res) => {
     statusMessage: statusMessage,
     currencyBridgeArray: currencyBridgeArray,
     estimatedBridgeValue: estimatedBridgeValue,
-    estimatedCoingeckoBridgeValue: estimatedCoingeckoBridgeValueCache
+    estimatedCoingeckoBridgeValue: estimatedCoingeckoBridgeValueCache,
+    getAddressBalanceArray: getAddressBalanceArray
   })
 })
 

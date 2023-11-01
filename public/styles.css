@@ -59,6 +59,10 @@ body{
 .card-sub-details{
     font-size: 14px;
 }
+.card-input{
+    width: 270px;
+    /* height: 20px; */
+}
 .bottom{
     padding:10px;
 }
