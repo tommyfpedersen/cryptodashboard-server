@@ -237,7 +237,7 @@ app.get('/', async (req, res) => {
   const getAddressBalanceResult = await getAddressBalanceResponse.json();
   const getAddressBalance = getAddressBalanceResult.result;
 
-  if (getAddressBalance.currencybalance) {
+  if (getAddressBalance?.currencybalance) {
     // console.log(Object.keys(getAddressBalance.currencybalance))
 
     let currencyIdArray = Object.keys(getAddressBalance.currencybalance);
