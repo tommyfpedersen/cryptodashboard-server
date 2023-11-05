@@ -71,6 +71,10 @@ body{
     font-weight: bold;
     padding-top: 20px;
 }
+.qr-code{
+    padding-top: 10px;
+    width:100px;
+}
 
 
 /*  mobile view */
