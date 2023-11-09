@@ -76,7 +76,7 @@ app.get('/', async (req, res) => {
     if (coingeckoPrice) {
       coingeckoPrice.forEach((item) => {
         if (item.id === "bitcoin") {
-          bitcoinPrice = item.current_price;
+          bitcoinPrice = item.current_price.toLocaleString(); 
         }
         if (item.id === "verus-coin") {
           priceArray.push({
