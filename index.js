@@ -2,7 +2,6 @@ require('dotenv').config();
 
 /* express */
 const express = require('express');
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
@@ -10,24 +9,6 @@ app.use(express.json());
 app.use(cors({
   origin: 'cryptodashboard.faldt.net' // <-- which domains can access this API
 }));
-
-/* helmet */
-// const helmet = require("helmet");
-// app.use(helmet());
-// app.use(helmet.hidePoweredBy({
-//   setTo:
-//     'Powered by Code'
-// }));
-
-// app.use(
-//   helmet.contentSecurityPolicy({
-//     defaultSrc: ["'self'"],
-//     scriptSrc: ["'self'", "cryptodashboard.faldt.net"],
-//     styleSrc: ["'self'", "cryptodashboard.faldt.net"],
-//     reportOnly: false,
-//     setAllHeaders: false,
-//   })
-// );
 
 /* cache */
 let cacheStartTime = Date.now();
@@ -37,41 +18,34 @@ let pageLoads = 0;
 let priceArray = [];
 let bitcoinPrice = 0;
 
+// components
+const {getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo} = require('./components/verus/verus');
+
 /* dashboard */
 app.get('/', async (req, res) => {
 
   /* page loads */
   pageLoads++;
   console.log("page loads: ", pageLoads);
-
-  const getmininginfoResponse = await fetch("http://localhost:9009/mining/getmininginfo")
-  const getmininginfoResult = await getmininginfoResponse.json();
-  const getmininginfo = getmininginfoResult.result;
-
+  
+  /* Verus */
+  const getmininginfo = await getMiningInfo();
   let online = false;
-  let statusMessage = "Updating Verus Node..."
-
+  let statusMessage = "Updating Verus Node...";
   if (getmininginfo) {
     online = true;
     statusMessage = "Verus Node Running";
   }
 
-  const getblocksubsidyResponse = await fetch("http://localhost:9009/mining/getblocksubsidy/" + getmininginfo?.blocks);
-  const getblocksubsidyResult = await getblocksubsidyResponse.json();
-  const getblocksubsidy = getblocksubsidyResult.result;
+  const getblocksubsidy = await getBlockSubsidy(getmininginfo?.blocks); 
+  const getpeerinfo = await getPeerInfo();
 
-  const getpeerinfoResponse = await fetch("http://localhost:9009/network/getpeerinfo/");
   let blockLastSend = "";
-  const getpeerinfoResult = await getpeerinfoResponse.json();
-  const getpeerinfo = getpeerinfoResult.result;
-
   if (getpeerinfo) {
     blockLastSend = new Date(getpeerinfo[0].lastsend * 1000).toLocaleString();
   }
 
-  const getblockResponse = await fetch("http://localhost:9009/blockchain/getblock/" + getmininginfo?.blocks);
-  const getblockResult = await getblockResponse.json();
-  const getblock = getblockResult.result;
+  const getblock = await getBlock(getmininginfo?.blocks); 
   let blockFeeReward = 0;
   let feeReward = "";
   if (getblock) {
