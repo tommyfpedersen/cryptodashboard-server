@@ -35,6 +35,7 @@ let coolDownTime = 30000;
 let estimatedCoingeckoBridgeValueCache = 0;
 let pageLoads = 0;
 let priceArray = [];
+let bitcoinPrice = 0;
 
 /* dashboard */
 app.get('/', async (req, res) => {
@@ -91,65 +92,46 @@ app.get('/', async (req, res) => {
   // ETH: i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X
   let estimatedCoingeckoBridgeValue = 0;
 
-
-  // console.log("array")
-
   if (cacheStartTime + coolDownTime < Date.now()) {
     priceArray = [];
 
-    //VRSC
-    let vrscPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/verus-coin");
-    const vrscPriceResult = await vrscPriceResponse.json();
-    const vrscPrice = vrscPriceResult;
+    let coingeckoPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2C%20verus-coin%2C%20dai%2C%20maker%2C%20ethereum&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en");
+    const coingeckoPriceResult = await coingeckoPriceResponse.json();
+    const coingeckoPrice = coingeckoPriceResult;
 
-    if (vrscPrice) {
-      priceArray.push({
-        currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
-        price: vrscPrice.market_data.current_price.usd
+    if (coingeckoPrice) {
+      coingeckoPrice.forEach((item) => {
+        if (item.id === "bitcoin") {
+          bitcoinPrice = item.current_price;
+        }
+        if (item.id === "verus-coin") {
+          priceArray.push({
+            currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+            price: item.current_price
+          })
+        }
+        if (item.id === "dai") {
+          priceArray.push({
+            currencyId: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
+            price: item.current_price
+          })
+        }
+        if (item.id === "maker") {
+          priceArray.push({
+            currencyId: "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4",
+            price: item.current_price
+          })
+        }
+        if (item.id === "ethereum") {
+          priceArray.push({
+            currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
+            price: item.current_price
+          })
+        }
+
       })
-
-      //DAI
-      let daiPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/dai");
-      const daiPriceResult = await daiPriceResponse.json();
-      const daiPrice = daiPriceResult;
-
-      if (daiPrice) {
-        priceArray.push({
-          currencyId: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
-          price: daiPrice.market_data.current_price.usd
-        })
-      }
-
-
-      //MKR
-      let mkrPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/maker");
-      const mkrPriceResult = await mkrPriceResponse.json();
-      const mkrPrice = mkrPriceResult;
-
-      if (mkrPrice) {
-        priceArray.push({
-          currencyId: "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4",
-          price: mkrPrice.market_data.current_price.usd
-        })
-      }
-
-      //ETH
-      let ethPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/ethereum");
-      const ethPriceResult = await ethPriceResponse.json();
-      const ethPrice = ethPriceResult;
-      //console.log("ethPrice", ethPrice)
-      if (ethPrice) {
-        priceArray.push({
-          currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
-          price: ethPrice.market_data.current_price.usd
-        })
-      }
-
     }
-
-
   }
-
 
   /* VRSC-ETH Bridge reserves */
   const getcurrencyResponse = await fetch("http://localhost:9009/multichain/getcurrency/bridge.veth");
@@ -238,8 +220,6 @@ app.get('/', async (req, res) => {
   const getAddressBalance = getAddressBalanceResult.result;
 
   if (getAddressBalance?.currencybalance) {
-    // console.log(Object.keys(getAddressBalance.currencybalance))
-
     let currencyIdArray = Object.keys(getAddressBalance.currencybalance);
 
     currencyIdArray.forEach((item) => {
@@ -258,7 +238,6 @@ app.get('/', async (req, res) => {
     })
   }
 
-
   res.render('main', {
     blocks: getmininginfo?.blocks,
     blockLastSend: blockLastSend,
@@ -270,7 +249,8 @@ app.get('/', async (req, res) => {
     currencyBridgeArray: currencyBridgeArray,
     estimatedBridgeValue: estimatedBridgeValue,
     estimatedCoingeckoBridgeValue: estimatedCoingeckoBridgeValueCache,
-    getAddressBalanceArray: getAddressBalanceArray
+    getAddressBalanceArray: getAddressBalanceArray,
+    bitcoinPrice: bitcoinPrice
   })
 })
 
