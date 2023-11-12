@@ -24,6 +24,8 @@ body{
 
 .section{
     padding: 10px;  
+    /* display: flex;
+    flex-direction: row; */
 }
 .section-header{
     padding: 20px 0 10px 0;
@@ -37,6 +39,7 @@ body{
     width: 300px;
     display: inline-block;
     vertical-align: top;
+    min-height: 360px;
 }
 .card-header{
     /* padding-bottom: 10px; */
@@ -80,9 +83,10 @@ body{
 
 
 /*  mobile view */
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 680px) {
     .card{
         /* width: 100%;
         padding: 10px; */
+        min-height: 0;
     }
 }
