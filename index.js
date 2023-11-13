@@ -17,6 +17,9 @@ let estimatedCoingeckoBridgeValueCache = 0;
 let pageLoads = 0;
 let priceArray = [];
 let bitcoinPrice = 0;
+let ethereumPrice = 0;
+let vrscBridgePrice = 0;
+let vrscPrice = 0;
 
 // components
 const {getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo} = require('./components/verus/verus');
@@ -79,6 +82,7 @@ app.get('/', async (req, res) => {
           bitcoinPrice = item.current_price.toLocaleString(); 
         }
         if (item.id === "verus-coin") {
+          vrscPrice = item.current_price.toLocaleString(); 
           priceArray.push({
             currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
             price: item.current_price
@@ -97,6 +101,7 @@ app.get('/', async (req, res) => {
           })
         }
         if (item.id === "ethereum") {
+          ethereumPrice = item.current_price.toLocaleString(); 
           priceArray.push({
             currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
             price: item.current_price
@@ -142,6 +147,11 @@ app.get('/', async (req, res) => {
               currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
               currency.priceinreserve = reservesCurrency.priceinreserve;
               currency.price = Math.round(daiReserve / currency.reserves * 100) / 100;
+
+              if(currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
+                vrscBridgePrice = Math.round(daiReserve / currency.reserves * 100) / 100;
+              }
+
             }
 
             if (priceArray.length > 0) {
@@ -187,7 +197,7 @@ app.get('/', async (req, res) => {
   if (req.query.address) {
     verusAddress = decodeURIComponent(req.query.address);
   } else {
-    verusAddress = "RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7";
+    verusAddress = "HEJ";//"RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7";
   }
   const getAddressBalanceResponse = await fetch("http://localhost:9009/addressindex/getaddressbalance/" + verusAddress);
   const getAddressBalanceResult = await getAddressBalanceResponse.json();
@@ -209,6 +219,9 @@ app.get('/', async (req, res) => {
       if ("i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X" === item) {
         getAddressBalanceArray.push({ currencyName: "vETH", amount: getAddressBalance.currencybalance.i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X })
       }
+      if ("i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx" === item) {
+        getAddressBalanceArray.push({ currencyName: "Bridge.vETH", amount: getAddressBalance.currencybalance.i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx })
+      }
     })
   }
 
@@ -224,7 +237,9 @@ app.get('/', async (req, res) => {
     estimatedBridgeValue: estimatedBridgeValue,
     estimatedCoingeckoBridgeValue: estimatedCoingeckoBridgeValueCache,
     getAddressBalanceArray: getAddressBalanceArray,
-    bitcoinPrice: bitcoinPrice
+    bitcoinPrice: bitcoinPrice,
+    ethereumPrice: ethereumPrice,
+    vrscBridgePrice: vrscBridgePrice
   })
 })
 
