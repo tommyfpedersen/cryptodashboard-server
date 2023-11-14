@@ -26,8 +26,8 @@
                 <div class="card-sub-title-value">$ {{{bitcoinPrice}}}</div>
                 <div class="card-sub-details">api.coingecko.com</div>
                 <div class="card-sub-title">Ethereum (ETH)</div>
-                <div class="card-sub-title-value">$ {{{ethereumPrice}}}</div>
-                <div class="card-sub-details">api.coingecko.com</div>
+                <div class="card-sub-title-value">$ {{{ethereumBridgePrice}}}</div>
+                <div class="card-sub-details">Verus Bridge Price</div>
                 <div class="card-sub-title">VerusCoin (VRSC)</div>
                 <div class="card-sub-title-value">$ {{{vrscBridgePrice}}}</div>
                 <div class="card-sub-details">Verus Bridge Price</div>
@@ -48,7 +48,7 @@
                 <div class="card-title">Get your address balance</div>
 
                 <div class="card-sub-title">Verus address</div>
-                <div class="card-sub-title-value"><input id="get-address-balance" class="card-input" value=""></div>
+                <div class="card-sub-title-value"><input id="get-address-balance" class="card-input" value="{{{getAddress}}}"></div>
 
                 {{#each getAddressBalanceArray}}
                 <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>

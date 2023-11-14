@@ -18,6 +18,7 @@ let pageLoads = 0;
 let priceArray = [];
 let bitcoinPrice = 0;
 let ethereumPrice = 0;
+let ethereumBridgePrice = 0;
 let vrscBridgePrice = 0;
 let vrscPrice = 0;
 
@@ -151,7 +152,9 @@ app.get('/', async (req, res) => {
               if(currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
                 vrscBridgePrice = Math.round(daiReserve / currency.reserves * 100) / 100;
               }
-
+              if(currencyId === "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X"){
+                ethereumBridgePrice = Math.round(daiReserve / currency.reserves * 100) / 100;
+              }
             }
 
             if (priceArray.length > 0) {
@@ -197,7 +200,7 @@ app.get('/', async (req, res) => {
   if (req.query.address) {
     verusAddress = decodeURIComponent(req.query.address);
   } else {
-    verusAddress = "HEJ";//"RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7";
+    verusAddress = "none";//"RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7";
   }
   const getAddressBalanceResponse = await fetch("http://localhost:9009/addressindex/getaddressbalance/" + verusAddress);
   const getAddressBalanceResult = await getAddressBalanceResponse.json();
@@ -225,6 +228,8 @@ app.get('/', async (req, res) => {
     })
   }
 
+  //console.log("verusaddress", verusAddress)
+
   res.render('main', {
     blocks: getmininginfo?.blocks,
     blockLastSend: blockLastSend,
@@ -237,8 +242,9 @@ app.get('/', async (req, res) => {
     estimatedBridgeValue: estimatedBridgeValue,
     estimatedCoingeckoBridgeValue: estimatedCoingeckoBridgeValueCache,
     getAddressBalanceArray: getAddressBalanceArray,
+    getAddress: verusAddress === "none" ? "" : verusAddress,
     bitcoinPrice: bitcoinPrice,
-    ethereumPrice: ethereumPrice,
+    ethereumBridgePrice: ethereumBridgePrice,
     vrscBridgePrice: vrscBridgePrice
   })
 })
