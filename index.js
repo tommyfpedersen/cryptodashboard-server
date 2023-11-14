@@ -23,7 +23,7 @@ let vrscBridgePrice = 0;
 let vrscPrice = 0;
 
 // components
-const {getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo} = require('./components/verus/verus');
+const { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo } = require('./components/verus/verus');
 
 /* dashboard */
 app.get('/', async (req, res) => {
@@ -31,7 +31,7 @@ app.get('/', async (req, res) => {
   /* page loads */
   pageLoads++;
   console.log("page loads: ", pageLoads);
-  
+
   /* Verus */
   const getmininginfo = await getMiningInfo();
   let online = false;
@@ -41,7 +41,7 @@ app.get('/', async (req, res) => {
     statusMessage = "Verus Node Running";
   }
 
-  const getblocksubsidy = await getBlockSubsidy(getmininginfo?.blocks); 
+  const getblocksubsidy = await getBlockSubsidy(getmininginfo?.blocks);
   const getpeerinfo = await getPeerInfo();
 
   let blockLastSend = "";
@@ -49,7 +49,7 @@ app.get('/', async (req, res) => {
     blockLastSend = new Date(getpeerinfo[0].lastsend * 1000).toLocaleString();
   }
 
-  const getblock = await getBlock(getmininginfo?.blocks); 
+  const getblock = await getBlock(getmininginfo?.blocks);
   let blockFeeReward = 0;
   let feeReward = "";
   if (getblock) {
@@ -78,38 +78,40 @@ app.get('/', async (req, res) => {
     const coingeckoPrice = coingeckoPriceResult;
 
     if (coingeckoPrice) {
-      coingeckoPrice.forEach((item) => {
-        if (item.id === "bitcoin") {
-          bitcoinPrice = item.current_price.toLocaleString(); 
-        }
-        if (item.id === "verus-coin") {
-          vrscPrice = item.current_price.toLocaleString(); 
-          priceArray.push({
-            currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
-            price: item.current_price
-          })
-        }
-        if (item.id === "dai") {
-          priceArray.push({
-            currencyId: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
-            price: item.current_price
-          })
-        }
-        if (item.id === "maker") {
-          priceArray.push({
-            currencyId: "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4",
-            price: item.current_price
-          })
-        }
-        if (item.id === "ethereum") {
-          ethereumPrice = item.current_price.toLocaleString(); 
-          priceArray.push({
-            currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
-            price: item.current_price
-          })
-        }
+      if (coingeckoPrice.length > 0) {
+        coingeckoPrice.forEach((item) => {
+          if (item.id === "bitcoin") {
+            bitcoinPrice = item.current_price.toLocaleString();
+          }
+          if (item.id === "verus-coin") {
+            vrscPrice = item.current_price.toLocaleString();
+            priceArray.push({
+              currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+              price: item.current_price
+            })
+          }
+          if (item.id === "dai") {
+            priceArray.push({
+              currencyId: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
+              price: item.current_price
+            })
+          }
+          if (item.id === "maker") {
+            priceArray.push({
+              currencyId: "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4",
+              price: item.current_price
+            })
+          }
+          if (item.id === "ethereum") {
+            ethereumPrice = item.current_price.toLocaleString();
+            priceArray.push({
+              currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
+              price: item.current_price
+            })
+          }
 
-      })
+        })
+      }
     }
   }
 
@@ -149,10 +151,10 @@ app.get('/', async (req, res) => {
               currency.priceinreserve = reservesCurrency.priceinreserve;
               currency.price = Math.round(daiReserve / currency.reserves * 100) / 100;
 
-              if(currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
+              if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                 vrscBridgePrice = Math.round(daiReserve / currency.reserves * 100) / 100;
               }
-              if(currencyId === "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X"){
+              if (currencyId === "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X") {
                 ethereumBridgePrice = Math.round(daiReserve / currency.reserves * 100) / 100;
               }
             }
