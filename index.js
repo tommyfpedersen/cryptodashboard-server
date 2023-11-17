@@ -23,7 +23,7 @@ let vrscBridgePrice = 0;
 let vrscPrice = 0;
 
 // components
-const { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo } = require('./components/verus/verus');
+const { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getVrscEthBridgeVolume } = require('./components/verus/verus');
 
 /* dashboard */
 app.get('/', async (req, res) => {
@@ -109,11 +109,35 @@ app.get('/', async (req, res) => {
               price: item.current_price
             })
           }
-
         })
       }
     }
   }
+
+  /* VRSC-ETH Bridge volume  */
+ let volumeInDollarsArray = await getVrscEthBridgeVolume(getblock.height-(1400*30), getblock.height);
+ let vrscBridgeVolumeInDollars24Hours = 0; 
+ let vrscBridgeVolumeInDollars7Days = 0; 
+ let vrscBridgeVolumeInDollars30Days = 0; 
+ volumeInDollarsArray.filter((item)=>{
+    return item.height > getblock.height -1400;
+  }).forEach((elm)=>{
+    vrscBridgeVolumeInDollars24Hours = vrscBridgeVolumeInDollars24Hours + elm.dollars; 
+  })
+  volumeInDollarsArray.filter((item)=>{
+    return item.height > getblock.height - (1400*7);
+  }).forEach((elm)=>{
+    vrscBridgeVolumeInDollars7Days = vrscBridgeVolumeInDollars7Days + elm.dollars; 
+  })
+  volumeInDollarsArray.filter((item)=>{
+    return item.height > getblock.height - (1400*30);
+  }).forEach((elm)=>{
+    vrscBridgeVolumeInDollars30Days = vrscBridgeVolumeInDollars30Days + elm.dollars; 
+  })
+
+  vrscBridgeVolumeInDollars24Hours = (Math.round(vrscBridgeVolumeInDollars24Hours * 100) / 100).toLocaleString();
+  vrscBridgeVolumeInDollars7Days = (Math.round(vrscBridgeVolumeInDollars7Days * 100) / 100).toLocaleString();
+  vrscBridgeVolumeInDollars30Days = (Math.round(vrscBridgeVolumeInDollars30Days * 100) / 100).toLocaleString();
 
   /* VRSC-ETH Bridge reserves */
   const getcurrencyResponse = await fetch("http://localhost:9009/multichain/getcurrency/bridge.veth");
@@ -247,7 +271,10 @@ app.get('/', async (req, res) => {
     getAddress: verusAddress === "none" ? "" : verusAddress,
     bitcoinPrice: bitcoinPrice,
     ethereumBridgePrice: ethereumBridgePrice,
-    vrscBridgePrice: vrscBridgePrice
+    vrscBridgePrice: vrscBridgePrice,
+    vrscBridgeVolumeInDollars24Hours: vrscBridgeVolumeInDollars24Hours,
+    vrscBridgeVolumeInDollars7Days: vrscBridgeVolumeInDollars7Days,
+    vrscBridgeVolumeInDollars30Days: vrscBridgeVolumeInDollars30Days
   })
 })
 
