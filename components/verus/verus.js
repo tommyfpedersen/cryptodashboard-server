@@ -30,12 +30,7 @@ async function getPeerInfo() {
 
 async function getVrscEthBridgeVolume(fromBlock, toBlock) {
     if (volumeInDollarsArray.length > 0) {
-        let latestVolumeBlockHeight = volumeInDollarsArray[volumeInDollarsArray.length - 1].height
-        console.log("volumeInDollarsArray.length", volumeInDollarsArray.length)
-        // console.log("volumeInDollarsArray", volumeInDollarsArray)
-        console.log("toBlock", toBlock);
-        console.log("latestVolumeBlockHeight", latestVolumeBlockHeight);
-        // console.log("volumeInDollarsArray[volumeInDollarsArray.length-1]", volumeInDollarsArray.slice(volumeInDollarsArray.length - 1, volumeInDollarsArray.length));
+        let latestVolumeBlockHeight = volumeInDollarsArray[volumeInDollarsArray.length - 1].height;
         toBlock = toBlock;
         fromBlock = latestVolumeBlockHeight;
     }
@@ -71,8 +66,6 @@ async function getVrscEthBridgeVolume(fromBlock, toBlock) {
 
         if (getcurrencystate) {
             getcurrencystate = getcurrencystateResult.result[0];
-
-
             const getcurrencystateVRSC = getcurrencystate.currencystate.currencies.i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV;
             const getcurrencystateDAI = getcurrencystate.currencystate.currencies.iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM;
             const getcurrencystateMKR = getcurrencystate.currencystate.currencies.iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4;
@@ -285,15 +278,11 @@ async function getVrscEthBridgeVolume(fromBlock, toBlock) {
             ethReserveOutLastValue = getcurrencystateETH.reserveout;
         }
     }
-
     let totalVolumenInDollars = 0;
     volumeInDollarsArray.forEach((elm) => {
         totalVolumenInDollars = totalVolumenInDollars + elm.dollars;
     })
-    console.log("volumeInDollarsArray $", totalVolumenInDollars);
-
     return volumeInDollarsArray;
-
 }
 
 function isBlockInVolumeArray(block, currency, type) {

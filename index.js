@@ -115,23 +115,29 @@ app.get('/', async (req, res) => {
   }
 
   /* VRSC-ETH Bridge volume  */
-
-  // 299866
-  // 546189
-  // 1987443
-  // 99177
-  // 2018805
-  // 142105
-  // 44516
-  //let x= 1400*6
-
  let volumeInDollarsArray = await getVrscEthBridgeVolume(getblock.height-(1400*30), getblock.height);
+ let vrscBridgeVolumeInDollars24Hours = 0; 
+ let vrscBridgeVolumeInDollars7Days = 0; 
+ let vrscBridgeVolumeInDollars30Days = 0; 
+ volumeInDollarsArray.filter((item)=>{
+    return item.height > getblock.height -1400;
+  }).forEach((elm)=>{
+    vrscBridgeVolumeInDollars24Hours = vrscBridgeVolumeInDollars24Hours + elm.dollars; 
+  })
+  volumeInDollarsArray.filter((item)=>{
+    return item.height > getblock.height - (1400*7);
+  }).forEach((elm)=>{
+    vrscBridgeVolumeInDollars7Days = vrscBridgeVolumeInDollars7Days + elm.dollars; 
+  })
+  volumeInDollarsArray.filter((item)=>{
+    return item.height > getblock.height - (1400*30);
+  }).forEach((elm)=>{
+    vrscBridgeVolumeInDollars30Days = vrscBridgeVolumeInDollars30Days + elm.dollars; 
+  })
 
-
- // console.log("result: ", );
-  
-  
-
+  vrscBridgeVolumeInDollars24Hours = (Math.round(vrscBridgeVolumeInDollars24Hours * 100) / 100).toLocaleString();
+  vrscBridgeVolumeInDollars7Days = (Math.round(vrscBridgeVolumeInDollars7Days * 100) / 100).toLocaleString();
+  vrscBridgeVolumeInDollars30Days = (Math.round(vrscBridgeVolumeInDollars30Days * 100) / 100).toLocaleString();
 
   /* VRSC-ETH Bridge reserves */
   const getcurrencyResponse = await fetch("http://localhost:9009/multichain/getcurrency/bridge.veth");
@@ -265,7 +271,10 @@ app.get('/', async (req, res) => {
     getAddress: verusAddress === "none" ? "" : verusAddress,
     bitcoinPrice: bitcoinPrice,
     ethereumBridgePrice: ethereumBridgePrice,
-    vrscBridgePrice: vrscBridgePrice
+    vrscBridgePrice: vrscBridgePrice,
+    vrscBridgeVolumeInDollars24Hours: vrscBridgeVolumeInDollars24Hours,
+    vrscBridgeVolumeInDollars7Days: vrscBridgeVolumeInDollars7Days,
+    vrscBridgeVolumeInDollars30Days: vrscBridgeVolumeInDollars30Days
   })
 })
 
