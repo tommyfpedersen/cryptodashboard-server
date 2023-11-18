@@ -106,7 +106,8 @@
                 </path>
                 <div class="card-content">
                     {{#if online}}
-                    <div class="card-title">VRSC-ETH Bridge Volumen</div>
+                    {{!-- <div class="card-title">VRSC-ETH Bridge Volume</div> --}}
+                    <div class="card-title">Bridge.vETH Basket Volume</div>
 
                     <div class="card-sub-title">24H Volume</div>
                     <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars24Hours}}} </div>
@@ -117,8 +118,8 @@
                     <div class="card-sub-title">Month Volume</div>
                     <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars30Days}}} </div>
                     
-                    
-                    {{!-- <div class="card-sub-title">VRSC, DAI.vETH, MKR.vETH and vETH reserve in and out</div> --}}
+                    <br>
+                    <div class="card-sub-details">Tracking VRSC, DAI.vETH, MKR.vETH and vETH reserve in and out</div>
                     {{else}}
                     {{{statusMessage}}}
                     {{/if}}
@@ -135,7 +136,8 @@
                 </path>
                 <div class="card-content">
                     {{#if online}}
-                    <div class="card-title">VRSC-ETH Bridge Reserves</div>
+                    {{!-- <div class="card-title">VRSC-ETH Bridge Reserves</div> --}}
+                    <div class="card-title">Bridge.vETH Basket</div>
 
                     <div class="card-sub-title">Estimated bridge reserves value</div>
                     <div class="card-sub-title-value">DAI {{{estimatedBridgeValue}}}</div>
