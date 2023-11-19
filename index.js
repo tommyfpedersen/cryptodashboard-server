@@ -19,6 +19,7 @@ let priceArray = [];
 let bitcoinPrice = 0;
 let ethereumPrice = 0;
 let ethereumBridgePrice = 0;
+let mkrBridgePrice = 0;
 let vrscBridgePrice = 0;
 let vrscPrice = 0;
 
@@ -184,6 +185,9 @@ app.get('/', async (req, res) => {
               if (currencyId === "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X") {
                 ethereumBridgePrice = Math.round(daiReserve / currency.reserves * 100) / 100;
               }
+              if (currencyId === "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4") {
+                mkrBridgePrice = Math.round(daiReserve / currency.reserves * 100) / 100;
+              }
             }
 
             if (priceArray.length > 0) {
@@ -260,7 +264,7 @@ app.get('/', async (req, res) => {
   //console.log("verusaddress", verusAddress)
 
   res.render('main', {
-    blocks: getmininginfo?.blocks,
+    blocks:  getmininginfo?.blocks.toLocaleString(),
     blockLastSend: blockLastSend,
     blockReward: getblocksubsidy?.miner,
     feeReward: feeReward,
@@ -275,6 +279,7 @@ app.get('/', async (req, res) => {
     bitcoinPrice: bitcoinPrice,
     ethereumBridgePrice: ethereumBridgePrice,
     vrscBridgePrice: vrscBridgePrice,
+    mkrBridgePrice: mkrBridgePrice,
     vrscBridgeVolumeInDollars24Hours: vrscBridgeVolumeInDollars24Hours,
     vrscBridgeVolumeInDollars7Days: vrscBridgeVolumeInDollars7Days,
     vrscBridgeVolumeInDollars30Days: vrscBridgeVolumeInDollars30Days
