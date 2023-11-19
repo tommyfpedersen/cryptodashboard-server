@@ -119,29 +119,41 @@ app.get('/', async (req, res) => {
   let vrscBridgeVolumeInDollars24Hours = 0;
   let vrscBridgeVolumeInDollars7Days = 0;
   let vrscBridgeVolumeInDollars30Days = 0;
-  if (getmininginfo) {
-    let volumeInDollarsArray = await getVrscEthBridgeVolume(getblock.height - (1400 * 30), getblock.height);
+  let vrscBridgeVolumeInDollars7DaysArray = [{price:10000}, {price:20000}, {price:30000}, {price:50000}, {price:40000},{price:70000}, {price:50000}];
+  let vrscBridgeVolumeInDollars7DaysArrayMax = Math.max(...vrscBridgeVolumeInDollars7DaysArray.map(o => o.price));
+  let vrscBridgeVolumeInDollars7DaysArrayYAxis = [
+    {value: vrscBridgeVolumeInDollars7DaysArrayMax}, 
+    {value: vrscBridgeVolumeInDollars7DaysArrayMax / 2},
+    {value: 0}
+  ];
+ // let biggistNumber = Math.max(...vrscBridgeVolumeInDollars7DaysArray.map(o => o.price))
+  console.log("biggistNumber",vrscBridgeVolumeInDollars7DaysArrayMax)
+  vrscBridgeVolumeInDollars7DaysArray.forEach((item)=>{
+    item.barPCT = (item.price / vrscBridgeVolumeInDollars7DaysArrayMax)*100;
+  })
+  // if (getmininginfo) {
+  //   let volumeInDollarsArray = await getVrscEthBridgeVolume(getblock.height - (1400 * 30), getblock.height);
 
-    volumeInDollarsArray.filter((item) => {
-      return item.height > getblock.height - 1400;
-    }).forEach((elm) => {
-      vrscBridgeVolumeInDollars24Hours = vrscBridgeVolumeInDollars24Hours + elm.dollars;
-    })
-    volumeInDollarsArray.filter((item) => {
-      return item.height > getblock.height - (1400 * 7);
-    }).forEach((elm) => {
-      vrscBridgeVolumeInDollars7Days = vrscBridgeVolumeInDollars7Days + elm.dollars;
-    })
-    volumeInDollarsArray.filter((item) => {
-      return item.height > getblock.height - (1400 * 30);
-    }).forEach((elm) => {
-      vrscBridgeVolumeInDollars30Days = vrscBridgeVolumeInDollars30Days + elm.dollars;
-    })
+  //   volumeInDollarsArray.filter((item) => {
+  //     return item.height > getblock.height - 1400;
+  //   }).forEach((elm) => {
+  //     vrscBridgeVolumeInDollars24Hours = vrscBridgeVolumeInDollars24Hours + elm.dollars;
+  //   })
+  //   volumeInDollarsArray.filter((item) => {
+  //     return item.height > getblock.height - (1400 * 7);
+  //   }).forEach((elm) => {
+  //     vrscBridgeVolumeInDollars7Days = vrscBridgeVolumeInDollars7Days + elm.dollars;
+  //   })
+  //   volumeInDollarsArray.filter((item) => {
+  //     return item.height > getblock.height - (1400 * 30);
+  //   }).forEach((elm) => {
+  //     vrscBridgeVolumeInDollars30Days = vrscBridgeVolumeInDollars30Days + elm.dollars;
+  //   })
 
-    vrscBridgeVolumeInDollars24Hours = (Math.round(vrscBridgeVolumeInDollars24Hours * 100) / 100).toLocaleString();
-    vrscBridgeVolumeInDollars7Days = (Math.round(vrscBridgeVolumeInDollars7Days * 100) / 100).toLocaleString();
-    vrscBridgeVolumeInDollars30Days = (Math.round(vrscBridgeVolumeInDollars30Days * 100) / 100).toLocaleString();
-  }
+  //   vrscBridgeVolumeInDollars24Hours = (Math.round(vrscBridgeVolumeInDollars24Hours * 100) / 100).toLocaleString();
+  //   vrscBridgeVolumeInDollars7Days = (Math.round(vrscBridgeVolumeInDollars7Days * 100) / 100).toLocaleString();
+  //   vrscBridgeVolumeInDollars30Days = (Math.round(vrscBridgeVolumeInDollars30Days * 100) / 100).toLocaleString();
+  // }
   
   /* VRSC-ETH Bridge reserves */
   const getcurrencyResponse = await fetch("http://localhost:9009/multichain/getcurrency/bridge.veth");
@@ -261,7 +273,8 @@ app.get('/', async (req, res) => {
     })
   }
 
-  //console.log("verusaddress", verusAddress)
+  
+  console.log("vrscBridgeVolumeInDollars7DaysArray", vrscBridgeVolumeInDollars7DaysArray)
 
   res.render('main', {
     blocks:  getmininginfo?.blocks.toLocaleString(),
@@ -282,6 +295,8 @@ app.get('/', async (req, res) => {
     mkrBridgePrice: mkrBridgePrice,
     vrscBridgeVolumeInDollars24Hours: vrscBridgeVolumeInDollars24Hours,
     vrscBridgeVolumeInDollars7Days: vrscBridgeVolumeInDollars7Days,
+    vrscBridgeVolumeInDollars7DaysArray: vrscBridgeVolumeInDollars7DaysArray,
+    vrscBridgeVolumeInDollars7DaysArrayYAxis: vrscBridgeVolumeInDollars7DaysArrayYAxis,
     vrscBridgeVolumeInDollars30Days: vrscBridgeVolumeInDollars30Days
   })
 })

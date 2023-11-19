@@ -81,6 +81,23 @@ body{
     width:100px;
 }
 
+.graph-container{
+    position: relative;
+    padding-top:30px;
+}
+.graph-y-axis{
+    position: absolute;
+}
+.graph-bar-container{
+    padding-left: 50px;
+
+}
+.graph-bar{
+    background-color: #444;
+    width: 4px;
+    vertical-align:bottom;
+    display: inline-block;
+}
 
 /*  mobile view */
 @media only screen and (max-width: 680px) {
