@@ -86,8 +86,17 @@ body{
     padding-top:30px;
 }
 .graph-y-axis{
+    display: flex;
+    /* flex-direction: column; */
+    align-content: space-between;
+    /* justify-content: center; */
+    flex-wrap: wrap;
+    width: 60px;
+    column-gap: 10px;
     position: absolute;
+    height: 100px;
 }
+
 .graph-bar-container{
     padding-left: 50px;
 
@@ -97,6 +106,7 @@ body{
     width: 4px;
     vertical-align:bottom;
     display: inline-block;
+    margin-right: 2px;
 }
 
 /*  mobile view */

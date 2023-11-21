@@ -117,10 +117,11 @@
                     <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars24Hours}}} </div>
 
                     <div class="graph-container">
+                        <div class="graph-y-axis">
+                            {{#each vrscBridgeVolumeInDollars7DaysArrayYAxis}}<div class="graph-y-axis-item">{{value}}</div>{{/each}}                            
+                        </div>
                          <div class="graph-bar-container">
-                        {{#each vrscBridgeVolumeInDollars7DaysArray}}
-                            <div style="height:{{barPCT}}px;" class="graph-bar"></div>
-                        {{/each}}
+                        {{#each vrscBridgeVolumeInDollars7DaysArray}}<div style="height:{{barPCT}}px;" class="graph-bar"></div>{{/each}}
                           </div>
                     </div>
 
