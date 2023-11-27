@@ -128,7 +128,7 @@ app.get('/', async (req, res) => {
   ];
  // let biggistNumber = Math.max(...vrscBridgeVolumeInDollars7DaysArray.map(o => o.price))
   console.log("biggistNumber",vrscBridgeVolumeInDollars7DaysArrayMax)
-  vrscBridgeVolumeInDollars7DaysArray.forEach((item)=>{
+  vrscBridgeVolumeInDollars7DaysArray.forEach((item)=>{ 
     item.barPCT = (item.price / vrscBridgeVolumeInDollars7DaysArrayMax)*100;
   })
   // if (getmininginfo) {

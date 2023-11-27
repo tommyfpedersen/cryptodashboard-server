@@ -96,14 +96,20 @@ body{
     position: absolute;
     height: 100px;
 }
+.graph-x-axis{
+   text-align: right;
+}
 
 .graph-bar-container{
     padding-left: 50px;
+    display: inline-block;
+    /* display: flex;
+    align-content: space-between; */
 
 }
 .graph-bar{
     background-color: #444;
-    width: 4px;
+    width: 10px;
     vertical-align:bottom;
     display: inline-block;
     margin-right: 2px;

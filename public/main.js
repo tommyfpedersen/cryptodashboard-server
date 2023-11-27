@@ -10,3 +10,7 @@ function init(){
           }
     })
 }
+
+function showToolTip(price){
+ console.log("price", price);
+}
