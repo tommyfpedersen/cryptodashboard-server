@@ -115,24 +115,44 @@
 
                     <div class="card-sub-title">24H Volume</div>
                     <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars24Hours}}} </div>
+                     <div class="graph-container">
+                        <div class="graph-y-axis">
+                            {{#each vrscBridgeVolumeInDollars24HoursArrayYAxis}}<div class="graph-y-axis-item">{{value}}</div>{{/each}}                            
+                        </div>
+                      
+                         <div class="graph-bar-container">
+                        {{#each vrscBridgeVolumeInDollars24HoursArray}}<div style="height:{{barPCT}}px;" class="graph-bar"  onmouseover="showToolTip({{price}})"></div>{{/each}}
+                         <div class="graph-x-axis"></div>
+                          </div>
+                    </div>
 
-                    <div class="graph-container">
+                   
+
+                    <div class="card-sub-title">Week Volume</div>
+                    <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars7Days}}} </div>
+                     <div class="graph-container">
                         <div class="graph-y-axis">
                             {{#each vrscBridgeVolumeInDollars7DaysArrayYAxis}}<div class="graph-y-axis-item">{{value}}</div>{{/each}}                            
                         </div>
                       
                          <div class="graph-bar-container">
                         {{#each vrscBridgeVolumeInDollars7DaysArray}}<div style="height:{{barPCT}}px;" class="graph-bar"  onmouseover="showToolTip({{price}})"></div>{{/each}}
-                         <div class="graph-x-axis">t</div>
+                         <div class="graph-x-axis"></div>
                           </div>
-                            
                     </div>
-
-                    <div class="card-sub-title">Week Volume</div>
-                    <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars7Days}}} </div>
 
                     <div class="card-sub-title">Month Volume</div>
                     <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars30Days}}} </div>
+                    <div class="graph-container">
+                        <div class="graph-y-axis">
+                            {{#each vrscBridgeVolumeInDollars30DaysArrayYAxis}}<div class="graph-y-axis-item">{{value}}</div>{{/each}}                            
+                        </div>
+                      
+                         <div class="graph-bar-container">
+                        {{#each vrscBridgeVolumeInDollars30DaysArray}}<div style="height:{{barPCT}}px;" class="graph-bar"  onmouseover="showToolTip({{price}})"></div>{{/each}}
+                         <div class="graph-x-axis"></div>
+                          </div>
+                    </div>
 
 
 

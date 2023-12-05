@@ -109,7 +109,7 @@ body{
 }
 .graph-bar{
     background-color: #444;
-    width: 10px;
+    width: 3px;
     vertical-align:bottom;
     display: inline-block;
     margin-right: 2px;
