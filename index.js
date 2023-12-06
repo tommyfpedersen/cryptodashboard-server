@@ -118,12 +118,12 @@ app.get('/', async (req, res) => {
 
   /* VRSC-ETH Bridge volume  */
   let vrscBridgeVolumeInDollars24Hours = 0;
-  let vrscBridgeVolumeInDollars24HoursArray = [{ price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 400000 }, { price: 1100000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 70000 }, { price: 50000 }];
+  let vrscBridgeVolumeInDollars24HoursArray = [{ price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 400000 }, { price: 710000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 70000 }, { price: 50000 }];
   let vrscBridgeVolumeInDollars24HoursArrayMax = Math.max(...vrscBridgeVolumeInDollars24HoursArray.map(o => o.price));
   let vrscBridgeVolumeInDollars24HoursArrayYAxis = [
     { value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax) },
     { value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax / 2) },
-    { value: 0 }
+    { value: 0}
   ];
   vrscBridgeVolumeInDollars24HoursArray.forEach((item) => {
     item.barPCT = (item.price / vrscBridgeVolumeInDollars24HoursArrayMax) * 100;
