@@ -121,7 +121,7 @@
                         </div>
                       
                          <div class="graph-bar-container">
-                        {{#each vrscBridgeVolumeInDollars24HoursArray}}<div style="height:{{barPCT}}px;" class="graph-bar"  onmouseover="showToolTip({{price}})"></div>{{/each}}
+                        {{#each vrscBridgeVolumeInDollars24HoursArray}}<div style="height:{{barPCT}}px;" class="graph-bar" data-price="{{price}}"></div>{{/each}}
                          <div class="graph-x-axis"></div>
                           </div>
                     </div>
@@ -136,7 +136,7 @@
                         </div>
                       
                          <div class="graph-bar-container">
-                        {{#each vrscBridgeVolumeInDollars7DaysArray}}<div style="height:{{barPCT}}px;" class="graph-bar"  onmouseover="showToolTip({{price}})"></div>{{/each}}
+                        {{#each vrscBridgeVolumeInDollars7DaysArray}}<div style="height:{{barPCT}}px;" class="graph-bar" data-price="{{price}}"></div>{{/each}}
                          <div class="graph-x-axis"></div>
                           </div>
                     </div>
@@ -149,7 +149,7 @@
                         </div>
                       
                          <div class="graph-bar-container">
-                        {{#each vrscBridgeVolumeInDollars30DaysArray}}<div style="height:{{barPCT}}px;" class="graph-bar"  onmouseover="showToolTip({{price}})"></div>{{/each}}
+                        {{#each vrscBridgeVolumeInDollars30DaysArray}}<div style="height:{{barPCT}}px;" class="graph-bar" data-price="{{price}}"></div>{{/each}}
                          <div class="graph-x-axis"></div>
                           </div>
                     </div>
@@ -213,6 +213,7 @@
         <div class="sub-title-value">support@faldt.net</div>
     </div>
     {{{updateScript}}}
+    <div id="hint" class="hide">Hej</div>
 </body>
 <script src="main.js"></script>
 

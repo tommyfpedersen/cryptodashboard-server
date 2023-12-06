@@ -7,6 +7,7 @@ body{
     background-color: rgb(246, 246, 246);
     color: #444;
     font-family: maven;
+    position: relative;
 }
 
 .header {
@@ -104,7 +105,7 @@ body{
 }
 
 .graph-bar-container{
-    padding-left: 50px;
+    padding-left: 60px;
     display: inline-block;
     /* display: flex;
     align-content: space-between; */
@@ -112,7 +113,7 @@ body{
 }
 .graph-bar{
     background-color: #444;
-    width: 3px;
+    width: 5px;
     vertical-align:bottom;
     display: inline-block;
     margin-right: 2px;
@@ -125,4 +126,17 @@ body{
         padding: 10px; */
         min-height: 0;
     }
+}
+
+/* utils */
+#hint{
+    background-color: chocolate;
+    padding: 15px;
+    position: fixed;
+}
+.show{
+    display: inline-block;
+}
+.hide{
+    display: none;
 }

@@ -133,8 +133,8 @@ app.get('/', async (req, res) => {
   let vrscBridgeVolumeInDollars7DaysArray = [{ price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }];
   let vrscBridgeVolumeInDollars7DaysArrayMax = Math.max(...vrscBridgeVolumeInDollars7DaysArray.map(o => o.price));
   let vrscBridgeVolumeInDollars7DaysArrayYAxis = [
-    { value: vrscBridgeVolumeInDollars7DaysArrayMax },
-    { value: vrscBridgeVolumeInDollars7DaysArrayMax / 2 },
+    { value: convertToAxisString(vrscBridgeVolumeInDollars7DaysArrayMax) },
+    { value: convertToAxisString(vrscBridgeVolumeInDollars7DaysArrayMax / 2) },
     { value: 0 }
   ];
   vrscBridgeVolumeInDollars7DaysArray.forEach((item) => {
@@ -145,8 +145,8 @@ app.get('/', async (req, res) => {
   let vrscBridgeVolumeInDollars30DaysArray = [{ price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 70000 }, { price: 50000 }];
   let vrscBridgeVolumeInDollars30DaysArrayMax = Math.max(...vrscBridgeVolumeInDollars30DaysArray.map(o => o.price));
   let vrscBridgeVolumeInDollars30DaysArrayYAxis = [
-    { value: vrscBridgeVolumeInDollars30DaysArrayMax },
-    { value: vrscBridgeVolumeInDollars30DaysArrayMax / 2 },
+    { value: convertToAxisString(vrscBridgeVolumeInDollars30DaysArrayMax) },
+    { value: convertToAxisString(vrscBridgeVolumeInDollars30DaysArrayMax / 2 )},
     { value: 0 }
   ];
   vrscBridgeVolumeInDollars30DaysArray.forEach((item) => {
