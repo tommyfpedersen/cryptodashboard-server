@@ -84,7 +84,9 @@ body{
 
 .graph-container{
     position: relative;
-    padding-top:30px;
+}
+.graph-group{
+    position: relative;
 }
 .graph-y-axis{
     display: flex;
@@ -119,6 +121,18 @@ body{
     margin-right: 2px;
 }
 
+.graph-button-group{
+    padding-top: 20px;
+    text-align: center;
+}
+.graph-button{
+    width: 100px;
+    height: 40px;
+}
+/* .graph-button:nth-child(0){
+    border-radius: 4px;
+} */
+
 /*  mobile view */
 @media only screen and (max-width: 680px) {
     .card{
@@ -139,4 +153,24 @@ body{
 }
 .hide{
     display: none;
+}
+
+.button-selected{
+    background-color: #3165d4;
+    color: white;
+}
+.button-deselected{
+    background: none;
+    color: black;
+}
+
+
+button, input[type="submit"], input[type="reset"] {
+	background: none;
+	color: inherit;
+	border: 1px solid #aaa;
+	padding: 2px;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
 }

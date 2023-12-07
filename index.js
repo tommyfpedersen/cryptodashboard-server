@@ -162,29 +162,32 @@ app.get('/', async (req, res) => {
 
 
 
-  // if (getmininginfo) {
-  //   let volumeInDollarsArray = await getVrscEthBridgeVolume(getblock.height - (1400 * 30), getblock.height);
+  if (getmininginfo) {
+    let volumeInDollarsArray = await getVrscEthBridgeVolume(getblock.height - (1400 * 30), getblock.height);
 
-  //   volumeInDollarsArray.filter((item) => {
-  //     return item.height > getblock.height - 1400;
-  //   }).forEach((elm) => {
-  //     vrscBridgeVolumeInDollars24Hours = vrscBridgeVolumeInDollars24Hours + elm.dollars;
-  //   })
-  //   volumeInDollarsArray.filter((item) => {
-  //     return item.height > getblock.height - (1400 * 7);
-  //   }).forEach((elm) => {
-  //     vrscBridgeVolumeInDollars7Days = vrscBridgeVolumeInDollars7Days + elm.dollars;
-  //   })
-  //   volumeInDollarsArray.filter((item) => {
-  //     return item.height > getblock.height - (1400 * 30);
-  //   }).forEach((elm) => {
-  //     vrscBridgeVolumeInDollars30Days = vrscBridgeVolumeInDollars30Days + elm.dollars;
-  //   })
 
-  //   vrscBridgeVolumeInDollars24Hours = (Math.round(vrscBridgeVolumeInDollars24Hours * 100) / 100).toLocaleString();
-  //   vrscBridgeVolumeInDollars7Days = (Math.round(vrscBridgeVolumeInDollars7Days * 100) / 100).toLocaleString();
-  //   vrscBridgeVolumeInDollars30Days = (Math.round(vrscBridgeVolumeInDollars30Days * 100) / 100).toLocaleString();
-  // }
+    console.log("volumeInDollarsArray.lengt", volumeInDollarsArray.length)
+
+    volumeInDollarsArray.filter((item) => {
+      return item.height > getblock.height - 1400;
+    }).forEach((elm) => {
+      vrscBridgeVolumeInDollars24Hours = vrscBridgeVolumeInDollars24Hours + elm.dollars;
+    })
+    volumeInDollarsArray.filter((item) => {
+      return item.height > getblock.height - (1400 * 7);
+    }).forEach((elm) => {
+      vrscBridgeVolumeInDollars7Days = vrscBridgeVolumeInDollars7Days + elm.dollars;
+    })
+    volumeInDollarsArray.filter((item) => {
+      return item.height > getblock.height - (1400 * 30);
+    }).forEach((elm) => {
+      vrscBridgeVolumeInDollars30Days = vrscBridgeVolumeInDollars30Days + elm.dollars;
+    })
+
+    vrscBridgeVolumeInDollars24Hours = (Math.round(vrscBridgeVolumeInDollars24Hours * 100) / 100).toLocaleString();
+    vrscBridgeVolumeInDollars7Days = (Math.round(vrscBridgeVolumeInDollars7Days * 100) / 100).toLocaleString();
+    vrscBridgeVolumeInDollars30Days = (Math.round(vrscBridgeVolumeInDollars30Days * 100) / 100).toLocaleString();
+  }
 
   /* VRSC-ETH Bridge reserves */
   const getcurrencyResponse = await fetch("http://localhost:9009/multichain/getcurrency/bridge.veth");
