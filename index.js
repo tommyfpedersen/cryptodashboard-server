@@ -163,23 +163,70 @@ app.get('/', async (req, res) => {
 
 
   if (getmininginfo) {
-    let volumeInDollarsArray = await getVrscEthBridgeVolume(getblock.height - (1400 * 30), getblock.height);
+    let volumeInDollarsArray = await getVrscEthBridgeVolume(getblock.height - (1440 * 1), getblock.height);
 
 
-    console.log("volumeInDollarsArray.lengt", volumeInDollarsArray.length)
+    console.log("volumeInDollarsArray.lengt", volumeInDollarsArray.length, " getblock.height",  getblock.height)
+    //console.log("volumeInDollarsArray[164]", volumeInDollarsArray[164]);
+
+    const blockInterval = 60;
+    let snapShootInterval = blockInterval;
+    let volumeInDollarsCounter = 0;
+    let counter = 1;
+
+    //console.log(volumeInDollarsArray)
+
+
+    volumeInDollarsArray
+    .sort((a, b) => b.height - a.height)
+    .forEach((elm, index)=>{
+      console.log("elm.height ", elm.height );
+
+      if(elm.height > getblock.height - snapShootInterval){
+        console.log("1. hour", counter);
+       
+       }//else{
+      //   snapShootInterval = snapShootInterval + blockInterval;
+      //   console.log("new bloc interval");
+      //   counter++;
+      // }
+      volumeInDollarsCounter +=  elm.dollars;
+
+   //   console.log("height; ", elm.height)
+      
+     // console.log("(getblock.height - snapShootInterval", getblock.height - snapShootInterval, "elm.height: ",elm.height);
+
+  //   if( (getblock.height - snapShootInterval) < elm.height){
+  //      snapShootInterval = snapShootInterval + blockInterval;
+  //  //    console.log("++ and true", "volumeInDollarsCounter", volumeInDollarsCounter);
+  //      volumeInDollarsCounter = 0;
+  //     }
+     })
+
+
+
 
     volumeInDollarsArray.filter((item) => {
-      return item.height > getblock.height - 1400;
+      return item.height > getblock.height - 1440;
     }).forEach((elm) => {
+
+    //  console.log(elm);
+          /*
+  currencyid: 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV',
+  dollars: 1.8571434670054956,
+  height: 2821508,
+  blocktime: 1701725875,
+  type: 'reserveout'
+*/
       vrscBridgeVolumeInDollars24Hours = vrscBridgeVolumeInDollars24Hours + elm.dollars;
     })
     volumeInDollarsArray.filter((item) => {
-      return item.height > getblock.height - (1400 * 7);
+      return item.height > getblock.height - (1440 * 7);
     }).forEach((elm) => {
       vrscBridgeVolumeInDollars7Days = vrscBridgeVolumeInDollars7Days + elm.dollars;
     })
     volumeInDollarsArray.filter((item) => {
-      return item.height > getblock.height - (1400 * 30);
+      return item.height > getblock.height - (1440 * 30);
     }).forEach((elm) => {
       vrscBridgeVolumeInDollars30Days = vrscBridgeVolumeInDollars30Days + elm.dollars;
     })
