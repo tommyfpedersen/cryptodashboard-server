@@ -144,9 +144,11 @@ body{
 
 /* utils */
 #hint{
-    background-color: chocolate;
+    background-color: #3165d4;
+    color: white;
     padding: 15px;
     position: fixed;
+    border: 1px solid #aaa;
 }
 .show{
     display: inline-block;

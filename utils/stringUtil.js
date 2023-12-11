@@ -1,5 +1,5 @@
 function convertToAxisString(value){
-
+    value = parseInt(value);
     const valueLength = value.toString().length;
     let convertString = value;
 

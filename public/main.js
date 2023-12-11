@@ -24,7 +24,7 @@ function initGraphBarHints(){
           let yPos = evt.clientY - 50;
           let label = evt.target.getAttribute("data-label");
           let price = evt.target.getAttribute("data-price");
-          hintElm.innerHTML = `${label} </br> ${price}`;
+          hintElm.innerHTML = `$ ${price}</br> ${label} `;
           hintElm.style.left = xPos+"px";
           hintElm.style.top = yPos+"px";
           hintElm.classList.replace("hide","show");

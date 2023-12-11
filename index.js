@@ -116,18 +116,7 @@ app.get('/', async (req, res) => {
     }
   }
 
-  /* VRSC-ETH Bridge volume  */
-  let vrscBridgeVolumeInDollars24Hours = 0;
-  let vrscBridgeVolumeInDollars24HoursArray = [{ price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 400000 }, { price: 710000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 70000 }, { price: 50000 }];
-  let vrscBridgeVolumeInDollars24HoursArrayMax = Math.max(...vrscBridgeVolumeInDollars24HoursArray.map(o => o.price));
-  let vrscBridgeVolumeInDollars24HoursArrayYAxis = [
-    { value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax) },
-    { value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax / 2) },
-    { value: 0}
-  ];
-  vrscBridgeVolumeInDollars24HoursArray.forEach((item) => {
-    item.barPCT = (item.price / vrscBridgeVolumeInDollars24HoursArrayMax) * 100;
-  })
+
 
   let vrscBridgeVolumeInDollars7Days = 0;
   let vrscBridgeVolumeInDollars7DaysArray = [{ price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }];
@@ -146,7 +135,7 @@ app.get('/', async (req, res) => {
   let vrscBridgeVolumeInDollars30DaysArrayMax = Math.max(...vrscBridgeVolumeInDollars30DaysArray.map(o => o.price));
   let vrscBridgeVolumeInDollars30DaysArrayYAxis = [
     { value: convertToAxisString(vrscBridgeVolumeInDollars30DaysArrayMax) },
-    { value: convertToAxisString(vrscBridgeVolumeInDollars30DaysArrayMax / 2 )},
+    { value: convertToAxisString(vrscBridgeVolumeInDollars30DaysArrayMax / 2) },
     { value: 0 }
   ];
   vrscBridgeVolumeInDollars30DaysArray.forEach((item) => {
@@ -155,43 +144,61 @@ app.get('/', async (req, res) => {
 
 
   // let biggistNumber = Math.max(...vrscBridgeVolumeInDollars7DaysArray.map(o => o.price))
-  console.log("biggistNumber 24", vrscBridgeVolumeInDollars24HoursArrayMax)
-  console.log("biggistNumber", vrscBridgeVolumeInDollars7DaysArrayMax)
-  console.log("biggistNumber 30", vrscBridgeVolumeInDollars30DaysArrayMax)
 
 
+
+  /* VRSC-ETH Bridge volume  */
+  // let vrscBridgeVolumeInDollars24Hours = 0;
+  // let vrscBridgeVolumeInDollars24HoursArray = [{ price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 400000 }, { price: 710000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 70000 }, { price: 50000 }];
+  // let vrscBridgeVolumeInDollars24HoursArrayMax = Math.max(...vrscBridgeVolumeInDollars24HoursArray.map(o => o.price));
+  // let vrscBridgeVolumeInDollars24HoursArrayYAxis = [
+  //   { value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax) },
+  //   { value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax / 2) },
+  //   { value: 0}
+  // ];
+  // vrscBridgeVolumeInDollars24HoursArray.forEach((item) => {
+  //   item.barPCT = (item.price / vrscBridgeVolumeInDollars24HoursArrayMax) * 100;
+  // })
+
+  let vrscBridgeVolumeInDollars24Hours = 0;
+  let vrscBridgeVolumeInDollars24HoursArray = [];
+  let vrscBridgeVolumeInDollars24HoursArrayYAxis = []
 
 
   if (getmininginfo) {
     let volumeInDollarsArray = await getVrscEthBridgeVolume(getblock.height - (1440 * 1), getblock.height);
 
     const blockInterval = 60;
-    let snapShootInterval = blockInterval;
+    let snapShootInterval = 0;
     let volumeInDollarsCounter = 0;
-    let counter = 1;
+    let counter = 23;
+
+
 
     volumeInDollarsArray
-    .sort((a, b) => b.height - a.height)
-    .forEach((elm, index)=>{
-       if(elm.height < (getblock.height - snapShootInterval)){
-        snapShootInterval = snapShootInterval + blockInterval;
-        console.log("group", counter, "volumeInDollarsCounter", volumeInDollarsCounter)
-        volumeInDollarsCounter = 0;
-        counter++;
-       }
+      .sort((a, b) => b.height - a.height)
+      .forEach((elm, index) => {
+        if (elm.height < (getblock.height - snapShootInterval)) {
+          snapShootInterval = snapShootInterval + blockInterval;
+          console.log("group", counter, "volumeInDollarsCounter", volumeInDollarsCounter)
 
-      volumeInDollarsCounter +=  elm.dollars;
+          vrscBridgeVolumeInDollars24HoursArray.push({price:volumeInDollarsCounter, label: counter +" hours ago"})
 
-   //   console.log("height; ", elm.height)
-      
-     // console.log("(getblock.height - snapShootInterval", getblock.height - snapShootInterval, "elm.height: ",elm.height);
+          volumeInDollarsCounter = 0;
+          counter--;
+        }
+        volumeInDollarsCounter += elm.dollars;
+      })
 
-  //   if( (getblock.height - snapShootInterval) < elm.height){
-  //      snapShootInterval = snapShootInterval + blockInterval;
-  //  //    console.log("++ and true", "volumeInDollarsCounter", volumeInDollarsCounter);
-  //      volumeInDollarsCounter = 0;
-  //     }
-     })
+    let vrscBridgeVolumeInDollars24HoursArrayMax = Math.max(...vrscBridgeVolumeInDollars24HoursArray.map(o => o.price));
+    vrscBridgeVolumeInDollars24HoursArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax) });
+    vrscBridgeVolumeInDollars24HoursArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax / 2) });
+    vrscBridgeVolumeInDollars24HoursArrayYAxis.push({ value: 0 });
+    
+    vrscBridgeVolumeInDollars24HoursArray.forEach((item) => {
+      item.barPCT = (item.price / vrscBridgeVolumeInDollars24HoursArrayMax) * 100;
+      item.price = convertToAxisString( item.price)
+    })
 
 
 
@@ -200,13 +207,13 @@ app.get('/', async (req, res) => {
       return item.height > getblock.height - 1440;
     }).forEach((elm) => {
 
-    //  console.log(elm);
-          /*
-  currencyid: 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV',
-  dollars: 1.8571434670054956,
-  height: 2821508,
-  blocktime: 1701725875,
-  type: 'reserveout'
+      //  console.log(elm);
+      /*
+currencyid: 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV',
+dollars: 1.8571434670054956,
+height: 2821508,
+blocktime: 1701725875,
+type: 'reserveout'
 */
       vrscBridgeVolumeInDollars24Hours = vrscBridgeVolumeInDollars24Hours + elm.dollars;
     })
@@ -225,6 +232,7 @@ app.get('/', async (req, res) => {
     vrscBridgeVolumeInDollars7Days = (Math.round(vrscBridgeVolumeInDollars7Days * 100) / 100).toLocaleString();
     vrscBridgeVolumeInDollars30Days = (Math.round(vrscBridgeVolumeInDollars30Days * 100) / 100).toLocaleString();
   }
+
 
   /* VRSC-ETH Bridge reserves */
   const getcurrencyResponse = await fetch("http://localhost:9009/multichain/getcurrency/bridge.veth");
