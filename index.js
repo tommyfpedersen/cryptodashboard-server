@@ -165,31 +165,21 @@ app.get('/', async (req, res) => {
   if (getmininginfo) {
     let volumeInDollarsArray = await getVrscEthBridgeVolume(getblock.height - (1440 * 1), getblock.height);
 
-
-    console.log("volumeInDollarsArray.lengt", volumeInDollarsArray.length, " getblock.height",  getblock.height)
-    //console.log("volumeInDollarsArray[164]", volumeInDollarsArray[164]);
-
     const blockInterval = 60;
     let snapShootInterval = blockInterval;
     let volumeInDollarsCounter = 0;
     let counter = 1;
 
-    //console.log(volumeInDollarsArray)
-
-
     volumeInDollarsArray
     .sort((a, b) => b.height - a.height)
     .forEach((elm, index)=>{
-      console.log("elm.height ", elm.height );
+       if(elm.height < (getblock.height - snapShootInterval)){
+        snapShootInterval = snapShootInterval + blockInterval;
+        console.log("group", counter, "volumeInDollarsCounter", volumeInDollarsCounter)
+        volumeInDollarsCounter = 0;
+        counter++;
+       }
 
-      if(elm.height > getblock.height - snapShootInterval){
-        console.log("1. hour", counter);
-       
-       }//else{
-      //   snapShootInterval = snapShootInterval + blockInterval;
-      //   console.log("new bloc interval");
-      //   counter++;
-      // }
       volumeInDollarsCounter +=  elm.dollars;
 
    //   console.log("height; ", elm.height)
