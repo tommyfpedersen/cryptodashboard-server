@@ -30,9 +30,15 @@ async function getPeerInfo() {
 
 async function getVrscEthBridgeVolume(fromBlock, toBlock) {
     if (volumeInDollarsArray.length > 0) {
-        let latestVolumeBlockHeight = volumeInDollarsArray[volumeInDollarsArray.length - 1].height;
+        volumeInDollarsArray.sort((a, b) => b.height - a.height);
+        let latestVolumeBlockHeight = volumeInDollarsArray[0].height;
         toBlock = toBlock;
         fromBlock = latestVolumeBlockHeight;
+
+        // clean up - delete all beyond 33 days
+        volumeInDollarsArray = volumeInDollarsArray.filter((item)=>{
+            return item.height > toBlock - 1440*33;
+        })
     }
 
     let vrscReserveIn = 0;

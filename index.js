@@ -188,12 +188,9 @@ app.get('/', async (req, res) => {
         return item.height > getblock.height - 1440;
       })
       .forEach((elm) => {
-        console.log("elm.height ", elm.height)
-
         if (elm.height > getblock.height - 1440) {
           if (elm.height < (getblock.height - snapShootInterval24H)) {
             snapShootInterval24H = snapShootInterval24H + blockInterval24H;
-            console.log("group hour", counter, "volumeInDollarsCounter", volumeInDollarsCounter24H)
             vrscBridgeVolumeInDollars24HoursArray.push({ price: volumeInDollarsCounter24H, label: counter + " hours ago" })
 
             volumeInDollarsCounter24H = 0;
@@ -204,7 +201,6 @@ app.get('/', async (req, res) => {
         }
       })
     vrscBridgeVolumeInDollars24HoursArray.reverse();
-    console.log("totalVol", totalVol);
 
     let vrscBridgeVolumeInDollars24HoursArrayMax = Math.max(...vrscBridgeVolumeInDollars24HoursArray.map(o => o.price));
     vrscBridgeVolumeInDollars24HoursArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax) });
@@ -230,12 +226,10 @@ app.get('/', async (req, res) => {
         return item.height > getblock.height - 1440 * 8;
       })
       .forEach((elm) => {
-        // console.log("elm.height ", elm.height)
 
         if (elm.height > getblock.height - 1440 * 8) {
           if (elm.height < (getblock.height - snapShootInterval7D)) {
             snapShootInterval7D = snapShootInterval7D + blockInterval7D;
-            console.log("group day", counter, "volumeInDollarsCounter", volumeInDollarsCounter7D)
             vrscBridgeVolumeInDollars7DaysArray.push({ price: volumeInDollarsCounter7D, label: counter + " days ago" })
 
             volumeInDollarsCounter7D = 0;
@@ -246,7 +240,6 @@ app.get('/', async (req, res) => {
         }
       })
     vrscBridgeVolumeInDollars7DaysArray.reverse();
-    console.log("totalVol", totalVol);
 
     let vrscBridgeVolumeInDollars7DaysArrayMax = Math.max(...vrscBridgeVolumeInDollars7DaysArray.map(o => o.price));
     vrscBridgeVolumeInDollars7DaysArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars7DaysArrayMax) });
@@ -271,12 +264,9 @@ app.get('/', async (req, res) => {
         return item.height > getblock.height - 1440 * 31;
       })
       .forEach((elm) => {
-        // console.log("elm.height ", elm.height)
-
         if (elm.height > getblock.height - 1440 * 31) {
           if (elm.height < (getblock.height - snapShootInterval30D)) {
             snapShootInterval30D = snapShootInterval30D + blockInterval30D;
-            console.log("group day month", counter, "volumeInDollarsCounter", volumeInDollarsCounter30D)
             vrscBridgeVolumeInDollars30DaysArray.push({ price: volumeInDollarsCounter30D, label: counter + " days ago" })
 
             volumeInDollarsCounter30D = 0;
@@ -287,7 +277,6 @@ app.get('/', async (req, res) => {
         }
       })
     vrscBridgeVolumeInDollars30DaysArray.reverse();
-    console.log("totalVol", totalVol);
 
     let vrscBridgeVolumeInDollars30DaysArrayMax = Math.max(...vrscBridgeVolumeInDollars30DaysArray.map(o => o.price));
     vrscBridgeVolumeInDollars30DaysArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars30DaysArrayMax) });
@@ -301,30 +290,30 @@ app.get('/', async (req, res) => {
 
 
 
-    volumeInDollarsArray.filter((item) => {
-      return item.height > getblock.height - 1440;
-    }).forEach((elm) => {
+//     volumeInDollarsArray.filter((item) => {
+//       return item.height > getblock.height - 1440;
+//     }).forEach((elm) => {
 
-      //  console.log(elm);
-      /*
-currencyid: 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV',
-dollars: 1.8571434670054956,
-height: 2821508,
-blocktime: 1701725875,
-type: 'reserveout'
-*/
-      //    vrscBridgeVolumeInDollars24Hours = vrscBridgeVolumeInDollars24Hours + elm.dollars;
-    })
-    volumeInDollarsArray.filter((item) => {
-      return item.height > getblock.height - (1440 * 7);
-    }).forEach((elm) => {
-      vrscBridgeVolumeInDollars7Days = vrscBridgeVolumeInDollars7Days + elm.dollars;
-    })
-    volumeInDollarsArray.filter((item) => {
-      return item.height > getblock.height - (1440 * 30);
-    }).forEach((elm) => {
-      vrscBridgeVolumeInDollars30Days = vrscBridgeVolumeInDollars30Days + elm.dollars;
-    })
+//       //  console.log(elm);
+//       /*
+// currencyid: 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV',
+// dollars: 1.8571434670054956,
+// height: 2821508,
+// blocktime: 1701725875,
+// type: 'reserveout'
+// */
+//       //    vrscBridgeVolumeInDollars24Hours = vrscBridgeVolumeInDollars24Hours + elm.dollars;
+//     })
+//     volumeInDollarsArray.filter((item) => {
+//       return item.height > getblock.height - (1440 * 7);
+//     }).forEach((elm) => {
+//       vrscBridgeVolumeInDollars7Days = vrscBridgeVolumeInDollars7Days + elm.dollars;
+//     })
+//     volumeInDollarsArray.filter((item) => {
+//       return item.height > getblock.height - (1440 * 30);
+//     }).forEach((elm) => {
+//       vrscBridgeVolumeInDollars30Days = vrscBridgeVolumeInDollars30Days + elm.dollars;
+//     })
 
     vrscBridgeVolumeInDollars24Hours = (Math.round(vrscBridgeVolumeInDollars24Hours * 100) / 100).toLocaleString();
     vrscBridgeVolumeInDollars7Days = (Math.round(vrscBridgeVolumeInDollars7Days * 100) / 100).toLocaleString();
@@ -449,9 +438,6 @@ type: 'reserveout'
       }
     })
   }
-
-
-  console.log("vrscBridgeVolumeInDollars7DaysArray", vrscBridgeVolumeInDollars7DaysArray)
 
   res.render('main', {
     blocks: getmininginfo?.blocks.toLocaleString(),
