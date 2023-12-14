@@ -115,9 +115,21 @@ body{
 }
 .graph-bar{
     background-color: #444;
-    width: 5px;
     vertical-align:bottom;
     display: inline-block;
+}
+
+.graph-bar-small{
+    width: 5px;
+    margin-right: 2px;
+}
+.graph-bar-large{
+    width: 6px;
+    margin-right: 2px;
+}
+
+.graph-bar-xlarge{
+    width: 28px;
     margin-right: 2px;
 }
 

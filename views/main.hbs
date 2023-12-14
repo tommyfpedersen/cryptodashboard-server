@@ -127,14 +127,14 @@
 
                             <div class="graph-bar-container">
                                 {{#each vrscBridgeVolumeInDollars24HoursArray}}<div style="height:{{barPCT}}px;"
-                                    class="graph-bar" data-price="{{price}}" data-label="{{label}}"></div>{{/each}}
+                                    class="graph-bar graph-bar-large" data-price="{{price}}" data-label="{{label}}"></div>{{/each}}
                                 <div class="graph-x-axis"></div>
                             </div>
                         </div>
 
 
                         <div class="graph-group hide">
-                            <div class="card-sub-title">Week Volume</div>
+                            <div class="card-sub-title">7D Volume</div>
                             <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars7Days}}} </div>
                               <br>
                             <div class="graph-y-axis">
@@ -145,14 +145,14 @@
 
                             <div class="graph-bar-container">
                                 {{#each vrscBridgeVolumeInDollars7DaysArray}}<div style="height:{{barPCT}}px;"
-                                    class="graph-bar" data-price="{{price}}" data-label="{{label}}"></div>{{/each}}
+                                    class="graph-bar graph-bar-xlarge" data-price="{{price}}" data-label="{{label}}"></div>{{/each}}
                                 <div class="graph-x-axis"></div>
                             </div>
                         </div>
 
 
                         <div class="graph-group">
-                            <div class="card-sub-title">Month Volume</div>
+                            <div class="card-sub-title">30D Volume</div>
                             <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars30Days}}} </div>
                             <br>
                             <div class="graph-y-axis">
@@ -163,7 +163,7 @@
 
                             <div class="graph-bar-container">
                                 {{#each vrscBridgeVolumeInDollars30DaysArray}}<div style="height:{{barPCT}}px;"
-                                    class="graph-bar" data-price="{{price}}" data-label="{{label}}"></div>{{/each}}
+                                    class="graph-bar graph-bar-small" data-price="{{price}}" data-label="{{label}}"></div>{{/each}}
                                 <div class="graph-x-axis"></div>
                             </div>
                         </div>
