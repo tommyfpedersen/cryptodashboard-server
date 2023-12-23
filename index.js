@@ -116,50 +116,6 @@ app.get('/', async (req, res) => {
     }
   }
 
-
-
-  // let vrscBridgeVolumeInDollars7Days = 0;
-  // let vrscBridgeVolumeInDollars7DaysArray = [{ price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }];
-  // let vrscBridgeVolumeInDollars7DaysArrayMax = Math.max(...vrscBridgeVolumeInDollars7DaysArray.map(o => o.price));
-  // let vrscBridgeVolumeInDollars7DaysArrayYAxis = [
-  //   { value: convertToAxisString(vrscBridgeVolumeInDollars7DaysArrayMax) },
-  //   { value: convertToAxisString(vrscBridgeVolumeInDollars7DaysArrayMax / 2) },
-  //   { value: 0 }
-  // ];
-  // vrscBridgeVolumeInDollars7DaysArray.forEach((item) => {
-  //   item.barPCT = (item.price / vrscBridgeVolumeInDollars7DaysArrayMax) * 100;
-  // })
-
-  // let vrscBridgeVolumeInDollars30Days = 0;
-  // let vrscBridgeVolumeInDollars30DaysArray = [{ price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 70000 }, { price: 50000 }];
-  // let vrscBridgeVolumeInDollars30DaysArrayMax = Math.max(...vrscBridgeVolumeInDollars30DaysArray.map(o => o.price));
-  // let vrscBridgeVolumeInDollars30DaysArrayYAxis = [
-  //   { value: convertToAxisString(vrscBridgeVolumeInDollars30DaysArrayMax) },
-  //   { value: convertToAxisString(vrscBridgeVolumeInDollars30DaysArrayMax / 2) },
-  //   { value: 0 }
-  // ];
-  // vrscBridgeVolumeInDollars30DaysArray.forEach((item) => {
-  //   item.barPCT = (item.price / vrscBridgeVolumeInDollars30DaysArrayMax) * 100;
-  // })
-
-
-  // let biggistNumber = Math.max(...vrscBridgeVolumeInDollars7DaysArray.map(o => o.price))
-
-
-
-  /* VRSC-ETH Bridge volume  */
-  // let vrscBridgeVolumeInDollars24Hours = 0;
-  // let vrscBridgeVolumeInDollars24HoursArray = [{ price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 400000 }, { price: 710000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 10000 }, { price: 20000 }, { price: 30000 }, { price: 50000 }, { price: 40000 }, { price: 70000 }, { price: 50000 }, { price: 70000 }, { price: 50000 }];
-  // let vrscBridgeVolumeInDollars24HoursArrayMax = Math.max(...vrscBridgeVolumeInDollars24HoursArray.map(o => o.price));
-  // let vrscBridgeVolumeInDollars24HoursArrayYAxis = [
-  //   { value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax) },
-  //   { value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax / 2) },
-  //   { value: 0}
-  // ];
-  // vrscBridgeVolumeInDollars24HoursArray.forEach((item) => {
-  //   item.barPCT = (item.price / vrscBridgeVolumeInDollars24HoursArrayMax) * 100;
-  // })
-
   let vrscBridgeVolumeInDollars24Hours = 0;
   let vrscBridgeVolumeInDollars24HoursArray = [];
   let vrscBridgeVolumeInDollars24HoursArrayYAxis = []
@@ -172,153 +128,126 @@ app.get('/', async (req, res) => {
   let vrscBridgeVolumeInDollars30DaysArray = [];
   let vrscBridgeVolumeInDollars30DaysArrayYAxis = []
 
-  if (getmininginfo) {
-    let volumeInDollarsArray = await getVrscEthBridgeVolume(getblock.height - (1440 * 31), getblock.height);
+  // if (getmininginfo) {
+  //   let volumeInDollarsArray = await getVrscEthBridgeVolume(getblock.height - (1440 * 31), getblock.height);
 
-    // 24 hour
-    const blockInterval24H = 60;
-    let snapShootInterval24H = 0;
-    let volumeInDollarsCounter24H = 0;
-    let counter = -1;
-    let totalVol = 0;
+  //   // 24 hour
+  //   const blockInterval24H = 60;
+  //   let snapShootInterval24H = 0;
+  //   let volumeInDollarsCounter24H = 0;
+  //   let counter = -1;
+  //   let totalVol = 0;
 
-    volumeInDollarsArray
-      .sort((a, b) => b.height - a.height)
-      .filter((item) => {
-        return item.height > getblock.height - 1440;
-      })
-      .forEach((elm) => {
-        if (elm.height > getblock.height - 1440) {
-          if (elm.height < (getblock.height - snapShootInterval24H)) {
-            snapShootInterval24H = snapShootInterval24H + blockInterval24H;
-            vrscBridgeVolumeInDollars24HoursArray.push({ price: volumeInDollarsCounter24H, label: counter + " hours ago" })
+  //   volumeInDollarsArray
+  //     .sort((a, b) => b.height - a.height)
+  //     .filter((item) => {
+  //       return item.height > getblock.height - 1440;
+  //     })
+  //     .forEach((elm) => {
+  //       if (elm.height > getblock.height - 1440) {
+  //         if (elm.height < (getblock.height - snapShootInterval24H)) {
+  //           snapShootInterval24H = snapShootInterval24H + blockInterval24H;
+  //           vrscBridgeVolumeInDollars24HoursArray.push({ price: volumeInDollarsCounter24H, label: counter + " hours ago" })
 
-            volumeInDollarsCounter24H = 0;
-            counter++;
-          }
-          volumeInDollarsCounter24H += elm.dollars;
-          vrscBridgeVolumeInDollars24Hours = vrscBridgeVolumeInDollars24Hours + elm.dollars;
-        }
-      })
-    vrscBridgeVolumeInDollars24HoursArray.reverse();
+  //           volumeInDollarsCounter24H = 0;
+  //           counter++;
+  //         }
+  //         volumeInDollarsCounter24H += elm.dollars;
+  //         vrscBridgeVolumeInDollars24Hours = vrscBridgeVolumeInDollars24Hours + elm.dollars;
+  //       }
+  //     })
+  //   vrscBridgeVolumeInDollars24HoursArray.reverse();
 
-    let vrscBridgeVolumeInDollars24HoursArrayMax = Math.max(...vrscBridgeVolumeInDollars24HoursArray.map(o => o.price));
-    vrscBridgeVolumeInDollars24HoursArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax) });
-    vrscBridgeVolumeInDollars24HoursArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax / 2) });
-    vrscBridgeVolumeInDollars24HoursArrayYAxis.push({ value: 0 });
+  //   let vrscBridgeVolumeInDollars24HoursArrayMax = Math.max(...vrscBridgeVolumeInDollars24HoursArray.map(o => o.price));
+  //   vrscBridgeVolumeInDollars24HoursArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax) });
+  //   vrscBridgeVolumeInDollars24HoursArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars24HoursArrayMax / 2) });
+  //   vrscBridgeVolumeInDollars24HoursArrayYAxis.push({ value: 0 });
 
-    vrscBridgeVolumeInDollars24HoursArray.forEach((item) => {
-      item.barPCT = (item.price / vrscBridgeVolumeInDollars24HoursArrayMax) * 100;
-      item.price = convertToAxisString(item.price)
-    })
-
-
-    // 7 days
-    const blockInterval7D = 1440;
-    let snapShootInterval7D = 0;
-    let volumeInDollarsCounter7D = 0;
-    counter = -1;
-    totalVol = 0;
-
-    volumeInDollarsArray
-      .sort((a, b) => b.height - a.height)
-      .filter((item) => {
-        return item.height > getblock.height - 1440 * 8;
-      })
-      .forEach((elm) => {
-
-        if (elm.height > getblock.height - 1440 * 8) {
-          if (elm.height < (getblock.height - snapShootInterval7D)) {
-            snapShootInterval7D = snapShootInterval7D + blockInterval7D;
-            vrscBridgeVolumeInDollars7DaysArray.push({ price: volumeInDollarsCounter7D, label: counter + " days ago" })
-
-            volumeInDollarsCounter7D = 0;
-            counter++;
-          }
-          volumeInDollarsCounter7D += elm.dollars;
-          vrscBridgeVolumeInDollars7Days = vrscBridgeVolumeInDollars7Days + elm.dollars;
-        }
-      })
-    vrscBridgeVolumeInDollars7DaysArray.reverse();
-
-    let vrscBridgeVolumeInDollars7DaysArrayMax = Math.max(...vrscBridgeVolumeInDollars7DaysArray.map(o => o.price));
-    vrscBridgeVolumeInDollars7DaysArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars7DaysArrayMax) });
-    vrscBridgeVolumeInDollars7DaysArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars7DaysArrayMax / 2) });
-    vrscBridgeVolumeInDollars7DaysArrayYAxis.push({ value: 0 });
-
-    vrscBridgeVolumeInDollars7DaysArray.forEach((item) => {
-      item.barPCT = (item.price / vrscBridgeVolumeInDollars7DaysArrayMax) * 100;
-      item.price = convertToAxisString(item.price)
-    })
-
-    // 30 days
-    const blockInterval30D = 1440;
-    let snapShootInterval30D = 0;
-    let volumeInDollarsCounter30D = 0;
-    counter = -1;
-    totalVol = 0;
-
-    volumeInDollarsArray
-      .sort((a, b) => b.height - a.height)
-      .filter((item) => {
-        return item.height > getblock.height - 1440 * 31;
-      })
-      .forEach((elm) => {
-        if (elm.height > getblock.height - 1440 * 31) {
-          if (elm.height < (getblock.height - snapShootInterval30D)) {
-            snapShootInterval30D = snapShootInterval30D + blockInterval30D;
-            vrscBridgeVolumeInDollars30DaysArray.push({ price: volumeInDollarsCounter30D, label: counter + " days ago" })
-
-            volumeInDollarsCounter30D = 0;
-            counter++;
-          }
-          volumeInDollarsCounter30D += elm.dollars;
-          vrscBridgeVolumeInDollars30Days = vrscBridgeVolumeInDollars30Days + elm.dollars;
-        }
-      })
-    vrscBridgeVolumeInDollars30DaysArray.reverse();
-
-    let vrscBridgeVolumeInDollars30DaysArrayMax = Math.max(...vrscBridgeVolumeInDollars30DaysArray.map(o => o.price));
-    vrscBridgeVolumeInDollars30DaysArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars30DaysArrayMax) });
-    vrscBridgeVolumeInDollars30DaysArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars30DaysArrayMax / 2) });
-    vrscBridgeVolumeInDollars30DaysArrayYAxis.push({ value: 0 });
-
-    vrscBridgeVolumeInDollars30DaysArray.forEach((item) => {
-      item.barPCT = (item.price / vrscBridgeVolumeInDollars30DaysArrayMax) * 100;
-      item.price = convertToAxisString(item.price)
-    })
+  //   vrscBridgeVolumeInDollars24HoursArray.forEach((item) => {
+  //     item.barPCT = (item.price / vrscBridgeVolumeInDollars24HoursArrayMax) * 100;
+  //     item.price = convertToAxisString(item.price)
+  //   })
 
 
+  //   // 7 days
+  //   const blockInterval7D = 1440;
+  //   let snapShootInterval7D = 0;
+  //   let volumeInDollarsCounter7D = 0;
+  //   counter = -1;
+  //   totalVol = 0;
 
-//     volumeInDollarsArray.filter((item) => {
-//       return item.height > getblock.height - 1440;
-//     }).forEach((elm) => {
+  //   volumeInDollarsArray
+  //     .sort((a, b) => b.height - a.height)
+  //     .filter((item) => {
+  //       return item.height > getblock.height - 1440 * 8;
+  //     })
+  //     .forEach((elm) => {
 
-//       //  console.log(elm);
-//       /*
-// currencyid: 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV',
-// dollars: 1.8571434670054956,
-// height: 2821508,
-// blocktime: 1701725875,
-// type: 'reserveout'
-// */
-//       //    vrscBridgeVolumeInDollars24Hours = vrscBridgeVolumeInDollars24Hours + elm.dollars;
-//     })
-//     volumeInDollarsArray.filter((item) => {
-//       return item.height > getblock.height - (1440 * 7);
-//     }).forEach((elm) => {
-//       vrscBridgeVolumeInDollars7Days = vrscBridgeVolumeInDollars7Days + elm.dollars;
-//     })
-//     volumeInDollarsArray.filter((item) => {
-//       return item.height > getblock.height - (1440 * 30);
-//     }).forEach((elm) => {
-//       vrscBridgeVolumeInDollars30Days = vrscBridgeVolumeInDollars30Days + elm.dollars;
-//     })
+  //       if (elm.height > getblock.height - 1440 * 8) {
+  //         if (elm.height < (getblock.height - snapShootInterval7D)) {
+  //           snapShootInterval7D = snapShootInterval7D + blockInterval7D;
+  //           vrscBridgeVolumeInDollars7DaysArray.push({ price: volumeInDollarsCounter7D, label: counter + " days ago" })
 
-    vrscBridgeVolumeInDollars24Hours = (Math.round(vrscBridgeVolumeInDollars24Hours * 100) / 100).toLocaleString();
-    vrscBridgeVolumeInDollars7Days = (Math.round(vrscBridgeVolumeInDollars7Days * 100) / 100).toLocaleString();
-    vrscBridgeVolumeInDollars30Days = (Math.round(vrscBridgeVolumeInDollars30Days * 100) / 100).toLocaleString();
-  }
+  //           volumeInDollarsCounter7D = 0;
+  //           counter++;
+  //         }
+  //         volumeInDollarsCounter7D += elm.dollars;
+  //         vrscBridgeVolumeInDollars7Days = vrscBridgeVolumeInDollars7Days + elm.dollars;
+  //       }
+  //     })
+  //   vrscBridgeVolumeInDollars7DaysArray.reverse();
+
+  //   let vrscBridgeVolumeInDollars7DaysArrayMax = Math.max(...vrscBridgeVolumeInDollars7DaysArray.map(o => o.price));
+  //   vrscBridgeVolumeInDollars7DaysArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars7DaysArrayMax) });
+  //   vrscBridgeVolumeInDollars7DaysArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars7DaysArrayMax / 2) });
+  //   vrscBridgeVolumeInDollars7DaysArrayYAxis.push({ value: 0 });
+
+  //   vrscBridgeVolumeInDollars7DaysArray.forEach((item) => {
+  //     item.barPCT = (item.price / vrscBridgeVolumeInDollars7DaysArrayMax) * 100;
+  //     item.price = convertToAxisString(item.price)
+  //   })
+
+  //   // 30 days
+  //   const blockInterval30D = 1440;
+  //   let snapShootInterval30D = 0;
+  //   let volumeInDollarsCounter30D = 0;
+  //   counter = -1;
+  //   totalVol = 0;
+
+  //   volumeInDollarsArray
+  //     .sort((a, b) => b.height - a.height)
+  //     .filter((item) => {
+  //       return item.height > getblock.height - 1440 * 31;
+  //     })
+  //     .forEach((elm) => {
+  //       if (elm.height > getblock.height - 1440 * 31) {
+  //         if (elm.height < (getblock.height - snapShootInterval30D)) {
+  //           snapShootInterval30D = snapShootInterval30D + blockInterval30D;
+  //           vrscBridgeVolumeInDollars30DaysArray.push({ price: volumeInDollarsCounter30D, label: counter + " days ago" })
+
+  //           volumeInDollarsCounter30D = 0;
+  //           counter++;
+  //         }
+  //         volumeInDollarsCounter30D += elm.dollars;
+  //         vrscBridgeVolumeInDollars30Days = vrscBridgeVolumeInDollars30Days + elm.dollars;
+  //       }
+  //     })
+  //   vrscBridgeVolumeInDollars30DaysArray.reverse();
+
+  //   let vrscBridgeVolumeInDollars30DaysArrayMax = Math.max(...vrscBridgeVolumeInDollars30DaysArray.map(o => o.price));
+  //   vrscBridgeVolumeInDollars30DaysArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars30DaysArrayMax) });
+  //   vrscBridgeVolumeInDollars30DaysArrayYAxis.push({ value: convertToAxisString(vrscBridgeVolumeInDollars30DaysArrayMax / 2) });
+  //   vrscBridgeVolumeInDollars30DaysArrayYAxis.push({ value: 0 });
+
+  //   vrscBridgeVolumeInDollars30DaysArray.forEach((item) => {
+  //     item.barPCT = (item.price / vrscBridgeVolumeInDollars30DaysArrayMax) * 100;
+  //     item.price = convertToAxisString(item.price)
+  //   })
+
+  //   vrscBridgeVolumeInDollars24Hours = (Math.round(vrscBridgeVolumeInDollars24Hours * 100) / 100).toLocaleString();
+  //   vrscBridgeVolumeInDollars7Days = (Math.round(vrscBridgeVolumeInDollars7Days * 100) / 100).toLocaleString();
+  //   vrscBridgeVolumeInDollars30Days = (Math.round(vrscBridgeVolumeInDollars30Days * 100) / 100).toLocaleString();
+  // }
 
 
   /* VRSC-ETH Bridge reserves */

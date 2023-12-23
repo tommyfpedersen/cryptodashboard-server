@@ -12,14 +12,15 @@
 
 <body onload="init()">
     <div class="header">
-        <span class="header-bold">Crypto</span>dashboard <span class="header-version">v1.0.0</span>
+        <span class="header-bold">Crypto</span>dashboard <span class="header-version">v1.0.0</span> <button class="reset-button" id="reset-cards">reset</button>
     </div>
     <div class="section">
         {{!-- <div class="section-header">
 
         </div> --}}
-        <div class="card">
+        <div class="card" id="prices-card">
             <img width="16px" src="/img/bitcoin-btc-logo.png" />
+            <button class="hide-button">X</button>
             <div class="card-content">
                 <div class="card-title">Prices</div>
                 <div class="card-sub-title">Bitcoin (BTC)</div>
@@ -36,7 +37,7 @@
                 <div class="card-sub-details">Verus Bridge Price</div>
             </div>
         </div>
-        <div class="card">
+        <div class="card" id="verus-get-address-balance-card">
             <svg fill="#3165d4" width="55" height="16" viewBox="0 0 4950 1417" xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
                 <path
@@ -46,6 +47,7 @@
                     d="M706.112 2.583c389.515 0 705.751 316.236 705.751 705.75 0 389.515-316.236 705.751-705.751 705.751-389.514 0-705.75-316.236-705.75-705.751 0-389.514 316.236-705.75 705.75-705.75zM360.104 257.87c26.652-22.821 64.047-41.568 96.557-28.367 58.458 23.737 215.52 340.387 215.52 340.387S891.874 257.773 970.78 229.312c26.919-9.71 63.823 7.368 91.97 28.411 98.786 73.854 108.992 176.891 100.453 205.476-10.736 35.937-556.441 728.342-556.442 728.342-16.319-6.656-339.656-606.781-357.178-709.466-16.745-98.131 40.226-164.807 110.521-224.205z">
                 </path>
             </svg>
+            <button class="hide-button">X</button>
             <div class="card-content">
                 {{#if online}}
                 <div class="card-title">Get Verus Address Balance</div>
@@ -65,7 +67,7 @@
 
             </div>
         </div>
-        <div class="card">
+        <div class="card" id="verus-block-and-fee-pool-rewards-card">
             <svg fill="#3165d4" width="55" height="16" viewBox="0 0 4950 1417" xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
                 <path
@@ -74,32 +76,34 @@
                 <path
                     d="M706.112 2.583c389.515 0 705.751 316.236 705.751 705.75 0 389.515-316.236 705.751-705.751 705.751-389.514 0-705.75-316.236-705.75-705.751 0-389.514 316.236-705.75 705.75-705.75zM360.104 257.87c26.652-22.821 64.047-41.568 96.557-28.367 58.458 23.737 215.52 340.387 215.52 340.387S891.874 257.773 970.78 229.312c26.919-9.71 63.823 7.368 91.97 28.411 98.786 73.854 108.992 176.891 100.453 205.476-10.736 35.937-556.441 728.342-556.442 728.342-16.319-6.656-339.656-606.781-357.178-709.466-16.745-98.131 40.226-164.807 110.521-224.205z">
                 </path>
-                <div class="card-content">
-                    {{#if online}}
-                    <div class="card-title">Block and Fee Pool Rewards</div>
+            </svg>
+            <button class="hide-button">X</button>
+            <div class="card-content">
+                {{#if online}}
+                <div class="card-title">Block and Fee Pool Rewards</div>
 
-                    <div class="card-sub-title">block height</div>
-                    <div id="verus-block-height" class="card-sub-title-value"> {{{blocks}}} </div>
-                    <div class="card-sub-details">{{{blockLastSend}}}</div>
+                <div class="card-sub-title">block height</div>
+                <div id="verus-block-height" class="card-sub-title-value"> {{{blocks}}} </div>
+                <div class="card-sub-details">{{{blockLastSend}}}</div>
 
-                    <div class="card-sub-title">block reward</div>
-                    <div id="verus-block-reward" class="card-sub-title-value"> {{{blockReward}}} VRSC</div>
+                <div class="card-sub-title">block reward</div>
+                <div id="verus-block-reward" class="card-sub-title-value"> {{{blockReward}}} VRSC</div>
 
-                    <div class="card-sub-title">fee pool reward</div>
-                    <div id="verus-fee-reward" class="card-sub-title-value"> {{{feeReward}}} VRSC</div>
+                <div class="card-sub-title">fee pool reward</div>
+                <div id="verus-fee-reward" class="card-sub-title-value"> {{{feeReward}}} VRSC</div>
 
-                    <div class="card-sub-title">average block fees (fee pool size)</div>
-                    <div id="verus-average-fee-pool-size" class="card-sub-title-value">{{{averageblockfees}}} VRSC</div>
-                    <div class="card-sub-details">Calculated from the last 100 blocks</div>
+                <div class="card-sub-title">average block fees (fee pool size)</div>
+                <div id="verus-average-fee-pool-size" class="card-sub-title-value">{{{averageblockfees}}} VRSC</div>
+                <div class="card-sub-details">Calculated from the last 100 blocks</div>
 
-                    {{else}}
-                    {{{statusMessage}}}
-                    {{/if}}
+                {{else}}
+                {{{statusMessage}}}
+                {{/if}}
 
-                </div>
+            </div>
 
         </div>
-        <div class="card">
+        <div class="card" id="verus-bridge-veth-basket-volume-card">
             <svg fill="#3165d4" width="55" height="16" viewBox="0 0 4950 1417" xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
                 <path
@@ -108,79 +112,86 @@
                 <path
                     d="M706.112 2.583c389.515 0 705.751 316.236 705.751 705.75 0 389.515-316.236 705.751-705.751 705.751-389.514 0-705.75-316.236-705.75-705.751 0-389.514 316.236-705.75 705.75-705.75zM360.104 257.87c26.652-22.821 64.047-41.568 96.557-28.367 58.458 23.737 215.52 340.387 215.52 340.387S891.874 257.773 970.78 229.312c26.919-9.71 63.823 7.368 91.97 28.411 98.786 73.854 108.992 176.891 100.453 205.476-10.736 35.937-556.441 728.342-556.442 728.342-16.319-6.656-339.656-606.781-357.178-709.466-16.745-98.131 40.226-164.807 110.521-224.205z">
                 </path>
-                <div class="card-content">
-                    {{#if online}}
-                    {{!-- <div class="card-title">VRSC-ETH Bridge Volume</div> --}}
-                    <div class="card-title">Bridge.vETH Basket Volume</div>
+            </svg>
+            <button class="hide-button">X</button>
+            <div class="card-content">
+                {{#if online}}
+                {{!-- <div class="card-title">VRSC-ETH Bridge Volume</div> --}}
+                <div class="card-title">Bridge.vETH Basket Volume</div>
 
-  
-                    <div class="graph-container">
-                        <div class="graph-group hide">
-                            <div class="card-sub-title">24 hours Volume</div>
-                            <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars24Hours}}} </div>
-                            <br>
-                            <div class="graph-y-axis">
-                                {{#each vrscBridgeVolumeInDollars24HoursArrayYAxis}}<div class="graph-y-axis-item">
-                                  $ {{value}}
-                                </div>{{/each}}
-                            </div>
 
-                            <div class="graph-bar-container">
-                                {{#each vrscBridgeVolumeInDollars24HoursArray}}<div style="height:{{barPCT}}px;"
-                                    class="graph-bar graph-bar-large" data-price="{{price}}" data-label="{{label}}"></div>{{/each}}
-                                <div class="graph-x-axis"></div>
-                            </div>
+                <div class="graph-container">
+                    <div class="graph-group hide">
+                        <div class="card-sub-title">24 hours Volume</div>
+                        <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars24Hours}}} </div>
+                        <br>
+                        <div class="graph-y-axis">
+                            {{#each vrscBridgeVolumeInDollars24HoursArrayYAxis}}<div class="graph-y-axis-item">
+                                $ {{value}}
+                            </div>{{/each}}
                         </div>
 
-
-                        <div class="graph-group hide">
-                            <div class="card-sub-title">7 days Volume</div>
-                            <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars7Days}}} </div>
-                              <br>
-                            <div class="graph-y-axis">
-                                {{#each vrscBridgeVolumeInDollars7DaysArrayYAxis}}<div class="graph-y-axis-item">
-                                   $ {{value}}
-                                </div>{{/each}}
-                            </div>
-
-                            <div class="graph-bar-container">
-                                {{#each vrscBridgeVolumeInDollars7DaysArray}}<div style="height:{{barPCT}}px;"
-                                    class="graph-bar graph-bar-xlarge" data-price="{{price}}" data-label="{{label}}"></div>{{/each}}
-                                <div class="graph-x-axis"></div>
-                            </div>
-                        </div>
-
-
-                        <div class="graph-group">
-                            <div class="card-sub-title">30 days Volume</div>
-                            <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars30Days}}} </div>
-                            <br>
-                            <div class="graph-y-axis">
-                                {{#each vrscBridgeVolumeInDollars30DaysArrayYAxis}}<div class="graph-y-axis-item">
-                                    $ {{value}}
-                                </div>{{/each}}
-                            </div>
-
-                            <div class="graph-bar-container">
-                                {{#each vrscBridgeVolumeInDollars30DaysArray}}<div style="height:{{barPCT}}px;"
-                                    class="graph-bar graph-bar-small" data-price="{{price}}" data-label="{{label}}"></div>{{/each}}
-                                <div class="graph-x-axis"></div>
-                            </div>
-                        </div>
-
-                        <div class="graph-button-group">
-                            <button class="graph-button button-deselected">24H</button><button class="graph-button button-deselected">7D</button><button class="graph-button button-selected">30D</button>
+                        <div class="graph-bar-container">
+                            {{#each vrscBridgeVolumeInDollars24HoursArray}}<div style="height:{{barPCT}}px;"
+                                class="graph-bar graph-bar-large" data-price="{{price}}" data-label="{{label}}">
+                            </div>{{/each}}
+                            <div class="graph-x-axis"></div>
                         </div>
                     </div>
 
-                    <br>
-                    <div class="card-sub-details">Tracking VRSC, DAI.vETH, MKR.vETH and vETH reserve in and out</div>
-                    {{else}}
-                    {{{statusMessage}}}
-                    {{/if}}
+
+                    <div class="graph-group hide">
+                        <div class="card-sub-title">7 days Volume</div>
+                        <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars7Days}}} </div>
+                        <br>
+                        <div class="graph-y-axis">
+                            {{#each vrscBridgeVolumeInDollars7DaysArrayYAxis}}<div class="graph-y-axis-item">
+                                $ {{value}}
+                            </div>{{/each}}
+                        </div>
+
+                        <div class="graph-bar-container">
+                            {{#each vrscBridgeVolumeInDollars7DaysArray}}<div style="height:{{barPCT}}px;"
+                                class="graph-bar graph-bar-xlarge" data-price="{{price}}" data-label="{{label}}">
+                            </div>{{/each}}
+                            <div class="graph-x-axis"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="graph-group">
+                        <div class="card-sub-title">30 days Volume</div>
+                        <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars30Days}}} </div>
+                        <br>
+                        <div class="graph-y-axis">
+                            {{#each vrscBridgeVolumeInDollars30DaysArrayYAxis}}<div class="graph-y-axis-item">
+                                $ {{value}}
+                            </div>{{/each}}
+                        </div>
+
+                        <div class="graph-bar-container">
+                            {{#each vrscBridgeVolumeInDollars30DaysArray}}<div style="height:{{barPCT}}px;"
+                                class="graph-bar graph-bar-small" data-price="{{price}}" data-label="{{label}}">
+                            </div>{{/each}}
+                            <div class="graph-x-axis"></div>
+                        </div>
+                    </div>
+
+                    <div class="graph-button-group">
+                        <button class="graph-button button-deselected">24H</button><button
+                            class="graph-button button-deselected">7D</button><button
+                            class="graph-button button-selected">30D</button>
+                    </div>
                 </div>
+
+                <br>
+                <div class="card-sub-details">Tracking VRSC, DAI.vETH, MKR.vETH and vETH reserve in and out</div>
+                {{else}}
+                {{{statusMessage}}}
+                {{/if}}
+            </div>
         </div>
-        <div class="card">
+        <div class="card" id="verus-bridge-veth-basket-card">
             <svg fill="#3165d4" width="55" height="16" viewBox="0 0 4950 1417" xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
                 <path
@@ -189,34 +200,36 @@
                 <path
                     d="M706.112 2.583c389.515 0 705.751 316.236 705.751 705.75 0 389.515-316.236 705.751-705.751 705.751-389.514 0-705.75-316.236-705.75-705.751 0-389.514 316.236-705.75 705.75-705.75zM360.104 257.87c26.652-22.821 64.047-41.568 96.557-28.367 58.458 23.737 215.52 340.387 215.52 340.387S891.874 257.773 970.78 229.312c26.919-9.71 63.823 7.368 91.97 28.411 98.786 73.854 108.992 176.891 100.453 205.476-10.736 35.937-556.441 728.342-556.442 728.342-16.319-6.656-339.656-606.781-357.178-709.466-16.745-98.131 40.226-164.807 110.521-224.205z">
                 </path>
-                <div class="card-content">
-                    {{#if online}}
-                    {{!-- <div class="card-title">VRSC-ETH Bridge Reserves</div> --}}
-                    <div class="card-title">Bridge.vETH Basket</div>
+            </svg>
+            <button class="hide-button">X</button>
+            <div class="card-content">
+                {{#if online}}
+                {{!-- <div class="card-title">VRSC-ETH Bridge Reserves</div> --}}
+                <div class="card-title">Bridge.vETH Basket</div>
 
-                    <div class="card-sub-title">Estimated bridge reserves value</div>
-                    <div class="card-sub-title-value">DAI {{{estimatedBridgeValue}}}</div>
+                <div class="card-sub-title">Estimated bridge reserves value</div>
+                <div class="card-sub-title-value">DAI {{{estimatedBridgeValue}}}</div>
 
-                    <div class="card-sub-title">Estimated bridge reserves value (coingecko.com)</div>
-                    <div class="card-sub-title-value">DAI {{{estimatedCoingeckoBridgeValue}}}</div>
-                    <div class="card-sub-details">api.coingecko.com</div>
+                <div class="card-sub-title">Estimated bridge reserves value (coingecko.com)</div>
+                <div class="card-sub-title-value">DAI {{{estimatedCoingeckoBridgeValue}}}</div>
+                <div class="card-sub-details">api.coingecko.com</div>
 
-                    {{#each currencyBridgeArray}}
-                    <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
-                    <div class="card-sub-title-value"> {{reserves}} </div>
-                    <div class="card-sub-details">Bridge Price: DAI {{price}} </div>
-                    <div class="card-sub-details">Coingecko Price: DAI {{coingeckoprice}} </div>
+                {{#each currencyBridgeArray}}
+                <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
+                <div class="card-sub-title-value"> {{reserves}} </div>
+                <div class="card-sub-details">Bridge Price: DAI {{price}} </div>
+                <div class="card-sub-details">Coingecko Price: DAI {{coingeckoprice}} </div>
 
-                    {{/each}}
-
-
+                {{/each}}
 
 
-                    {{else}}
-                    {{{statusMessage}}}
-                    {{/if}}
 
-                </div>
+
+                {{else}}
+                {{{statusMessage}}}
+                {{/if}}
+
+            </div>
         </div>
 
 
