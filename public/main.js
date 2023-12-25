@@ -23,12 +23,15 @@ function init() {
 
     /* verus */
     let getAddressBalanceElm = document.querySelector("#get-address-balance");
-    getAddressBalanceElm.addEventListener('keydown', (evt) => {
-        if (evt.key === 'Enter') {
-            window.history.replaceState(null, null, '?address=' + encodeURIComponent(getAddressBalanceElm.value));
-            location.reload();
-        }
-    })
+    if(getAddressBalanceElm){
+        getAddressBalanceElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                window.history.replaceState(null, null, '?address=' + encodeURIComponent(getAddressBalanceElm.value));
+                location.reload();
+            }
+        })
+    }
+  
 
     /** common */
     initCardHideButtons();
@@ -47,9 +50,12 @@ function initCardHideButtons() {
            // if()
 
             //else
+            let parentElement =  evt.target.parentElement;
+
+            console.log("parent", parentElement)
 
             let card = {
-                cardId: evt.target.parentElement.id,
+                cardId: parentElement.id,
                 visible: false
             }
 
@@ -60,7 +66,7 @@ function initCardHideButtons() {
             localStorage.setItem("settings", JSON.stringify(settings));
 
 
-            evt.target.parentElement.classList.add("hide");
+            parentElement.classList.add("hide");
 
         });
 

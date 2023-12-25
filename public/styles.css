@@ -3,7 +3,7 @@
     src: url(fonts/MavenPro-VariableFont_wght.ttf);
 }
 
-body{
+body {
     background-color: rgb(246, 246, 246);
     color: #444;
     font-family: maven;
@@ -14,81 +14,98 @@ body{
     font-size: 32px;
     text-transform: uppercase;
     padding: 10px 10px 0px 10px;
-}
-.header-bold{
-    font-weight: bold;
-}
-.header-version{
-    font-size: 12px;
-    text-transform:none;
+    animation: fadeIn 2s;
 }
 
-.section{
-    padding: 10px;  
+.header-bold {
+    font-weight: bold;
+}
+
+.header-version {
+    font-size: 12px;
+    text-transform: none;
+}
+
+.section {
+    padding: 10px;
     /* display: flex;
     flex-direction: row; */
 }
-.section-header{
+
+.section-header {
     padding: 20px 0 10px 0;
 }
-.card{
+
+.card {
+    position: relative;
     background-color: white;
-    border-radius: 5px;
-    border: 1px solid grey;
+    border: 1px solid lightgray;
     padding: 10px 10px 20px 10px;
     margin-bottom: 10px;
     width: 300px;
     display: inline-block;
     vertical-align: top;
     min-height: 390px;
+    animation: fadeIn 2s;
 }
-.card-header{
+
+.card-header {
     /* padding-bottom: 10px; */
 }
-.card-title{
+
+.card-title {
     padding: 10px 0 0px 0;
     /* text-transform: uppercase; */
     font-size: 20px;
     font-weight: bold;
     /* text-decoration: underline; */
 }
-.card-sub-title{
+
+.card-sub-title {
     padding-top: 20px;
     text-transform: uppercase;
     color: #888;
 }
-.card-sub-title-value{
+
+.card-sub-title-value {
     font-size: 24px;
     /* font-weight: bold; */
     /* padding-bottom: 20px; */
 }
-.card-sub-details{
+
+.card-sub-details {
     font-size: 14px;
 }
-.card-input{
+
+.card-input {
     width: 270px;
     /* height: 20px; */
 }
-.bottom{
-    padding:10px;
+
+.bottom {
+    padding: 10px;
 }
-.sub-title{
+
+.sub-title {
     font-size: 20px;
     font-weight: bold;
     padding-top: 20px;
 }
-.qr-code{
+
+.qr-code {
     padding-top: 10px;
-    width:100px;
+    width: 100px;
 }
 
-.graph-container{
+.graph-container {
     position: relative;
 }
-.graph-group{
+
+.graph-group {
     position: relative;
 }
-.graph-y-axis{
+
+.graph-y-axis {
     display: flex;
     /* flex-direction: column; */
     align-content: space-between;
@@ -99,55 +116,61 @@ body{
     position: absolute;
     height: 100px;
 }
-.graph-y-axis-item{
+
+.graph-y-axis-item {
     width: 100%;
 }
-.graph-x-axis{
-   text-align: right;
+
+.graph-x-axis {
+    text-align: right;
 }
 
-.graph-bar-container{
+.graph-bar-container {
     padding-left: 60px;
     display: inline-block;
     /* display: flex;
     align-content: space-between; */
 
 }
-.graph-bar{
+
+.graph-bar {
     background-color: #444;
-    vertical-align:bottom;
+    vertical-align: bottom;
     display: inline-block;
 }
 
-.graph-bar-small{
+.graph-bar-small {
     width: 5px;
     margin-right: 2px;
 }
-.graph-bar-large{
+
+.graph-bar-large {
     width: 6px;
     margin-right: 2px;
 }
 
-.graph-bar-xlarge{
+.graph-bar-xlarge {
     width: 28px;
     margin-right: 2px;
 }
 
-.graph-button-group{
+.graph-button-group {
     padding-top: 20px;
     text-align: center;
 }
-.graph-button{
+
+.graph-button {
     width: 100px;
     height: 40px;
 }
+
 /* .graph-button:nth-child(0){
     border-radius: 4px;
 } */
 
 /*  mobile view */
 @media only screen and (max-width: 680px) {
-    .card{
+    .card {
         /* width: 100%;
         padding: 10px; */
         min-height: 0;
@@ -155,36 +178,72 @@ body{
 }
 
 /* utils */
-#hint{
+#hint {
     background-color: #3165d4;
     color: white;
     padding: 10px;
     position: fixed;
     border: 1px solid #aaa;
 }
-.show{
+
+.show {
     display: inline-block;
 }
-.hide{
+
+.hide {
     display: none;
 }
 
-.button-selected{
+.button-selected {
     background-color: #3165d4;
     color: white;
 }
-.button-deselected{
+
+.button-deselected {
     background: none;
     color: black;
 }
 
+.reset-button {
+    font-size: 12px;
+    line-height: 12px;
+    background-color: #fff;
+    border-color: lightgray;
+    padding: 6px;
+    margin-bottom: 10px;
+    vertical-align: middle;
+   
+}
 
-button, input[type="submit"], input[type="reset"] {
-	background: none;
-	color: inherit;
-	border: 1px solid #aaa;
-	padding: 2px;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
+.hide-button {
+    border: none;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    line-height: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #666;
+}
+
+button,
+input[type="submit"],
+input[type="reset"] {
+    background: none;
+    color: inherit;
+    border: 1px solid #aaa;
+    padding: 2px;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
