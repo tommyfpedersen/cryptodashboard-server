@@ -38,6 +38,7 @@ function init() {
     initGraphBarHints();
     initGraphButtons();
     initResetLocalStorage();
+    initSideMenuIcon();
 }
 
 function initCardHideButtons() {
@@ -128,5 +129,27 @@ function initResetLocalStorage() {
         console.log("clear")
         localStorage.clear();
         location.reload();
+    })
+}
+
+function initSideMenuIcon() {
+    let menuClosed = true;
+    let getSideMenuIconElement = document.querySelector(".side-menu-icon");
+    let getSideMenuElement = document.querySelector(".side-menu");
+    getSideMenuIconElement.addEventListener('click', (evt) => {
+      
+        if(menuClosed){
+            console.log("open")
+            getSideMenuElement.classList.replace("side-menu-closed","side-menu-open");
+            getSideMenuIconElement.classList.replace("side-menu-icon-closed","side-menu-icon-open");
+            menuClosed = !menuClosed;
+        } else {
+            console.log("close")
+            getSideMenuElement.classList.replace("side-menu-open","side-menu-closed");
+            getSideMenuIconElement.classList.replace("side-menu-icon-open","side-menu-icon-closed");
+            menuClosed = !menuClosed;
+        }
+   
+       // getSideMenuIconElement.classList.replace("unlock-side-menu-icon","lock-side-menu-icon");
     })
 }
