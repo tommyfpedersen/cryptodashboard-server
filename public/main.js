@@ -23,7 +23,7 @@ function init() {
 
     /* verus */
     let getAddressBalanceElm = document.querySelector("#get-address-balance");
-    if(getAddressBalanceElm){
+    if (getAddressBalanceElm) {
         getAddressBalanceElm.addEventListener('keydown', (evt) => {
             if (evt.key === 'Enter') {
                 window.history.replaceState(null, null, '?address=' + encodeURIComponent(getAddressBalanceElm.value));
@@ -31,14 +31,14 @@ function init() {
             }
         })
     }
-  
+
 
     /** common */
     initCardHideButtons();
     initGraphBarHints();
     initGraphButtons();
     initResetLocalStorage();
-    initSideMenuIcon();
+    initSideMenu();
 }
 
 function initCardHideButtons() {
@@ -48,10 +48,10 @@ function initCardHideButtons() {
         buttonElm.addEventListener('click', (evt) => {
 
             //if exist
-           // if()
+            // if()
 
             //else
-            let parentElement =  evt.target.parentElement;
+            let parentElement = evt.target.parentElement;
 
             console.log("parent", parentElement)
 
@@ -132,24 +132,38 @@ function initResetLocalStorage() {
     })
 }
 
-function initSideMenuIcon() {
-    let menuClosed = true;
-    let getSideMenuIconElement = document.querySelector(".side-menu-icon");
-    let getSideMenuElement = document.querySelector(".side-menu");
-    getSideMenuIconElement.addEventListener('click', (evt) => {
-      
-        if(menuClosed){
-            console.log("open")
-            getSideMenuElement.classList.replace("side-menu-closed","side-menu-open");
-            getSideMenuIconElement.classList.replace("side-menu-icon-closed","side-menu-icon-open");
-            menuClosed = !menuClosed;
-        } else {
-            console.log("close")
-            getSideMenuElement.classList.replace("side-menu-open","side-menu-closed");
-            getSideMenuIconElement.classList.replace("side-menu-icon-open","side-menu-icon-closed");
-            menuClosed = !menuClosed;
-        }
-   
-       // getSideMenuIconElement.classList.replace("unlock-side-menu-icon","lock-side-menu-icon");
+function initSideMenu() {
+
+    // build from cards
+
+    let cardElements =  document.querySelectorAll(".card");
+    let sideMenuItem = document.createElement("div");
+
+    cardElements.forEach((card)=>{
+
     })
+
+
+    let getSideMenuItemElement = document.querySelectorAll(".side-menu-item");
+
+    getSideMenuItemElement.forEach((elm) => {
+        elm.addEventListener('click', (evt) => {
+
+            console.log("clicked", evt.target)
+
+            // if(menuClosed){
+            //     console.log("open")
+            //     getSideMenuElement.classList.replace("side-menu-closed","side-menu-open");
+            //     getSideMenuIconElement.classList.replace("side-menu-icon-closed","side-menu-icon-open");
+            //     menuClosed = !menuClosed;
+            // } else {
+            //     console.log("close")
+            //     getSideMenuElement.classList.replace("side-menu-open","side-menu-closed");
+            //     getSideMenuIconElement.classList.replace("side-menu-icon-open","side-menu-icon-closed");
+            //     menuClosed = !menuClosed;
+            // }
+
+        })
+    })
+
 }

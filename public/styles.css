@@ -8,6 +8,8 @@ body {
     color: #444;
     font-family: maven;
     position: relative;
+    padding: 0;
+    margin: 0;
 }
 
 .header {
@@ -25,7 +27,8 @@ body {
     font-size: 12px;
     text-transform: none;
 }
-.side-menu-icon{
+
+.side-menu-icon {
     position: fixed;
     top: 71px;
     z-index: 101;
@@ -34,53 +37,82 @@ body {
     border: 1px solid lightgray;
     border-left: none;
     padding: 0px;
-    width:28px;
+    width: 28px;
     height: 50px;
     line-height: 50px;
     font-size: 24px;
     text-align: center;
     vertical-align: middle;
 }
-.side-menu-icon-closed{
+
+.side-menu-icon-closed {
     left: 0px;
 }
-.side-menu-icon-open{
+
+.side-menu-icon-open {
     left: 310px;
 }
-.side-menu{
-    position: fixed;
+
+.side-menu {
+    position: absolute;
     overflow: hidden;
-    width: 310px;
+    width: 300px;
     /* height: 90vh; */
     bottom: 0;
-    top: 71px;
+    top: 64px;
     z-index: 100;
     background-color: rgb(246, 246, 246);
     border: 1px solid lightgray;
+    height: 100%;
 }
-.side-menu-closed{
+
+.side-menu-closed {
     left: -310px;
 }
 
-.side-menu-open{
+.side-menu-open {
     left: 0px;
 }
-.lock-side-menu-icon{
+
+.lock-side-menu-icon {
     position: fixed;
 }
-.unlock-side-menu-icon{
+
+.unlock-side-menu-icon {
     position: relative;
 }
 
-.side-menu-group{
-    padding: 50px 10px 10px 10px;
+.side-menu-group {
+    padding: 20px 10px 10px 10px;
 }
-.side-menu-item{
+
+.side-menu-title{
+    padding-bottom: 5px;
+}
+
+.side-menu-item {
+    position: relative;
     border: 1px solid lightgray;
+    border-radius: 3px;
+    padding: 5px;
+    cursor: pointer;
+    margin-bottom: 3px;
+}
+
+.side-menu-item-title {
+    max-width: 248px;
+    border-right: 1px solid lightgray;
+}
+
+.side-menu-item-icon {
+    position: absolute;
+    right: 5px;
+    top: 5px;
 }
 
 .section {
     padding: 10px;
+    margin-left: 300px;
     /* display: flex;
     flex-direction: row; */
 }
@@ -138,6 +170,7 @@ body {
 
 .bottom {
     padding: 10px;
+    margin-left: 300px;
 }
 
 .sub-title {
@@ -266,7 +299,7 @@ body {
     padding: 6px;
     margin-bottom: 10px;
     vertical-align: middle;
-   
+
 }
 
 .hide-button {
