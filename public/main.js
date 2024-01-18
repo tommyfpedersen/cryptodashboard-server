@@ -201,12 +201,19 @@ function initSideMenu() {
                 let sideMenuItem = document.createElement("div");
                 sideMenuItem.id="menu-"+id;
                 sideMenuItem.classList.add("side-menu-item");
+
+                let sideMenuItemIcon = document.createElement("div");
+                sideMenuItemIcon.classList.add("side-menu-item-icon");
+                sideMenuItemIcon.innerHTML = SVGpower;
+                
+
+
                 sideMenuItem.addEventListener("click", (evt)=>{
                     // menu
-                    if(sideMenuItem.classList.contains("side-menu-item-selected")){
-                        sideMenuItem.classList.remove("side-menu-item-selected");
+                    if(sideMenuItemIcon.classList.contains("side-menu-item-selected")){
+                        sideMenuItemIcon.classList.remove("side-menu-item-selected");
                     }else{
-                        sideMenuItem.classList.add("side-menu-item-selected");
+                        sideMenuItemIcon.classList.add("side-menu-item-selected");
                     }
                     // card
                     let cardId = sideMenuItem.id.replace("menu-","");
@@ -225,15 +232,12 @@ function initSideMenu() {
                 })
                 // sync with local storage
                 if(!elm.classList.contains("hide")){
-                    sideMenuItem.classList.add("side-menu-item-selected");
+                    sideMenuItemIcon.classList.add("side-menu-item-selected");
                 }
                 let sideMenuItemTitle = document.createElement("div");
                 sideMenuItemTitle.classList.add("side-menu-item-title");
                 sideMenuItemTitle.innerHTML = title;
-                let sideMenuItemIcon = document.createElement("div");
-                sideMenuItemIcon.classList.add("side-menu-item-icon");
-                sideMenuItemIcon.innerHTML = SVGpower;
-                
+            
 
                 sideMenuItem.append(sideMenuItemTitle);
                 sideMenuItem.append(sideMenuItemIcon);
