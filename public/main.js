@@ -14,7 +14,6 @@ function init() {
         localStorage.setItem("settings", JSON.stringify(settingsObject));
         settings = JSON.parse(localStorage.getItem("settings"));
     }
-    console.log("settings parse", JSON.parse(localStorage.getItem("settings")))
 
     // add settings - hide cards
     if (settings) {
@@ -44,8 +43,6 @@ function init() {
     initGraphButtons();
     initResetLocalStorage();
     initSideMenu();
-
-    console.log(settings.cards)
 }
 
 function initCardHideButtons() {
@@ -150,6 +147,17 @@ function initSideMenu() {
     let sectionElement = document.querySelectorAll(".section");
     let sideMenuElement = document.querySelector(".side-menu");
 
+     // burger menu
+     let sideMenuIcon = document.querySelector(".side-menu-icon");
+     sideMenuIcon.addEventListener("click", (evt)=>{
+        
+        if(sideMenuElement.classList.contains("side-menu")){
+            sideMenuElement.classList.replace("side-menu","side-menu-open");
+        }else{
+            sideMenuElement.classList.replace("side-menu-open","side-menu");
+        }
+     })
+
     sectionElement.forEach((section) => {
         let children = [...section.children];
 
@@ -157,7 +165,6 @@ function initSideMenu() {
         let sideMenuTitleElm = document.createElement("div");
         let sideMenuItemArray = [];
         let counter = 0;
-
 
         children.forEach((elm, index) => {//&& sideMenuGroupFilling === false
             if (elm.classList.contains("project")) {

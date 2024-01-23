@@ -40,6 +40,7 @@ body {
     padding: 6px;
     margin-bottom: 10px;
     text-align: center;
+    cursor: pointer;
 }
 
 .side-menu-icon-closed {
@@ -54,9 +55,20 @@ body {
     position: absolute;
     overflow: hidden;
     width: 320px;
-    /* height: 90vh; */
     bottom: 0;
     top: 64px;
+    z-index: 100;
+    background-color: rgb(246, 246, 246);
+    border: 1px solid lightgray;
+    height: 100%;
+}
+
+.side-menu-open {
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    bottom: 0;
+    top: 100px;
     z-index: 100;
     background-color: rgb(246, 246, 246);
     border: 1px solid lightgray;
