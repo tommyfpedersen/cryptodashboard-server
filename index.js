@@ -12,7 +12,7 @@ app.use(cors({
 
 /* cache */
 let cacheStartTime = Date.now();
-let coolDownTime = 30000;
+let coolDownTime = 1000;// 30000;
 let estimatedCoingeckoBridgeValueCache = 0;
 let pageLoads = 0;
 let priceArray = [];
@@ -370,9 +370,7 @@ app.get('/', async (req, res) => {
   }
 
   // ThreeFold //
-  let getDetailsArray = await getNodeDetailsArray([3172,3170, 3174]);
- // let nodeDetailsArray = await getNodeDetailsArray([3172,3170, 3174]);
-  //console.log(nodeDetailsArray);
+  let getThreeFoldNodeArray = await getNodeDetailsArray([3172,3170, 3174]);
 
   res.render('main', {
     // Verus
@@ -400,8 +398,10 @@ app.get('/', async (req, res) => {
     vrscBridgeVolumeInDollars7DaysArrayYAxis: vrscBridgeVolumeInDollars7DaysArrayYAxis,
     vrscBridgeVolumeInDollars30Days: vrscBridgeVolumeInDollars30Days,
     vrscBridgeVolumeInDollars30DaysArray: vrscBridgeVolumeInDollars30DaysArray,
-    vrscBridgeVolumeInDollars30DaysArrayYAxis: vrscBridgeVolumeInDollars30DaysArrayYAxis
-    // ThreeFold
+    vrscBridgeVolumeInDollars30DaysArrayYAxis: vrscBridgeVolumeInDollars30DaysArrayYAxis,
+     // ThreeFold
+     getThreeFoldNodeArray:getThreeFoldNodeArray
+   
   })
 })
 

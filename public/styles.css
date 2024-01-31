@@ -322,6 +322,7 @@ body {
 }
 
 .reset-button {
+    display: none;
     font-size: 12px;
     line-height: 12px;
     background-color: #fff;

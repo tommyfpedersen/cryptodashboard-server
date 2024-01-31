@@ -21,20 +21,44 @@
             </svg>
         </button>
 
-         <div class="side-menu-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"
-            style="padding-bottom: 0px; padding-left: 0px; padding-right: 3px;">
-            <path
-                d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
-        </svg>
-    </div>
+        <div class="side-menu-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"
+                style="padding-bottom: 0px; padding-left: 0px; padding-right: 3px;">
+                <path
+                    d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
+            </svg>
+        </div>
     </div>
 
-   
+
 
     <div class="side-menu"></div>
 
     <div class="section">
+
+        <span class="project" id="threefold" data-image="/img/bitcoin-btc-logo.png"></span>
+        <div class="card" id="threefold-node-card">
+            <img width="16px" src="/img/bitcoin-btc-logo.png" />
+            <button class="hide-button">x</button>
+            <div class="card-content">
+                {{#if online}}
+                <div class="card-title">Get ThreeFold Node Status</div>
+
+                <div class="card-sub-title">ThreeFold alias and node</div>
+                <div class="card-sub-title-value"><input id="get-address-balance" class="card-input"
+                        value="{{{getThreeFoldNodes}}}"></div>
+
+                {{#each getThreeFoldNodeArray}}
+                <div style="text-transform:none;" class="card-sub-title">Webserver {{nodeId}} </div>
+                <div class="card-sub-title-value"> {{status}} </div>
+                <div class="card-sub-details">{{country}}</div>
+                {{/each}}
+
+                {{else}}
+                {{{statusMessage}}}
+                {{/if}}
+            </div>
+        </div>
 
         <span class="project" id="price" data-image="/img/bitcoin-btc-logo.png"></span>
         <div class="card" id="prices-card">

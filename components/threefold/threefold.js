@@ -1,14 +1,40 @@
-let nodeDetailsArray = [];
-
 async function getNodeDetailsArray(nodeArray) {
 
-    nodeArray.forEach( async (node, index) =>{
-        const getnodedetailsResponse = await fetch(`https://gridproxy.grid.tf/nodes/${nodeArray[index]}`)
-        const getnodedetailsResult = await getnodedetailsResponse.json();
-        nodeDetailsArray.push(getnodedetailsResult);
-    })
-    return nodeDetailsArray;
+    let nodesToFetchArray = [];
+    let resultArray = [];
+
+    nodeArray.forEach((elm,index) => {
+        nodesToFetchArray.push( getNodeDetails(nodeArray[index]) )
+    });
+
+    for await (const node of nodesToFetchArray){
+        resultArray.push(node);
+    }
+
+    return resultArray;
 }
+
+   // nodeDetailsArray = [];
+    // console.log("-nodeArray", nodeArray)
+    // console.log("-nodeDetailsArray", nodeDetailsArray)
+
+//     nodeArray.forEach( async (node, index) =>{
+//         console.log("-forEach", index)
+//         const getnodedetailsResponse = await fetch(`https://gridproxy.grid.tf/nodes/${nodeArray[index]}`)
+//         const getnodedetailsResult = await getnodedetailsResponse.json();
+//         nodeDetailsArray.push(getnodedetailsResult);
+//     })
+
+//     console.log("-return")
+//     return nodeDetailsArray;
+// }
+
+// async function getThreeFoldNodes(){
+//     for await (const node of nodesToFetchArray){
+//         console.log("node...",node);
+//     }
+// }
+
 
 async function getNodeDetails(node) {
     const getnodedetailsResponse = await fetch(`https://gridproxy.grid.tf/nodes/${node}`)
