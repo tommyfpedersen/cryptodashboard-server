@@ -46,14 +46,14 @@
                 {{#if online}}
                 <div class="card-title">Get ThreeFold Node Status</div>
 
-                <div class="card-sub-title">ThreeFold alias and node</div>
-                <div class="card-sub-title-value"><input id="get-address-balance" class="card-input"
-                        value="{{{getThreeFoldNodes}}}"></div>
+                <div class="card-sub-title">Custome alias and node</div>
+                <div class="card-sub-title-value"><input id="get-threefold-nodes" class="card-input"
+                        value="{{{threefoldNodeString}}}"></div>
 
-                {{#each getThreeFoldNodeArray}}
-                <div style="text-transform:none;" class="card-sub-title">Webserver {{nodeId}} </div>
-                <div class="card-sub-title-value"> {{status}} </div>
-                <div class="card-sub-details">{{country}}</div>
+                {{#each threeFoldNodeArray}}
+                 <div style="text-transform:none;" class="card-sub-title">{{country}} </div>
+                <div class="card-sub-title-value"> {{username}} </div>
+                <div class="card-sub-details">{{nodeId}} {{status}}</div>
                 {{/each}}
 
                 {{else}}

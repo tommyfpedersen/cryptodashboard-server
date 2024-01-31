@@ -36,6 +36,19 @@ function init() {
         })
     }
 
+    /* threefold */
+    let getThreeFoldNodesElm = document.querySelector("#get-threefold-nodes");
+    if (getThreeFoldNodesElm) {
+        getThreeFoldNodesElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(getThreeFoldNodesElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('tfnodes', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
 
     /** common */
     initCardHideButtons();
@@ -43,6 +56,18 @@ function init() {
     initGraphButtons();
     initResetLocalStorage();
     initSideMenu();
+}
+
+function replaceUrlParam(url, paramName, paramValue) {
+    if (paramValue == null) {
+        paramValue = '';
+    }
+    var pattern = new RegExp('\\b(' + paramName + '=).*?(&|#|$)');
+    if (url.search(pattern) >= 0) {
+        return url.replace(pattern, '$1' + paramValue + '$2');
+    }
+    url = url.replace(/[?#]$/, '');
+    return url + (url.indexOf('?') > 0 ? '&' : '?') + paramName + '=' + paramValue;
 }
 
 function initCardHideButtons() {
@@ -147,16 +172,16 @@ function initSideMenu() {
     let sectionElement = document.querySelectorAll(".section");
     let sideMenuElement = document.querySelector(".side-menu");
 
-     // burger menu
-     let sideMenuIcon = document.querySelector(".side-menu-icon");
-     sideMenuIcon.addEventListener("click", (evt)=>{
-        
-        if(sideMenuElement.classList.contains("side-menu")){
-            sideMenuElement.classList.replace("side-menu","side-menu-open");
-        }else{
-            sideMenuElement.classList.replace("side-menu-open","side-menu");
+    // burger menu
+    let sideMenuIcon = document.querySelector(".side-menu-icon");
+    sideMenuIcon.addEventListener("click", (evt) => {
+
+        if (sideMenuElement.classList.contains("side-menu")) {
+            sideMenuElement.classList.replace("side-menu", "side-menu-open");
+        } else {
+            sideMenuElement.classList.replace("side-menu-open", "side-menu");
         }
-     })
+    })
 
     sectionElement.forEach((section) => {
         let children = [...section.children];

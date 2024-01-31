@@ -1,48 +1,46 @@
-async function getNodeDetailsArray(nodeArray) {
+async function getThreeFoldNodeArray(nodeString) {
 
+    let nodeIdArray = [];
+    let nodeUserNameArray = []
     let nodesToFetchArray = [];
     let resultArray = [];
 
-    nodeArray.forEach((elm,index) => {
-        nodesToFetchArray.push( getNodeDetails(nodeArray[index]) )
+    nodeElements = nodeString.split(" ");
+    console.log(nodeElements)
+    console.log(typeof nodeElements)
+    nodeElements.map((elm, index) => {
+        if (index % 2 === 0) {
+            nodeUserNameArray.push(elm);
+        } else if (index % 2 === 1) {
+            nodeIdArray.push(elm)
+        }
+    })
+
+    nodeIdArray.forEach((elm) => {
+        nodesToFetchArray.push(getNodeDetails(elm))
     });
 
-    for await (const node of nodesToFetchArray){
+    let counter = 0;
+    for await (const node of nodesToFetchArray) {
+        node.username = nodeUserNameArray[counter];
         resultArray.push(node);
+        counter++;
     }
-
     return resultArray;
 }
 
-   // nodeDetailsArray = [];
-    // console.log("-nodeArray", nodeArray)
-    // console.log("-nodeDetailsArray", nodeDetailsArray)
-
-//     nodeArray.forEach( async (node, index) =>{
-//         console.log("-forEach", index)
-//         const getnodedetailsResponse = await fetch(`https://gridproxy.grid.tf/nodes/${nodeArray[index]}`)
-//         const getnodedetailsResult = await getnodedetailsResponse.json();
-//         nodeDetailsArray.push(getnodedetailsResult);
-//     })
-
-//     console.log("-return")
-//     return nodeDetailsArray;
-// }
-
-// async function getThreeFoldNodes(){
-//     for await (const node of nodesToFetchArray){
-//         console.log("node...",node);
-//     }
-// }
-
-
 async function getNodeDetails(node) {
-    const getnodedetailsResponse = await fetch(`https://gridproxy.grid.tf/nodes/${node}`)
-    const getnodedetailsResult = await getnodedetailsResponse.json();
-    const getnodedetails = getnodedetailsResult;
-    return getnodedetails;
+    if (isNaN(node)) {
+        return {};
+    } else {
+        const getnodedetailsResponse = await fetch(`https://gridproxy.grid.tf/nodes/${node}`)
+        const getnodedetailsResult = await getnodedetailsResponse.json();
+        const getnodedetails = getnodedetailsResult;
+        return getnodedetails;
+    }
+
 }
-module.exports = { getNodeDetails, getNodeDetailsArray};
+module.exports = { getThreeFoldNodeArray };
 
 //https://gridproxy.grid.tf/swagger/index.html
 //https://gridproxy.grid.tf/nodes/3170/statistics
