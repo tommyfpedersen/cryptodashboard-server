@@ -38,22 +38,23 @@
 
     <div class="section">
 
-        <span class="project" id="threefold" data-image="/img/bitcoin-btc-logo.png"></span>
+        <span class="project" id="threefold" data-image="/img/tflogo.png"></span>
         <div class="card" id="threefold-node-card">
-            <img width="16px" src="/img/bitcoin-btc-logo.png" />
+            <img width="16px" src="/img/tflogo.png" />
             <button class="hide-button">x</button>
             <div class="card-content">
                 {{#if online}}
-                <div class="card-title">Get ThreeFold Node Status</div>
+                <div class="card-title">ThreeFold Node Status</div>
 
                 <div class="card-sub-title">Custome alias and node</div>
-                <div class="card-sub-title-value"><input id="get-threefold-nodes" class="card-input"
+                <div class="card-sub-title-value"><input id="get-threefold-nodes" class="card-input" placeholder="webserver 100 gameserver 1250"
                         value="{{{threefoldNodeString}}}"></div>
 
                 {{#each threeFoldNodeArray}}
-                 <div style="text-transform:none;" class="card-sub-title">{{country}} </div>
+                 <div style="text-transform:none;" class="card-sub-title"> {{country}} {{#ifEquals status "up"}}  <div class="node-online"> {{status}}  </div>  {{/ifEquals}} {{#ifEquals status "down"}}  <div class="node-offline"> {{status}}  </div>  {{/ifEquals}}</div>
                 <div class="card-sub-title-value"> {{username}} </div>
-                <div class="card-sub-details">{{nodeId}} {{status}}</div>
+                <div class="card-sub-details">{{nodeId}}</div>
+          
                 {{/each}}
 
                 {{else}}

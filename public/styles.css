@@ -274,6 +274,22 @@ body {
     height: 40px;
 }
 
+.node-online{
+    background-color: green;
+    padding:0 5px;
+    color: white;
+    display: inline-block;
+    border-radius: 3px;
+}
+
+.node-offline{
+    background-color: red;
+    padding:0 5px;
+    color: white;
+    display: inline-block;
+    border-radius: 3px;
+}
+
 
 /*  mobile view */
 @media only screen and (max-width: 680px) {

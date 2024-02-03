@@ -28,6 +28,8 @@ const { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getVrscEthBridgeV
 const { getThreeFoldNodeArray } = require('./components/threefold/threefold');
 const { convertToAxisString } = require('./utils/stringUtil');
 
+
+
 /* dashboard */
 app.get('/', async (req, res) => {
 
@@ -422,6 +424,10 @@ app.get('/', async (req, res) => {
 const hbs = require('hbs')
 app.set('views', './views')
 app.set('view engine', 'hbs')
+
+hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
+  return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+});
 
 app.use(express.static(__dirname + "/public", {
   index: false,
