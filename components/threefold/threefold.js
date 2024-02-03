@@ -6,8 +6,6 @@ async function getThreeFoldNodeArray(nodeString) {
     let resultArray = [];
 
     nodeElements = nodeString.split(" ");
-    console.log(nodeElements)
-    console.log(typeof nodeElements)
     nodeElements.map((elm, index) => {
         if (index % 2 === 0) {
             nodeUserNameArray.push(elm);

@@ -377,11 +377,7 @@ app.get('/', async (req, res) => {
   let threefoldNodeString = "";
   if (req.query.tfnodes) {
     threefoldNodeString = decodeURIComponent(req.query.tfnodes);
-
     threeFoldNodeArray = await getThreeFoldNodeArray(threefoldNodeString);
-    console.log(threeFoldNodeArray);
-   // threeFoldNodeArray = await getThreeFoldNodeArray([3172,3170, 3174]);
-
   } else {
     threefoldNodeString = "none";
   }
