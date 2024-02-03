@@ -38,6 +38,27 @@
 
     <div class="section">
 
+         <span class="project" id="price" data-image="/img/bitcoin-btc-logo.png"></span>
+        <div class="card" id="prices-card">
+            <img width="16px" src="/img/bitcoin-btc-logo.png" />
+            <button class="hide-button">x</button>
+            <div class="card-content">
+                <div class="card-title">Prices</div>
+                <div class="card-sub-title">Bitcoin (BTC)</div>
+                <div class="card-sub-title-value">$ {{{bitcoinPrice}}}</div>
+                <div class="card-sub-details">api.coingecko.com</div>
+                <div class="card-sub-title">Ethereum (ETH)</div>
+                <div class="card-sub-title-value">$ {{{ethereumBridgePrice}}}</div>
+                <div class="card-sub-details">Verus Bridge Price</div>
+                <div class="card-sub-title">Maker (MKR)</div>
+                <div class="card-sub-title-value">$ {{{mkrBridgePrice}}}</div>
+                <div class="card-sub-details">Verus Bridge Price</div>
+                <div class="card-sub-title">VerusCoin (VRSC)</div>
+                <div class="card-sub-title-value">$ {{{vrscBridgePrice}}}</div>
+                <div class="card-sub-details">Verus Bridge Price</div>
+            </div>
+        </div>
+
         <span class="project" id="threefold" data-image="/img/tflogo.png"></span>
         <div class="card" id="threefold-node-card">
             <img width="16px" src="/img/tflogo.png" />
@@ -60,27 +81,6 @@
                 {{else}}
                 {{{statusMessage}}}
                 {{/if}}
-            </div>
-        </div>
-
-        <span class="project" id="price" data-image="/img/bitcoin-btc-logo.png"></span>
-        <div class="card" id="prices-card">
-            <img width="16px" src="/img/bitcoin-btc-logo.png" />
-            <button class="hide-button">x</button>
-            <div class="card-content">
-                <div class="card-title">Prices</div>
-                <div class="card-sub-title">Bitcoin (BTC)</div>
-                <div class="card-sub-title-value">$ {{{bitcoinPrice}}}</div>
-                <div class="card-sub-details">api.coingecko.com</div>
-                <div class="card-sub-title">Ethereum (ETH)</div>
-                <div class="card-sub-title-value">$ {{{ethereumBridgePrice}}}</div>
-                <div class="card-sub-details">Verus Bridge Price</div>
-                <div class="card-sub-title">Maker (MKR)</div>
-                <div class="card-sub-title-value">$ {{{mkrBridgePrice}}}</div>
-                <div class="card-sub-details">Verus Bridge Price</div>
-                <div class="card-sub-title">VerusCoin (VRSC)</div>
-                <div class="card-sub-title-value">$ {{{vrscBridgePrice}}}</div>
-                <div class="card-sub-details">Verus Bridge Price</div>
             </div>
         </div>
 
@@ -107,7 +107,7 @@
             <button class="hide-button">x</button>
             <div class="card-content">
                 {{#if online}}
-                <div class="card-title">Get Verus Address Balance</div>
+                <div class="card-title">Verus Address Balance</div>
 
                 <div class="card-sub-title">Verus address</div>
                 <div class="card-sub-title-value"><input id="get-address-balance" class="card-input"
