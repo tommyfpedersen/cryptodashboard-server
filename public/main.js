@@ -30,7 +30,10 @@ function init() {
     if (getAddressBalanceElm) {
         getAddressBalanceElm.addEventListener('keydown', (evt) => {
             if (evt.key === 'Enter') {
-                window.history.replaceState(null, null, '?address=' + encodeURIComponent(getAddressBalanceElm.value));
+                let string = encodeURIComponent(getAddressBalanceElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('address', string);
+                window.history.replaceState(null, null, href.toString());
                 location.reload();
             }
         })
