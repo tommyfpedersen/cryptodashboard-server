@@ -72,9 +72,9 @@
                         value="{{{threefoldNodeString}}}"></div>
 
                 {{#each threeFoldNodeArray}}
-                 <div style="text-transform:none;" class="card-sub-title"> {{country}} {{#ifEquals status "up"}}  <div class="node-online"> {{status}}  </div>  {{/ifEquals}} {{#ifEquals status "down"}}  <div class="node-offline"> {{status}}  </div>  {{/ifEquals}}</div>
+                 <div style="text-transform:none;" class="card-sub-title"> {{country}} </div>
                 <div class="card-sub-title-value"> {{username}} </div>
-                <div class="card-sub-details">{{nodeId}}</div>
+                <div class="card-sub-details">{{nodeId}} {{#ifEquals status "up"}}  <div class="node-online"> {{status}}  </div>  {{/ifEquals}} {{#ifEquals status "down"}}  <div class="node-offline"> {{status}}  </div>  {{/ifEquals}}</div>
           
                 {{/each}}
 
