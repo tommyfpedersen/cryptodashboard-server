@@ -291,6 +291,10 @@ async function getVrscEthBridgeVolume(fromBlock, toBlock) {
     return volumeInDollarsArray;
 }
 
+function getBasket(basket){
+    console.log("web");
+}
+
 function isBlockInVolumeArray(block, currency, type) {
     let result = false;
     volumeInDollarsArray.forEach((item) => {
@@ -303,4 +307,4 @@ function isBlockInVolumeArray(block, currency, type) {
     return result;
 }
 
-module.exports = { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getVrscEthBridgeVolume };
+module.exports = { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getVrscEthBridgeVolume, getBasket };
