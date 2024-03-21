@@ -24,7 +24,7 @@ let vrscBridgePrice = 0;
 let vrscPrice = 0;
 
 // components
-const { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getVrscEthBridgeVolume } = require('./components/verus/verus');
+const { getNodeStatus, getBlockAndFeePoolRewards, getBridgevEthBasket, getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getVrscEthBridgeVolume } = require('./components/verus/verus');
 const { getThreeFoldNodeArray } = require('./components/threefold/threefold');
 const { convertToAxisString } = require('./utils/stringUtil');
 
@@ -45,6 +45,22 @@ app.get('/', async (req, res) => {
     online = true;
     statusMessage = "Verus Node Running";
   }
+
+
+
+  ///
+
+  const nodeStatus = await getNodeStatus();
+  console.log("nodeStatus: ", nodeStatus);
+
+  const blockandfeepoolrewards = await getBlockAndFeePoolRewards();
+  console.log("getblockandfeepoolrewards: ", blockandfeepoolrewards);
+
+  // const volume = await getBridgevEthBasket();
+  // console.log("volume: ", volume);
+
+  ///
+
 
   const getblocksubsidy = await getBlockSubsidy(getmininginfo?.blocks);
   const getpeerinfo = await getPeerInfo();
@@ -381,6 +397,8 @@ app.get('/', async (req, res) => {
   } else {
     threefoldNodeString = "none";
   }
+
+  //console.log("currencyBridgeArray",currencyBridgeArray)
 
   res.render('main', {
     // Verus

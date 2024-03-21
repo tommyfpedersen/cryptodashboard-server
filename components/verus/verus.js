@@ -1,33 +1,53 @@
+
+async function getNodeStatus() {
+    let result = {};
+    const mininginfo = await getMiningInfo();
+    result.online = false;
+    result.statusMessage = "Updating Verus Node...";
+    if (mininginfo) {
+        result.online = true;
+        result.statusMessage = "Verus Node Running";
+    }
+    return result;
+}
+
+async function getBlockAndFeePoolRewards() {
+    let result = {};
+    const miningInfo = await getMiningInfo();
+    result.block = miningInfo.blocks;
+    const peerinfo = await getPeerInfo();
+    result.blockLastSend = new Date(peerinfo[0].lastsend * 1000).toLocaleString();
+    const block = await getBlock(miningInfo.blocks);
+    const blocksubsidy = await getBlockSubsidy(miningInfo.blocks);
+    let blockFeeReward = 0;
+    let feeReward = "";
+    if (block) {
+        blockFeeReward = 0;
+        block.tx[0].vout.map((item) => {
+            blockFeeReward = blockFeeReward + item.value;
+        })
+        feeReward = Math.round((blockFeeReward - blocksubsidy?.miner) * 100000000) / 100000000;
+    }
+    result.blockReward = blocksubsidy.miner;
+    result.feeReward = feeReward;
+    result.averageblockfees = miningInfo.averageblockfees
+    return result;
+}
+
+/*
+
+ currencyBridgeArray: currencyBridgeArray,
+    estimatedBridgeValue: estimatedBridgeValue,
+    estimatedCoingeckoBridgeValue: estimatedCoingeckoBridgeValueCache,
+*/ 
+async function getBridgevEthBasket() {
+    const miningInfo = await getMiningInfo();
+    const result = getVrscEthBridgeVolume(miningInfo.blocks - (1440 * 1), miningInfo.blocks);
+    return result;
+}
+
+
 let volumeInDollarsArray = [];
-
-async function getMiningInfo() {
-    const getmininginfoResponse = await fetch("http://localhost:9009/mining/getmininginfo")
-    const getmininginfoResult = await getmininginfoResponse.json();
-    const getmininginfo = getmininginfoResult.result;
-    return getmininginfo;
-}
-
-async function getBlockSubsidy(block) {
-    const getblocksubsidyResponse = await fetch("http://localhost:9009/mining/getblocksubsidy/" + block);
-    const getblocksubsidyResult = await getblocksubsidyResponse.json();
-    const getblocksubsidy = getblocksubsidyResult.result;
-    return getblocksubsidy;
-}
-
-async function getBlock(block) {
-    const getblockResponse = await fetch("http://localhost:9009/blockchain/getblock/" + block);
-    const getblockResult = await getblockResponse.json();
-    const getblock = getblockResult.result;
-    return getblock;
-}
-
-async function getPeerInfo() {
-    const getpeerinfoResponse = await fetch("http://localhost:9009/network/getpeerinfo/");
-    const getpeerinfoResult = await getpeerinfoResponse.json();
-    const getpeerinfo = getpeerinfoResult.result;
-    return getpeerinfo;
-}
-
 async function getVrscEthBridgeVolume(fromBlock, toBlock) {
     if (volumeInDollarsArray.length > 0) {
         volumeInDollarsArray.sort((a, b) => b.height - a.height);
@@ -36,8 +56,8 @@ async function getVrscEthBridgeVolume(fromBlock, toBlock) {
         fromBlock = latestVolumeBlockHeight;
 
         // clean up - delete all beyond 33 days
-        volumeInDollarsArray = volumeInDollarsArray.filter((item)=>{
-            return item.height > toBlock - 1440*33;
+        volumeInDollarsArray = volumeInDollarsArray.filter((item) => {
+            return item.height > toBlock - 1440 * 33;
         })
     }
 
@@ -291,7 +311,7 @@ async function getVrscEthBridgeVolume(fromBlock, toBlock) {
     return volumeInDollarsArray;
 }
 
-function getBasket(basket){
+function getBasket(basket) {
     console.log("web");
 }
 
@@ -307,4 +327,32 @@ function isBlockInVolumeArray(block, currency, type) {
     return result;
 }
 
-module.exports = { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getVrscEthBridgeVolume, getBasket };
+async function getMiningInfo() {
+    const getmininginfoResponse = await fetch("http://localhost:9009/mining/getmininginfo")
+    const getmininginfoResult = await getmininginfoResponse.json();
+    const getmininginfo = getmininginfoResult.result;
+    return getmininginfo;
+}
+
+async function getBlockSubsidy(block) {
+    const getblocksubsidyResponse = await fetch("http://localhost:9009/mining/getblocksubsidy/" + block);
+    const getblocksubsidyResult = await getblocksubsidyResponse.json();
+    const getblocksubsidy = getblocksubsidyResult.result;
+    return getblocksubsidy;
+}
+
+async function getBlock(block) {
+    const getblockResponse = await fetch("http://localhost:9009/blockchain/getblock/" + block);
+    const getblockResult = await getblockResponse.json();
+    const getblock = getblockResult.result;
+    return getblock;
+}
+
+async function getPeerInfo() {
+    const getpeerinfoResponse = await fetch("http://localhost:9009/network/getpeerinfo/");
+    const getpeerinfoResult = await getpeerinfoResponse.json();
+    const getpeerinfo = getpeerinfoResult.result;
+    return getpeerinfo;
+}
+
+module.exports = { getNodeStatus, getBlockAndFeePoolRewards, getBridgevEthBasket, getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getVrscEthBridgeVolume, getBasket };

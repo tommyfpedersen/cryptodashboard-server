@@ -59,21 +59,21 @@ async function getCoingeckoPrice() {
     }
 }
 
-function estimatedBridgeValue() {
-    if (cacheStartTime + coolDownTime < Date.now()) {
+// function estimatedBridgeValue() {
+//     if (cacheStartTime + coolDownTime < Date.now()) {
 
-        /* estimated value of bridge */
-        currencyBridgeArray.forEach((currency) => {
-            priceArray.forEach((price) => {
-                if (currency.currencyId === price.currencyId) {
-                    estimatedCoingeckoBridgeValue = estimatedCoingeckoBridgeValue + (currency.reserves * price.price);
-                }
-            })
-            currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 8 });
-        })
-        estimatedCoingeckoBridgeValueCache = (estimatedCoingeckoBridgeValue = Math.round(estimatedCoingeckoBridgeValue * 100) / 100).toLocaleString();
-        cacheStartTime = Date.now();
-    }
-}
+//         /* estimated value of bridge */
+//         currencyBridgeArray.forEach((currency) => {
+//             priceArray.forEach((price) => {
+//                 if (currency.currencyId === price.currencyId) {
+//                     estimatedCoingeckoBridgeValue = estimatedCoingeckoBridgeValue + (currency.reserves * price.price);
+//                 }
+//             })
+//             currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 8 });
+//         })
+//         estimatedCoingeckoBridgeValueCache = (estimatedCoingeckoBridgeValue = Math.round(estimatedCoingeckoBridgeValue * 100) / 100).toLocaleString();
+//         cacheStartTime = Date.now();
+//     }
+// }
 
-module.exports = { getCoingeckoPrice, estimatedBridgeValue };
+module.exports = { getCoingeckoPrice };
