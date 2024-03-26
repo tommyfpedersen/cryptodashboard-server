@@ -24,7 +24,7 @@ let vrscBridgePrice = 0;
 let vrscPrice = 0;
 
 // components
-const { getNodeStatus, getBlockAndFeePoolRewards, getBridgevEthBasket, getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getVrscEthBridgeVolume } = require('./components/verus/verus');
+const { getNodeStatus, getBlockAndFeePoolRewards, getCurrencyVolume, getBridgevEthBasket, getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getVrscEthBridgeVolume } = require('./components/verus/verus');
 const { getThreeFoldNodeArray } = require('./components/threefold/threefold');
 const { convertToAxisString } = require('./utils/stringUtil');
 
@@ -56,6 +56,9 @@ app.get('/', async (req, res) => {
   const blockandfeepoolrewards = await getBlockAndFeePoolRewards();
   console.log("getblockandfeepoolrewards: ", blockandfeepoolrewards);
 
+  const currencyVolumeBridge = await getCurrencyVolume("bridge.veth", (1440*31));
+  console.log("volumeInDollarsArray: ", currencyVolumeBridge);
+
   // const volume = await getBridgevEthBasket();
   // console.log("volume: ", volume);
 
@@ -63,12 +66,15 @@ app.get('/', async (req, res) => {
 
 
   const getblocksubsidy = await getBlockSubsidy(getmininginfo?.blocks);
-  const getpeerinfo = await getPeerInfo();
+  const peerinfo = await getPeerInfo();
 
   let blockLastSend = "";
-  if (getpeerinfo) {
-    blockLastSend = new Date(getpeerinfo[0].lastsend * 1000).toLocaleString();
+  if (Array.isArray(peerinfo) && peerinfo.length > 0) {
+    blockLastSend = new Date(peerinfo[0].lastsend * 1000).toLocaleString();
   }
+  // if (getpeerinfo) {
+  //   blockLastSend = new Date(getpeerinfo[0].lastsend * 1000).toLocaleString();
+  // }
 
   const getblock = await getBlock(getmininginfo?.blocks);
   let blockFeeReward = 0;
@@ -418,15 +424,15 @@ app.get('/', async (req, res) => {
     ethereumBridgePrice: ethereumBridgePrice,
     vrscBridgePrice: vrscBridgePrice,
     mkrBridgePrice: mkrBridgePrice,
-    vrscBridgeVolumeInDollars24Hours: vrscBridgeVolumeInDollars24Hours,
-    vrscBridgeVolumeInDollars24HoursArray: vrscBridgeVolumeInDollars24HoursArray,
-    vrscBridgeVolumeInDollars24HoursArrayYAxis: vrscBridgeVolumeInDollars24HoursArrayYAxis,
-    vrscBridgeVolumeInDollars7Days: vrscBridgeVolumeInDollars7Days,
-    vrscBridgeVolumeInDollars7DaysArray: vrscBridgeVolumeInDollars7DaysArray,
-    vrscBridgeVolumeInDollars7DaysArrayYAxis: vrscBridgeVolumeInDollars7DaysArrayYAxis,
-    vrscBridgeVolumeInDollars30Days: vrscBridgeVolumeInDollars30Days,
-    vrscBridgeVolumeInDollars30DaysArray: vrscBridgeVolumeInDollars30DaysArray,
-    vrscBridgeVolumeInDollars30DaysArrayYAxis: vrscBridgeVolumeInDollars30DaysArrayYAxis,
+    vrscBridgeVolumeInDollars24Hours: currencyVolumeBridge.volumeInDollars24Hours,
+    vrscBridgeVolumeInDollars24HoursArray: currencyVolumeBridge.volumeInDollars24HoursArray,
+    vrscBridgeVolumeInDollars24HoursArrayYAxis: currencyVolumeBridge.volumeInDollars24HoursArrayYAxis,
+    vrscBridgeVolumeInDollars7Days: currencyVolumeBridge.volumeInDollars7Days,
+    vrscBridgeVolumeInDollars7DaysArray: currencyVolumeBridge.volumeInDollars7DaysArray,
+    vrscBridgeVolumeInDollars7DaysArrayYAxis: currencyVolumeBridge.volumeInDollars7DaysArrayYAxis,
+    vrscBridgeVolumeInDollars30Days: currencyVolumeBridge.volumeInDollars30Days,
+    vrscBridgeVolumeInDollars30DaysArray: currencyVolumeBridge.volumeInDollars30DaysArray,
+    vrscBridgeVolumeInDollars30DaysArrayYAxis: currencyVolumeBridge.volumeInDollars30DaysArrayYAxis,
      // ThreeFold
     threeFoldNodeArray:threeFoldNodeArray,
     threefoldNodeString: threefoldNodeString === "none" ? "" : threefoldNodeString
