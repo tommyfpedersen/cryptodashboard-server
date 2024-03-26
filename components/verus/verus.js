@@ -44,8 +44,13 @@ async function getCurrencyVolume(currencyName, blockcount) {
     let volumeArray;
     if (currencyName === "bridge.veth") {
         volumeArray = await getVrscEthBridgeVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
+        result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
     }
-    result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
+    if (currencyName === "pure") {
+        volumeArray = await getPureVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
+        result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
+    }
+
     return result;
 }
 
@@ -72,6 +77,7 @@ async function calculateCurrencyVolume(volumeArray, miningInfoBlocks) {
 
     console.log(volumeArray.length);
     console.log(volumeArray[0]);
+    console.log(volumeArray);
 
     volumeArray
         .sort((a, b) => b.height - a.height)
@@ -462,6 +468,150 @@ async function getVrscEthBridgeVolume(fromBlock, toBlock) {
         totalVolumenInDollars = totalVolumenInDollars + elm.dollars;
     })
     return volumeInDollarsArray;
+}
+
+let volumeInDollarsPureArray = [];
+async function getPureVolume(fromBlock, toBlock) {
+    if (volumeInDollarsPureArray.length > 0) {
+        volumeInDollarsPureArray.sort((a, b) => b.height - a.height);
+        let latestVolumeBlockHeight = volumeInDollarsPureArray[0].height;
+        toBlock = toBlock;
+        fromBlock = latestVolumeBlockHeight;
+
+        // clean up - delete all beyond 33 days
+        volumeInDollarsPureArray = volumeInDollarsPureArray.filter((item) => {
+            return item.height > toBlock - 1440 * 33;
+        })
+    }
+
+    let vrscReserveIn = 0;
+    let vrscReserveInLastValue = -1;
+    let vrscReserveOut = 0;
+    let vrscReserveOutLastValue = -1;
+    let vrscReserveInDollars = 0;
+
+    let tBTCvETHReserveIn = 0;
+    let tBTCvETHReserveInLastValue = -1;
+    let tBTCvETHReserveOut = 0;
+    let tBTCvETHReserveOutLastValue = -1;
+    let tBTCvETHReserveInDollars = 0;
+
+    for (let i = fromBlock; i <= toBlock; i++) {
+        const getcurrencystateResponse = await fetch("http://localhost:9009/multichain/getcurrencystate/pure/" + i);
+        const getcurrencystateResult = await getcurrencystateResponse.json();
+        let getcurrencystate = getcurrencystateResult.result[0];
+
+        if (getcurrencystate) {
+            getcurrencystate = getcurrencystateResult.result[0];
+            const getcurrencystateVRSC = getcurrencystate.currencystate.currencies.i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV;
+            const getcurrencystatetBTCvETH = getcurrencystate.currencystate.currencies.iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU;
+          
+
+            // VRSC in
+            if (getcurrencystateVRSC.reservein !== vrscReserveInLastValue) {
+                vrscReserveIn = vrscReserveIn + getcurrencystateVRSC.reservein;
+
+                let vrscReserves = 0;
+                let tBTCvETHReserves = 0;
+
+                getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
+                    if (currency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
+                        vrscReserves = currency.reserves;
+                    }
+                    if (currency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
+                        tBTCvETHReserves = currency.reserves;
+                    }
+                })
+                vrscReserveInDollars = vrscReserveInDollars + getcurrencystateVRSC.reservein * (tBTCvETHReserves / vrscReserves);
+                if (isBlockInVolumeArray(getcurrencystate.height, "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV", "reservein")) {
+                    volumeInDollarsPureArray.push({
+                        currencyid: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+                        dollars: getcurrencystateVRSC.reservein * (tBTCvETHReserves / vrscReserves),
+                        height: getcurrencystate.height,
+                        blocktime: getcurrencystate.blocktime,
+                        type: "reservein"
+                    })
+                }
+            }
+            // VRSC out
+            if (getcurrencystateVRSC.reserveout !== vrscReserveOutLastValue) {
+                vrscReserveOut = vrscReserveOut + getcurrencystateVRSC.reserveout;
+                let vrscReserves = 0;
+                let tBTCvETHReserves = 0;
+                getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
+                    if (currency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
+                        vrscReserves = currency.reserves;
+                    }
+                    if (currency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
+                        tBTCvETHReserves = currency.reserves;
+                    }
+                })
+                vrscReserveInDollars = vrscReserveInDollars + getcurrencystateVRSC.reserveout * (tBTCvETHReserves / vrscReserves);
+                if (isBlockInVolumeArray(getcurrencystate.height, "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV", "reserveout") === false) {
+                    volumeInDollarsPureArray.push({
+                        currencyid: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+                        dollars: getcurrencystateVRSC.reserveout * (tBTCvETHReserves / vrscReserves),
+                        height: getcurrencystate.height,
+                        blocktime: getcurrencystate.blocktime,
+                        type: "reserveout"
+                    })
+                }
+            }
+
+            vrscReserveInLastValue = getcurrencystateVRSC.reservein;
+            vrscReserveOutLastValue = getcurrencystateVRSC.reserveout;
+
+            // tBTCvETH in
+            if (getcurrencystatetBTCvETH.reservein !== tBTCvETHReserveInLastValue) {
+                tBTCvETHReserveIn = tBTCvETHReserveIn + getcurrencystatetBTCvETH.reservein;
+
+                let tBTCvETHReserves = 0;
+                getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
+                    if (currency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
+                        tBTCvETHReserves = currency.reserves;
+                    }
+                })
+                tBTCvETHReserveInDollars = tBTCvETHReserveInDollars + getcurrencystatetBTCvETH.reservein * 1;
+                if (isBlockInVolumeArray(getcurrencystate.height, "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU", "reservein") === false) {
+                    volumeInDollarsPureArray.push({
+                        currencyid: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
+                        dollars: getcurrencystatetBTCvETH.reservein * 1,
+                        height: getcurrencystate.height,
+                        blocktime: getcurrencystate.blocktime,
+                        type: "reservein"
+                    })
+                }
+            }
+            // tBTCvETH out
+            if (getcurrencystatetBTCvETH.reserveout !== tBTCvETHReserveOutLastValue) {
+                tBTCvETHReserveOut = tBTCvETHReserveOut + getcurrencystatetBTCvETH.reserveout;
+
+                let tBTCvETHReserves = 0;
+                getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
+                    if (currency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
+                        tBTCvETHReserves = currency.reserves;
+                    }
+                })
+                tBTCvETHReserveInDollars = tBTCvETHReserveInDollars + getcurrencystatetBTCvETH.reserveout * 1;
+                if (isBlockInVolumeArray(getcurrencystate.height, "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU", "reserveout") === false) {
+                    volumeInDollarsPureArray.push({
+                        currencyid: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
+                        dollars: getcurrencystatetBTCvETH.reserveout * 1,
+                        height: getcurrencystate.height,
+                        blocktime: getcurrencystate.blocktime,
+                        type: "reserveout"
+                    })
+                }
+            }
+            tBTCvETHReserveInLastValue = getcurrencystatetBTCvETH.reservein;
+            tBTCvETHReserveOutLastValue = getcurrencystatetBTCvETH.reserveout;
+        }
+    }
+    let totalVolumenInDollars = 0;
+    volumeInDollarsPureArray.forEach((elm) => {
+        totalVolumenInDollars = totalVolumenInDollars + elm.dollars;
+    })
+    return volumeInDollarsPureArray;
 }
 
 function getBasket(basket) {
