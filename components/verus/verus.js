@@ -526,7 +526,7 @@ async function getPureVolume(fromBlock, toBlock) {
                 if (isBlockInVolumeArray(getcurrencystate.height, "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV", "reservein")) {
                     volumeInDollarsPureArray.push({
                         currencyid: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
-                        dollars: getcurrencystateVRSC.reservein * (tBTCvETHReserves / vrscReserves),
+                        dollars: getcurrencystateVRSC.reservein * 1,//(tBTCvETHReserves / vrscReserves),
                         height: getcurrencystate.height,
                         blocktime: getcurrencystate.blocktime,
                         type: "reservein"
@@ -550,7 +550,7 @@ async function getPureVolume(fromBlock, toBlock) {
                 if (isBlockInVolumeArray(getcurrencystate.height, "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV", "reserveout") === false) {
                     volumeInDollarsPureArray.push({
                         currencyid: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
-                        dollars: getcurrencystateVRSC.reserveout * (tBTCvETHReserves / vrscReserves),
+                        dollars: getcurrencystateVRSC.reserveout * 1,//tBTCvETHReserves / vrscReserves),
                         height: getcurrencystate.height,
                         blocktime: getcurrencystate.blocktime,
                         type: "reserveout"
@@ -565,8 +565,12 @@ async function getPureVolume(fromBlock, toBlock) {
             if (getcurrencystatetBTCvETH.reservein !== tBTCvETHReserveInLastValue) {
                 tBTCvETHReserveIn = tBTCvETHReserveIn + getcurrencystatetBTCvETH.reservein;
 
+                let vrscReserves = 0;
                 let tBTCvETHReserves = 0;
                 getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
+                    if (currency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
+                        vrscReserves = currency.reserves;
+                    }
                     if (currency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
                         tBTCvETHReserves = currency.reserves;
                     }
@@ -575,7 +579,7 @@ async function getPureVolume(fromBlock, toBlock) {
                 if (isBlockInVolumeArray(getcurrencystate.height, "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU", "reservein") === false) {
                     volumeInDollarsPureArray.push({
                         currencyid: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
-                        dollars: getcurrencystatetBTCvETH.reservein * 1,
+                        dollars: getcurrencystatetBTCvETH.reservein * (vrscReserves / tBTCvETHReserves),
                         height: getcurrencystate.height,
                         blocktime: getcurrencystate.blocktime,
                         type: "reservein"
@@ -586,8 +590,12 @@ async function getPureVolume(fromBlock, toBlock) {
             if (getcurrencystatetBTCvETH.reserveout !== tBTCvETHReserveOutLastValue) {
                 tBTCvETHReserveOut = tBTCvETHReserveOut + getcurrencystatetBTCvETH.reserveout;
 
+                let vrscReserves = 0;
                 let tBTCvETHReserves = 0;
                 getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
+                    if (currency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
+                        vrscReserves = currency.reserves;
+                    }
                     if (currency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
                         tBTCvETHReserves = currency.reserves;
                     }
@@ -596,7 +604,7 @@ async function getPureVolume(fromBlock, toBlock) {
                 if (isBlockInVolumeArray(getcurrencystate.height, "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU", "reserveout") === false) {
                     volumeInDollarsPureArray.push({
                         currencyid: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
-                        dollars: getcurrencystatetBTCvETH.reserveout * 1,
+                        dollars: getcurrencystatetBTCvETH.reserveout * (vrscReserves / tBTCvETHReserves),
                         height: getcurrencystate.height,
                         blocktime: getcurrencystate.blocktime,
                         type: "reserveout"

@@ -181,6 +181,9 @@ body {
     /* font-weight: bold; */
     /* padding-bottom: 20px; */
 }
+.card-sub-title-value-prefix{
+    font-size: 16px;
+}
 
 .card-sub-details {
     font-size: 14px;

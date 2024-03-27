@@ -26,7 +26,7 @@ let vrscPrice = 0;
 // components
 const { getNodeStatus, getBlockAndFeePoolRewards, getCurrencyVolume, getBridgevEthBasket, getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getVrscEthBridgeVolume } = require('./components/verus/verus');
 const { getThreeFoldNodeArray } = require('./components/threefold/threefold');
-const { convertToAxisString } = require('./utils/stringUtil');
+const { convertToAxisString, convertCurrencyVolumeFromBitcoinToDollars } = require('./utils/stringUtil');
 
 
 
@@ -54,13 +54,11 @@ app.get('/', async (req, res) => {
   console.log("nodeStatus: ", nodeStatus);
 
   const blockandfeepoolrewards = await getBlockAndFeePoolRewards();
-  console.log("getblockandfeepoolrewards: ", blockandfeepoolrewards);
 
-  // const currencyVolumeBridge = await getCurrencyVolume("bridge.veth", (1440*1));
-  // console.log("volumeInDollarsArray: ", currencyVolumeBridge);
+  const currencyVolumeBridge = await getCurrencyVolume("bridge.veth", (1440*31));
 
-  const currencyVolumePure = await getCurrencyVolume("pure", (1440*1));
-  console.log("currencyVolumePure: ", currencyVolumePure);
+  const currencyVolumePure = await getCurrencyVolume("pure", (1440 * 31));
+
 
   // const volume = await getBridgevEthBasket();
   // console.log("volume: ", volume);
@@ -264,7 +262,7 @@ app.get('/', async (req, res) => {
 
   // ThreeFold //
 
-  let threeFoldNodeArray =[]
+  let threeFoldNodeArray = []
   let threefoldNodeString = "";
   if (req.query.tfnodes) {
     threefoldNodeString = decodeURIComponent(req.query.tfnodes);
@@ -273,25 +271,26 @@ app.get('/', async (req, res) => {
     threefoldNodeString = "none";
   }
 
-  //console.log("currencyBridgeArray",currencyBridgeArray)
-  console.log(typeof bitcoinPrice)
-  console.log(parseInt(bitcoinPrice))
-  console.log(Number(bitcoinPrice))
-  console.log("currencyVolumePure.volumeInDollars24Hours", currencyVolumePure.volumeInDollars24Hours)
-  console.log("currencyVolumePure.volumeInDollars24Hours * bitcoinPrice", currencyVolumePure.volumeInDollars24Hours * Number(bitcoinPrice));
 
-  const bitcoinPriceClean = bitcoinPrice.replace(',', '').replace('.',''); 
-  console.log("bitcoinPriceClean", bitcoinPriceClean);
-  console.log("bitcoinPriceClean * ", parseInt(bitcoinPriceClean) * parseInt(currencyVolumePure.volumeInDollars24Hours.replace(',', '').replace('.','')));
+  // Pure Volume * Price
+  // const bitcoinPriceClean = Number(bitcoinPrice.replace(',', '').replace('.', ''));
+  // const currencyVolumePureClean = Number(currencyVolumePure.volumeInDollars7Days);
+  // console.log("currencyVolumePure.volumeInDollars7DaysArrayYAxis ", currencyVolumePure.volumeInDollars7DaysArrayYAxis);
+
+
+  // const resPureVol = convertCurrencyVolumeFromBitcoinToDollars(currencyVolumePure.volumeInDollars7Days, bitcoinPrice);
+  // console.log("resPureVol ", resPureVol);
+
+  //convertCurrencyVolumeFromBitcoinToDollars(currencyVolumePure.volumeInDollars24Hours, bitcoinPrice)
 
   res.render('main', {
     // Verus
-    blocks: getmininginfo?.blocks.toLocaleString(),
-    blockLastSend: blockLastSend,
-    blockReward: getblocksubsidy?.miner,
-    feeReward: feeReward,
+    blocks: blockandfeepoolrewards.block.toLocaleString(),
+    blockLastSend: blockandfeepoolrewards.blockLastSend,
+    blockReward: blockandfeepoolrewards.blockReward,
+    feeReward: blockandfeepoolrewards.feeReward,
     averageblockfees: getmininginfo?.averageblockfees,
-    online: online,
+    online: nodeStatus.online,
     statusMessage: statusMessage,
     currencyBridgeArray: currencyBridgeArray,
     estimatedBridgeValue: estimatedBridgeValue,
@@ -302,17 +301,18 @@ app.get('/', async (req, res) => {
     ethereumBridgePrice: ethereumBridgePrice,
     vrscBridgePrice: vrscBridgePrice,
     mkrBridgePrice: mkrBridgePrice,
-    // vrscBridgeVolumeInDollars24Hours: currencyVolumeBridge.volumeInDollars24Hours,
-    // vrscBridgeVolumeInDollars24HoursArray: currencyVolumeBridge.volumeInDollars24HoursArray,
-    // vrscBridgeVolumeInDollars24HoursArrayYAxis: currencyVolumeBridge.volumeInDollars24HoursArrayYAxis,
-    // vrscBridgeVolumeInDollars7Days: currencyVolumeBridge.volumeInDollars7Days,
-    // vrscBridgeVolumeInDollars7DaysArray: currencyVolumeBridge.volumeInDollars7DaysArray,
-    // vrscBridgeVolumeInDollars7DaysArrayYAxis: currencyVolumeBridge.volumeInDollars7DaysArrayYAxis,
-    // vrscBridgeVolumeInDollars30Days: currencyVolumeBridge.volumeInDollars30Days,
-    // vrscBridgeVolumeInDollars30DaysArray: currencyVolumeBridge.volumeInDollars30DaysArray,
-    // vrscBridgeVolumeInDollars30DaysArrayYAxis: currencyVolumeBridge.volumeInDollars30DaysArrayYAxis,
+    vrscBridgeVolumeInDollars24Hours: currencyVolumeBridge.volumeInDollars24Hours,
+    vrscBridgeVolumeInDollars24HoursArray: currencyVolumeBridge.volumeInDollars24HoursArray,
+    vrscBridgeVolumeInDollars24HoursArrayYAxis: currencyVolumeBridge.volumeInDollars24HoursArrayYAxis,
+    vrscBridgeVolumeInDollars7Days: currencyVolumeBridge.volumeInDollars7Days,
+    vrscBridgeVolumeInDollars7DaysArray: currencyVolumeBridge.volumeInDollars7DaysArray,
+    vrscBridgeVolumeInDollars7DaysArrayYAxis: currencyVolumeBridge.volumeInDollars7DaysArrayYAxis,
+    vrscBridgeVolumeInDollars30Days: currencyVolumeBridge.volumeInDollars30Days,
+    vrscBridgeVolumeInDollars30DaysArray: currencyVolumeBridge.volumeInDollars30DaysArray,
+    vrscBridgeVolumeInDollars30DaysArrayYAxis: currencyVolumeBridge.volumeInDollars30DaysArrayYAxis,
     // Verus pure
-    currencyVolumePure24Hours: currencyVolumePure.volumeInDollars24Hours * bitcoinPrice ,
+
+    currencyVolumePure24Hours: currencyVolumePure.volumeInDollars24Hours,
     currencyVolumePure24HoursArray: currencyVolumePure.volumeInDollars24HoursArray,
     currencyVolumePure24HoursArrayYAxis: currencyVolumePure.volumeInDollars24HoursArrayYAxis,
     currencyVolumePure7Days: currencyVolumePure.volumeInDollars7Days,
@@ -322,9 +322,9 @@ app.get('/', async (req, res) => {
     currencyVolumePure30DaysArray: currencyVolumePure.volumeInDollars30DaysArray,
     currencyVolumePure30DaysArrayYAxis: currencyVolumePure.volumeInDollars30DaysArrayYAxis,
     // ThreeFold
-    threeFoldNodeArray:threeFoldNodeArray,
+    threeFoldNodeArray: threeFoldNodeArray,
     threefoldNodeString: threefoldNodeString === "none" ? "" : threefoldNodeString
-   
+
   })
 })
 
@@ -333,7 +333,7 @@ const hbs = require('hbs')
 app.set('views', './views')
 app.set('view engine', 'hbs')
 
-hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
+hbs.registerHelper('ifEquals', function (arg1, arg2, options) {
   return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
 
