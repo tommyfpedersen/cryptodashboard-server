@@ -38,6 +38,45 @@ async function getBlockAndFeePoolRewards() {
     return result;
 }
 
+async function getAddressBalance(address) {
+    result = {};
+    let getAddressBalanceArray = [];
+    let verusAddress = "";
+    if (address) {
+        verusAddress = decodeURIComponent(address);
+    } else {
+        verusAddress = "none";//"RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7";
+    }
+    const getAddressBalanceResponse = await fetch("http://localhost:9009/addressindex/getaddressbalance/" + verusAddress);
+    const getAddressBalanceResult = await getAddressBalanceResponse.json();
+    const getAddressBalance = getAddressBalanceResult.result;
+
+    if (getAddressBalance?.currencybalance) {
+        let currencyIdArray = Object.keys(getAddressBalance.currencybalance);
+
+        currencyIdArray.forEach((item) => {
+            if ("i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" === item) {
+                getAddressBalanceArray.push({ currencyName: "VRSC", amount: getAddressBalance.currencybalance.i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV })
+            }
+            if ("iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM" === item) {
+                getAddressBalanceArray.push({ currencyName: "DAI.vETH", amount: getAddressBalance.currencybalance.iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM })
+            }
+            if ("iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4" === item) {
+                getAddressBalanceArray.push({ currencyName: "MKR.vETH", amount: getAddressBalance.currencybalance.iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4 })
+            }
+            if ("i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X" === item) {
+                getAddressBalanceArray.push({ currencyName: "vETH", amount: getAddressBalance.currencybalance.i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X })
+            }
+            if ("i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx" === item) {
+                getAddressBalanceArray.push({ currencyName: "Bridge.vETH", amount: getAddressBalance.currencybalance.i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx })
+            }
+        })
+    }
+    result.verusAddress = verusAddress;
+    result.getAddressBalanceArray = getAddressBalanceArray;
+    return result;
+}
+
 async function getCurrencyVolume(currencyName, blockcount) {
     const miningInfo = await getMiningInfo();
     let result;
@@ -74,10 +113,6 @@ async function calculateCurrencyVolume(volumeArray, miningInfoBlocks) {
     let volumeInDollarsCounter24H = 0;
     let counter = -1;
     let totalVol = 0;
-
-    console.log(volumeArray.length);
-    console.log(volumeArray[0]);
-    console.log(volumeArray);
 
     volumeArray
         .sort((a, b) => b.height - a.height)
@@ -505,7 +540,7 @@ async function getPureVolume(fromBlock, toBlock) {
             getcurrencystate = getcurrencystateResult.result[0];
             const getcurrencystateVRSC = getcurrencystate.currencystate.currencies.i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV;
             const getcurrencystatetBTCvETH = getcurrencystate.currencystate.currencies.iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU;
-          
+
 
             // VRSC in
             if (getcurrencystateVRSC.reservein !== vrscReserveInLastValue) {
@@ -622,8 +657,181 @@ async function getPureVolume(fromBlock, toBlock) {
     return volumeInDollarsPureArray;
 }
 
-function getBasket(basket) {
-    console.log("web");
+async function getCurrencyReserve(currencyName, priceArray) {
+    if (currencyName === "bridge.veth") {
+        return calculateCurrencyReserveBridge(priceArray);
+    }
+    if (currencyName === "pure") {
+        return calculateCurrencyReservePure(priceArray);
+    }
+}
+
+async function calculateCurrencyReserveBridge(priceArray) {
+    let result = {};
+
+    /* VRSC-ETH Bridge reserves */
+    const getcurrencyResponse = await fetch(`http://localhost:9009/multichain/getcurrency/bridge.veth`);
+    const getcurrencyResult = await getcurrencyResponse.json();
+    const getcurrency = getcurrencyResult.result;
+
+    let currencyBridgeArray = [];
+    let ethereumBridgePrice = 0;
+    let mkrBridgePrice = 0;
+    let vrscBridgePrice = 0;
+    let daiReserve = 0;
+    let estimatedBridgeValue = 0;
+    if (getcurrency) {
+        let currencyIdArray = Object.values(getcurrency.currencies);
+        let currencyNames = Object.entries(getcurrency.currencynames);
+
+        /* find dai value*/
+        currencyIdArray.forEach((currencyId) => {
+            currencyNames.forEach((item) => {
+                let currency = {}
+                if (item[0] === currencyId) {
+                    getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
+                        if (reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
+                            daiReserve = reservesCurrency.reserves;
+                        }
+                    })
+                }
+            })
+        })
+
+        currencyIdArray.forEach((currencyId) => {
+            currencyNames.forEach((item) => {
+                let currency = {}
+                if (item[0] === currencyId) {
+                    getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
+                        if (reservesCurrency.currencyid === currencyId) {
+                            currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
+                            currency.priceinreserve = reservesCurrency.priceinreserve;
+                            currency.price = Math.round(daiReserve / currency.reserves * 100) / 100;
+
+                            if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
+                                vrscBridgePrice = Math.round(daiReserve / currency.reserves * 100) / 100;
+                            }
+                            if (currencyId === "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X") {
+                                ethereumBridgePrice = Math.round(daiReserve / currency.reserves * 100) / 100;
+                            }
+                            if (currencyId === "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4") {
+                                mkrBridgePrice = Math.round(daiReserve / currency.reserves * 100) / 100;
+                            }
+                        }
+
+                        if (priceArray.length > 0) {
+                            priceArray.forEach((price) => {
+                                if (price.currencyId === currencyId) {
+                                    currency.coingeckoprice = Math.round(price.price * 100) / 100;
+                                }
+                            })
+                        }
+
+
+                        if (reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
+                            estimatedBridgeValue = (Math.round(reservesCurrency.reserves * 4 * 100) / 100).toLocaleString();
+                        }
+                    })
+                    currency.currencyId = currencyId;
+                    currency.currencyName = item[1];
+                    currencyBridgeArray.push(currency);
+                }
+            })
+        })
+    }
+
+    /* estimated value of bridge */
+    currencyBridgeArray.forEach((currency) => {
+        currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 8 });
+    })
+
+    result.currencyBridgeArray = currencyBridgeArray;
+    result.estimatedBridgeValue = estimatedBridgeValue;
+    result.vrscBridgePrice = vrscBridgePrice;
+    result.ethereumBridgePrice = ethereumBridgePrice;
+    result.mkrBridgePrice = mkrBridgePrice;
+    return result;
+}
+
+async function calculateCurrencyReservePure(priceArray) {
+    let result = {};
+
+    /* VRSC-ETH Bridge reserves */
+    const getcurrencyResponse = await fetch(`http://localhost:9009/multichain/getcurrency/pure`);
+    const getcurrencyResult = await getcurrencyResponse.json();
+    const getcurrency = getcurrencyResult.result;
+
+    let currencyBridgeArray = [];
+
+    let tBTCvETHPrice = 0;
+    let vrscBridgePrice = 0;
+    let vrscReserve = 0;
+    let estimatedBridgeValue = 0;
+    if (getcurrency) {
+        let currencyIdArray = Object.values(getcurrency.currencies);
+        let currencyNames = Object.entries(getcurrency.currencynames);
+
+        /* find vrsc value*/
+        currencyIdArray.forEach((currencyId) => {
+            currencyNames.forEach((item) => {
+                let currency = {}
+                if (item[0] === currencyId) {
+                    getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
+                        if (reservesCurrency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
+                            vrscReserve = reservesCurrency.reserves;
+                        }
+                    })
+                }
+            })
+        })
+
+        currencyIdArray.forEach((currencyId) => {
+            currencyNames.forEach((item) => {
+                let currency = {}
+                if (item[0] === currencyId) {
+                    getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
+                        if (reservesCurrency.currencyid === currencyId) {
+                            currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
+                            currency.priceinreserve = reservesCurrency.priceinreserve;
+                            currency.price = Math.round(vrscReserve / currency.reserves * 100) / 100;
+
+                            if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
+                                vrscBridgePrice = Math.round(vrscReserve / currency.reserves * 100) / 100;
+                            }
+                            if (currencyId === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
+                                tBTCvETHPrice = Math.round(vrscReserve / currency.reserves * 100) / 100;
+                            }
+                        }
+
+                        if (priceArray.length > 0) {
+                            priceArray.forEach((price) => {
+                                if (price.currencyId === currencyId) {
+                                    currency.coingeckoprice = Math.round(price.price * 100) / 100;
+                                }
+                            })
+                        }
+
+
+                        if (reservesCurrency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
+                            estimatedBridgeValue = (Math.round(reservesCurrency.reserves * 2 * 100) / 100).toLocaleString();
+                        }
+                    })
+                    currency.currencyId = currencyId;
+                    currency.currencyName = item[1];
+                    currencyBridgeArray.push(currency);
+                }
+            })
+        })
+    }
+
+    /* estimated value of bridge */
+    currencyBridgeArray.forEach((currency) => {
+        currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 8 });
+    })
+
+    result.currencyBridgeArray = currencyBridgeArray;
+    result.estimatedBridgeValue = estimatedBridgeValue;
+    return result;
 }
 
 function isBlockInVolumeArray(block, currency, type) {
@@ -666,4 +874,4 @@ async function getPeerInfo() {
     return getpeerinfo;
 }
 
-module.exports = { getNodeStatus, getBlockAndFeePoolRewards, getCurrencyVolume, getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getVrscEthBridgeVolume, getBasket };
+module.exports = { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, getCurrencyVolume, getCurrencyReserve, getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getVrscEthBridgeVolume };

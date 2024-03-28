@@ -205,7 +205,7 @@
                         <br>
                         <div class="graph-y-axis">
                             {{#each vrscBridgeVolumeInDollars24HoursArrayYAxis}}<div class="graph-y-axis-item">
-                                $ {{value}}
+                                {{value}}
                             </div>{{/each}}
                         </div>
 
@@ -224,7 +224,7 @@
                         <br>
                         <div class="graph-y-axis">
                             {{#each vrscBridgeVolumeInDollars7DaysArrayYAxis}}<div class="graph-y-axis-item">
-                                $ {{value}}
+                                {{value}}
                             </div>{{/each}}
                         </div>
 
@@ -243,7 +243,7 @@
                         <br>
                         <div class="graph-y-axis">
                             {{#each vrscBridgeVolumeInDollars30DaysArrayYAxis}}<div class="graph-y-axis-item">
-                                $ {{value}}
+                                {{value}}
                             </div>{{/each}}
                         </div>
 
@@ -286,11 +286,11 @@
                 <div class="card-title">Bridge.vETH Basket</div>
 
                 <div class="card-sub-title">Estimated bridge reserves value</div>
-                <div class="card-sub-title-value">DAI {{{estimatedBridgeValue}}}</div>
+                <div class="card-sub-title-value">$ {{{estimatedBridgeValue}}}</div>
 
-                <div class="card-sub-title">Estimated bridge reserves value (coingecko.com)</div>
+                {{!-- <div class="card-sub-title">Estimated bridge reserves value (coingecko.com)</div>
                 <div class="card-sub-title-value">DAI {{{estimatedCoingeckoBridgeValue}}}</div>
-                <div class="card-sub-details">api.coingecko.com</div>
+                <div class="card-sub-details">api.coingecko.com</div> --}}
 
                 {{#each currencyBridgeArray}}
                 <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
