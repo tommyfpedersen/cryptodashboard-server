@@ -55,10 +55,10 @@ function init() {
 
     /** common */
     initCardHideButtons();
-    initGraphBarHints();
     initGraphButtons();
     initResetLocalStorage();
     initSideMenu();
+    initGraphBarHints();
 }
 
 function replaceUrlParam(url, paramName, paramValue) {
@@ -124,6 +124,7 @@ function initGraphBarHints() {
             hintElm.innerHTML = `$ ${price}</br> ${label} `;
             hintElm.style.left = xPos + "px";
             hintElm.style.top = yPos + "px";
+            // hintElm.style.zindex = 20000; 
             hintElm.classList.replace("hide", "show");
         });
         elm.addEventListener('mouseout', (evt) => {

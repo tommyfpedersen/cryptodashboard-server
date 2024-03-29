@@ -319,6 +319,7 @@ body {
     padding: 10px;
     position: fixed;
     border: 1px solid #aaa;
+    z-index: 100000;
 }
 
 .show {
