@@ -72,6 +72,24 @@ async function getAddressBalance(address) {
             if ("i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx" === item) {
                 getAddressBalanceArray.push({ currencyName: "Bridge.vETH", amount: getAddressBalance.currencybalance.i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx })
             }
+            if ("iHax5qYQGbcMGqJKKrPorpzUBX2oFFXGnY" === item) {
+                getAddressBalanceArray.push({ currencyName: "Pure", amount: getAddressBalance.currencybalance.iHax5qYQGbcMGqJKKrPorpzUBX2oFFXGnY })
+            }
+            if ("iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU" === item) {
+                getAddressBalanceArray.push({ currencyName: "tBTC.vETH", amount: getAddressBalance.currencybalance.iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU })
+            }
+            if ("i4Xr5TAMrDTD99H69EemhjDxJ4ktNskUtc" === item) {
+                getAddressBalanceArray.push({ currencyName: "Switch", amount: getAddressBalance.currencybalance.i4Xr5TAMrDTD99H69EemhjDxJ4ktNskUtc })
+            }
+            if ("i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd" === item) {
+                getAddressBalanceArray.push({ currencyName: "vUSDC.vETH", amount: getAddressBalance.currencybalance.i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd })
+            }
+            if ("iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE" === item) {
+                getAddressBalanceArray.push({ currencyName: "EURC.vETH", amount: getAddressBalance.currencybalance.iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE })
+            }
+            if ("iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2" === item) {
+                getAddressBalanceArray.push({ currencyName: "vARRR", amount: getAddressBalance.currencybalance.iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2 })
+            }
         })
     }
     result.verusAddress = verusAddress;
