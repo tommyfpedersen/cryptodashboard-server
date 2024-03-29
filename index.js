@@ -45,12 +45,12 @@ app.get('/', async (req, res) => {
   const blockandfeepoolrewards = await getBlockAndFeePoolRewards();
 
   /* Get bridge.veth volume and reserve info */
-  const currencyVolumeBridge = await getCurrencyVolume("bridge.veth", (1440 * 11));//31
+  const currencyVolumeBridge = await getCurrencyVolume("bridge.veth", (1440 * 1));//31
   const currencyReserveBridge = await getCurrencyReserve("bridge.veth", coingeckoPriceArray);
 
   /* Get pure volume and reserve info */
   const currencyReservePure = await getCurrencyReserve("pure", coingeckoPriceArray);
-  const currencyVolumePure = await getCurrencyVolume("pure", (1440 * 11));//31
+  const currencyVolumePure = await getCurrencyVolume("pure", (1440 * 1));//31
 
 
   // ThreeFold //
@@ -63,6 +63,8 @@ app.get('/', async (req, res) => {
     threefoldNodeString = "none";
   }
 
+  console.log("currencyReservePure.currencyPureArray", currencyReservePure.currencyPureArray);
+
   res.render('main', {
     // Verus
     blocks: blockandfeepoolrewards.block.toLocaleString(),
@@ -72,8 +74,6 @@ app.get('/', async (req, res) => {
     averageblockfees: blockandfeepoolrewards.averageblockfees,
     online: nodeStatus.online,
     statusMessage: nodeStatus.statusMessage,
-    currencyBridgeArray: currencyReserveBridge.currencyBridgeArray,
-    estimatedBridgeValue: currencyReserveBridge.estimatedBridgeValue,
     getAddressBalanceArray: verusAddressBalance.getAddressBalanceArray,
     getAddress: verusAddressBalance.verusAddress === "none" ? "" : verusAddressBalance.verusAddress,
     bitcoinPrice: bitcoinPrice,
@@ -90,6 +90,8 @@ app.get('/', async (req, res) => {
     vrscBridgeVolumeInDollars30Days: currencyVolumeBridge.volumeInDollars30Days,
     vrscBridgeVolumeInDollars30DaysArray: currencyVolumeBridge.volumeInDollars30DaysArray,
     vrscBridgeVolumeInDollars30DaysArrayYAxis: currencyVolumeBridge.volumeInDollars30DaysArrayYAxis,
+    currencyBridgeArray: currencyReserveBridge.currencyBridgeArray,
+    estimatedBridgeValue: currencyReserveBridge.estimatedBridgeValue,
     // Verus pure
     currencyVolumePure24Hours: currencyVolumePure.volumeInDollars24Hours,
     currencyVolumePure24HoursArray: currencyVolumePure.volumeInDollars24HoursArray,
@@ -100,6 +102,9 @@ app.get('/', async (req, res) => {
     currencyVolumePure30Days: currencyVolumePure.volumeInDollars30Days,
     currencyVolumePure30DaysArray: currencyVolumePure.volumeInDollars30DaysArray,
     currencyVolumePure30DaysArrayYAxis: currencyVolumePure.volumeInDollars30DaysArrayYAxis,
+    currencyPureArray: currencyReservePure.currencyPureArray,
+    estimatedPureValueBTC: currencyReservePure.estimatedPureValueBTC,
+    estimatedPureValueVRSC: currencyReservePure.estimatedPureValueVRSC,
     // ThreeFold
     threeFoldNodeArray: threeFoldNodeArray,
     threefoldNodeString: threefoldNodeString === "none" ? "" : threefoldNodeString
