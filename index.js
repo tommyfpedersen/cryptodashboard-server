@@ -32,7 +32,6 @@ app.get('/', async (req, res) => {
 
   /* Verus */
   const nodeStatus = await getNodeStatus();
-  console.log("nodeStatus: ", nodeStatus);
 
   if (nodeStatus.online === false) {
     return res.render('main', {});
@@ -62,8 +61,6 @@ app.get('/', async (req, res) => {
   } else {
     threefoldNodeString = "none";
   }
-
-  console.log("currencyReservePure.currencyPureArray", currencyReservePure.currencyPureArray);
 
   res.render('main', {
     // Verus
