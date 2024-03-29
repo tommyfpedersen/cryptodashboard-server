@@ -101,7 +101,6 @@ function initCardHideButtons() {
             parentElement.classList.add("hide");
             let menuItemElm = document.querySelector("#menu-" + cardId);
             let menuItemIconElm = menuItemElm.querySelector(".side-menu-item-icon");
-            console.log("menuItemElm", menuItemIconElm)
             menuItemIconElm.classList.remove("side-menu-item-selected");
 
             // update local storage

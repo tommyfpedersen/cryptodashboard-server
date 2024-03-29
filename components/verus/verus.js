@@ -1,306 +1,125 @@
-let volumeInDollarsArray = [];
+const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy } = require("./api/api");
+const { vrscEthBridgeVolume, currencyReserveEthBridge } = require("./ethbridge/ethbridge");
+const { currencyReservePure, pureVolume } = require("./pure/pure");
+const { calculateCurrencyVolume } = require("./utils/utils");
 
-async function getMiningInfo() {
-    const getmininginfoResponse = await fetch("http://localhost:9009/mining/getmininginfo")
-    const getmininginfoResult = await getmininginfoResponse.json();
-    const getmininginfo = getmininginfoResult.result;
-    return getmininginfo;
-}
-
-async function getBlockSubsidy(block) {
-    const getblocksubsidyResponse = await fetch("http://localhost:9009/mining/getblocksubsidy/" + block);
-    const getblocksubsidyResult = await getblocksubsidyResponse.json();
-    const getblocksubsidy = getblocksubsidyResult.result;
-    return getblocksubsidy;
-}
-
-async function getBlock(block) {
-    const getblockResponse = await fetch("http://localhost:9009/blockchain/getblock/" + block);
-    const getblockResult = await getblockResponse.json();
-    const getblock = getblockResult.result;
-    return getblock;
-}
-
-async function getPeerInfo() {
-    const getpeerinfoResponse = await fetch("http://localhost:9009/network/getpeerinfo/");
-    const getpeerinfoResult = await getpeerinfoResponse.json();
-    const getpeerinfo = getpeerinfoResult.result;
-    return getpeerinfo;
-}
-
-async function getVrscEthBridgeVolume(fromBlock, toBlock) {
-    if (volumeInDollarsArray.length > 0) {
-        volumeInDollarsArray.sort((a, b) => b.height - a.height);
-        let latestVolumeBlockHeight = volumeInDollarsArray[0].height;
-        toBlock = toBlock;
-        fromBlock = latestVolumeBlockHeight;
-
-        // clean up - delete all beyond 33 days
-        volumeInDollarsArray = volumeInDollarsArray.filter((item)=>{
-            return item.height > toBlock - 1440*33;
-        })
+async function getNodeStatus() {
+    let result = {};
+    const mininginfo = await getMiningInfo();
+    result.online = false;
+    result.statusMessage = "Updating Verus Node...";
+    if (mininginfo) {
+        result.online = true;
+        result.statusMessage = "Verus Node Running";
     }
-
-    let vrscReserveIn = 0;
-    let vrscReserveInLastValue = -1;
-    let vrscReserveOut = 0;
-    let vrscReserveOutLastValue = -1;
-    let vrscReserveInDollars = 0;
-
-    let daiReserveIn = 0;
-    let daiReserveInLastValue = -1;
-    let daiReserveOut = 0;
-    let daiReserveOutLastValue = -1;
-    let daiReserveInDollars = 0;
-
-    let mkrReserveIn = 0;
-    let mkrReserveInLastValue = -1;
-    let mkrReserveOut = 0;
-    let mkrReserveOutLastValue = -1;
-    let mkrReserveInDollars = 0;
-
-    let ethReserveIn = 0;
-    let ethReserveInLastValue = -1;
-    let ethReserveOut = 0;
-    let ethReserveOutLastValue = -1;
-    let ethReserveInDollars = 0;
-
-    for (let i = fromBlock; i <= toBlock; i++) {
-        const getcurrencystateResponse = await fetch("http://localhost:9009/multichain/getcurrencystate/bridge.veth/" + i);
-        const getcurrencystateResult = await getcurrencystateResponse.json();
-        let getcurrencystate = getcurrencystateResult.result[0];
-
-        if (getcurrencystate) {
-            getcurrencystate = getcurrencystateResult.result[0];
-            const getcurrencystateVRSC = getcurrencystate.currencystate.currencies.i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV;
-            const getcurrencystateDAI = getcurrencystate.currencystate.currencies.iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM;
-            const getcurrencystateMKR = getcurrencystate.currencystate.currencies.iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4;
-            const getcurrencystateETH = getcurrencystate.currencystate.currencies.i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X;
-
-            // VRSC in
-            if (getcurrencystateVRSC.reservein !== vrscReserveInLastValue) {
-                vrscReserveIn = vrscReserveIn + getcurrencystateVRSC.reservein;
-
-                let vrscReserves = 0;
-                let daiReserves = 0;
-
-                getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
-                    if (currency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                        vrscReserves = currency.reserves;
-                    }
-                    if (currency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
-                        daiReserves = currency.reserves;
-                    }
-                })
-                vrscReserveInDollars = vrscReserveInDollars + getcurrencystateVRSC.reservein * (daiReserves / vrscReserves);
-                if (isBlockInVolumeArray(getcurrencystate.height, "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV", "reservein")) {
-                    volumeInDollarsArray.push({
-                        currencyid: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
-                        dollars: getcurrencystateVRSC.reservein * (daiReserves / vrscReserves),
-                        height: getcurrencystate.height,
-                        blocktime: getcurrencystate.blocktime,
-                        type: "reservein"
-                    })
-                }
-            }
-            // VRSC out
-            if (getcurrencystateVRSC.reserveout !== vrscReserveOutLastValue) {
-                vrscReserveOut = vrscReserveOut + getcurrencystateVRSC.reserveout;
-                let vrscReserves = 0;
-                let daiReserves = 0;
-                getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
-                    if (currency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                        vrscReserves = currency.reserves;
-                    }
-                    if (currency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
-                        daiReserves = currency.reserves;
-                    }
-                })
-                vrscReserveInDollars = vrscReserveInDollars + getcurrencystateVRSC.reserveout * (daiReserves / vrscReserves);
-                if (isBlockInVolumeArray(getcurrencystate.height, "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV", "reserveout") === false) {
-                    volumeInDollarsArray.push({
-                        currencyid: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
-                        dollars: getcurrencystateVRSC.reserveout * (daiReserves / vrscReserves),
-                        height: getcurrencystate.height,
-                        blocktime: getcurrencystate.blocktime,
-                        type: "reserveout"
-                    })
-                }
-            }
-
-            vrscReserveInLastValue = getcurrencystateVRSC.reservein;
-            vrscReserveOutLastValue = getcurrencystateVRSC.reserveout;
-
-            // DAI in
-            if (getcurrencystateDAI.reservein !== daiReserveInLastValue) {
-                daiReserveIn = daiReserveIn + getcurrencystateDAI.reservein;
-
-                let daiReserves = 0;
-                getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
-                    if (currency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
-                        daiReserves = currency.reserves;
-                    }
-                })
-                daiReserveInDollars = daiReserveInDollars + getcurrencystateDAI.reservein * 1;
-                if (isBlockInVolumeArray(getcurrencystate.height, "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM", "reservein") === false) {
-                    volumeInDollarsArray.push({
-                        currencyid: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
-                        dollars: getcurrencystateDAI.reservein * 1,
-                        height: getcurrencystate.height,
-                        blocktime: getcurrencystate.blocktime,
-                        type: "reservein"
-                    })
-                }
-            }
-            // DAI out
-            if (getcurrencystateDAI.reserveout !== daiReserveOutLastValue) {
-                daiReserveOut = daiReserveOut + getcurrencystateDAI.reserveout;
-
-                let daiReserves = 0;
-                getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
-                    if (currency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
-                        daiReserves = currency.reserves;
-                    }
-                })
-                daiReserveInDollars = daiReserveInDollars + getcurrencystateDAI.reserveout * 1;
-                if (isBlockInVolumeArray(getcurrencystate.height, "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM", "reserveout") === false) {
-                    volumeInDollarsArray.push({
-                        currencyid: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
-                        dollars: getcurrencystateDAI.reserveout * 1,
-                        height: getcurrencystate.height,
-                        blocktime: getcurrencystate.blocktime,
-                        type: "reserveout"
-                    })
-                }
-            }
-            daiReserveInLastValue = getcurrencystateDAI.reservein;
-            daiReserveOutLastValue = getcurrencystateDAI.reserveout;
-
-            // MKR in
-            if (getcurrencystateMKR.reservein !== mkrReserveInLastValue) {
-                mkrReserveIn = mkrReserveIn + getcurrencystateMKR.reservein;
-
-                let mkrReserves = 0;
-                let daiReserves = 0;
-
-                getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
-                    if (currency.currencyid === "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4") {
-                        mkrReserves = currency.reserves;
-                    }
-                    if (currency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
-                        daiReserves = currency.reserves;
-                    }
-                })
-                mkrReserveInDollars = mkrReserveInDollars + getcurrencystateMKR.reservein * (daiReserves / mkrReserves);
-                if (isBlockInVolumeArray(getcurrencystate.height, "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4", "reservein") === false) {
-                    volumeInDollarsArray.push({
-                        currencyid: "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4",
-                        dollars: getcurrencystateMKR.reservein * (daiReserves / mkrReserves),
-                        height: getcurrencystate.height,
-                        blocktime: getcurrencystate.blocktime,
-                        type: "reservein"
-                    })
-                }
-            }
-            // MKR out
-            if (getcurrencystateMKR.reserveout !== mkrReserveOutLastValue) {
-                mkrReserveOut = mkrReserveOut + getcurrencystateMKR.reserveout;
-                let mkrReserves = 0;
-                let daiReserves = 0;
-                getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
-                    if (currency.currencyid === "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4") {
-                        mkrReserves = currency.reserves;
-                    }
-                    if (currency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
-                        daiReserves = currency.reserves;
-                    }
-                })
-                mkrReserveInDollars = mkrReserveInDollars + getcurrencystateMKR.reserveout * (daiReserves / mkrReserves);
-                if (isBlockInVolumeArray(getcurrencystate.height, "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4", "reserveout") === false) {
-                    volumeInDollarsArray.push({
-                        currencyid: "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4",
-                        dollars: getcurrencystateMKR.reserveout * (daiReserves / mkrReserves),
-                        height: getcurrencystate.height,
-                        blocktime: getcurrencystate.blocktime,
-                        type: "reserveout"
-                    })
-                }
-            }
-
-            mkrReserveInLastValue = getcurrencystateMKR.reservein;
-            mkrReserveOutLastValue = getcurrencystateMKR.reserveout;
-
-            // ETH in
-            if (getcurrencystateETH.reservein !== ethReserveInLastValue) {
-                ethReserveIn = ethReserveIn + getcurrencystateETH.reservein;
-
-                let ethReserves = 0;
-                let daiReserves = 0;
-
-                getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
-                    if (currency.currencyid === "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X") {
-                        ethReserves = currency.reserves;
-                    }
-                    if (currency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
-                        daiReserves = currency.reserves;
-                    }
-                })
-                ethReserveInDollars = ethReserveInDollars + getcurrencystateETH.reservein * (daiReserves / ethReserves);
-                if (isBlockInVolumeArray(getcurrencystate.height, "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X", "reservein") === false) {
-                    volumeInDollarsArray.push({
-                        currencyid: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
-                        dollars: getcurrencystateETH.reservein * (daiReserves / ethReserves),
-                        height: getcurrencystate.height,
-                        blocktime: getcurrencystate.blocktime,
-                        type: "reservein"
-                    })
-                }
-            }
-            // ETH out
-            if (getcurrencystateETH.reserveout !== ethReserveOutLastValue) {
-                ethReserveOut = ethReserveOut + getcurrencystateETH.reserveout;
-                let ethReserves = 0;
-                let daiReserves = 0;
-                getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
-                    if (currency.currencyid === "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4") {
-                        ethReserves = currency.reserves;
-                    }
-                    if (currency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
-                        daiReserves = currency.reserves;
-                    }
-                })
-                ethReserveInDollars = ethReserveInDollars + getcurrencystateETH.reserveout * (daiReserves / ethReserves);
-                if (isBlockInVolumeArray(getcurrencystate.height, "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X", "reserveout") === false) {
-                    volumeInDollarsArray.push({
-                        currencyid: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
-                        dollars: getcurrencystateETH.reserveout * (daiReserves / ethReserves),
-                        height: getcurrencystate.height,
-                        blocktime: getcurrencystate.blocktime,
-                        type: "reserveout"
-                    })
-                }
-            }
-            ethReserveInLastValue = getcurrencystateETH.reservein;
-            ethReserveOutLastValue = getcurrencystateETH.reserveout;
-        }
-    }
-    let totalVolumenInDollars = 0;
-    volumeInDollarsArray.forEach((elm) => {
-        totalVolumenInDollars = totalVolumenInDollars + elm.dollars;
-    })
-    return volumeInDollarsArray;
-}
-
-function isBlockInVolumeArray(block, currency, type) {
-    let result = false;
-    volumeInDollarsArray.forEach((item) => {
-        if (item.height === block) {
-            if (item.currencyid === currency && item.type === type) {
-                result = true;
-            }
-        }
-    })
     return result;
 }
 
-module.exports = { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getVrscEthBridgeVolume };
+async function getBlockAndFeePoolRewards() {
+    let result = {};
+    result.blockLastSend = "";
+    result.block = 0;
+    let blockFeeReward = 0;
+    let feeReward = "";
+
+    const peerinfo = await getPeerInfo();
+    if (Array.isArray(peerinfo) && peerinfo.length > 0) {
+        result.blockLastSend = new Date(peerinfo[0].lastsend * 1000).toLocaleString();
+        const miningInfo = await getMiningInfo();
+        result.block = miningInfo.blocks;
+        const block = await getBlock(miningInfo.blocks);
+        const blocksubsidy = await getBlockSubsidy(miningInfo.blocks);
+        block.tx[0].vout.map((item) => {
+            blockFeeReward = blockFeeReward + item.value;
+        })
+        feeReward = Math.round((blockFeeReward - blocksubsidy?.miner) * 100000000) / 100000000;
+        result.blockReward = blocksubsidy.miner;
+        result.feeReward = feeReward;
+        result.averageblockfees = miningInfo.averageblockfees
+    }
+    return result;
+}
+
+async function getAddressBalance(address) {
+    result = {};
+    let getAddressBalanceArray = [];
+    let verusAddress = "";
+    if (address) {
+        verusAddress = decodeURIComponent(address);
+    } else {
+        verusAddress = "none";//"RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7";
+    }
+    const getAddressBalanceResponse = await fetch("http://localhost:9009/addressindex/getaddressbalance/" + verusAddress);
+    const getAddressBalanceResult = await getAddressBalanceResponse.json();
+    const getAddressBalance = getAddressBalanceResult.result;
+
+    if (getAddressBalance?.currencybalance) {
+        let currencyIdArray = Object.keys(getAddressBalance.currencybalance);
+
+        currencyIdArray.forEach((item) => {
+            if ("i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" === item) {
+                getAddressBalanceArray.push({ currencyName: "VRSC", amount: getAddressBalance.currencybalance.i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV })
+            }
+            if ("iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM" === item) {
+                getAddressBalanceArray.push({ currencyName: "DAI.vETH", amount: getAddressBalance.currencybalance.iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM })
+            }
+            if ("iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4" === item) {
+                getAddressBalanceArray.push({ currencyName: "MKR.vETH", amount: getAddressBalance.currencybalance.iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4 })
+            }
+            if ("i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X" === item) {
+                getAddressBalanceArray.push({ currencyName: "vETH", amount: getAddressBalance.currencybalance.i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X })
+            }
+            if ("i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx" === item) {
+                getAddressBalanceArray.push({ currencyName: "Bridge.vETH", amount: getAddressBalance.currencybalance.i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx })
+            }
+            if ("iHax5qYQGbcMGqJKKrPorpzUBX2oFFXGnY" === item) {
+                getAddressBalanceArray.push({ currencyName: "Pure", amount: getAddressBalance.currencybalance.iHax5qYQGbcMGqJKKrPorpzUBX2oFFXGnY })
+            }
+            if ("iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU" === item) {
+                getAddressBalanceArray.push({ currencyName: "tBTC.vETH", amount: getAddressBalance.currencybalance.iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU })
+            }
+            if ("i4Xr5TAMrDTD99H69EemhjDxJ4ktNskUtc" === item) {
+                getAddressBalanceArray.push({ currencyName: "Switch", amount: getAddressBalance.currencybalance.i4Xr5TAMrDTD99H69EemhjDxJ4ktNskUtc })
+            }
+            if ("i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd" === item) {
+                getAddressBalanceArray.push({ currencyName: "vUSDC.vETH", amount: getAddressBalance.currencybalance.i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd })
+            }
+            if ("iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE" === item) {
+                getAddressBalanceArray.push({ currencyName: "EURC.vETH", amount: getAddressBalance.currencybalance.iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE })
+            }
+            if ("iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2" === item) {
+                getAddressBalanceArray.push({ currencyName: "vARRR", amount: getAddressBalance.currencybalance.iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2 })
+            }
+        })
+    }
+    result.verusAddress = verusAddress;
+    result.getAddressBalanceArray = getAddressBalanceArray;
+    return result;
+}
+
+async function getCurrencyVolume(currencyName, blockcount) {
+    const miningInfo = await getMiningInfo();
+    let result;
+    let volumeArray;
+    if (currencyName === "bridge.veth") {
+        volumeArray = await vrscEthBridgeVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
+        result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
+    }
+    if (currencyName === "pure") {
+        volumeArray = await pureVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
+        result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
+    }
+
+    return result;
+}
+
+async function getCurrencyReserve(currencyName, priceArray) {
+    if (currencyName === "bridge.veth") {
+        return currencyReserveEthBridge(priceArray);
+    }
+    if (currencyName === "pure") {
+        return currencyReservePure(priceArray);
+    }
+}
+
+module.exports = { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, getCurrencyVolume, getCurrencyReserve };
