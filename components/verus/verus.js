@@ -1,6 +1,7 @@
 const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy } = require("./api/api");
 const { vrscEthBridgeVolume, currencyReserveEthBridge } = require("./ethbridge/ethbridge");
 const { currencyReservePure, pureVolume } = require("./pure/pure");
+const { vrscSwitchVolume, currencyReserveSwitch } = require("./switch/switch");
 const { calculateCurrencyVolume } = require("./utils/utils");
 
 async function getNodeStatus() {
@@ -109,6 +110,10 @@ async function getCurrencyVolume(currencyName, blockcount) {
         volumeArray = await pureVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
         result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
     }
+    if (currencyName === "switch") {
+        volumeArray = await vrscSwitchVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
+        result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
+    }
 
     return result;
 }
@@ -119,6 +124,9 @@ async function getCurrencyReserve(currencyName, priceArray, vrscBridgePrice) {
     }
     if (currencyName === "pure") {
         return currencyReservePure(priceArray, vrscBridgePrice);
+    }
+    if (currencyName === "switch") {
+        return currencyReserveSwitch(priceArray, vrscBridgePrice);
     }
 }
 
