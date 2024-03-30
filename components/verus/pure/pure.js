@@ -154,7 +154,7 @@ async function pureVolume(fromBlock, toBlock) {
     return volumeInDollarsPureArray;
 }
 
-async function currencyReservePure(priceArray) {
+async function currencyReservePure(priceArray, vrscBridgePrice) {
     let result = {};
 
     /* Pure reserves */
@@ -220,7 +220,7 @@ async function currencyReservePure(priceArray) {
                             if (currencyId === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
                                 currency.price = Math.round(vrscReserve / currency.reserves * 100) / 100;
                                 currency.pricelabel = "VRSC";
-                                currency.dollarprice = Math.round(vrscCoingeckoPrice * currency.price * 100) / 100;
+                                currency.dollarprice = Math.round(vrscBridgePrice * currency.price * 100) / 100;
                             }
                         }
 
@@ -235,7 +235,7 @@ async function currencyReservePure(priceArray) {
 
 
                         if (reservesCurrency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                            estimatedPureValueVRSC = (Math.round(vrscCoingeckoPrice * reservesCurrency.reserves * 2 * 100) / 100).toLocaleString();
+                            estimatedPureValueVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 2 * 100) / 100).toLocaleString();
                         }
                         if (reservesCurrency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
                             estimatedPureValueBTC = (Math.round(tBTCvETHCoingeckoPrice * reservesCurrency.reserves * 2 * 100) / 100).toLocaleString();

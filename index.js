@@ -48,7 +48,7 @@ app.get('/', async (req, res) => {
   const currencyReserveBridge = await getCurrencyReserve("bridge.veth", coingeckoPriceArray);
 
   /* Get pure volume and reserve info */
-  const currencyReservePure = await getCurrencyReserve("pure", coingeckoPriceArray);
+  const currencyReservePure = await getCurrencyReserve("pure", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
   const currencyVolumePure = await getCurrencyVolume("pure", (1440 * 31));//31
 
 

@@ -113,12 +113,12 @@ async function getCurrencyVolume(currencyName, blockcount) {
     return result;
 }
 
-async function getCurrencyReserve(currencyName, priceArray) {
+async function getCurrencyReserve(currencyName, priceArray, vrscBridgePrice) {
     if (currencyName === "bridge.veth") {
         return currencyReserveEthBridge(priceArray);
     }
     if (currencyName === "pure") {
-        return currencyReservePure(priceArray);
+        return currencyReservePure(priceArray, vrscBridgePrice);
     }
 }
 
