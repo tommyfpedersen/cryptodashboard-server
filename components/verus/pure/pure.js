@@ -227,8 +227,14 @@ async function currencyReservePure(priceArray, vrscBridgePrice) {
                         if (priceArray.length > 0) {
                             priceArray.forEach((price) => {
                                 if (price.currencyId === currencyId) {
-                                    currency.coingeckoprice = Math.round(price.price * 100) / 100;
-                                    // currency.dollarprice = Math.round(price.price * currency.price * 100) / 100;
+                                    if(currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
+                                        currency.coingeckoprice = Math.round(vrscBridgePrice * 100) / 100;
+                                        currency.coingeckoLabel = "Bridge";
+                                    }
+                                    if(currencyId === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU"){
+                                        currency.coingeckoprice = Math.round(price.price * 100) / 100;
+                                        currency.coingeckoLabel = "Coingecko";
+                                    } 
                                 }
                             })
                         }
