@@ -285,8 +285,11 @@
                 {{!-- <div class="card-title">VRSC-ETH Bridge Reserves</div> --}}
                 <div class="card-title">Bridge.vETH Basket</div>
 
+                <div class="card-sub-title">Estimated bridge value</div>
+                <div class="card-sub-title-value">$ {{{estimatedBridgeValueUSD}}}</div>
+
                 <div class="card-sub-title">Estimated bridge reserves value</div>
-                <div class="card-sub-title-value">$ {{{estimatedBridgeValue}}}</div>
+                <div class="card-sub-title-value">$ {{{estimatedBridgeReserveValue}}}</div>
 
                 {{!-- <div class="card-sub-title">Estimated bridge reserves value (coingecko.com)</div>
                 <div class="card-sub-title-value">DAI {{{estimatedCoingeckoBridgeValue}}}</div>
@@ -411,9 +414,12 @@
                 {{#if online}}
                 <div class="card-title">Pure Basket</div>
 
+                <div class="card-sub-title">Estimated pure value</div>
+                <div class="card-sub-title-value">$ {{{estimatedPureValueUSD}}}</div>
+
                 <div class="card-sub-title">Estimated pure reserves value</div>
-                <div class="card-sub-title-value">$ {{{estimatedPureValueBTC}}} <span class="card-sub-title-value-prefix">BTC</span></div>
-                <div class="card-sub-title-value">$ {{{estimatedPureValueVRSC}}} <span class="card-sub-title-value-prefix">VRSC</span></div>
+                <div class="card-sub-title-value">$ {{{estimatedPureReserveValueBTC}}} <span class="card-sub-title-value-prefix">BTC</span></div>
+                <div class="card-sub-title-value">$ {{{estimatedPureReserveValueVRSC}}} <span class="card-sub-title-value-prefix">VRSC</span></div>
 
                 {{#each currencyPureArray}}
                 <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>

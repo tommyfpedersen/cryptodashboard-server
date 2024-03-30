@@ -170,6 +170,8 @@ async function currencyReservePure(priceArray, vrscBridgePrice) {
     let tBTCvETHReserve = 0;
     let estimatedPureValueBTC = 0;
     let estimatedPureValueVRSC = 0;
+    let estimatedPureSupply = getcurrency.bestcurrencystate.supply;
+    let estimatedPureValueUSD = 0;
 
     priceArray.forEach((priceElm) => {
         if (priceElm.currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
@@ -242,6 +244,7 @@ async function currencyReservePure(priceArray, vrscBridgePrice) {
 
                         if (reservesCurrency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                             estimatedPureValueVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 2 * 100) / 100).toLocaleString();
+                            estimatedPureValueUSD = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 2 / estimatedPureSupply *100)/ 100).toLocaleString();
                         }
                         if (reservesCurrency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
                             estimatedPureValueBTC = (Math.round(tBTCvETHCoingeckoPrice * reservesCurrency.reserves * 2 * 100) / 100).toLocaleString();
@@ -263,6 +266,7 @@ async function currencyReservePure(priceArray, vrscBridgePrice) {
     result.currencyPureArray = currencyPureArray;
     result.estimatedPureValueBTC = estimatedPureValueBTC;
     result.estimatedPureValueVRSC = estimatedPureValueVRSC;
+    result.estimatedPureValueUSD = estimatedPureValueUSD;
     return result;
 }
 
