@@ -409,27 +409,20 @@
             <button class="hide-button">x</button>
             <div class="card-content">
                 {{#if online}}
-                {{!-- <div class="card-title">VRSC-ETH Bridge Reserves</div> --}}
                 <div class="card-title">Pure Basket</div>
 
                 <div class="card-sub-title">Estimated pure reserves value</div>
                 <div class="card-sub-title-value">$ {{{estimatedPureValueBTC}}} <span class="card-sub-title-value-prefix">BTC</span></div>
                 <div class="card-sub-title-value">$ {{{estimatedPureValueVRSC}}} <span class="card-sub-title-value-prefix">VRSC</span></div>
 
-                {{!-- <div class="card-sub-title">Estimated bridge reserves value (coingecko.com)</div>
-                <div class="card-sub-title-value">DAI {{{estimatedCoingeckoBridgeValue}}}</div>
-                <div class="card-sub-details">api.coingecko.com</div> --}}
-
                 {{#each currencyPureArray}}
                 <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
                 <div class="card-sub-title-value"> {{reserves}} </div>
                 <div class="card-sub-details">{{pricelabel}} {{price}} </div>
                 <div class="card-sub-details">Basket: $ {{dollarprice}} </div>
-                <div class="card-sub-details">Coingecko: $ {{coingeckoprice}} </div>
+                <div class="card-sub-details">{{coingeckoLabel}}: $ {{coingeckoprice}} </div>
 
                 {{/each}}
-
-
 
 
                 {{else}}
