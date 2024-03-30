@@ -87,8 +87,9 @@ app.get('/', async (req, res) => {
     vrscBridgeVolumeInDollars30Days: currencyVolumeBridge.volumeInDollars30Days,
     vrscBridgeVolumeInDollars30DaysArray: currencyVolumeBridge.volumeInDollars30DaysArray,
     vrscBridgeVolumeInDollars30DaysArrayYAxis: currencyVolumeBridge.volumeInDollars30DaysArrayYAxis,
+    estimatedBridgeValueUSD: currencyReserveBridge.estimatedBridgeValueUSD,
     currencyBridgeArray: currencyReserveBridge.currencyBridgeArray,
-    estimatedBridgeValue: currencyReserveBridge.estimatedBridgeValue,
+    estimatedBridgeReserveValue: currencyReserveBridge.estimatedBridgeValue,
     // Verus pure
     currencyVolumePure24Hours: currencyVolumePure.volumeInDollars24Hours,
     currencyVolumePure24HoursArray: currencyVolumePure.volumeInDollars24HoursArray,
@@ -100,8 +101,9 @@ app.get('/', async (req, res) => {
     currencyVolumePure30DaysArray: currencyVolumePure.volumeInDollars30DaysArray,
     currencyVolumePure30DaysArrayYAxis: currencyVolumePure.volumeInDollars30DaysArrayYAxis,
     currencyPureArray: currencyReservePure.currencyPureArray,
-    estimatedPureValueBTC: currencyReservePure.estimatedPureValueBTC,
-    estimatedPureValueVRSC: currencyReservePure.estimatedPureValueVRSC,
+    estimatedPureValueUSD: currencyReservePure.estimatedPureValueUSD,
+    estimatedPureReserveValueBTC: currencyReservePure.estimatedPureValueBTC,
+    estimatedPureReserveValueVRSC: currencyReservePure.estimatedPureValueVRSC,
     // ThreeFold
     threeFoldNodeArray: threeFoldNodeArray,
     threefoldNodeString: threefoldNodeString === "none" ? "" : threefoldNodeString
