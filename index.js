@@ -124,6 +124,7 @@ app.get('/', async (req, res) => {
     currencySwitchArray: currencyReserveSwitch.currencySwitchArray,
     estimatedSwitchValue: currencyReserveSwitch.estimatedSwitchValue,
     estimatedSwitchReserveValue: currencyReserveSwitch.estimatedSwitcheReserveValue,
+    estimatedSwitchValueUSDVRSC: currencyReserveSwitch.estimatedSwitchValueUSDVRSC,
     // ThreeFold
     threeFoldNodeArray: threeFoldNodeArray,
     threefoldNodeString: threefoldNodeString === "none" ? "" : threefoldNodeString

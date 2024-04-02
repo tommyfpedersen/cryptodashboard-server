@@ -267,7 +267,6 @@ async function vrscSwitchVolume(fromBlock, toBlock) {
 async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
     let result = {};
 
-    console.log("priceArray", priceArray)
     /* VRSC-ETH Bridge reserves */
     const getcurrencyResponse = await fetch(`http://localhost:9009/multichain/getcurrency/switch`);
     const getcurrencyResult = await getcurrencyResponse.json();
@@ -280,7 +279,8 @@ async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
     let daiPrice = 0;
     let daiReserve = 0;
     let estimatedSwitchValue = 0;
-    let estimatedSwitcheReserveValue = 0;
+    let estimatedSwitchReserveValue = 0;
+    let estimatedSwitchValueUSDVRSC = 0;
     let estimatedSwitchSupply = getcurrency.bestcurrencystate.supply;
     let estimatedSwitchValueUSD = 0;
 
@@ -296,9 +296,10 @@ async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
                     getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
                         if (reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
                             daiReserve = reservesCurrency.reserves;
-                            estimatedSwitcheReserveValue = daiReserve * 1 / reservesCurrency.weight;
-                            estimatedSwitchValue = (Math.round(estimatedSwitcheReserveValue / estimatedSwitchSupply * 100) / 100).toLocaleString();
-                            estimatedSwitcheReserveValue = (Math.round(estimatedSwitcheReserveValue * 100) / 100).toLocaleString();
+                            estimatedSwitchReserveValue = daiReserve * 1 / reservesCurrency.weight;
+                            estimatedSwitchValue = (Math.round(estimatedSwitchReserveValue / estimatedSwitchSupply * 100) / 100).toLocaleString();
+                            estimatedSwitchValueUSDVRSC = (Math.round(estimatedSwitchValue / vrscBridgePrice * 100000000) / 100000000).toLocaleString();
+                            estimatedSwitchReserveValue = (Math.round(estimatedSwitchReserveValue * 100) / 100).toLocaleString();
                         }
                     })
                 }
@@ -334,12 +335,26 @@ async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
                     })
                 
                     if (priceArray.length > 0) {
-
-                        let foundCurrency = priceArray.find(price => price.currencyId === "i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd");
-                        if (foundCurrency) {
+                        let foundCurrency = null;
+                        foundCurrency = priceArray.find(price => price.currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV");
+                        if (foundCurrency && currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
+                            currency.coingeckoprice = Math.round(vrscBridgePrice * 100) / 100;
+                            currency.coingeckoLabel = "Bridge";
+                        }
+                        foundCurrency = priceArray.find(price => price.currencyId === "i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd");
+                        if (foundCurrency && currencyId === "i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd") {
                             currency.coingeckoprice = Math.round(foundCurrency.price * 100) / 100;
                             currency.coingeckoLabel = "Coingecko";
-                            console.log("usdcPrice", currency.coingeckoprice)
+                        }
+                        foundCurrency = priceArray.find(price => price.currencyId === "iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE");
+                        if (foundCurrency && currencyId === "iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE") {
+                            currency.coingeckoprice = Math.round(foundCurrency.price * 100) / 100;
+                            currency.coingeckoLabel = "Coingecko";
+                        }
+                        foundCurrency = priceArray.find(price => price.currencyId === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM");
+                        if (foundCurrency && currencyId === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
+                            currency.coingeckoprice = Math.round(foundCurrency.price * 100) / 100;
+                            currency.coingeckoLabel = "Coingecko";
                         }
                     }
 
@@ -358,7 +373,8 @@ async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
 
     result.currencySwitchArray = currencySwitchArray;
     result.estimatedSwitchValue = estimatedSwitchValue;
-    result.estimatedSwitcheReserveValue = estimatedSwitcheReserveValue;
+    result.estimatedSwitcheReserveValue = estimatedSwitchReserveValue;
+    result.estimatedSwitchValueUSDVRSC = estimatedSwitchValueUSDVRSC;
     return result;
 }
 
