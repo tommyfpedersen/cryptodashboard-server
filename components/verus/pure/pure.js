@@ -168,7 +168,8 @@ async function currencyReservePure(priceArray, vrscBridgePrice) {
     let vrscCoingeckoPrice = 0;
     let vrscReserve = 0;
     let tBTCvETHReserve = 0;
-    let estimatedPureValueBTC = 0;
+    let estimatedPureValueUSDBTC = 0;
+    let estimatedPureValueUSDVRSC = 0;
     let estimatedPureValueVRSC = 0;
     let estimatedPureSupply = getcurrency.bestcurrencystate.supply;
     let estimatedPureValueUSD = 0;
@@ -243,11 +244,12 @@ async function currencyReservePure(priceArray, vrscBridgePrice) {
 
 
                         if (reservesCurrency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                            estimatedPureValueVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 2 * 100) / 100).toLocaleString();
+                            estimatedPureValueUSDVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 2 * 100) / 100).toLocaleString();
                             estimatedPureValueUSD = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 2 / estimatedPureSupply *100)/ 100).toLocaleString();
+                            estimatedPureValueVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 2 / estimatedPureSupply /vrscBridgePrice *100000000)/ 100000000).toLocaleString();
                         }
                         if (reservesCurrency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
-                            estimatedPureValueBTC = (Math.round(tBTCvETHCoingeckoPrice * reservesCurrency.reserves * 2 * 100) / 100).toLocaleString();
+                            estimatedPureValueUSDBTC = (Math.round(tBTCvETHCoingeckoPrice * reservesCurrency.reserves * 2 * 100) / 100).toLocaleString();
                         }
                     })
                     currency.currencyId = currencyId;
@@ -264,9 +266,10 @@ async function currencyReservePure(priceArray, vrscBridgePrice) {
     })
 
     result.currencyPureArray = currencyPureArray;
-    result.estimatedPureValueBTC = estimatedPureValueBTC;
-    result.estimatedPureValueVRSC = estimatedPureValueVRSC;
+    result.estimatedPureValueUSDBTC = estimatedPureValueUSDBTC;
+    result.estimatedPureValueUSDVRSC = estimatedPureValueUSDVRSC;
     result.estimatedPureValueUSD = estimatedPureValueUSD;
+    result.estimatedPureValueVRSC = estimatedPureValueVRSC;
     return result;
 }
 

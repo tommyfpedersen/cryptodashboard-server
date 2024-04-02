@@ -55,7 +55,6 @@ app.get('/', async (req, res) => {
   const currencyReserveSwitch = await getCurrencyReserve("switch", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
   const currencyVolumeSwitch = await getCurrencyVolume("switch", (1440 * 1));//31
 
-  console.log("currencyReserveSwitch: ", currencyReserveSwitch);
 
 
   // ThreeFold //
@@ -94,6 +93,7 @@ app.get('/', async (req, res) => {
     vrscBridgeVolumeInDollars30DaysArray: currencyVolumeBridge.volumeInDollars30DaysArray,
     vrscBridgeVolumeInDollars30DaysArrayYAxis: currencyVolumeBridge.volumeInDollars30DaysArrayYAxis,
     estimatedBridgeValueUSD: currencyReserveBridge.estimatedBridgeValueUSD,
+    estimatedBridgeValueVRSC: currencyReserveBridge.estimatedBridgeValueVRSC,
     currencyBridgeArray: currencyReserveBridge.currencyBridgeArray,
     estimatedBridgeReserveValue: currencyReserveBridge.estimatedBridgeValue,
     // Verus pure
@@ -108,8 +108,9 @@ app.get('/', async (req, res) => {
     currencyVolumePure30DaysArrayYAxis: currencyVolumePure.volumeInDollars30DaysArrayYAxis,
     currencyPureArray: currencyReservePure.currencyPureArray,
     estimatedPureValueUSD: currencyReservePure.estimatedPureValueUSD,
-    estimatedPureReserveValueBTC: currencyReservePure.estimatedPureValueBTC,
-    estimatedPureReserveValueVRSC: currencyReservePure.estimatedPureValueVRSC,
+    estimatedPureValueVRSC: currencyReservePure.estimatedPureValueVRSC,
+    estimatedPureReserveValueUSDBTC: currencyReservePure.estimatedPureValueUSDBTC,
+    estimatedPureReserveValueUSDVRSC: currencyReservePure.estimatedPureValueUSDVRSC,
     // Verus switch
     currencyVolumeSwitch24Hours: currencyVolumeSwitch.volumeInDollars24Hours,
     currencyVolumeSwitch24HoursArray: currencyVolumeSwitch.volumeInDollars24HoursArray,
@@ -121,8 +122,8 @@ app.get('/', async (req, res) => {
     currencyVolumeSwitch30DaysArray: currencyVolumeSwitch.volumeInDollars30DaysArray,
     currencyVolumeSwitch30DaysArrayYAxis: currencyVolumeSwitch.volumeInDollars30DaysArrayYAxis,
     currencySwitchArray: currencyReserveSwitch.currencySwitchArray,
-    estimatedSwitchValueUSD: currencyReserveSwitch.estimatedSwitchValueUSD,
-    estimatedSwitchReserveValue: currencyReserveSwitch.estimatedSwitchValue,
+    estimatedSwitchValue: currencyReserveSwitch.estimatedSwitchValue,
+    estimatedSwitchReserveValue: currencyReserveSwitch.estimatedSwitcheReserveValue,
     // ThreeFold
     threeFoldNodeArray: threeFoldNodeArray,
     threefoldNodeString: threefoldNodeString === "none" ? "" : threefoldNodeString

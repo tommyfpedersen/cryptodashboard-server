@@ -280,6 +280,7 @@ async function currencyReserveEthBridge(priceArray) {
     let estimatedBridgeValue = 0;
     let estimatedBridgeSupply = getcurrency.bestcurrencystate.supply;
     let estimatedBridgeValueUSD = 0;
+    let estimatedBridgeValueVRSC = 0;
 
     if (getcurrency) {
         let currencyIdArray = Object.values(getcurrency.currencies);
@@ -332,6 +333,7 @@ async function currencyReserveEthBridge(priceArray) {
                         if (reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
                             estimatedBridgeValue = (Math.round(reservesCurrency.reserves * 4 * 100) / 100).toLocaleString();
                             estimatedBridgeValueUSD = (Math.round(reservesCurrency.reserves * 4 / estimatedBridgeSupply *100)/ 100).toLocaleString();
+                            estimatedBridgeValueVRSC = (Math.round(reservesCurrency.reserves * 4 / estimatedBridgeSupply / vrscBridgePrice *100000000)/ 100000000).toLocaleString();
                         }
                     })
                     currency.currencyId = currencyId;
@@ -353,6 +355,7 @@ async function currencyReserveEthBridge(priceArray) {
     result.ethereumBridgePrice = ethereumBridgePrice;
     result.mkrBridgePrice = mkrBridgePrice;
     result.estimatedBridgeValueUSD = estimatedBridgeValueUSD;
+    result.estimatedBridgeValueVRSC = estimatedBridgeValueVRSC;
     return result;
 }
 
