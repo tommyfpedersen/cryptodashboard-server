@@ -108,7 +108,7 @@
             </svg>
             <button class="hide-button">x</button>
             <div class="card-content">
-                <div class="card-title">Verus Bounties</div>
+                <div class="card-title">Bounties</div>
                 <div class="card-sub-title">Verus solana bridge</div>
                 <div class="card-sub-title-value"> 30,000 $VRSC </div>
                 <div class="card-sub-details"> Adapt the already-existing, trustless, decentralized $ETH bidirectional
@@ -128,7 +128,7 @@
             <button class="hide-button">x</button>
             <div class="card-content">
                 {{#if online}}
-                <div class="card-title">Verus Address Balance</div>
+                <div class="card-title">Address Balance</div>
 
                 <div class="card-sub-title">Verus address</div>
                 <div class="card-sub-title-value"><input id="get-address-balance" class="card-input"
@@ -417,7 +417,7 @@
 
                 <div class="card-sub-title">Estimated pure reserves value</div>
                 <div class="card-sub-title-value">$ {{{estimatedPureReserveValueUSDBTC}}} <span class="card-sub-title-value-prefix">via BTC</span></div>
-                <div class="card-sub-title-value">$ {{{estimatedPureReserveValueUSDVRSC}}} <span class="card-sub-title-value-prefix">via VRSC</span></div>
+                <div class="card-sub-details">$ {{{estimatedPureReserveValueUSDVRSC}}} via VRSC</div>
 
                 {{#each currencyPureArray}}
                 <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>

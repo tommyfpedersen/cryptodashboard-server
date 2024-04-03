@@ -235,7 +235,7 @@ async function vrscSwitchVolume(fromBlock, toBlock) {
                 let eurcReserves = 0;
                 let daiReserves = 0;
                 getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
-                    if (currency.currencyid === "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4") {
+                    if (currency.currencyid === "iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE") {
                         eurcReserves = currency.reserves;
                     }
                     if (currency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {

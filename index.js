@@ -44,16 +44,16 @@ app.get('/', async (req, res) => {
   const blockandfeepoolrewards = await getBlockAndFeePoolRewards();
 
   /* Get bridge.veth volume and reserve info */
-  const currencyVolumeBridge = await getCurrencyVolume("bridge.veth", (1440 * 1));//31
+  const currencyVolumeBridge = await getCurrencyVolume("bridge.veth", (1440 * 31));//31
   const currencyReserveBridge = await getCurrencyReserve("bridge.veth", coingeckoPriceArray);
 
   /* Get pure volume and reserve info */
   const currencyReservePure = await getCurrencyReserve("pure", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
-  const currencyVolumePure = await getCurrencyVolume("pure", (1440 * 1));//31
+  const currencyVolumePure = await getCurrencyVolume("pure", (1440 * 31));//31
 
   /* Get pure volume and reserve info */
   const currencyReserveSwitch = await getCurrencyReserve("switch", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
-  const currencyVolumeSwitch = await getCurrencyVolume("switch", (1440 * 1));//31
+  const currencyVolumeSwitch = await getCurrencyVolume("switch", (1440 * 31));//31
 
 
 
