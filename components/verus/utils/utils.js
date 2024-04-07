@@ -135,8 +135,12 @@ async function calculateCurrencyVolume(volumeArray, miningInfoBlocks) {
                     volumeInDollarsCounter30D = 0;
                     counter++;
                 }
-                volumeInDollarsCounter30D += elm.dollars;
-                volumeInDollars30Days = volumeInDollars30Days + elm.dollars;
+               
+                if(!isNaN(elm.dollars)){
+                    volumeInDollarsCounter30D += elm.dollars;
+                    volumeInDollars30Days = volumeInDollars30Days + elm.dollars;
+                }
+               
             }
         })
     volumeInDollars30DaysArray.reverse();

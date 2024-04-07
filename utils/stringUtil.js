@@ -3,6 +3,9 @@ function convertToAxisString(value) {
     const valueLength = value.toString().length;
     let convertString = value;
 
+    if(valueLength < 4){
+        return  value.toString();
+    }
     if (valueLength === 4) {
         convertString = value.toString().substring(0, 1) + "K";
     }
