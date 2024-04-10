@@ -1,7 +1,23 @@
+const { saveVolumeDataToFile, getVolumeDataFromFile } = require("../cache/cache");
 const { isBlockInVolumeArray } = require("../utils/utils");
 
+let volumeInDollarsArrayLoadFromCache = false;
 let volumeInDollarsArray = [];
+
+
+
 async function vrscEthBridgeVolume(fromBlock, toBlock) {
+
+    // if(volumeInDollarsArrayLoadFromCache === false){
+    //     console.log("syncing volume data...");
+    //     let arr = await getVolumeDataFromFile("ethBridge.json");
+
+    //     if(arr !== undefined){
+    //        volumeInDollarsArray = arr;
+    //     }
+
+    // }
+
     if (volumeInDollarsArray.length > 0) {
         volumeInDollarsArray.sort((a, b) => b.height - a.height);
         let latestVolumeBlockHeight = volumeInDollarsArray[0].height;
@@ -261,6 +277,8 @@ async function vrscEthBridgeVolume(fromBlock, toBlock) {
     volumeInDollarsArray.forEach((elm) => {
         totalVolumenInDollars = totalVolumenInDollars + elm.dollars;
     })
+  //  await saveVolumeDataToFile(volumeInDollarsArray, "ethBridge.json");
+    volumeInDollarsArrayLoadFromCache = true;
     return volumeInDollarsArray;
 }
 
