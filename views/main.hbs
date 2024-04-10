@@ -285,12 +285,12 @@
                 {{!-- <div class="card-title">VRSC-ETH Bridge Reserves</div> --}}
                 <div class="card-title">Bridge.vETH Basket</div>
 
-                <div class="card-sub-title">Estimated bridge value</div>
-                <div class="card-sub-title-value">$ {{{estimatedBridgeValueUSD}}}</div>
-                 <div class="card-sub-details">VRSC {{{estimatedBridgeValueVRSC}}} </div>
-
                 <div class="card-sub-title">Estimated bridge reserves value</div>
                 <div class="card-sub-title-value">$ {{{estimatedBridgeReserveValue}}}</div>
+
+                <div class="card-sub-title">Estimated bridge value</div>
+                <div class="card-sub-title-value">$ {{{estimatedBridgeValueUSD}}}</div>
+                <div class="card-sub-details">VRSC {{{estimatedBridgeValueVRSC}}} </div>
 
                 {{#each currencyBridgeArray}}
                 <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
@@ -327,7 +327,8 @@
                 <div class="graph-container">
                     <div class="graph-group hide">
                         <div class="card-sub-title">24 hours Volume</div>
-                        <div class="card-sub-title-value">{{{currencyVolumePure24Hours}}} <span class="card-sub-title-value-prefix">VRSC</span> </div>
+                        <div class="card-sub-title-value">{{{currencyVolumePure24Hours}}} <span
+                                class="card-sub-title-value-prefix">VRSC</span> </div>
                         <br>
                         <div class="graph-y-axis">
                             {{#each currencyVolumePure24HoursArrayYAxis}}<div class="graph-y-axis-item">
@@ -346,7 +347,8 @@
 
                     <div class="graph-group hide">
                         <div class="card-sub-title">7 days Volume</div>
-                        <div class="card-sub-title-value">{{{currencyVolumePure7Days}}} <span class="card-sub-title-value-prefix">VRSC</span></div>
+                        <div class="card-sub-title-value">{{{currencyVolumePure7Days}}} <span
+                                class="card-sub-title-value-prefix">VRSC</span></div>
                         <br>
                         <div class="graph-y-axis">
                             {{#each currencyVolumePure7DaysArrayYAxis}}<div class="graph-y-axis-item">
@@ -365,7 +367,8 @@
 
                     <div class="graph-group">
                         <div class="card-sub-title">30 days Volume</div>
-                        <div class="card-sub-title-value">{{{currencyVolumePure30Days}}} <span class="card-sub-title-value-prefix">VRSC</span> </div>
+                        <div class="card-sub-title-value">{{{currencyVolumePure30Days}}} <span
+                                class="card-sub-title-value-prefix">VRSC</span> </div>
                         <br>
                         <div class="graph-y-axis">
                             {{#each currencyVolumePure30DaysArrayYAxis}}<div class="graph-y-axis-item">
@@ -411,13 +414,14 @@
                 {{#if online}}
                 <div class="card-title">Pure Basket</div>
 
+                <div class="card-sub-title">Estimated pure reserves value</div>
+                <div class="card-sub-title-value">$ {{{estimatedPureReserveValueUSDBTC}}} <span
+                        class="card-sub-title-value-prefix">via BTC</span></div>
+                <div class="card-sub-details">$ {{{estimatedPureReserveValueUSDVRSC}}} via VRSC</div>
+
                 <div class="card-sub-title">Estimated pure value</div>
                 <div class="card-sub-title-value">$ {{{estimatedPureValueUSD}}}</div>
-                 <div class="card-sub-details">VRSC {{estimatedPureValueVRSC}} </div>
-
-                <div class="card-sub-title">Estimated pure reserves value</div>
-                <div class="card-sub-title-value">$ {{{estimatedPureReserveValueUSDBTC}}} <span class="card-sub-title-value-prefix">via BTC</span></div>
-                <div class="card-sub-details">$ {{{estimatedPureReserveValueUSDVRSC}}} via VRSC</div>
+                <div class="card-sub-details">VRSC {{estimatedPureValueVRSC}} </div>
 
                 {{#each currencyPureArray}}
                 <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
@@ -516,14 +520,15 @@
                 </div>
 
                 <br>
-                <div class="card-sub-details">Tracking VRSC, vDAI.vETH, vUSDC.vETH and EURC.vETH reserve in and out</div>
+                <div class="card-sub-details">Tracking VRSC, vDAI.vETH, vUSDC.vETH and EURC.vETH reserve in and out
+                </div>
                 {{else}}
                 {{{statusMessage}}}
                 {{/if}}
             </div>
         </div>
 
-         <div class="card" id="verus-switch-basket-card">
+        <div class="card" id="verus-switch-basket-card">
             <svg fill="#3165d4" width="55" height="16" viewBox="0 0 4950 1417" xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
                 <path
@@ -538,12 +543,12 @@
                 {{#if online}}
                 <div class="card-title">Switch Basket</div>
 
-                <div class="card-sub-title">Estimated Switch value</div>
-                <div class="card-sub-title-value">$ {{{estimatedSwitchValue}}}</div>
-                  <div class="card-sub-details">VRSC {{estimatedSwitchValueUSDVRSC}} </div>
-
                 <div class="card-sub-title">Estimated Switch reserves value</div>
                 <div class="card-sub-title-value">$ {{{estimatedSwitchReserveValue}}}</div>
+
+                <div class="card-sub-title">Estimated Switch value</div>
+                <div class="card-sub-title-value">$ {{{estimatedSwitchValue}}}</div>
+                <div class="card-sub-details">VRSC {{estimatedSwitchValueUSDVRSC}} </div>
 
                 {{#each currencySwitchArray}}
                 <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
