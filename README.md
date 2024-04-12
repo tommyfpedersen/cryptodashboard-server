@@ -5,6 +5,7 @@ Useful for Javascript developers and can be used as a base REST API for your dap
 
 # Requirements 
 A running Verus Node
+https://github.com/tommyfpedersen/verus-rest-api
 
 # Setup 
 1. Install and run Verus CLI Wallet / Verus Desktop App
