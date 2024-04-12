@@ -44,17 +44,38 @@ async function getBlockAndFeePoolRewards() {
 async function getAddressBalance(address) {
     result = {};
     let getAddressBalanceArray = [];
+    let getAddressBalance = {};
     let verusAddress = "";
     if (address) {
         verusAddress = decodeURIComponent(address);
     } else {
         verusAddress = "none";//"RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7";
     }
-    const getAddressBalanceResponse = await fetch("http://localhost:9009/addressindex/getaddressbalance/" + verusAddress);
-    const getAddressBalanceResult = await getAddressBalanceResponse.json();
-    const getAddressBalance = getAddressBalanceResult.result;
+
+    // vrsc
+    try {
+        const getAddressBalanceResponse = await fetch("http://localhost:9009/addressindex/getaddressbalance/" + verusAddress);
+        const getAddressBalanceResult = await getAddressBalanceResponse.json();
+        getAddressBalance = getAddressBalanceResult.result;
+    } catch (error) {
+        console.log("no verus api connected")
+    }
+   
+
+    // varrr
+    try {
+        const getVarrrAddressBalanceResponse = await fetch("http://localhost:9010/addressindex/getaddressbalance/" + verusAddress);
+        const getVarrrAddressBalanceResult = await getVarrrAddressBalanceResponse.json();
+        const getVarrrAddressBalance = getVarrrAddressBalanceResult.result;
+        getAddressBalance.currencybalance = { ...getAddressBalance.currencybalance, ...getVarrrAddressBalance.currencybalance };
+        
+    } catch (error) {
+        console.log("no varrr api connected")
+    }
+
 
     if (getAddressBalance?.currencybalance) {
+
         let currencyIdArray = Object.keys(getAddressBalance.currencybalance);
 
         currencyIdArray.forEach((item) => {
