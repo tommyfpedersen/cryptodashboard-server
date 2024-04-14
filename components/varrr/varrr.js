@@ -1,10 +1,9 @@
 const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy } = require("./api/api");
-const { vrscEthBridgeVolume, currencyReserveEthBridge } = require("./ethbridge/ethbridge");
-const { currencyReservePure, pureVolume } = require("./pure/pure");
-const { vrscSwitchVolume, currencyReserveSwitch } = require("./switch/switch");
+const { vrscVarrrBridgeVolume, currencyReserveVarrrBridge } = require("./varrrbridge/varrrbridge");
+
 const { calculateCurrencyVolume } = require("./utils/utils");
 
-async function getNodeStatus() {
+async function getVarrrNodeStatus() {
     let result = {};
     const mininginfo = await getMiningInfo();
     result.online = false;
@@ -16,7 +15,7 @@ async function getNodeStatus() {
     return result;
 }
 
-async function getBlockAndFeePoolRewards() {
+async function getVarrrBlockAndFeePoolRewards() {
     let result = {};
     result.blockLastSend = "";
     result.block = 0;
@@ -41,7 +40,7 @@ async function getBlockAndFeePoolRewards() {
     return result;
 }
 
-async function getAddressBalance(address) {
+async function getVarrrAddressBalance(address) {
     result = {};
     let getAddressBalanceArray = [];
     let getAddressBalance = {};
@@ -52,36 +51,25 @@ async function getAddressBalance(address) {
         verusAddress = "none";//"RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7";
     }
 
-    // vrsc
-    try {
-        const getAddressBalanceResponse = await fetch("http://localhost:9009/addressindex/getaddressbalance/" + verusAddress);
-        const getAddressBalanceResult = await getAddressBalanceResponse.json();
-        getAddressBalance = getAddressBalanceResult.result;
-    } catch (error) {
-        console.log("no verus api connected")
-    }
+    // // vrsc
+    // try {
+    //     const getAddressBalanceResponse = await fetch("http://localhost:9009/addressindex/getaddressbalance/" + verusAddress);
+    //     const getAddressBalanceResult = await getAddressBalanceResponse.json();
+    //     getAddressBalance = getAddressBalanceResult.result;
+    // } catch (error) {
+    //     console.log("no verus api connected")
+    // }
    
 
     // varrr
-    // try {
-    //     const getVarrrAddressBalanceResponse = await fetch("http://localhost:9010/addressindex/getaddressbalance/" + verusAddress);
-    //     const getVarrrAddressBalanceResult = await getVarrrAddressBalanceResponse.json();
-    //     const getVarrrAddressBalance = getVarrrAddressBalanceResult.result;
-    //     getAddressBalance.currencybalance = { ...getAddressBalance.currencybalance, ...getVarrrAddressBalance.currencybalance };
-    //     // if (getAddressBalance.currencybalance && getVarrrAddressBalance.currencybalance) {
-    //     //     Object.keys(getVarrrAddressBalance.currencybalance).forEach((key) => {
-    //     //         if (getAddressBalance.currencybalance[key]) {
-    //     //             getAddressBalance.currencybalance[key] += getVarrrAddressBalance.currencybalance[key];
-    //     //         } else {
-    //     //             getAddressBalance.currencybalance[key] = getVarrrAddressBalance.currencybalance[key];
-    //     //         }
-    //     //     });
-    //     // } else if (getVarrrAddressBalance.currencybalance) {
-    //     //     getAddressBalance.currencybalance = getVarrrAddressBalance.currencybalance;
-    //     // }
-    // } catch (error) {
-    //     console.log("no varrr api connected")
-    // }
+    try {
+        const getVarrrAddressBalanceResponse = await fetch("http://localhost:9010/addressindex/getaddressbalance/" + verusAddress);
+        const getVarrrAddressBalanceResult = await getVarrrAddressBalanceResponse.json();
+        const getVarrrAddressBalance = getVarrrAddressBalanceResult.result;
+        getAddressBalance = getVarrrAddressBalanceResult.result;
+    } catch (error) {
+        console.log("no varrr api connected")
+    }
 
 
     if (getAddressBalance?.currencybalance) {
@@ -129,7 +117,7 @@ async function getAddressBalance(address) {
     return result;
 }
 
-async function getCurrencyVolume(currencyName, blockcount) {
+async function getVarrrCurrencyVolume(currencyName, blockcount) {
     const miningInfo = await getMiningInfo();
     let result;
     let volumeArray;
@@ -137,28 +125,14 @@ async function getCurrencyVolume(currencyName, blockcount) {
         volumeArray = await vrscEthBridgeVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
         result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
     }
-    if (currencyName === "pure") {
-        volumeArray = await pureVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
-        result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
-    }
-    if (currencyName === "switch") {
-        volumeArray = await vrscSwitchVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
-        result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
-    }
 
     return result;
 }
 
-async function getCurrencyReserve(currencyName, priceArray, vrscBridgePrice) {
+async function getVarrrCurrencyReserve(currencyName, priceArray) {
     if (currencyName === "bridge.veth") {
         return currencyReserveEthBridge(priceArray);
     }
-    if (currencyName === "pure") {
-        return currencyReservePure(priceArray, vrscBridgePrice);
-    }
-    if (currencyName === "switch") {
-        return currencyReserveSwitch(priceArray, vrscBridgePrice);
-    }
 }
 
-module.exports = { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, getCurrencyVolume, getCurrencyReserve };
+module.exports = { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, getVarrrCurrencyVolume, getVarrrCurrencyReserve };

@@ -14,6 +14,7 @@ let pageLoads = 0;
 
 // components
 const { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, getCurrencyVolume, getCurrencyReserve } = require('./components/verus/verus');
+const { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, getVarrrCurrencyVolume, getVarrrCurrencyReserve } = require('./components/varrr/varrr');
 const { getCoingeckoPrice } = require('./components/coingecko/coingecko');
 const { getThreeFoldNodeArray } = require('./components/threefold/threefold');
 
@@ -55,7 +56,13 @@ app.get('/', async (req, res) => {
   const currencyReserveSwitch = await getCurrencyReserve("switch", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
   const currencyVolumeSwitch = await getCurrencyVolume("switch", (1440 * 31));//31
 
+  /* Verus vARRR */
 
+  /* Get address balance */
+  const varrrAddressBalance = await getVarrrAddressBalance(req.query.varrraddress);
+
+  /* Get block and fee pool rewards */
+  const varrrblockandfeepoolrewards = await getVarrrBlockAndFeePoolRewards();
 
   // ThreeFold //
   let threeFoldNodeArray = []
@@ -125,6 +132,14 @@ app.get('/', async (req, res) => {
     estimatedSwitchValue: currencyReserveSwitch.estimatedSwitchValue,
     estimatedSwitchReserveValue: currencyReserveSwitch.estimatedSwitcheReserveValue,
     estimatedSwitchValueUSDVRSC: currencyReserveSwitch.estimatedSwitchValueUSDVRSC,
+    //varrr
+    getVarrrAddressBalanceArray: varrrAddressBalance.getAddressBalanceArray,
+    getVarrrAddress: varrrAddressBalance.verusAddress === "none" ? "" : varrrAddressBalance.verusAddress,
+    varrrblocks: varrrblockandfeepoolrewards.block.toLocaleString(),
+    varrrblockLastSend: varrrblockandfeepoolrewards.blockLastSend,
+    varrrblockReward: varrrblockandfeepoolrewards.blockReward,
+    varrrfeeReward: varrrblockandfeepoolrewards.feeReward,
+    varrraverageblockfees: varrrblockandfeepoolrewards.averageblockfees,
     // ThreeFold
     threeFoldNodeArray: threeFoldNodeArray,
     threefoldNodeString: threefoldNodeString === "none" ? "" : threefoldNodeString

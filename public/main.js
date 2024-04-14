@@ -38,6 +38,19 @@ function init() {
             }
         })
     }
+    /* verus varrr */
+    let getVarrrAddressBalanceElm = document.querySelector("#get-varrr-address-balance");
+    if (getVarrrAddressBalanceElm) {
+        getVarrrAddressBalanceElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(getVarrrAddressBalanceElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('varrraddress', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
 
     /* threefold */
     let getThreeFoldNodesElm = document.querySelector("#get-threefold-nodes");
