@@ -121,8 +121,8 @@ async function getVarrrCurrencyVolume(currencyName, blockcount) {
     const miningInfo = await getMiningInfo();
     let result;
     let volumeArray;
-    if (currencyName === "bridge.veth") {
-        volumeArray = await vrscEthBridgeVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
+    if (currencyName === "bridge.varrr") {
+        volumeArray = await vrscVarrrBridgeVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
         result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
     }
 
@@ -130,8 +130,8 @@ async function getVarrrCurrencyVolume(currencyName, blockcount) {
 }
 
 async function getVarrrCurrencyReserve(currencyName, priceArray) {
-    if (currencyName === "bridge.veth") {
-        return currencyReserveEthBridge(priceArray);
+    if (currencyName === "bridge.varrr") {
+        return currencyReserveVarrrBridge(priceArray);
     }
 }
 

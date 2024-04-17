@@ -64,6 +64,13 @@ app.get('/', async (req, res) => {
   /* Get block and fee pool rewards */
   const varrrblockandfeepoolrewards = await getVarrrBlockAndFeePoolRewards();
 
+  /* Get bridge.varrr volume and reserve info */
+  const currencyVolumeVarrrBridge = await getVarrrCurrencyVolume("bridge.varrr", (1440 * 1));//31
+  const currencyReserveVarrrBridge = await getVarrrCurrencyReserve("bridge.varrr", coingeckoPriceArray);
+
+  //console.log("currencyVolumeVarrrBridge: ", currencyVolumeVarrrBridge);
+  console.log("currencyReserveVarrrBridge: ", currencyReserveVarrrBridge);
+
   // ThreeFold //
   let threeFoldNodeArray = []
   let threefoldNodeString = "";
@@ -140,6 +147,21 @@ app.get('/', async (req, res) => {
     varrrblockReward: varrrblockandfeepoolrewards.blockReward,
     varrrfeeReward: varrrblockandfeepoolrewards.feeReward,
     varrraverageblockfees: varrrblockandfeepoolrewards.averageblockfees,
+    //varrr bridge
+    varrrBridgeVolumeInDollars24Hours: currencyVolumeVarrrBridge.volumeInDollars24Hours,
+    varrrBridgeVolumeInDollars24HoursArray: currencyVolumeVarrrBridge.volumeInDollars24HoursArray,
+    varrrBridgeVolumeInDollars24HoursArrayYAxis: currencyVolumeVarrrBridge.volumeInDollars24HoursArrayYAxis,
+    varrrBridgeVolumeInDollars7Days: currencyVolumeVarrrBridge.volumeInDollars7Days,
+    varrrBridgeVolumeInDollars7DaysArray: currencyVolumeVarrrBridge.volumeInDollars7DaysArray,
+    varrrBridgeVolumeInDollars7DaysArrayYAxis: currencyVolumeVarrrBridge.volumeInDollars7DaysArrayYAxis,
+    varrrBridgeVolumeInDollars30Days: currencyVolumeVarrrBridge.volumeInDollars30Days,
+    varrrBridgeVolumeInDollars30DaysArray: currencyVolumeVarrrBridge.volumeInDollars30DaysArray,
+    varrrBridgeVolumeInDollars30DaysArrayYAxis: currencyVolumeVarrrBridge.volumeInDollars30DaysArrayYAxis,
+    currencyVarrrBridgeArray: currencyReserveVarrrBridge.currencyVarrrBridgeArray,
+    estimatedVarrrBridgeValueUSD: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSD,
+    estimatedVarrrBridgeValueVRSC: currencyReserveVarrrBridge.estimatedVarrrBridgeValueVRSC,
+    estimatedVarrrBridgeReserveValueUSDBTC: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDBTC,
+    estimatedVarrrBridgeReserveValueUSDVRSC: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC,
     // ThreeFold
     threeFoldNodeArray: threeFoldNodeArray,
     threefoldNodeString: threefoldNodeString === "none" ? "" : threefoldNodeString

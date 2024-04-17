@@ -285,7 +285,7 @@
                 {{!-- <div class="card-title">VRSC-ETH Bridge Reserves</div> --}}
                 <div class="card-title">Bridge.vETH Basket</div>
 
-                <div class="card-sub-title">Estimated bridge reserves value</div>
+                <div class="card-sub-title">Estimated reserves value</div>
                 <div class="card-sub-title-value">$ {{{estimatedBridgeReserveValue}}}</div>
 
                 <div class="card-sub-title">Estimated bridge value</div>
@@ -414,7 +414,7 @@
                 {{#if online}}
                 <div class="card-title">Pure Basket</div>
 
-                <div class="card-sub-title">Estimated pure reserves value</div>
+                <div class="card-sub-title">Estimated reserves value</div>
                 <div class="card-sub-title-value">$ {{{estimatedPureReserveValueUSDBTC}}} <span
                         class="card-sub-title-value-prefix">via BTC</span></div>
                 <div class="card-sub-details">$ {{{estimatedPureReserveValueUSDVRSC}}} via VRSC</div>
@@ -543,7 +543,7 @@
                 {{#if online}}
                 <div class="card-title">Switch Basket</div>
 
-                <div class="card-sub-title">Estimated Switch reserves value</div>
+                <div class="card-sub-title">Estimated reserves value</div>
                 <div class="card-sub-title-value">$ {{{estimatedSwitchReserveValue}}}</div>
 
                 <div class="card-sub-title">Estimated Switch value</div>
@@ -627,6 +627,124 @@
 
             </div>
 
+        </div>
+         <div class="card" id="verus-varrr-bridge-veth-basket-volume-card">
+            <img width="16px" src="/img/Pirate_Logo_Coin_Gold.png" />
+            <button class="hide-button">x</button>
+            <div class="card-content">
+                {{#if online}}
+                {{!-- <div class="card-title">VRSC-ETH Bridge Volume</div> --}}
+                <div class="card-title">Bridge.vARRR Basket Volume</div>
+
+
+                <div class="graph-container">
+                    <div class="graph-group hide">
+                        <div class="card-sub-title">24 hours Volume</div>
+                        <div class="card-sub-title-value"> {{{varrrBridgeVolumeInDollars24Hours}}} <span
+                                class="card-sub-title-value-prefix">VRSC</span> </div>
+                        <br>
+                        <div class="graph-y-axis">
+                            {{#each varrrBridgeVolumeInDollars24HoursArrayYAxis}}<div class="graph-y-axis-item">
+                                {{value}}
+                            </div>{{/each}}
+                        </div>
+
+                        <div class="graph-bar-container">
+                            {{#each varrrBridgeVolumeInDollars24HoursArray}}<div style="height:{{barPCT}}px;"
+                                class="graph-bar graph-bar-large" data-price="{{price}}" data-label="{{label}}">
+                            </div>{{/each}}
+                            <div class="graph-x-axis"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="graph-group hide">
+                        <div class="card-sub-title">7 days Volume</div>
+                        <div class="card-sub-title-value"> {{{varrrBridgeVolumeInDollars7Days}}} <span
+                                class="card-sub-title-value-prefix">VRSC</span></div>
+                        <br>
+                        <div class="graph-y-axis">
+                            {{#each varrrBridgeVolumeInDollars7DaysArrayYAxis}}<div class="graph-y-axis-item">
+                                {{value}}
+                            </div>{{/each}}
+                        </div>
+
+                        <div class="graph-bar-container">
+                            {{#each varrrBridgeVolumeInDollars7DaysArray}}<div style="height:{{barPCT}}px;"
+                                class="graph-bar graph-bar-xlarge" data-price="{{price}}" data-label="{{label}}">
+                            </div>{{/each}}
+                            <div class="graph-x-axis"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="graph-group">
+                        <div class="card-sub-title">30 days Volume</div>
+                        <div class="card-sub-title-value">{{{varrrBridgeVolumeInDollars30Days}}} <span
+                                class="card-sub-title-value-prefix">VRSC</span></div>
+                        <br>
+                        <div class="graph-y-axis">
+                            {{#each varrrBridgeVolumeInDollars30DaysArrayYAxis}}<div class="graph-y-axis-item">
+                                {{value}}
+                            </div>{{/each}}
+                        </div>
+
+                        <div class="graph-bar-container">
+                            {{#each varrrBridgeVolumeInDollars30DaysArray}}<div style="height:{{barPCT}}px;"
+                                class="graph-bar graph-bar-small" data-price="{{price}}" data-label="{{label}}">
+                            </div>{{/each}}
+                            <div class="graph-x-axis"></div>
+                        </div>
+                    </div>
+
+                    <div class="graph-button-group">
+                        <button class="graph-button button-deselected">24H</button><button
+                            class="graph-button button-deselected">7D</button><button
+                            class="graph-button button-selected">30D</button>
+                    </div>
+                </div>
+
+                <br>
+                <div class="card-sub-details">Tracking VRSC, vARRR, Bridge.vETH and tBTC.vETH reserve in and out</div>
+                {{else}}
+                {{{statusMessage}}}
+                {{/if}}
+            </div>
+        </div>
+        <div class="card" id="verus-varrr-bridge-veth-basket-card">
+            <img width="16px" src="/img/Pirate_Logo_Coin_Gold.png" />
+            <button class="hide-button">x</button>
+            <div class="card-content">
+                {{#if online}}
+                {{!-- <div class="card-title">VRSC-ETH Bridge Reserves</div> --}}
+                <div class="card-title">Bridge.vARRR Basket</div>
+
+                <div class="card-sub-title">Estimated reserves value</div>
+                <div class="card-sub-title-value">$ {{{estimatedVarrrBridgeReserveValueUSDBTC}}} <span
+                        class="card-sub-title-value-prefix">via BTC</span></div>
+                <div class="card-sub-details">$ {{{estimatedVarrrBridgeReserveValueUSDVRSC}}} via VRSC</div>
+
+                <div class="card-sub-title">Estimated Bridge.vARRR value</div>
+                <div class="card-sub-title-value">$ {{{estimatedVarrrBridgeValueUSD}}}</div>
+                <div class="card-sub-details">VRSC {{estimatedVarrrBridgeValueVRSC}} </div>
+
+                {{#each currencyVarrrBridgeArray}}
+                <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
+                <div class="card-sub-title-value"> {{reserves}} </div>
+                <div class="card-sub-details">{{pricelabel}} {{price}} </div>
+                <div class="card-sub-details">Basket: $ {{dollarprice}} </div>
+                <div class="card-sub-details">{{coingeckoLabel}}: $ {{coingeckoprice}} </div>
+
+                {{/each}}
+
+
+
+
+                {{else}}
+                {{{statusMessage}}}
+                {{/if}}
+
+            </div>
         </div>
 
     </div>
