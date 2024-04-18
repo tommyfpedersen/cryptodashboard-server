@@ -339,7 +339,7 @@ async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
                         foundCurrency = priceArray.find(price => price.currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV");
                         if (foundCurrency && currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                             currency.coingeckoprice = Math.round(vrscBridgePrice * 100) / 100;
-                            currency.coingeckoLabel = "Bridge";
+                            currency.coingeckoLabel = "Bridge.vETH";
                         }
                         foundCurrency = priceArray.find(price => price.currencyId === "i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd");
                         if (foundCurrency && currencyId === "i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd") {

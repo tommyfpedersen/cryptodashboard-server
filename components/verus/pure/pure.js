@@ -232,7 +232,7 @@ async function currencyReservePure(priceArray, vrscBridgePrice) {
                                 if (price.currencyId === currencyId) {
                                     if(currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
                                         currency.coingeckoprice = Math.round(vrscBridgePrice * 100) / 100;
-                                        currency.coingeckoLabel = "Bridge";
+                                        currency.coingeckoLabel = "Bridge.vETH";
                                     }
                                     if(currencyId === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU"){
                                         currency.coingeckoprice = Math.round(price.price * 100) / 100;

@@ -65,11 +65,8 @@ app.get('/', async (req, res) => {
   const varrrblockandfeepoolrewards = await getVarrrBlockAndFeePoolRewards();
 
   /* Get bridge.varrr volume and reserve info */
-  const currencyVolumeVarrrBridge = await getVarrrCurrencyVolume("bridge.varrr", (1440 * 1));//31
-  const currencyReserveVarrrBridge = await getVarrrCurrencyReserve("bridge.varrr", coingeckoPriceArray);
-
-  //console.log("currencyVolumeVarrrBridge: ", currencyVolumeVarrrBridge);
-  console.log("currencyReserveVarrrBridge: ", currencyReserveVarrrBridge);
+  const currencyVolumeVarrrBridge = await getVarrrCurrencyVolume("bridge.varrr", (1440 * 31));//31
+  const currencyReserveVarrrBridge = await getVarrrCurrencyReserve("bridge.varrr", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
 
   // ThreeFold //
   let threeFoldNodeArray = []

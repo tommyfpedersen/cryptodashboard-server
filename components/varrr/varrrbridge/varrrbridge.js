@@ -290,7 +290,7 @@ async function vrscVarrrBridgeVolume(fromBlock, toBlock) {
     return volumeInDollarsArray;
 }
 
-async function currencyReserveVarrrBridge(priceArray) {
+async function currencyReserveVarrrBridge(priceArray, vrscBridgePrice, estimatedBridgeValueUSD) {
     let result = {};
 
     /* VRSC-ETH Bridge reserves */
@@ -303,7 +303,7 @@ async function currencyReserveVarrrBridge(priceArray) {
     let vrscCoingeckoPrice = 0;
     let varrrCoingeckoPrice = 0;
     let ethereumBridgePrice = 0;
-    let vrscBridgePrice = 0;
+    // let vrscBridgePrice = 0;
 
     let vrscReserve = 0;
     let tBTCvETHReserve = 0;
@@ -324,9 +324,9 @@ async function currencyReserveVarrrBridge(priceArray) {
         if (priceElm.currencyId === "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2") {
             varrrCoingeckoPrice = priceElm.price;
         }
-        if (priceElm.currencyId === "i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx") {
-            vrscBridgePrice = priceElm.price;
-        }
+        // if (priceElm.currencyId === "i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx") {
+        //     vrscBridgePrice = priceElm.price;
+        // }
     })
 
     if (getcurrency) {
@@ -365,24 +365,41 @@ async function currencyReserveVarrrBridge(priceArray) {
                                 currency.pricelabel = "tBTCvETH";
                                 currency.dollarprice = Math.round(tBTCvETHCoingeckoPrice * currency.price * 100) / 100;
                             }
+                            if (currencyId === "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2") {
+                                currency.price = Math.round(vrscReserve / currency.reserves * 100) / 100;
+                                currency.pricelabel = "VRSC";
+                                currency.dollarprice = Math.round(vrscBridgePrice * currency.price * 100) / 100;
+                            }
+                            if (currencyId === "i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx") {
+                                currency.price = Math.round(vrscReserve / currency.reserves * 100) / 100;
+                                currency.pricelabel = "VRSC";
+                                currency.dollarprice = Math.round(vrscBridgePrice * currency.price * 100) / 100;
+                                currency.coingeckoprice = estimatedBridgeValueUSD; //Math.round(vrscBridgePrice * 100) / 100;
+                                currency.coingeckoLabel = "Bridge.vETH";
+                            }
                             if (currencyId === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
                                 currency.price = Math.round(vrscReserve / currency.reserves * 100) / 100;
                                 currency.pricelabel = "VRSC";
                                 currency.dollarprice = Math.round(vrscBridgePrice * currency.price * 100) / 100;
                             }
+
                         }
 
                         if (priceArray.length > 0) {
                             priceArray.forEach((price) => {
                                 if (price.currencyId === currencyId) {
-                                    if(currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
+                                    if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                                         currency.coingeckoprice = Math.round(vrscBridgePrice * 100) / 100;
-                                        currency.coingeckoLabel = "Bridge";
+                                        currency.coingeckoLabel = "Bridge.vETH";
                                     }
-                                    if(currencyId === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU"){
+                                    if (currencyId === "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2") {
                                         currency.coingeckoprice = Math.round(price.price * 100) / 100;
                                         currency.coingeckoLabel = "Coingecko";
-                                    } 
+                                    }
+                                    if (currencyId === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
+                                        currency.coingeckoprice = Math.round(price.price * 100) / 100;
+                                        currency.coingeckoLabel = "Coingecko";
+                                    }
                                 }
                             })
                         }
@@ -390,8 +407,8 @@ async function currencyReserveVarrrBridge(priceArray) {
 
                         if (reservesCurrency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                             estimatedVarrrBridgeValueUSDVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 4 * 100) / 100).toLocaleString();
-                            estimatedVarrrBridgeValueUSD = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 4 / estimatedVarrrBridgeSupply *100)/ 100).toLocaleString();
-                            estimatedVarrrBridgeValueVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 4 / estimatedVarrrBridgeSupply /vrscBridgePrice *100000000)/ 100000000).toLocaleString();
+                            estimatedVarrrBridgeValueUSD = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 4 / estimatedVarrrBridgeSupply * 100) / 100).toLocaleString();
+                            estimatedVarrrBridgeValueVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 4 / estimatedVarrrBridgeSupply / vrscBridgePrice * 100000000) / 100000000).toLocaleString();
                         }
                         if (reservesCurrency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
                             estimatedVarrrBridgeValueUSDBTC = (Math.round(tBTCvETHCoingeckoPrice * reservesCurrency.reserves * 4 * 100) / 100).toLocaleString();
@@ -415,13 +432,6 @@ async function currencyReserveVarrrBridge(priceArray) {
     result.estimatedVarrrBridgeValueUSDVRSC = estimatedVarrrBridgeValueUSDVRSC;
     result.estimatedVarrrBridgeValueUSD = estimatedVarrrBridgeValueUSD;
     result.estimatedVarrrBridgeValueVRSC = estimatedVarrrBridgeValueVRSC;
-
-    // result.estimatedBridgeValue = estimatedBridgeValue;
-    // result.vrscBridgePrice = vrscBridgePrice;
-    // result.ethereumBridgePrice = ethereumBridgePrice;
-    // result.mkrBridgePrice = mkrBridgePrice;
-    // result.estimatedBridgeValueUSD = estimatedVarrrBridgeValueUSD;
-    // result.estimatedBridgeValueVRSC = estimatedVarrrBridgeValueVRSC;
     return result;
 }
 

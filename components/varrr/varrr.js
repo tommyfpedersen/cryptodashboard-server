@@ -129,9 +129,9 @@ async function getVarrrCurrencyVolume(currencyName, blockcount) {
     return result;
 }
 
-async function getVarrrCurrencyReserve(currencyName, priceArray) {
+async function getVarrrCurrencyReserve(currencyName, priceArray, vrscBridgePrice, estimatedBridgeValueUSD) {
     if (currencyName === "bridge.varrr") {
-        return currencyReserveVarrrBridge(priceArray);
+        return currencyReserveVarrrBridge(priceArray, vrscBridgePrice, estimatedBridgeValueUSD);
     }
 }
 
