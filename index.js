@@ -120,7 +120,8 @@ app.get('/', async (req, res) => {
     };
   } else {
     vrscRenderData = {
-      vrscNodeStatus: vrscNodeStatus.online
+      vrscNodeStatus: vrscNodeStatus.online,
+      vrscStatusMessage: vrscNodeStatus.statusMessage
     }
   }
   mainRenderData = vrscRenderData;

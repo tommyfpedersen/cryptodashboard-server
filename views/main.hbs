@@ -43,6 +43,7 @@
             <button class="hide-button">x</button>
             <div class="card-content">
                 <div class="card-title">Prices</div>
+                 {{#if vrscOnline}}
                 <div class="card-sub-title">Bitcoin (BTC)</div>
                 <div class="card-sub-title-value">$ {{{bitcoinPrice}}}</div>
                 <div class="card-sub-details">api.coingecko.com</div>
@@ -55,6 +56,9 @@
                 <div class="card-sub-title">VerusCoin (VRSC)</div>
                 <div class="card-sub-title-value">$ {{{vrscBridgePrice}}}</div>
                 <div class="card-sub-details">Bridge.vETH</div>
+                 {{else}}
+                {{{vrscStatusMessage}}}
+                {{/if}}
             </div>
         </div>
 
