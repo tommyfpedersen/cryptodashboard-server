@@ -63,7 +63,6 @@
             <img width="16px" src="/img/tflogo.png" />
             <button class="hide-button">x</button>
             <div class="card-content">
-                {{#if online}}
                 <div class="card-title">ThreeFold Node Status</div>
 
                 <div class="card-sub-title">Custome alias and node</div>
@@ -78,10 +77,6 @@
                     {{/ifEquals}}</div>
 
                 {{/each}}
-
-                {{else}}
-                {{{statusMessage}}}
-                {{/if}}
             </div>
         </div>
 
@@ -127,8 +122,8 @@
             </svg>
             <button class="hide-button">x</button>
             <div class="card-content">
-                {{#if online}}
                 <div class="card-title">Address Balance</div>
+                {{#if vrscOnline}}
 
                 <div class="card-sub-title">Verus address</div>
                 <div class="card-sub-title-value"><input id="get-address-balance" class="card-input"
@@ -140,7 +135,7 @@
                 {{/each}}
 
                 {{else}}
-                {{{statusMessage}}}
+                {{{vrscStatusMessage}}}
                 {{/if}}
 
             </div>
@@ -157,8 +152,8 @@
             </svg>
             <button class="hide-button">x</button>
             <div class="card-content">
-                {{#if online}}
                 <div class="card-title">Block and Fee Pool Rewards</div>
+                {{#if vrscOnline}}
 
                 <div class="card-sub-title">block height</div>
                 <div id="verus-block-height" class="card-sub-title-value"> {{{blocks}}} </div>
@@ -175,7 +170,7 @@
                 <div class="card-sub-details">Calculated from the last 100 blocks</div>
 
                 {{else}}
-                {{{statusMessage}}}
+                {{{vrscStatusMessage}}}
                 {{/if}}
 
             </div>
@@ -193,9 +188,8 @@
             </svg>
             <button class="hide-button">x</button>
             <div class="card-content">
-                {{#if online}}
-                {{!-- <div class="card-title">VRSC-ETH Bridge Volume</div> --}}
                 <div class="card-title">Bridge.vETH Basket Volume</div>
+                {{#if vrscOnline}}
 
 
                 <div class="graph-container">
@@ -265,7 +259,7 @@
                 <br>
                 <div class="card-sub-details">Tracking VRSC, DAI.vETH, MKR.vETH and vETH reserve in and out</div>
                 {{else}}
-                {{{statusMessage}}}
+                {{{vrscStatusMessage}}}
                 {{/if}}
             </div>
         </div>
@@ -281,9 +275,8 @@
             </svg>
             <button class="hide-button">x</button>
             <div class="card-content">
-                {{#if online}}
-                {{!-- <div class="card-title">VRSC-ETH Bridge Reserves</div> --}}
                 <div class="card-title">Bridge.vETH Basket</div>
+                {{#if vrscOnline}}
 
                 <div class="card-sub-title">Estimated reserves value</div>
                 <div class="card-sub-title-value">$ {{{estimatedBridgeReserveValue}}}</div>
@@ -304,7 +297,7 @@
 
 
                 {{else}}
-                {{{statusMessage}}}
+                {{{vrscStatusMessage}}}
                 {{/if}}
 
             </div>
@@ -321,8 +314,8 @@
             </svg>
             <button class="hide-button">x</button>
             <div class="card-content">
-                {{#if online}}
                 <div class="card-title">Pure Basket Volume</div>
+                {{#if vrscOnline}}
 
                 <div class="graph-container">
                     <div class="graph-group hide">
@@ -394,7 +387,7 @@
                 <br>
                 <div class="card-sub-details">Tracking VRSC and tBTC.vETH reserve in and out</div>
                 {{else}}
-                {{{statusMessage}}}
+                {{{vrscStatusMessage}}}
                 {{/if}}
             </div>
         </div>
@@ -411,8 +404,8 @@
             </svg>
             <button class="hide-button">x</button>
             <div class="card-content">
-                {{#if online}}
                 <div class="card-title">Pure Basket</div>
+                {{#if vrscOnline}}
 
                 <div class="card-sub-title">Estimated reserves value</div>
                 <div class="card-sub-title-value">$ {{{estimatedPureReserveValueUSDBTC}}} <span
@@ -434,7 +427,7 @@
 
 
                 {{else}}
-                {{{statusMessage}}}
+                {{{vrscStatusMessage}}}
                 {{/if}}
 
             </div>
@@ -452,8 +445,8 @@
             </svg>
             <button class="hide-button">x</button>
             <div class="card-content">
-                {{#if online}}
                 <div class="card-title">Switch Basket Volume</div>
+                {{#if vrscOnline}}
 
                 <div class="graph-container">
                     <div class="graph-group hide">
@@ -523,7 +516,7 @@
                 <div class="card-sub-details">Tracking VRSC, vDAI.vETH, vUSDC.vETH and EURC.vETH reserve in and out
                 </div>
                 {{else}}
-                {{{statusMessage}}}
+                {{{vrscStatusMessage}}}
                 {{/if}}
             </div>
         </div>
@@ -540,8 +533,8 @@
             </svg>
             <button class="hide-button">x</button>
             <div class="card-content">
-                {{#if online}}
                 <div class="card-title">Switch Basket</div>
+                {{#if vrscOnline}}
 
                 <div class="card-sub-title">Estimated reserves value</div>
                 <div class="card-sub-title-value">$ {{{estimatedSwitchReserveValue}}}</div>
@@ -562,7 +555,7 @@
 
 
                 {{else}}
-                {{{statusMessage}}}
+                {{{vrscStatusMessage}}}
                 {{/if}}
 
             </div>
@@ -577,13 +570,13 @@
                 <path
                     d="M706.112 2.583c389.515 0 705.751 316.236 705.751 705.75 0 389.515-316.236 705.751-705.751 705.751-389.514 0-705.75-316.236-705.75-705.751 0-389.514 316.236-705.75 705.75-705.75zM360.104 257.87c26.652-22.821 64.047-41.568 96.557-28.367 58.458 23.737 215.52 340.387 215.52 340.387S891.874 257.773 970.78 229.312c26.919-9.71 63.823 7.368 91.97 28.411 98.786 73.854 108.992 176.891 100.453 205.476-10.736 35.937-556.441 728.342-556.442 728.342-16.319-6.656-339.656-606.781-357.178-709.466-16.745-98.131 40.226-164.807 110.521-224.205z">
                 </path>
-            </svg> hej</span>
+            </svg></span>
         <div class="card" id="verus-varrr-get-address-balance-card">
              <img width="16px" src="/img/Pirate_Logo_Coin_Gold.png" />
             <button class="hide-button">x</button>
             <div class="card-content">
-                {{#if online}}
                 <div class="card-title">Address Balance</div>
+                {{#if varrrOnline}}
 
                 <div class="card-sub-title">Verus address</div>
                 <div class="card-sub-title-value"><input id="get-varrr-address-balance" class="card-input"
@@ -595,7 +588,7 @@
                 {{/each}}
 
                 {{else}}
-                {{{statusMessage}}}
+                {{{varrrStatusMessage}}}
                 {{/if}}
 
             </div>
@@ -604,8 +597,8 @@
              <img width="16px" src="/img/Pirate_Logo_Coin_Gold.png" />
             <button class="hide-button">x</button>
             <div class="card-content">
-                {{#if online}}
                 <div class="card-title">Block and Fee Pool Rewards</div>
+                {{#if varrrOnline}}
 
                 <div class="card-sub-title">block height</div>
                 <div id="verus-block-height" class="card-sub-title-value"> {{{varrrblocks}}} </div>
@@ -622,7 +615,7 @@
                 <div class="card-sub-details">Calculated from the last 100 blocks</div>
 
                 {{else}}
-                {{{statusMessage}}}
+                {{{varrrStatusMessage}}}
                 {{/if}}
 
             </div>
@@ -632,9 +625,8 @@
             <img width="16px" src="/img/Pirate_Logo_Coin_Gold.png" />
             <button class="hide-button">x</button>
             <div class="card-content">
-                {{#if online}}
-                {{!-- <div class="card-title">VRSC-ETH Bridge Volume</div> --}}
                 <div class="card-title">Bridge.vARRR Basket Volume</div>
+                {{#if varrrOnline}}
 
 
                 <div class="graph-container">
@@ -707,7 +699,7 @@
                 <br>
                 <div class="card-sub-details">Tracking VRSC, vARRR, Bridge.vETH and tBTC.vETH reserve in and out</div>
                 {{else}}
-                {{{statusMessage}}}
+                {{{varrrStatusMessage}}}
                 {{/if}}
             </div>
         </div>
@@ -715,9 +707,8 @@
             <img width="16px" src="/img/Pirate_Logo_Coin_Gold.png" />
             <button class="hide-button">x</button>
             <div class="card-content">
-                {{#if online}}
-                {{!-- <div class="card-title">VRSC-ETH Bridge Reserves</div> --}}
                 <div class="card-title">Bridge.vARRR Basket</div>
+                {{#if varrrOnline}}
 
                 <div class="card-sub-title">Estimated reserves value</div>
                 <div class="card-sub-title-value">$ {{{estimatedVarrrBridgeReserveValueUSDBTC}}} <span
@@ -741,7 +732,7 @@
 
 
                 {{else}}
-                {{{statusMessage}}}
+                {{{varrrStatusMessage}}}
                 {{/if}}
 
             </div>

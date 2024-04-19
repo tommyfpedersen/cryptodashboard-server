@@ -7,10 +7,10 @@ async function getVarrrNodeStatus() {
     let result = {};
     const mininginfo = await getMiningInfo();
     result.online = false;
-    result.statusMessage = "Updating Verus Node...";
+    result.statusMessage = "Updating and syncing vARRR PBaaS...";
     if (mininginfo) {
         result.online = true;
-        result.statusMessage = "Verus Node Running";
+        result.statusMessage = "vARRR PBaaS Running";
     }
     return result;
 }

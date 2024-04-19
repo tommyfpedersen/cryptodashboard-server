@@ -8,7 +8,7 @@ async function getNodeStatus() {
     let result = {};
     const mininginfo = await getMiningInfo();
     result.online = false;
-    result.statusMessage = "Updating Verus Node...";
+    result.statusMessage = "Updating and syncing Verus Node...";
     if (mininginfo) {
         result.online = true;
         result.statusMessage = "Verus Node Running";
