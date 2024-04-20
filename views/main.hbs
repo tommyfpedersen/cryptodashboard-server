@@ -160,7 +160,7 @@
                 {{#if vrscOnline}}
 
                 <div class="card-sub-title">block height</div>
-                <div id="verus-block-height" class="card-sub-title-value"> {{{blocks}}} </div>
+                <div id="verus-block-height" class="card-sub-title-main-value"> {{{blocks}}} </div>
                 <div class="card-sub-details">{{{blockLastSend}}}</div>
 
                 <div class="card-sub-title">block reward</div>
@@ -199,7 +199,7 @@
                 <div class="graph-container">
                     <div class="graph-group hide">
                         <div class="card-sub-title">24 hours Volume</div>
-                        <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars24Hours}}} </div>
+                        <div class="card-sub-title-main-value">$ {{{vrscBridgeVolumeInDollars24Hours}}} </div>
                         <br>
                         <div class="graph-y-axis">
                             {{#each vrscBridgeVolumeInDollars24HoursArrayYAxis}}<div class="graph-y-axis-item">
@@ -218,7 +218,7 @@
 
                     <div class="graph-group hide">
                         <div class="card-sub-title">7 days Volume</div>
-                        <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars7Days}}} </div>
+                        <div class="card-sub-title-main-value">$ {{{vrscBridgeVolumeInDollars7Days}}} </div>
                         <br>
                         <div class="graph-y-axis">
                             {{#each vrscBridgeVolumeInDollars7DaysArrayYAxis}}<div class="graph-y-axis-item">
@@ -237,7 +237,7 @@
 
                     <div class="graph-group">
                         <div class="card-sub-title">30 days Volume</div>
-                        <div class="card-sub-title-value">$ {{{vrscBridgeVolumeInDollars30Days}}} </div>
+                        <div class="card-sub-title-main-value">$ {{{vrscBridgeVolumeInDollars30Days}}} </div>
                         <br>
                         <div class="graph-y-axis">
                             {{#each vrscBridgeVolumeInDollars30DaysArrayYAxis}}<div class="graph-y-axis-item">
@@ -283,9 +283,9 @@
                 {{#if vrscOnline}}
 
                 <div class="card-sub-title">Estimated reserves value</div>
-                <div class="card-sub-title-value">$ {{{estimatedBridgeReserveValue}}}</div>
+                <div class="card-sub-title-main-value">$ {{{estimatedBridgeReserveValue}}}</div>
 
-                <div class="card-sub-title">Estimated bridge value</div>
+                <div style="text-transform:none;" class="card-sub-title">Bridge.vETH</div>
                 <div class="card-sub-title-value">$ {{{estimatedBridgeValueUSD}}}</div>
                 <div class="card-sub-details">VRSC {{{estimatedBridgeValueVRSC}}} </div>
 
@@ -324,7 +324,7 @@
                 <div class="graph-container">
                     <div class="graph-group hide">
                         <div class="card-sub-title">24 hours Volume</div>
-                        <div class="card-sub-title-value">{{{currencyVolumePure24Hours}}} <span
+                        <div class="card-sub-title-main-value">{{{currencyVolumePure24Hours}}} <span
                                 class="card-sub-title-value-prefix">VRSC</span> </div>
                         <br>
                         <div class="graph-y-axis">
@@ -344,7 +344,7 @@
 
                     <div class="graph-group hide">
                         <div class="card-sub-title">7 days Volume</div>
-                        <div class="card-sub-title-value">{{{currencyVolumePure7Days}}} <span
+                        <div class="card-sub-title-main-value">{{{currencyVolumePure7Days}}} <span
                                 class="card-sub-title-value-prefix">VRSC</span></div>
                         <br>
                         <div class="graph-y-axis">
@@ -364,7 +364,7 @@
 
                     <div class="graph-group">
                         <div class="card-sub-title">30 days Volume</div>
-                        <div class="card-sub-title-value">{{{currencyVolumePure30Days}}} <span
+                        <div class="card-sub-title-main-value">{{{currencyVolumePure30Days}}} <span
                                 class="card-sub-title-value-prefix">VRSC</span> </div>
                         <br>
                         <div class="graph-y-axis">
@@ -412,11 +412,11 @@
                 {{#if vrscOnline}}
 
                 <div class="card-sub-title">Estimated reserves value</div>
-                <div class="card-sub-title-value">$ {{{estimatedPureReserveValueUSDBTC}}} <span
+                <div class="card-sub-title-main-value">$ {{{estimatedPureReserveValueUSDBTC}}} <span
                         class="card-sub-title-value-prefix">via BTC</span></div>
                 <div class="card-sub-details">$ {{{estimatedPureReserveValueUSDVRSC}}} via VRSC</div>
 
-                <div class="card-sub-title">Estimated pure value</div>
+                <div class="card-sub-title">Pure</div>
                 <div class="card-sub-title-value">$ {{{estimatedPureValueUSD}}}</div>
                 <div class="card-sub-details">VRSC {{estimatedPureValueVRSC}} </div>
 
@@ -455,7 +455,7 @@
                 <div class="graph-container">
                     <div class="graph-group hide">
                         <div class="card-sub-title">24 hours Volume</div>
-                        <div class="card-sub-title-value">$ {{{currencyVolumeSwitch24Hours}}}</div>
+                        <div class="card-sub-title-main-value">$ {{{currencyVolumeSwitch24Hours}}}</div>
                         <br>
                         <div class="graph-y-axis">
                             {{#each currencyVolumeSwitch24HoursArrayYAxis}}<div class="graph-y-axis-item">
@@ -474,7 +474,7 @@
 
                     <div class="graph-group hide">
                         <div class="card-sub-title">7 days Volume</div>
-                        <div class="card-sub-title-value">$ {{{currencyVolumeSwitch7Days}}} </div>
+                        <div class="card-sub-title-main-value">$ {{{currencyVolumeSwitch7Days}}} </div>
                         <br>
                         <div class="graph-y-axis">
                             {{#each currencyVolumeSwitch7DaysArrayYAxis}}<div class="graph-y-axis-item">
@@ -493,7 +493,7 @@
 
                     <div class="graph-group">
                         <div class="card-sub-title">30 days Volume</div>
-                        <div class="card-sub-title-value">$ {{{currencyVolumeSwitch30Days}}} </div>
+                        <div class="card-sub-title-main-value">$ {{{currencyVolumeSwitch30Days}}} </div>
                         <br>
                         <div class="graph-y-axis">
                             {{#each currencyVolumeSwitch30DaysArrayYAxis}}<div class="graph-y-axis-item">
@@ -541,7 +541,7 @@
                 {{#if vrscOnline}}
 
                 <div class="card-sub-title">Estimated reserves value</div>
-                <div class="card-sub-title-value">$ {{{estimatedSwitchReserveValue}}}</div>
+                <div class="card-sub-title-main-value">$ {{{estimatedSwitchReserveValue}}}</div>
 
                 <div class="card-sub-title">Estimated Switch value</div>
                 <div class="card-sub-title-value">$ {{{estimatedSwitchValue}}}</div>
@@ -605,7 +605,7 @@
                 {{#if varrrOnline}}
 
                 <div class="card-sub-title">block height</div>
-                <div id="verus-block-height" class="card-sub-title-value"> {{{varrrblocks}}} </div>
+                <div id="verus-block-height" class="card-sub-title-main-value"> {{{varrrblocks}}} </div>
                 <div class="card-sub-details">{{{varrrblockLastSend}}}</div>
 
                 <div class="card-sub-title">block reward</div>
@@ -636,7 +636,7 @@
                 <div class="graph-container">
                     <div class="graph-group hide">
                         <div class="card-sub-title">24 hours Volume</div>
-                        <div class="card-sub-title-value"> {{{varrrBridgeVolumeInDollars24Hours}}} <span
+                        <div class="card-sub-title-main-value"> {{{varrrBridgeVolumeInDollars24Hours}}} <span
                                 class="card-sub-title-value-prefix">VRSC</span> </div>
                         <br>
                         <div class="graph-y-axis">
@@ -656,7 +656,7 @@
 
                     <div class="graph-group hide">
                         <div class="card-sub-title">7 days Volume</div>
-                        <div class="card-sub-title-value"> {{{varrrBridgeVolumeInDollars7Days}}} <span
+                        <div class="card-sub-title-main-value"> {{{varrrBridgeVolumeInDollars7Days}}} <span
                                 class="card-sub-title-value-prefix">VRSC</span></div>
                         <br>
                         <div class="graph-y-axis">
@@ -676,7 +676,7 @@
 
                     <div class="graph-group">
                         <div class="card-sub-title">30 days Volume</div>
-                        <div class="card-sub-title-value">{{{varrrBridgeVolumeInDollars30Days}}} <span
+                        <div class="card-sub-title-main-value">{{{varrrBridgeVolumeInDollars30Days}}} <span
                                 class="card-sub-title-value-prefix">VRSC</span></div>
                         <br>
                         <div class="graph-y-axis">
@@ -715,7 +715,7 @@
                 {{#if varrrOnline}}
 
                 <div class="card-sub-title">Estimated reserves value</div>
-                <div class="card-sub-title-value">$ {{{estimatedVarrrBridgeReserveValueUSDBTC}}} <span
+                <div class="card-sub-title-main-value">$ {{{estimatedVarrrBridgeReserveValueUSDBTC}}} <span
                         class="card-sub-title-value-prefix">via BTC</span></div>
                 <div class="card-sub-details">$ {{{estimatedVarrrBridgeReserveValueUSDVRSC}}} via VRSC</div>
 

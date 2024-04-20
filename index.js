@@ -147,7 +147,7 @@ app.get('/', async (req, res) => {
 
     varrrRenderData = {
       //varrr
-      varrrNodeStatus: varrrNodeStatus.online,
+      varrrOnline: varrrNodeStatus.online,
       getVarrrAddressBalanceArray: varrrAddressBalance.getAddressBalanceArray,
       getVarrrAddress: varrrAddressBalance.verusAddress === "none" ? "" : varrrAddressBalance.verusAddress,
       varrrblocks: varrrblockandfeepoolrewards.block.toLocaleString(),
@@ -173,12 +173,11 @@ app.get('/', async (req, res) => {
     }
   } else {
     varrrRenderData = {
-      varrrNodeStatus: varrrNodeStatus.online,
+      varrrOnline: varrrNodeStatus.online,
       varrrStatusMessage: varrrNodeStatus.statusMessage
     }
   }
   mainRenderData = { ...mainRenderData, ...varrrRenderData };
-
 
 
   // ThreeFold //
