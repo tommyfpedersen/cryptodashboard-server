@@ -25,6 +25,10 @@ async function calculateCurrencyVolume(volumeArray, miningInfoBlocks) {
     let volumeInDollars30DaysArray = [];
     let volumeInDollars30DaysArrayYAxis = [];
 
+    if (volumeArray === null) {
+        return result;
+    }
+
     let getblock = await getBlock(miningInfoBlocks);
 
     //   // 24 hour
@@ -135,12 +139,12 @@ async function calculateCurrencyVolume(volumeArray, miningInfoBlocks) {
                     volumeInDollarsCounter30D = 0;
                     counter++;
                 }
-               
-                if(!isNaN(elm.dollars)){
+
+                if (!isNaN(elm.dollars)) {
                     volumeInDollarsCounter30D += elm.dollars;
                     volumeInDollars30Days = volumeInDollars30Days + elm.dollars;
                 }
-               
+
             }
         })
     volumeInDollars30DaysArray.reverse();
@@ -164,4 +168,4 @@ async function calculateCurrencyVolume(volumeArray, miningInfoBlocks) {
     return result;
 }
 
-module.exports = {isBlockInVolumeArray, calculateCurrencyVolume }
+module.exports = { isBlockInVolumeArray, calculateCurrencyVolume }
