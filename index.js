@@ -11,6 +11,7 @@ app.use(cors({
 }));
 
 let pageLoads = 0;
+let days = 31;
 
 
 // components
@@ -48,16 +49,16 @@ app.get('/', async (req, res) => {
     const blockandfeepoolrewards = await getBlockAndFeePoolRewards();
 
     /* Get bridge.veth volume and reserve info */
-    const currencyVolumeBridge = await getCurrencyVolume("bridge.veth", (1440 * 31));//31
+    const currencyVolumeBridge = await getCurrencyVolume("bridge.veth", (1440 * days));//31
     currencyReserveBridge = await getCurrencyReserve("bridge.veth", coingeckoPriceArray);
 
     /* Get pure volume and reserve info */
     const currencyReservePure = await getCurrencyReserve("pure", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
-    const currencyVolumePure = await getCurrencyVolume("pure", (1440 * 31));//31
+    const currencyVolumePure = await getCurrencyVolume("pure", (1440 * days));//31
 
     /* Get pure volume and reserve info */
     const currencyReserveSwitch = await getCurrencyReserve("switch", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
-    const currencyVolumeSwitch = await getCurrencyVolume("switch", (1440 * 31));//31
+    const currencyVolumeSwitch = await getCurrencyVolume("switch", (1440 * days));//31
 
     vrscRenderData = {
       // Verus
@@ -141,7 +142,7 @@ app.get('/', async (req, res) => {
     const varrrblockandfeepoolrewards = await getVarrrBlockAndFeePoolRewards();
 
     /* Get bridge.varrr volume and reserve info */
-    const currencyVolumeVarrrBridge = await getVarrrCurrencyVolume("bridge.varrr", (1440 * 31));//31
+    const currencyVolumeVarrrBridge = await getVarrrCurrencyVolume("bridge.varrr", (1440 * days));//31
     const currencyReserveVarrrBridge = await getVarrrCurrencyReserve("bridge.varrr", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
 
     varrrRenderData = {
