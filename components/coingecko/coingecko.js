@@ -13,7 +13,7 @@ async function getCoingeckoPrice() {
 
     if (cacheStartTime + coolDownTime < Date.now()) {
         priceArray = [];
-        let coingeckoPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2C%20verus-coin%2C%20dai%2C%20maker%2C%20ethereum%2C%20usd-coin%2C%20euro-coin%2C%20pirate-chain&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en");
+        let coingeckoPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2C%20verus-coin%2C%20dai%2C%20maker%2C%20ethereum%2C%20usd-coin%2C%20euro-coin%2C%20pirate-chain%2C%20tether&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en");
         const coingeckoPriceResult = await coingeckoPriceResponse.json();
         const coingeckoPrice = coingeckoPriceResult;
 
@@ -82,6 +82,13 @@ async function getCoingeckoPrice() {
                             name: "pirate-chain"
                         })
                     }
+                    if (item.id === "tether") {
+                          priceArray.push({
+                              currencyId: "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY",
+                              price: item.current_price,
+                              name: "usdt"
+                          })
+                      }
                 })
             }
         }
