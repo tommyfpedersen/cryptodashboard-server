@@ -282,9 +282,9 @@ async function currencyReserveKaiju(priceArray) {
 
     let currencyBridgeArray = [];
     let ethereumBridgePrice = 0;
-    let mkrBridgePrice = 0;
+    let tBTCBridgePrice = 0;
     let vrscBridgePrice = 0;
-    let daiReserve = 0;
+    let usdtReserve = 0;
     let estimatedBridgeValue = 0;
     let estimatedBridgeSupply = getcurrency.bestcurrencystate.supply;
     let estimatedBridgeValueUSD = 0;
@@ -294,14 +294,14 @@ async function currencyReserveKaiju(priceArray) {
         let currencyIdArray = Object.values(getcurrency.currencies);
         let currencyNames = Object.entries(getcurrency.currencynames);
 
-        /* find dai value*/
+        /* find usdt value*/
         currencyIdArray.forEach((currencyId) => {
             currencyNames.forEach((item) => {
                 let currency = {}
                 if (item[0] === currencyId) {
                     getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
-                        if (reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
-                            daiReserve = reservesCurrency.reserves;
+                        if (reservesCurrency.currencyid === "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY") {
+                            usdtReserve = reservesCurrency.reserves;
                         }
                     })
                 }
@@ -316,16 +316,16 @@ async function currencyReserveKaiju(priceArray) {
                         if (reservesCurrency.currencyid === currencyId) {
                             currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
                             currency.priceinreserve = reservesCurrency.priceinreserve;
-                            currency.price = Math.round(daiReserve / currency.reserves * 100) / 100;
+                            currency.price = Math.round(usdtReserve / currency.reserves * 100) / 100;
 
                             if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                                vrscBridgePrice = Math.round(daiReserve / currency.reserves * 100) / 100;
-                            }
-                            if (currencyId === "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X") {
-                                ethereumBridgePrice = Math.round(daiReserve / currency.reserves * 100) / 100;
+                                vrscBridgePrice = Math.round(usdtReserve / currency.reserves * 100) / 100;
                             }
                             if (currencyId === "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4") {
-                                mkrBridgePrice = Math.round(daiReserve / currency.reserves * 100) / 100;
+                                ethereumBridgePrice = Math.round(usdtReserve / currency.reserves * 100) / 100;
+                            }
+                            if (currencyId === "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY") {
+                                tBTCBridgePrice = Math.round(usdtReserve / currency.reserves * 100) / 100;
                             }
                         }
 
@@ -338,7 +338,7 @@ async function currencyReserveKaiju(priceArray) {
                         }
 
 
-                        if (reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
+                        if (reservesCurrency.currencyid === "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY") {
                             estimatedBridgeValue = (Math.round(reservesCurrency.reserves * 4 * 100) / 100).toLocaleString();
                             estimatedBridgeValueUSD = (Math.round(reservesCurrency.reserves * 4 / estimatedBridgeSupply *100)/ 100).toLocaleString();
                             estimatedBridgeValueVRSC = (Math.round(reservesCurrency.reserves * 4 / estimatedBridgeSupply / vrscBridgePrice *100000000)/ 100000000).toLocaleString();
@@ -361,7 +361,7 @@ async function currencyReserveKaiju(priceArray) {
     result.estimatedBridgeValue = estimatedBridgeValue;
     result.vrscBridgePrice = vrscBridgePrice;
     result.ethereumBridgePrice = ethereumBridgePrice;
-    result.mkrBridgePrice = mkrBridgePrice;
+    result.tBTCBridgePrice = tBTCBridgePrice;
     result.estimatedBridgeValueUSD = estimatedBridgeValueUSD;
     result.estimatedBridgeValueVRSC = estimatedBridgeValueVRSC;
     return result;

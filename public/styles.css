@@ -165,7 +165,7 @@ body {
 .card-title {
     padding: 10px 0 0px 0;
     /* text-transform: uppercase; */
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     /* text-decoration: underline; */
 }
@@ -177,7 +177,7 @@ body {
 }
 
 .card-sub-title-main-value{
-    font-size: 30px;
+    font-size: 28px;
 }
 
 .card-sub-title-value {
