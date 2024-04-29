@@ -280,15 +280,15 @@ async function currencyReserveKaiju(priceArray) {
     const getcurrencyResult = await getcurrencyResponse.json();
     const getcurrency = getcurrencyResult.result;
 
-    let currencyBridgeArray = [];
-    let ethereumBridgePrice = 0;
-    let tBTCBridgePrice = 0;
-    let vrscBridgePrice = 0;
+    let currencyKaijuArray = [];
+    let ethereumKaijuPrice = 0;
+    let tBTCKaijuPrice = 0;
+    let vrscKaijuPrice = 0;
     let usdtReserve = 0;
-    let estimatedBridgeValue = 0;
-    let estimatedBridgeSupply = getcurrency.bestcurrencystate.supply;
-    let estimatedBridgeValueUSD = 0;
-    let estimatedBridgeValueVRSC = 0;
+    let estimatedKaijuValue = 0;
+    let estimatedKaijuSupply = getcurrency.bestcurrencystate.supply;
+    let estimatedKaijuValueUSD = 0;
+    let estimatedKaijuValueVRSC = 0;
 
     if (getcurrency) {
         let currencyIdArray = Object.values(getcurrency.currencies);
@@ -319,13 +319,13 @@ async function currencyReserveKaiju(priceArray) {
                             currency.price = Math.round(usdtReserve / currency.reserves * 100) / 100;
 
                             if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                                vrscBridgePrice = Math.round(usdtReserve / currency.reserves * 100) / 100;
+                                vrscKaijuPrice = Math.round(usdtReserve / currency.reserves * 100) / 100;
                             }
                             if (currencyId === "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4") {
-                                ethereumBridgePrice = Math.round(usdtReserve / currency.reserves * 100) / 100;
+                                ethereumKaijuPrice = Math.round(usdtReserve / currency.reserves * 100) / 100;
                             }
-                            if (currencyId === "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY") {
-                                tBTCBridgePrice = Math.round(usdtReserve / currency.reserves * 100) / 100;
+                            if (currencyId === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
+                                tBTCKaijuPrice = Math.round(usdtReserve / currency.reserves * 100) / 100;
                             }
                         }
 
@@ -339,31 +339,31 @@ async function currencyReserveKaiju(priceArray) {
 
 
                         if (reservesCurrency.currencyid === "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY") {
-                            estimatedBridgeValue = (Math.round(reservesCurrency.reserves * 4 * 100) / 100).toLocaleString();
-                            estimatedBridgeValueUSD = (Math.round(reservesCurrency.reserves * 4 / estimatedBridgeSupply *100)/ 100).toLocaleString();
-                            estimatedBridgeValueVRSC = (Math.round(reservesCurrency.reserves * 4 / estimatedBridgeSupply / vrscBridgePrice *100000000)/ 100000000).toLocaleString();
+                            estimatedKaijuValue = (Math.round(reservesCurrency.reserves * 4 * 100) / 100).toLocaleString();
+                            estimatedKaijuValueUSD = (Math.round(reservesCurrency.reserves * 4 / estimatedKaijuSupply *100)/ 100).toLocaleString();
+                            estimatedKaijuValueVRSC = (Math.round(reservesCurrency.reserves * 4 / estimatedKaijuSupply / vrscKaijuPrice *100000000)/ 100000000).toLocaleString();
                         }
                     })
                     currency.currencyId = currencyId;
                     currency.currencyName = item[1];
-                    currencyBridgeArray.push(currency);
+                    currencyKaijuArray.push(currency);
                 }
             })
         })
     }
 
-    /* estimated value of bridge */
-    currencyBridgeArray.forEach((currency) => {
+    /* estimated value of kaiju */
+    currencyKaijuArray.forEach((currency) => {
         currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 8 });
     })
 
-    result.currencyBridgeArray = currencyBridgeArray;
-    result.estimatedBridgeValue = estimatedBridgeValue;
-    result.vrscBridgePrice = vrscBridgePrice;
-    result.ethereumBridgePrice = ethereumBridgePrice;
-    result.tBTCBridgePrice = tBTCBridgePrice;
-    result.estimatedBridgeValueUSD = estimatedBridgeValueUSD;
-    result.estimatedBridgeValueVRSC = estimatedBridgeValueVRSC;
+    result.currencyKaijuArray = currencyKaijuArray;
+    result.estimatedKaijuValue = estimatedKaijuValue;
+    result.vrscKaijuPrice = vrscKaijuPrice;
+    result.ethereumKaijuPrice = ethereumKaijuPrice;
+    result.tBTCKaijuPrice = tBTCKaijuPrice; 
+    result.estimatedKaijuValueUSD = estimatedKaijuValueUSD;
+    result.estimatedKaijuValueVRSC = estimatedKaijuValueVRSC;
     return result;
 }
 

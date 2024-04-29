@@ -11,7 +11,7 @@ app.use(cors({
 }));
 
 let pageLoads = 0;
-let days = 31;
+let days = 1;
 
 
 // components
@@ -52,6 +52,10 @@ app.get('/', async (req, res) => {
     const currencyVolumeBridge = await getCurrencyVolume("bridge.veth", (1440 * days));//31
     currencyReserveBridge = await getCurrencyReserve("bridge.veth", coingeckoPriceArray);
 
+    /* Get Kaiju volume and reserve info */
+    //const currencyVolumeKaiju = await getCurrencyVolume("kaíju", (1440 * days));//31
+    const currencyReserveKaiju = await getCurrencyReserve("kaiju", coingeckoPriceArray);
+
     /* Get pure volume and reserve info */
     const currencyReservePure = await getCurrencyReserve("pure", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
     const currencyVolumePure = await getCurrencyVolume("pure", (1440 * days));//31
@@ -89,6 +93,11 @@ app.get('/', async (req, res) => {
       estimatedBridgeValueVRSC: currencyReserveBridge.estimatedBridgeValueVRSC,
       currencyBridgeArray: currencyReserveBridge.currencyBridgeArray,
       estimatedBridgeReserveValue: currencyReserveBridge.estimatedBridgeValue,
+      //kaiju
+      estimatedKaijuValueUSD: currencyReserveKaiju.estimatedKaijuValueUSD,
+      estimatedKaijuValueVRSC: currencyReserveKaiju.estimatedKaijuValueVRSC,
+      currencyKaijuArray: currencyReserveKaiju.currencyKaijuArray,
+      estimatedKaijuReserveValue: currencyReserveKaiju.estimatedKaijuValue,
       // Verus pure
       currencyVolumePure24Hours: currencyVolumePure.volumeInDollars24Hours,
       currencyVolumePure24HoursArray: currencyVolumePure.volumeInDollars24HoursArray,

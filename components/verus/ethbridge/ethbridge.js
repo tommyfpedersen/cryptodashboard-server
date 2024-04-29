@@ -81,7 +81,6 @@ async function vrscEthBridgeVolume(fromBlock, toBlock) {
                         daiReserves = currency.reserves;
                     }
                 })
-                vrscReserveInDollars = vrscReserveInDollars + getcurrencystateVRSC.reservein * (daiReserves / vrscReserves);
                 if (isBlockInVolumeArray(volumeInDollarsArray, getcurrencystate.height, "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV", "reservein")) {
                     volumeInDollarsArray.push({
                         currencyid: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
@@ -105,7 +104,6 @@ async function vrscEthBridgeVolume(fromBlock, toBlock) {
                         daiReserves = currency.reserves;
                     }
                 })
-                vrscReserveInDollars = vrscReserveInDollars + getcurrencystateVRSC.reserveout * (daiReserves / vrscReserves);
                 if (isBlockInVolumeArray(volumeInDollarsArray, getcurrencystate.height, "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV", "reserveout") === false) {
                     volumeInDollarsArray.push({
                         currencyid: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
@@ -130,7 +128,6 @@ async function vrscEthBridgeVolume(fromBlock, toBlock) {
                         daiReserves = currency.reserves;
                     }
                 })
-                daiReserveInDollars = daiReserveInDollars + getcurrencystateDAI.reservein * 1;
                 if (isBlockInVolumeArray(volumeInDollarsArray, getcurrencystate.height, "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM", "reservein") === false) {
                     volumeInDollarsArray.push({
                         currencyid: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
@@ -140,6 +137,7 @@ async function vrscEthBridgeVolume(fromBlock, toBlock) {
                         type: "reservein"
                     })
                 }
+              //  console.log("DAI in: " + getcurrencystateDAI.reservein * 1);
             }
             // DAI out
             if (getcurrencystateDAI.reserveout !== daiReserveOutLastValue) {
@@ -161,6 +159,7 @@ async function vrscEthBridgeVolume(fromBlock, toBlock) {
                         type: "reserveout"
                     })
                 }
+            //    console.log("heigth: ", i, " DAI out: " + getcurrencystateDAI.reserveout * 1);
             }
             daiReserveInLastValue = getcurrencystateDAI.reservein;
             daiReserveOutLastValue = getcurrencystateDAI.reserveout;

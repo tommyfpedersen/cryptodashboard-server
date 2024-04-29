@@ -1,5 +1,6 @@
 const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy } = require("./api/api");
 const { vrscEthBridgeVolume, currencyReserveEthBridge } = require("./ethbridge/ethbridge");
+const { kaijuVolume, currencyReserveKaiju } = require("./kaiju/kaiju");
 const { currencyReservePure, pureVolume } = require("./pure/pure");
 const { vrscSwitchVolume, currencyReserveSwitch } = require("./switch/switch");
 const { calculateCurrencyVolume } = require("./utils/utils");
@@ -137,6 +138,10 @@ async function getCurrencyVolume(currencyName, blockcount) {
         volumeArray = await vrscEthBridgeVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
         result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
     }
+    if (currencyName === "kaiju") {
+        volumeArray = await kaijuVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
+        result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
+    }
     if (currencyName === "pure") {
         volumeArray = await pureVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
         result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
@@ -152,6 +157,9 @@ async function getCurrencyVolume(currencyName, blockcount) {
 async function getCurrencyReserve(currencyName, priceArray, vrscBridgePrice) {
     if (currencyName === "bridge.veth") {
         return currencyReserveEthBridge(priceArray);
+    }
+    if (currencyName === "kaiju") {
+        return currencyReserveKaiju(priceArray, vrscBridgePrice);
     }
     if (currencyName === "pure") {
         return currencyReservePure(priceArray, vrscBridgePrice);
