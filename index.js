@@ -54,6 +54,7 @@ app.get('/', async (req, res) => {
 
     /* Get Kaiju volume and reserve info */
     //const currencyVolumeKaiju = await getCurrencyVolume("kaíju", (1440 * days));//31
+    //console.log("currencyVolumeKaiju: ", currencyVolumeKaiju);
     const currencyReserveKaiju = await getCurrencyReserve("kaiju", coingeckoPriceArray);
 
     /* Get pure volume and reserve info */
