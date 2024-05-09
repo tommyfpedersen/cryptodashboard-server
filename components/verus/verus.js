@@ -123,6 +123,9 @@ async function getAddressBalance(address) {
             if ("iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2" === item) {
                 getAddressBalanceArray.push({ currencyName: "vARRR", amount: getAddressBalance.currencybalance.iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2 })
             }
+            if ("i9kVWKU2VwARALpbXn4RS9zvrhvNRaUibb" === item) {
+                getAddressBalanceArray.push({ currencyName: "Kaiju", amount: getAddressBalance.currencybalance.i9kVWKU2VwARALpbXn4RS9zvrhvNRaUibb })
+            }
         })
     }
     result.verusAddress = verusAddress;
