@@ -8,7 +8,7 @@ let volumeInDollarsArray = [];
 
 async function vrscVarrrBridgeVolume(fromBlock, toBlock) {
 
-    console.log("fromblock", fromBlock, "toblock", toBlock)
+   // console.log("fromblock", fromBlock, "toblock", toBlock)
 
     if(fromBlock < 0){
         fromBlock = 0;
