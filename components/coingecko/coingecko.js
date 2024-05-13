@@ -13,7 +13,7 @@ async function getCoingeckoPrice() {
 
     if (cacheStartTime + coolDownTime < Date.now()) {
         priceArray = [];
-        let coingeckoPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2C%20verus-coin%2C%20dai%2C%20maker%2C%20ethereum%2C%20usd-coin%2C%20euro-coin%2C%20pirate-chain%2C%20tether&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en");
+        let coingeckoPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2C%20verus-coin%2C%20dai%2C%20maker%2C%20ethereum%2C%20usd-coin%2C%20euro-coin%2C%20pirate-chain%2C%20tether&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en&order=market_cap_desc&precision=2");
         const coingeckoPriceResult = await coingeckoPriceResponse.json();
         const coingeckoPrice = coingeckoPriceResult;
 
@@ -25,7 +25,8 @@ async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
                             price: item.current_price,
-                            name: "bitcoin"
+                            name: "bitcoin",
+                            origin: "Coingecko"
                         })
                     }
                     if (item.id === "verus-coin") {
@@ -33,21 +34,24 @@ async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
                             price: item.current_price,
-                            name: "verus-coin"
+                            name: "verus-coin",
+                            origin: "Coingecko"
                         })
                     }
                     if (item.id === "dai") {
                         priceArray.push({
                             currencyId: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
                             price: item.current_price,
-                            name: "dai"
+                            name: "dai",
+                            origin: "Coingecko"
                         })
                     }
                     if (item.id === "maker") {
                         priceArray.push({
                             currencyId: "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4",
                             price: item.current_price,
-                            name: "maker"
+                            name: "maker",
+                            origin: "Coingecko"
                         })
                     }
                     if (item.id === "ethereum") {
@@ -55,7 +59,8 @@ async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
                             price: item.current_price,
-                            name: "ethereum"
+                            name: "ethereum",
+                            origin: "Coingecko"
                         })
                     }
                     if (item.id === "usd-coin") {
@@ -63,7 +68,8 @@ async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd",
                             price: item.current_price,
-                            name: "usdc"
+                            name: "usdc",
+                            origin: "Coingecko"
                         })
                     }
                     if (item.id === "euro-coin") {
@@ -71,7 +77,8 @@ async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE",
                             price: item.current_price,
-                            name: "eurc"
+                            name: "eurc",
+                            origin: "Coingecko"
                         })
                     }
                     if (item.id === "pirate-chain") {
@@ -79,14 +86,16 @@ async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2",
                             price: item.current_price,
-                            name: "pirate-chain"
+                            name: "pirate-chain",
+                            origin: "Coingecko"
                         })
                     }
                     if (item.id === "tether") {
                           priceArray.push({
                               currencyId: "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY",
                               price: item.current_price,
-                              name: "usdt"
+                              name: "usdt",
+                              origin: "Coingecko"
                           })
                       }
                 })

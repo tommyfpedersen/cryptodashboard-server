@@ -213,6 +213,7 @@ async function currencyReservePure(priceArray, vrscBridgePrice) {
                         if (reservesCurrency.currencyid === currencyId) {
                             currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
                             currency.priceinreserve = reservesCurrency.priceinreserve;
+                            currency.origin = "Pure";
                             //currency.price = Math.round(vrscReserve / currency.reserves * 100) / 100;
 
                             if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {

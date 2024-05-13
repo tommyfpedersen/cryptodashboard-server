@@ -326,6 +326,7 @@ async function currencyReserveEthBridge(priceArray) {
                             currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
                             currency.priceinreserve = reservesCurrency.priceinreserve;
                             currency.price = Math.round(daiReserve / currency.reserves * 100) / 100;
+                            currency.origin = "Bridge.vETH";
 
                             if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                                 vrscBridgePrice = Math.round(daiReserve / currency.reserves * 100) / 100;

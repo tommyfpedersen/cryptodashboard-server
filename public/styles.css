@@ -158,6 +158,20 @@ body {
     animation: fadeIn 2s;
 }
 
+.card-row-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.card-row-item{
+    font-size: 14px;
+    padding: 2px 0;
+}
+.card-row-image{
+    width: 14px;
+    height: 14px;
+}
 .card-header {
     /* padding-bottom: 10px; */
 }

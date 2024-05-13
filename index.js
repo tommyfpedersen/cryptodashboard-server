@@ -11,7 +11,7 @@ app.use(cors({
 }));
 
 let pageLoads = 0;
-let days = 31;
+let days = 1;
 
 
 // components
@@ -28,13 +28,17 @@ app.get('/', async (req, res) => {
   pageLoads++;
   console.log("page loads: ", pageLoads);
 
+  /* RenderData def*/
+  let mainRenderData = {};
+  let priceArray = [];
+  let vrscPriceData = {};
+
   /* Get price from coingecko */
   let coingeckoPriceArray = await getCoingeckoPrice();
   let bitcoinPriceItem = coingeckoPriceArray.find(item => item.name === "bitcoin");
   let bitcoinPrice = bitcoinPriceItem?.price.toLocaleString() || "0";
+  priceArray = [...coingeckoPriceArray];
 
-  /* RenderData def*/
-  let mainRenderData = {};
 
   /* Verus */
   let vrscRenderData = {};
@@ -129,6 +133,8 @@ app.get('/', async (req, res) => {
       estimatedSwitchReserveValue: currencyReserveSwitch.estimatedSwitcheReserveValue,
       estimatedSwitchValueUSDVRSC: currencyReserveSwitch.estimatedSwitchValueUSDVRSC
     };
+    // adding to pricingArray
+    priceArray = [...priceArray,...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray];
   } else {
     vrscRenderData = {
       vrscNodeStatus: vrscNodeStatus.online,
@@ -136,6 +142,7 @@ app.get('/', async (req, res) => {
     }
   }
   mainRenderData = vrscRenderData;
+
 
 
 
@@ -181,6 +188,7 @@ app.get('/', async (req, res) => {
       estimatedVarrrBridgeReserveValueUSDBTC: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDBTC,
       estimatedVarrrBridgeReserveValueUSDVRSC: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC
     }
+    priceArray = [...priceArray, ...varrrRenderData.currencyVarrrBridgeArray];
   } else {
     varrrRenderData = {
       varrrOnline: varrrNodeStatus.online,
@@ -189,6 +197,13 @@ app.get('/', async (req, res) => {
   }
   mainRenderData = { ...mainRenderData, ...varrrRenderData };
 
+  let btcPriceArray = priceArray.filter(item => item.currencyId === 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU').sort((a, b) => b.price - a.price);
+  let ethereumPriceArray = priceArray.filter(item => item.currencyId === 'i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X').sort((a, b) => b.price - a.price);
+  let makerPriceArray = priceArray.filter(item => item.currencyId === 'iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4').sort((a, b) => b.price - a.price);
+  let vrscPriceArray = priceArray.filter(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV').sort((a, b) => b.price - a.price);
+  let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
+
+  mainRenderData = { ...mainRenderData, ...{ btcPriceArray, ethereumPriceArray, makerPriceArray, vrscPriceArray, arrrPriceArray } };
 
   // ThreeFold //
   let threeFoldNodeArray = []

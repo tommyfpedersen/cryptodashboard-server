@@ -372,6 +372,7 @@ async function currencyReserveVarrrBridge(priceArray, vrscBridgePrice, estimated
                             if (reservesCurrency.currencyid === currencyId) {
                                 currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
                                 currency.priceinreserve = reservesCurrency.priceinreserve;
+                                currency.origin = "Bridge.vARRR";
                                 //  currency.price = Math.round(daiReserve / currency.reserves * 100) / 100;
 
                                 if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {

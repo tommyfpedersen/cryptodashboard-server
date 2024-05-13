@@ -37,25 +37,120 @@
 
     <div class="section">
 
-        <span class="project" id="price" data-image="/img/bitcoin-btc-logo.png"></span>
+        {{!-- <span class="project" id="price" data-image="/img/bitcoin-btc-logo.png"></span>
         <div class="card" id="prices-card">
             <img width="16px" src="/img/bitcoin-btc-logo.png" />
             <button class="hide-button">x</button>
             <div class="card-content">
                 <div class="card-title">Prices</div>
                 {{#if vrscOnline}}
-                <div class="card-sub-title">Bitcoin (BTC)</div>
-                <div class="card-sub-title-value">$ {{{bitcoinPrice}}}</div>
-                <div class="card-sub-details">api.coingecko.com</div>
-                <div class="card-sub-title">Ethereum (ETH)</div>
-                <div class="card-sub-title-value">$ {{{ethereumBridgePrice}}}</div>
-                <div class="card-sub-details">Bridge.vETH</div>
-                <div class="card-sub-title">Maker (MKR)</div>
-                <div class="card-sub-title-value">$ {{{mkrBridgePrice}}}</div>
-                <div class="card-sub-details">Bridge.vETH</div>
-                <div class="card-sub-title">VerusCoin (VRSC)</div>
-                <div class="card-sub-title-value">$ {{{vrscBridgePrice}}}</div>
-                <div class="card-sub-details">Bridge.vETH</div>
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">Bitcoin (BTC)</div>
+                    <div class="card-row-item">
+                        $ {{{bitcoinPrice}}}
+                        <img class="card-row-image" src="/img/coingecko_dark.png" />
+                    </div>
+                </div>
+
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">Ethereum (ETH)</div>
+                    <div class="card-row-item">
+                        $ {{{ethereumBridgePrice}}}
+                        <img class="card-row-image" src="/img/bridge-veth-icon.png" />
+                    </div>
+                </div>
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">Maker (MKR)</div>
+                    <div class="card-row-item">
+                        $ {{{mkrBridgePrice}}}
+                        <img class="card-row-image" src="/img/bridge-veth-icon.png" />
+                    </div>
+                </div>
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">VerusCoin (VRSC)</div>
+                    <div class="card-row-item">
+                        $ {{{vrscBridgePrice}}}
+                        <img class="card-row-image" src="/img/bridge-veth-icon.png" />
+                    </div>
+                </div>
+                {{else}}
+                {{{vrscStatusMessage}}}
+                {{/if}}
+            </div>
+        </div> --}}
+
+        <span class="project" id="price" data-image="/img/dollars.png"></span>
+        <div class="card" id="prices-card-btc">
+            <img width="16px" src="/img/bitcoin-btc-logo.png" />
+            <button class="hide-button">x</button>
+            <div class="card-content">
+                <div class="card-title">Bitcoin</div>
+                {{#if vrscOnline}}
+                {{#each btcPriceArray}}
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">{{{origin}}}</div>
+                    <div class="card-row-item">
+                        $ {{{price}}}
+                    </div>
+                </div>
+                {{/each}}
+                {{else}}
+                {{{vrscStatusMessage}}}
+                {{/if}}
+            </div>
+        </div>
+        <div class="card" id="prices-card-ethereum">
+            <img width="16px" src="/img/ethereum.webp" />
+            <button class="hide-button">x</button>
+            <div class="card-content">
+                <div class="card-title">Ethereum</div>
+                {{#if vrscOnline}}
+                {{#each ethereumPriceArray}}
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">{{{origin}}}</div>
+                    <div class="card-row-item">
+                        $ {{{price}}}
+                    </div>
+                </div>
+                {{/each}}
+                {{else}}
+                {{{vrscStatusMessage}}}
+                {{/if}}
+            </div>
+        </div>
+        <div class="card" id="prices-card-maker">
+            <img width="16px" src="/img/maker.webp" />
+            <button class="hide-button">x</button>
+            <div class="card-content">
+                <div class="card-title">Maker</div>
+                {{#if vrscOnline}}
+                {{#each makerPriceArray}}
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">{{{origin}}}</div>
+                    <div class="card-row-item">
+                        $ {{{price}}}
+                    </div>
+                </div>
+                {{/each}}
+                {{else}}
+                {{{vrscStatusMessage}}}
+                {{/if}}
+            </div>
+        </div>
+        <div class="card" id="prices-card-verus">
+            <img width="16px" src="/img/verus-icon-blue.png" />
+            <button class="hide-button">x</button>
+            <div class="card-content">
+                <div class="card-title">VerusCoin</div>
+                {{#if vrscOnline}}
+                {{#each vrscPriceArray}}
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">{{{origin}}}</div>
+                    <div class="card-row-item">
+                        $ {{{price}}}
+                    </div>
+                </div>
+                {{/each}}
                 {{else}}
                 {{{vrscStatusMessage}}}
                 {{/if}}
@@ -309,7 +404,7 @@
 
 
 
-      
+
         {{!-- <div class="card" id="verus-kaiju-basket-volume-card">
             <svg fill="#3165d4" width="55" height="16" viewBox="0 0 4950 1417" xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
@@ -397,7 +492,7 @@
                 {{/if}}
             </div>
         </div> --}}
-          <div class="card" id="verus-kaiju-basket-card">
+        <div class="card" id="verus-kaiju-basket-card">
             <svg fill="#3165d4" width="55" height="16" viewBox="0 0 4950 1417" xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
                 <path
