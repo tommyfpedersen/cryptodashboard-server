@@ -373,29 +373,30 @@ async function currencyReserveVarrrBridge(priceArray, vrscBridgePrice, estimated
                                 currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
                                 currency.priceinreserve = reservesCurrency.priceinreserve;
                                 currency.origin = "Bridge.vARRR";
+                                currency.network = "vARRR";
                                 //  currency.price = Math.round(daiReserve / currency.reserves * 100) / 100;
 
                                 if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                                    currency.price = Math.round(tBTCvETHReserve / currency.reserves * 100000000) / 100000000;
+                                    currency.priceNative = Math.round(tBTCvETHReserve / currency.reserves * 100000000) / 100000000;
                                     currency.pricelabel = "tBTCvETH";
-                                    currency.dollarprice = Math.round(tBTCvETHCoingeckoPrice * currency.price * 100) / 100;
+                                    currency.price = Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 100) / 100;
                                 }
                                 if (currencyId === "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2") {
-                                    currency.price = Math.round(vrscReserve / currency.reserves * 100) / 100;
+                                    currency.priceNative = Math.round(vrscReserve / currency.reserves * 100) / 100;
                                     currency.pricelabel = "VRSC";
-                                    currency.dollarprice = Math.round(vrscBridgePrice * currency.price * 100) / 100;
+                                    currency.price = Math.round(vrscBridgePrice * currency.priceNative * 100) / 100;
                                 }
                                 if (currencyId === "i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx") {
-                                    currency.price = Math.round(vrscReserve / currency.reserves * 100) / 100;
+                                    currency.priceNative = Math.round(vrscReserve / currency.reserves * 100) / 100;
                                     currency.pricelabel = "VRSC";
-                                    currency.dollarprice = Math.round(vrscBridgePrice * currency.price * 100) / 100;
+                                    currency.price = Math.round(vrscBridgePrice * currency.priceNative * 100) / 100;
                                     currency.coingeckoprice = estimatedBridgeValueUSD; //Math.round(vrscBridgePrice * 100) / 100;
                                     currency.coingeckoLabel = "Bridge.vETH";
                                 }
                                 if (currencyId === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
-                                    currency.price = Math.round(vrscReserve / currency.reserves * 100) / 100;
+                                    currency.priceNative = Math.round(vrscReserve / currency.reserves * 100) / 100;
                                     currency.pricelabel = "VRSC";
-                                    currency.dollarprice = Math.round(vrscBridgePrice * currency.price * 100) / 100;
+                                    currency.price = Math.round(vrscBridgePrice * currency.priceNative * 100) / 100;
                                 }
 
                             }

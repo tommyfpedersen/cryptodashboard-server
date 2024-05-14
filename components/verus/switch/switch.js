@@ -315,6 +315,7 @@ async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
                             currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
                             currency.priceinreserve = reservesCurrency.priceinreserve;
                             currency.origin = "Switch";
+                            currency.network = "vrsc";
 
                             if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                                 vrscPrice = (daiReserve * 1 / 0.21) / (currency.reserves * 1 / 0.16);

@@ -89,6 +89,7 @@
                 {{#each btcPriceArray}}
                 <div class="card-row-wrapper">
                     <div class="card-row-item">{{{origin}}}</div>
+                    <div class="card-row-item-network">{{{network}}}</div>
                     <div class="card-row-item">
                         $ {{{price}}}
                     </div>
@@ -108,6 +109,7 @@
                 {{#each ethereumPriceArray}}
                 <div class="card-row-wrapper">
                     <div class="card-row-item">{{{origin}}}</div>
+                    <div class="card-row-item-network">{{{network}}}</div>
                     <div class="card-row-item">
                         $ {{{price}}}
                     </div>
@@ -127,6 +129,7 @@
                 {{#each makerPriceArray}}
                 <div class="card-row-wrapper">
                     <div class="card-row-item">{{{origin}}}</div>
+                    <div class="card-row-item-network">{{{network}}}</div>
                     <div class="card-row-item">
                         $ {{{price}}}
                     </div>
@@ -146,6 +149,7 @@
                 {{#each vrscPriceArray}}
                 <div class="card-row-wrapper">
                     <div class="card-row-item">{{{origin}}}</div>
+                    <div class="card-row-item-network">{{{network}}}</div>
                     <div class="card-row-item">
                         $ {{{price}}}
                     </div>
@@ -649,8 +653,8 @@
                 {{#each currencyPureArray}}
                 <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
                 <div class="card-sub-title-value"> {{reserves}} </div>
-                <div class="card-sub-details">{{pricelabel}} {{price}} </div>
-                <div class="card-sub-details">Basket: $ {{dollarprice}} </div>
+                <div class="card-sub-details">{{pricelabel}} {{priceNative}} </div>
+                <div class="card-sub-details">Basket: $ {{price}} </div>
                 <div class="card-sub-details">{{coingeckoLabel}}: $ {{coingeckoprice}} </div>
 
                 {{/each}}
@@ -954,8 +958,8 @@
                 {{#each currencyVarrrBridgeArray}}
                 <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
                 <div class="card-sub-title-value"> {{reserves}} </div>
-                <div class="card-sub-details">{{pricelabel}} {{price}} </div>
-                <div class="card-sub-details">Basket: $ {{dollarprice}} </div>
+                <div class="card-sub-details">{{pricelabel}} {{priceNative}} </div>
+                <div class="card-sub-details">Basket: $ {{price}} </div>
                 <div class="card-sub-details">{{coingeckoLabel}}: $ {{coingeckoprice}} </div>
 
                 {{/each}}

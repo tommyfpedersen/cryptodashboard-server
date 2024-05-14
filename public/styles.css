@@ -163,9 +163,17 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 .card-row-item{
     font-size: 14px;
+    padding: 2px 0;
+}
+.card-row-item-network{
+    position: absolute;
+right: 100px;
+    font-size: 10px;
+    text-transform: uppercase;
     padding: 2px 0;
 }
 .card-row-image{

@@ -318,6 +318,7 @@ async function currencyReserveKaiju(priceArray) {
                             currency.priceinreserve = reservesCurrency.priceinreserve;
                             currency.price = Math.round(usdtReserve / currency.reserves * 100) / 100;
                             currency.origin = "Kaiju";
+                            currency.network = "vrsc";
 
                             if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                                 vrscKaijuPrice = Math.round(usdtReserve / currency.reserves * 100) / 100;

@@ -26,7 +26,8 @@ async function getCoingeckoPrice() {
                             currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
                             price: item.current_price,
                             name: "bitcoin",
-                            origin: "Coingecko"
+                            origin: "Coingecko",
+                            network: "btc"
                         })
                     }
                     if (item.id === "verus-coin") {
@@ -35,7 +36,8 @@ async function getCoingeckoPrice() {
                             currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
                             price: item.current_price,
                             name: "verus-coin",
-                            origin: "Coingecko"
+                            origin: "Coingecko",
+                            network: "vrsc"
                         })
                     }
                     if (item.id === "dai") {
@@ -51,7 +53,8 @@ async function getCoingeckoPrice() {
                             currencyId: "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4",
                             price: item.current_price,
                             name: "maker",
-                            origin: "Coingecko"
+                            origin: "Coingecko",
+                            network: "ethereum"
                         })
                     }
                     if (item.id === "ethereum") {
@@ -60,7 +63,8 @@ async function getCoingeckoPrice() {
                             currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
                             price: item.current_price,
                             name: "ethereum",
-                            origin: "Coingecko"
+                            origin: "Coingecko",
+                            network: "ethereum"
                         })
                     }
                     if (item.id === "usd-coin") {
@@ -87,7 +91,8 @@ async function getCoingeckoPrice() {
                             currencyId: "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2",
                             price: item.current_price,
                             name: "pirate-chain",
-                            origin: "Coingecko"
+                            origin: "Coingecko",
+                            network: "piratechain"
                         })
                     }
                     if (item.id === "tether") {
