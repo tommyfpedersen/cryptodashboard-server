@@ -7,7 +7,6 @@ let volumeInDollarsArray = [];
 
 
 async function kaijuVolume(fromBlock, toBlock) {
-
     if (volumeInDollarsArray.length > 0) {
         volumeInDollarsArray.sort((a, b) => b.height - a.height);
         let latestVolumeBlockHeight = volumeInDollarsArray[0].height;
@@ -48,6 +47,8 @@ async function kaijuVolume(fromBlock, toBlock) {
         const getcurrencystateResponse = await fetch("http://localhost:9009/multichain/getcurrencystate/kaiju/" + i);
         const getcurrencystateResult = await getcurrencystateResponse.json();
         let getcurrencystate = getcurrencystateResult.result[0];
+
+        console.log("fromBlock", fromBlock, "toblock", toBlock);
 
         if (getcurrencystate) {
             getcurrencystate = getcurrencystateResult.result[0];
@@ -124,7 +125,7 @@ async function kaijuVolume(fromBlock, toBlock) {
                 if (isBlockInVolumeArray(volumeInDollarsArray, getcurrencystate.height, "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY", "reservein") === false) {
                     volumeInDollarsArray.push({
                         currencyid: "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY",
-                        dollars: getcurrencystateDAI.reservein * 1,
+                        dollars: getcurrencystateUSDT.reservein * 1,
                         height: getcurrencystate.height,
                         blocktime: getcurrencystate.blocktime,
                         type: "reservein"
@@ -241,18 +242,18 @@ async function kaijuVolume(fromBlock, toBlock) {
                 let ethReserves = 0;
                 let usdtReserves = 0;
                 getcurrencystate.currencystate.reservecurrencies.forEach((currency) => {
-                    if (currency.currencyid === "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4") {
+                    if (currency.currencyid === "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X") {
                         ethReserves = currency.reserves;
                     }
                     if (currency.currencyid === "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY") {
                         usdtReserves = currency.reserves;
                     }
                 })
-                ethReserveInDollars = ethReserveInDollars + getcurrencystateETH.reserveout * (daiReserves / ethReserves);
+                ethReserveInDollars = ethReserveInDollars + getcurrencystateETH.reserveout * (usdtReserves / ethReserves);
                 if (isBlockInVolumeArray(volumeInDollarsArray, getcurrencystate.height, "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X", "reserveout") === false) {
                     volumeInDollarsArray.push({
                         currencyid: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
-                        dollars: getcurrencystateETH.reserveout * (daiReserves / ethReserves),
+                        dollars: getcurrencystateETH.reserveout * (usdtReserves / ethReserves),
                         height: getcurrencystate.height,
                         blocktime: getcurrencystate.blocktime,
                         type: "reserveout"
