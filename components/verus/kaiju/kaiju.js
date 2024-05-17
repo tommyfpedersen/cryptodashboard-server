@@ -48,8 +48,6 @@ async function kaijuVolume(fromBlock, toBlock) {
         const getcurrencystateResult = await getcurrencystateResponse.json();
         let getcurrencystate = getcurrencystateResult.result[0];
 
-        console.log("fromBlock", fromBlock, "toblock", toBlock);
-
         if (getcurrencystate) {
             getcurrencystate = getcurrencystateResult.result[0];
             const getcurrencystateVRSC = getcurrencystate.currencystate.currencies.i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV;
