@@ -1,6 +1,7 @@
+require('dotenv').config();
 async function getMiningInfo() {
     try {
-        const getmininginfoResponse = await fetch("http://localhost:9010/mining/getmininginfo");
+        const getmininginfoResponse = await fetch(process.env.VERUS_REST_API_VARRR + "mining/getmininginfo");
         const getmininginfoResult = await getmininginfoResponse.json();
         const getmininginfo = getmininginfoResult.result;
         return getmininginfo;
@@ -13,7 +14,7 @@ async function getMiningInfo() {
 
 async function getBlockSubsidy(block) {
     try {
-        const getblocksubsidyResponse = await fetch("http://localhost:9010/mining/getblocksubsidy/" + block);
+        const getblocksubsidyResponse = await fetch(process.env.VERUS_REST_API_VARRR + "mining/getblocksubsidy/" + block);
         const getblocksubsidyResult = await getblocksubsidyResponse.json();
         const getblocksubsidy = getblocksubsidyResult.result;
         return getblocksubsidy;
@@ -26,7 +27,7 @@ async function getBlockSubsidy(block) {
 
 async function getBlock(block) {
     try {
-        const getblockResponse = await fetch("http://localhost:9010/blockchain/getblock/" + block);
+        const getblockResponse = await fetch(process.env.VERUS_REST_API_VARRR + "blockchain/getblock/" + block);
         const getblockResult = await getblockResponse.json();
         const getblock = getblockResult.result;
         return getblock;
@@ -39,7 +40,7 @@ async function getBlock(block) {
 
 async function getPeerInfo() {
     try {
-        const getpeerinfoResponse = await fetch("http://localhost:9010/network/getpeerinfo/");
+        const getpeerinfoResponse = await fetch(process.env.VERUS_REST_API_VARRR + "network/getpeerinfo/");
         const getpeerinfoResult = await getpeerinfoResponse.json();
         const getpeerinfo = getpeerinfoResult.result;
         return getpeerinfo;

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { isBlockInVolumeArray } = require("../utils/utils");
 
 
@@ -29,7 +30,7 @@ async function pureVolume(fromBlock, toBlock) {
     let tBTCvETHReserveInDollars = 0;
 
     for (let i = fromBlock; i <= toBlock; i++) {
-        const getcurrencystateResponse = await fetch("http://localhost:9009/multichain/getcurrencystate/pure/" + i);
+        const getcurrencystateResponse = await fetch(process.env.VERUS_REST_API+ "multichain/getcurrencystate/pure/" + i);
         const getcurrencystateResult = await getcurrencystateResponse.json();
         let getcurrencystate = getcurrencystateResult.result[0];
 
@@ -158,7 +159,7 @@ async function currencyReservePure(priceArray, vrscBridgePrice) {
     let result = {};
 
     /* Pure reserves */
-    const getcurrencyResponse = await fetch(`http://localhost:9009/multichain/getcurrency/pure`);
+    const getcurrencyResponse = await fetch(process.env.VERUS_REST_API+ "multichain/getcurrency/pure");
     const getcurrencyResult = await getcurrencyResponse.json();
     const getcurrency = getcurrencyResult.result;
 

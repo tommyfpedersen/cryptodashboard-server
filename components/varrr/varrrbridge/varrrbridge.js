@@ -1,4 +1,5 @@
 //const { saveVolumeDataToFile, getVolumeDataFromFile } = require("../cache/cache");
+require('dotenv').config();
 const { isBlockInVolumeArray } = require("../utils/utils");
 
 //let volumeInDollarsArrayLoadFromCache = false;
@@ -62,7 +63,7 @@ async function vrscVarrrBridgeVolume(fromBlock, toBlock) {
 
     for (let i = fromBlock; i <= toBlock; i++) {
         try {
-            const getcurrencystateResponse = await fetch("http://localhost:9010/multichain/getcurrencystate/bridge.varrr/" + i);
+            const getcurrencystateResponse = await fetch(process.env.VERUS_REST_API_VARRR+ "multichain/getcurrencystate/bridge.varrr/" + i);
             const getcurrencystateResult = await getcurrencystateResponse.json();
             let getcurrencystate = getcurrencystateResult.result[0];
 

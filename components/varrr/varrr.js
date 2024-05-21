@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy } = require("./api/api");
 const { vrscVarrrBridgeVolume, currencyReserveVarrrBridge } = require("./varrrbridge/varrrbridge");
 
@@ -51,23 +52,14 @@ async function getVarrrAddressBalance(address) {
         verusAddress = "none";//"RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7";
     }
 
-    // // vrsc
-    // try {
-    //     const getAddressBalanceResponse = await fetch("http://localhost:9009/addressindex/getaddressbalance/" + verusAddress);
-    //     const getAddressBalanceResult = await getAddressBalanceResponse.json();
-    //     getAddressBalance = getAddressBalanceResult.result;
-    // } catch (error) {
-    //     console.log("no verus api connected")
-    // }
-   
-
     // varrr
     try {
-        const getVarrrAddressBalanceResponse = await fetch("http://localhost:9010/addressindex/getaddressbalance/" + verusAddress);
+        const getVarrrAddressBalanceResponse = await fetch(process.env.VERUS_REST_API_VARRR+ "addressindex/getaddressbalance/" + verusAddress);
         const getVarrrAddressBalanceResult = await getVarrrAddressBalanceResponse.json();
         const getVarrrAddressBalance = getVarrrAddressBalanceResult.result;
         getAddressBalance = getVarrrAddressBalanceResult.result;
     } catch (error) {
+        console.log("process.env.VERUS_REST_API_VARRR", process.env.VERUS_REST_API_VARRR)
         console.log("no varrr api connected")
     }
 

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { saveVolumeDataToFile, getVolumeDataFromFile } = require("../cache/cache");
 const { isBlockInVolumeArray } = require("../utils/utils");
 
@@ -45,7 +46,7 @@ async function kaijuVolume(fromBlock, toBlock) {
     let ethReserveInDollars = 0;
 
     for (let i = fromBlock; i <= toBlock; i++) {
-        const getcurrencystateResponse = await fetch("http://localhost:9009/multichain/getcurrencystate/kaiju/" + i);
+        const getcurrencystateResponse = await fetch(process.env.VERUS_REST_API+ "multichain/getcurrencystate/kaiju/" + i);
         const getcurrencystateResult = await getcurrencystateResponse.json();
         let getcurrencystate = getcurrencystateResult.result[0];
 
@@ -276,7 +277,7 @@ async function currencyReserveKaiju(priceArray) {
     let result = {};
 
     /* KAIJU reserves */
-    const getcurrencyResponse = await fetch(`http://localhost:9009/multichain/getcurrency/kaiju`);
+    const getcurrencyResponse = await fetch(process.env.VERUS_REST_API+ "multichain/getcurrency/kaiju");
     const getcurrencyResult = await getcurrencyResponse.json();
     const getcurrency = getcurrencyResult.result;
 

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { isBlockInVolumeArray } = require("../utils/utils");
 
 let volumeInDollarsArray = [];
@@ -39,7 +40,7 @@ async function vrscSwitchVolume(fromBlock, toBlock) {
     let eurcReserveInDollars = 0;
 
     for (let i = fromBlock; i <= toBlock; i++) {
-        const getcurrencystateResponse = await fetch("http://localhost:9009/multichain/getcurrencystate/switch/" + i);
+        const getcurrencystateResponse = await fetch(process.env.VERUS_REST_API+ "multichain/getcurrencystate/switch/" + i);
         const getcurrencystateResult = await getcurrencystateResponse.json();
         let getcurrencystate = getcurrencystateResult.result[0];
 
@@ -268,7 +269,7 @@ async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
     let result = {};
 
     /* VRSC-ETH Bridge reserves */
-    const getcurrencyResponse = await fetch(`http://localhost:9009/multichain/getcurrency/switch`);
+    const getcurrencyResponse = await fetch(process.env.VERUS_REST_API+ "multichain/getcurrency/switch");
     const getcurrencyResult = await getcurrencyResponse.json();
     const getcurrency = getcurrencyResult.result;
 

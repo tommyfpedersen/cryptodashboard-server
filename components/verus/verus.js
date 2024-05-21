@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy } = require("./api/api");
 const { vrscEthBridgeVolume, currencyReserveEthBridge } = require("./ethbridge/ethbridge");
 const { kaijuVolume, currencyReserveKaiju } = require("./kaiju/kaiju");
@@ -55,10 +56,11 @@ async function getAddressBalance(address) {
 
     // vrsc
     try {
-        const getAddressBalanceResponse = await fetch("http://localhost:9009/addressindex/getaddressbalance/" + verusAddress);
+        const getAddressBalanceResponse = await fetch(process.env.VERUS_REST_API+ "/addressindex/getaddressbalance/" + verusAddress);
         const getAddressBalanceResult = await getAddressBalanceResponse.json();
         getAddressBalance = getAddressBalanceResult.result;
     } catch (error) {
+        console.log("process.env.VERUS_REST_API", process.env.VERUS_REST_API)
         console.log("no verus api connected")
     }
    

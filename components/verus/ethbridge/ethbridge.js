@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { saveVolumeDataToFile, getVolumeDataFromFile } = require("../cache/cache");
 const { isBlockInVolumeArray } = require("../utils/utils");
 
@@ -55,7 +56,7 @@ async function vrscEthBridgeVolume(fromBlock, toBlock) {
     let ethReserveInDollars = 0;
 
     for (let i = fromBlock; i <= toBlock; i++) {
-        const getcurrencystateResponse = await fetch("http://localhost:9009/multichain/getcurrencystate/bridge.veth/" + i);
+        const getcurrencystateResponse = await fetch(process.env.VERUS_REST_API+ "multichain/getcurrencystate/bridge.veth/" + i);
         const getcurrencystateResult = await getcurrencystateResponse.json();
         let getcurrencystate = getcurrencystateResult.result[0];
 
@@ -285,7 +286,7 @@ async function currencyReserveEthBridge(priceArray) {
     let result = {};
 
     /* VRSC-ETH Bridge reserves */
-    const getcurrencyResponse = await fetch(`http://localhost:9009/multichain/getcurrency/bridge.veth`);
+    const getcurrencyResponse = await fetch(process.env.VERUS_REST_API+ "multichain/getcurrency/bridge.veth");
     const getcurrencyResult = await getcurrencyResponse.json();
     const getcurrency = getcurrencyResult.result;
 
