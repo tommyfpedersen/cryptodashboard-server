@@ -409,7 +409,7 @@
 
 
 
-        {{!-- <div class="card" id="verus-kaiju-basket-volume-card">
+        <div class="card" id="verus-kaiju-basket-volume-card">
             <svg fill="#3165d4" width="55" height="16" viewBox="0 0 4950 1417" xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
                 <path
@@ -421,23 +421,23 @@
             </svg>
             <button class="hide-button">x</button>
             <div class="card-content">
-                <div class="card-title">Bridge.vETH Basket Volume</div>
+                <div class="card-title">Kaiju Basket Volume</div>
                 {{#if vrscOnline}}
 
 
                 <div class="graph-container">
                     <div class="graph-group hide">
                         <div class="card-sub-title">24 hours Volume</div>
-                        <div class="card-sub-title-main-value">$ {{{vrscBridgeVolumeInDollars24Hours}}} </div>
+                        <div class="card-sub-title-main-value">$ {{{kaijuVolumeInDollars24Hours}}} </div>
                         <br>
                         <div class="graph-y-axis">
-                            {{#each vrscBridgeVolumeInDollars24HoursArrayYAxis}}<div class="graph-y-axis-item">
+                            {{#each kaijuVolumeInDollars24HoursArrayYAxis}}<div class="graph-y-axis-item">
                                 {{value}}
                             </div>{{/each}}
                         </div>
 
                         <div class="graph-bar-container">
-                            {{#each vrscBridgeVolumeInDollars24HoursArray}}<div style="height:{{barPCT}}px;"
+                            {{#each kaijuVolumeInDollars24HoursArray}}<div style="height:{{barPCT}}px;"
                                 class="graph-bar graph-bar-large" data-price="{{price}}" data-label="{{label}}">
                             </div>{{/each}}
                             <div class="graph-x-axis"></div>
@@ -447,16 +447,16 @@
 
                     <div class="graph-group hide">
                         <div class="card-sub-title">7 days Volume</div>
-                        <div class="card-sub-title-main-value">$ {{{vrscBridgeVolumeInDollars7Days}}} </div>
+                        <div class="card-sub-title-main-value">$ {{{kaijuVolumeInDollars7Days}}} </div>
                         <br>
                         <div class="graph-y-axis">
-                            {{#each vrscBridgeVolumeInDollars7DaysArrayYAxis}}<div class="graph-y-axis-item">
+                            {{#each kaijuVolumeInDollars7DaysArrayYAxis}}<div class="graph-y-axis-item">
                                 {{value}}
                             </div>{{/each}}
                         </div>
 
                         <div class="graph-bar-container">
-                            {{#each vrscBridgeVolumeInDollars7DaysArray}}<div style="height:{{barPCT}}px;"
+                            {{#each kaijuVolumeInDollars7DaysArray}}<div style="height:{{barPCT}}px;"
                                 class="graph-bar graph-bar-xlarge" data-price="{{price}}" data-label="{{label}}">
                             </div>{{/each}}
                             <div class="graph-x-axis"></div>
@@ -466,16 +466,16 @@
 
                     <div class="graph-group">
                         <div class="card-sub-title">30 days Volume</div>
-                        <div class="card-sub-title-main-value">$ {{{vrscBridgeVolumeInDollars30Days}}} </div>
+                        <div class="card-sub-title-main-value">$ {{{kaijuVolumeInDollars30Days}}} </div>
                         <br>
                         <div class="graph-y-axis">
-                            {{#each vrscBridgeVolumeInDollars30DaysArrayYAxis}}<div class="graph-y-axis-item">
+                            {{#each kaijuVolumeInDollars30DaysArrayYAxis}}<div class="graph-y-axis-item">
                                 {{value}}
                             </div>{{/each}}
                         </div>
 
                         <div class="graph-bar-container">
-                            {{#each vrscBridgeVolumeInDollars30DaysArray}}<div style="height:{{barPCT}}px;"
+                            {{#each kaijuVolumeInDollars30DaysArray}}<div style="height:{{barPCT}}px;"
                                 class="graph-bar graph-bar-small" data-price="{{price}}" data-label="{{label}}">
                             </div>{{/each}}
                             <div class="graph-x-axis"></div>
@@ -490,12 +490,12 @@
                 </div>
 
                 <br>
-                <div class="card-sub-details">Tracking VRSC, DAI.vETH, MKR.vETH and vETH reserve in and out</div>
+                <div class="card-sub-details">Tracking VRSC, vUSDT.vETH, vETH and tBTC.vETH reserve in and out</div>
                 {{else}}
                 {{{vrscStatusMessage}}}
                 {{/if}}
             </div>
-        </div> --}}
+        </div>
         <div class="card" id="verus-kaiju-basket-card">
             <svg fill="#3165d4" width="55" height="16" viewBox="0 0 4950 1417" xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">

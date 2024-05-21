@@ -57,9 +57,8 @@ app.get('/', async (req, res) => {
     currencyReserveBridge = await getCurrencyReserve("bridge.veth", coingeckoPriceArray);
 
     /* Get Kaiju volume and reserve info */
-    //const currencyVolumeKaiju = await getCurrencyVolume("kaíju", (1440 * days));//31
-    //console.log("currencyVolumeKaiju: ", currencyVolumeKaiju);
-    const currencyReserveKaiju = await getCurrencyReserve("kaiju", coingeckoPriceArray);
+    const currencyReserveKaiju = await getCurrencyReserve("kaiju", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
+    const currencyVolumeKaiju = await getCurrencyVolume("kaiju", (1440 * days));//31
 
     /* Get pure volume and reserve info */
     const currencyReservePure = await getCurrencyReserve("pure", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
@@ -99,6 +98,15 @@ app.get('/', async (req, res) => {
       currencyBridgeArray: currencyReserveBridge.currencyBridgeArray,
       estimatedBridgeReserveValue: currencyReserveBridge.estimatedBridgeValue,
       //kaiju
+      kaijuVolumeInDollars24Hours: currencyVolumeKaiju.volumeInDollars24Hours,
+      kaijuVolumeInDollars24HoursArray: currencyVolumeKaiju.volumeInDollars24HoursArray,
+      kaijuVolumeInDollars24HoursArrayYAxis: currencyVolumeKaiju.volumeInDollars24HoursArrayYAxis,
+      kaijuVolumeInDollars7Days: currencyVolumeKaiju.volumeInDollars7Days,
+      kaijuVolumeInDollars7DaysArray: currencyVolumeKaiju.volumeInDollars7DaysArray,
+      kaijuVolumeInDollars7DaysArrayYAxis: currencyVolumeKaiju.volumeInDollars7DaysArrayYAxis,
+      kaijuVolumeInDollars30Days: currencyVolumeKaiju.volumeInDollars30Days,
+      kaijuVolumeInDollars30DaysArray: currencyVolumeKaiju.volumeInDollars30DaysArray,
+      kaijuVolumeInDollars30DaysArrayYAxis: currencyVolumeKaiju.volumeInDollars30DaysArrayYAxis,
       estimatedKaijuValueUSD: currencyReserveKaiju.estimatedKaijuValueUSD,
       estimatedKaijuValueVRSC: currencyReserveKaiju.estimatedKaijuValueVRSC,
       currencyKaijuArray: currencyReserveKaiju.currencyKaijuArray,
