@@ -54,13 +54,14 @@ async function getAddressBalance(address) {
         verusAddress = "none";//"RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7";
     }
 
+    console.log("process.env.VERUS_REST_API", process.env.VERUS_REST_API)
     // vrsc
     try {
         const getAddressBalanceResponse = await fetch(process.env.VERUS_REST_API+ "/addressindex/getaddressbalance/" + verusAddress);
         const getAddressBalanceResult = await getAddressBalanceResponse.json();
         getAddressBalance = getAddressBalanceResult.result;
     } catch (error) {
-        console.log("process.env.VERUS_REST_API", process.env.VERUS_REST_API)
+
         console.log("no verus api connected")
     }
    

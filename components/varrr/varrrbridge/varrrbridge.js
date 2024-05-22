@@ -9,9 +9,9 @@ let volumeInDollarsArray = [];
 
 async function vrscVarrrBridgeVolume(fromBlock, toBlock) {
 
-   // console.log("fromblock", fromBlock, "toblock", toBlock)
+    // console.log("fromblock", fromBlock, "toblock", toBlock)
 
-    if(fromBlock < 0){
+    if (fromBlock < 0) {
         fromBlock = 0;
     }
 
@@ -63,7 +63,7 @@ async function vrscVarrrBridgeVolume(fromBlock, toBlock) {
 
     for (let i = fromBlock; i <= toBlock; i++) {
         try {
-            const getcurrencystateResponse = await fetch(process.env.VERUS_REST_API_VARRR+ "multichain/getcurrencystate/bridge.varrr/" + i);
+            const getcurrencystateResponse = await fetch(process.env.VERUS_REST_API_VARRR + "multichain/getcurrencystate/bridge.varrr/" + i);
             const getcurrencystateResult = await getcurrencystateResponse.json();
             let getcurrencystate = getcurrencystateResult.result[0];
 
@@ -309,7 +309,7 @@ async function currencyReserveVarrrBridge(priceArray, vrscBridgePrice, estimated
 
     /* VRSC-ETH Bridge reserves */
     try {
-        const getcurrencyResponse = await fetch(`http://localhost:9010/multichain/getcurrency/bridge.varrr`);
+        const getcurrencyResponse = await fetch(process.env.VERUS_REST_API_VARRR + "multichain/getcurrency/bridge.varrr");
         const getcurrencyResult = await getcurrencyResponse.json();
         const getcurrency = getcurrencyResult.result;
 
@@ -443,6 +443,8 @@ async function currencyReserveVarrrBridge(priceArray, vrscBridgePrice, estimated
         currencyBridgeArray.forEach((currency) => {
             currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 8 });
         })
+
+        console.log("currencyBridgeArray", currencyBridgeArray);
 
         result.currencyVarrrBridgeArray = currencyBridgeArray;
         result.estimatedVarrrBridgeValueUSDBTC = estimatedVarrrBridgeValueUSDBTC;

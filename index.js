@@ -167,8 +167,9 @@ app.get('/', async (req, res) => {
     const varrrblockandfeepoolrewards = await getVarrrBlockAndFeePoolRewards();
 
     /* Get bridge.varrr volume and reserve info */
-    const currencyVolumeVarrrBridge = await getVarrrCurrencyVolume("bridge.varrr", (1440 * days));//31
     const currencyReserveVarrrBridge = await getVarrrCurrencyReserve("bridge.varrr", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
+    const currencyVolumeVarrrBridge = await getVarrrCurrencyVolume("bridge.varrr", (1440 * days));//31
+   // console.log("currencyVolumeVarrrBridge: ", currencyVolumeVarrrBridge);
 
     varrrRenderData = {
       //varrr
