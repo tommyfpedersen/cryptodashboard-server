@@ -52,7 +52,6 @@ async function getVarrrAddressBalance(address) {
         verusAddress = "none";//"RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7";
     }
 
-    console.log("process.env.VERUS_REST_API_VARRR", process.env.VERUS_REST_API_VARRR)
     // varrr
     try {
         const getVarrrAddressBalanceResponse = await fetch(process.env.VERUS_REST_API_VARRR+ "addressindex/getaddressbalance/" + verusAddress);
@@ -60,7 +59,6 @@ async function getVarrrAddressBalance(address) {
         const getVarrrAddressBalance = getVarrrAddressBalanceResult.result;
         getAddressBalance = getVarrrAddressBalanceResult.result;
     } catch (error) {
-        
         console.log("no varrr api connected")
     }
 
@@ -124,7 +122,6 @@ async function getVarrrCurrencyVolume(currencyName, blockcount) {
 
 async function getVarrrCurrencyReserve(currencyName, priceArray, vrscBridgePrice, estimatedBridgeValueUSD) {
     if (currencyName === "bridge.varrr") {
-        console.log("getVarrrCurrencyReserve")
         return currencyReserveVarrrBridge(priceArray, vrscBridgePrice, estimatedBridgeValueUSD);
     }
 }
