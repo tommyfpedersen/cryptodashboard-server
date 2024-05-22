@@ -444,8 +444,6 @@ async function currencyReserveVarrrBridge(priceArray, vrscBridgePrice, estimated
             currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 8 });
         })
 
-        console.log("currencyBridgeArray", currencyBridgeArray);
-
         result.currencyVarrrBridgeArray = currencyBridgeArray;
         result.estimatedVarrrBridgeValueUSDBTC = estimatedVarrrBridgeValueUSDBTC;
         result.estimatedVarrrBridgeValueUSDVRSC = estimatedVarrrBridgeValueUSDVRSC;
