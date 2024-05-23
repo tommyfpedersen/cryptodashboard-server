@@ -31,6 +31,7 @@ app.get('/', async (req, res) => {
   /* RenderData def*/
   let mainRenderData = {};
   let priceArray = [];
+  let vrscReserveArray = [];
   let vrscPriceData = {};
 
   /* Get price from coingecko */
@@ -143,6 +144,8 @@ app.get('/', async (req, res) => {
     };
     // adding to pricingArray
     priceArray = [...priceArray,...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray];
+    // adding to reserveArray
+    vrscReserveArray = [...vrscReserveArray, {basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: ""}, {basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: ""}, {basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via:""}, {basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: ""}];
   } else {
     vrscRenderData = {
       vrscNodeStatus: vrscNodeStatus.online,
@@ -198,6 +201,7 @@ app.get('/', async (req, res) => {
       estimatedVarrrBridgeReserveValueUSDVRSC: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC
     }
     priceArray = [...priceArray, ...varrrRenderData.currencyVarrrBridgeArray];
+    //vrscReserveArray = [...vrscReserveArray, {basket: "Bridge.vARRR", reserve: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC, via: "VRSC"}];
   } else {
     varrrRenderData = {
       varrrOnline: varrrNodeStatus.online,
@@ -212,7 +216,25 @@ app.get('/', async (req, res) => {
   let vrscPriceArray = priceArray.filter(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV').sort((a, b) => b.price - a.price);
   let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
 
-  mainRenderData = { ...mainRenderData, ...{ btcPriceArray, ethereumPriceArray, makerPriceArray, vrscPriceArray, arrrPriceArray } };
+  vrscReserveArray.sort((a, b) => parseFloat(b.reserve.replace(/,/g, '')) - parseFloat(a.reserve.replace(/,/g, '')));
+
+
+  //let numberValue = parseFloat("12,701,613.72".replace(/,/g, ''));
+
+  // let vrscReserveArray = reserveArray.sort((a, b) => {
+  //   console.log(typeof a.reserve, typeof b.reserve)
+  //   let aReserve = a.reserve;
+  //   let bReserve = Number(b.reserve);
+    
+  //   console.log("a: ", Number(aReserve));
+  //   console.log("b: ", b.reserve);
+  //   return b.reserve - a.reserve});
+
+  // vrscReserveArray.map((item) => {
+  //   console.log("vrscReserveArray: ", item.basket, item.reserve, item.via);
+  // });
+
+  mainRenderData = { ...mainRenderData, ...{ btcPriceArray, ethereumPriceArray, makerPriceArray, vrscPriceArray, arrrPriceArray, vrscReserveArray } };
 
   // ThreeFold //
   let threeFoldNodeArray = []

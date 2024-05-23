@@ -233,8 +233,15 @@
                         value="{{{getAddress}}}"></div>
 
                 {{#each getAddressBalanceArray}}
-                <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
-                <div class="card-sub-title-value"> {{amount}} </div>
+                   <div class="card-row-wrapper">
+                    <div class="card-row-item">{{{currencyName}}}</div>
+                    {{!-- <div class="card-row-item-network">{{{amount}}}</div> --}}
+                    <div class="card-row-item">
+                        $ {{{amount}}}
+                    </div>
+                </div>
+                {{!-- <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
+                <div class="card-sub-title-value"> {{amount}} </div> --}}
                 {{/each}}
 
                 {{else}}
@@ -243,6 +250,28 @@
 
             </div>
         </div>
+
+        <div class="card" id="verus-basket-reserves">
+            <img width="16px" src="/img/verus-icon-blue.png" />
+            <button class="hide-button">x</button>
+            <div class="card-content">
+                <div class="card-title">Basket Reserves</div>
+                {{#if vrscOnline}}
+                {{#each vrscReserveArray}}
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">{{{basket}}}</div>
+                    <div class="card-row-item-network">{{{via}}}</div>
+                    <div class="card-row-item">
+                        $ {{{reserve}}}
+                    </div>
+                </div>
+                {{/each}}
+                {{else}}
+                {{{vrscStatusMessage}}}
+                {{/if}}
+            </div>
+        </div>
+
         <div class="card" id="verus-block-and-fee-pool-rewards-card">
             <svg fill="#3165d4" width="55" height="16" viewBox="0 0 4950 1417" xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
