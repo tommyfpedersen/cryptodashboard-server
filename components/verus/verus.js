@@ -56,11 +56,11 @@ async function getAddressBalance(address) {
 
     // vrsc
     try {
-        const getAddressBalanceResponse = await fetch(process.env.VERUS_REST_API+ "/addressindex/getaddressbalance/" + verusAddress);
+        const getAddressBalanceResponse = await fetch(process.env.VERUS_REST_API+ "addressindex/getaddressbalance/" + verusAddress);
         const getAddressBalanceResult = await getAddressBalanceResponse.json();
         getAddressBalance = getAddressBalanceResult.result;
     } catch (error) {
-        console.log("no verus api connected")
+        console.log("no verus api connected...")
     }
    
 

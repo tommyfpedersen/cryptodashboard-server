@@ -154,7 +154,7 @@ body {
     width: 300px;
     display: inline-block;
     vertical-align: top;
-    min-height: 390px;
+    min-height: 220px;
     animation: fadeIn 2s;
 }
 
@@ -179,6 +179,9 @@ right: 100px;
 .card-row-image{
     width: 14px;
     height: 14px;
+}
+.card-row-item-details{
+    font-size: 10px;
 }
 .card-header {
     /* padding-bottom: 10px; */
@@ -217,6 +220,7 @@ right: 100px;
 
 .card-input {
     width: 270px;
+    margin-bottom: 20px;
     /* height: 20px; */
 }
 
