@@ -11,7 +11,7 @@ app.use(cors({
 }));
 
 let pageLoads = 0;
-let days = 1;
+let days = 31;
 
 
 // components

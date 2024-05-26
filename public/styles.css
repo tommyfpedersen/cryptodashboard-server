@@ -55,7 +55,7 @@ body {
 
 .side-menu {
     position: absolute;
-    overflow: hidden;
+    /* overflow: hidden; */
     width: 320px;
     bottom: 0;
     top: 58px;

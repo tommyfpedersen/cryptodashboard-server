@@ -140,6 +140,26 @@
                 {{/if}}
             </div>
         </div>
+         <div class="card" id="prices-card-varrr">
+            <img width="16px" src="/img/Pirate_Logo_Coin_Gold.png" />
+            <button class="hide-button">x</button>
+            <div class="card-content">
+                <div class="card-title">PirateChain</div>
+                {{#if varrrOnline}}
+                {{#each arrrPriceArray}}
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">{{{origin}}}</div>
+                    <div class="card-row-item-network">{{{network}}}</div>
+                    <div class="card-row-item">
+                        $ {{{price}}}
+                    </div>
+                </div>
+                {{/each}}
+                {{else}}
+                {{{varrrStatusMessage}}}
+                {{/if}}
+            </div>
+        </div>
         <div class="card" id="prices-card-verus">
             <img width="16px" src="/img/verus-icon-blue.png" />
             <button class="hide-button">x</button>
@@ -160,6 +180,7 @@
                 {{/if}}
             </div>
         </div>
+        
 
         <span class="project" id="threefold" data-image="/img/tflogo.png"></span>
         <div class="card" id="threefold-node-card">
