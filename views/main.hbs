@@ -37,48 +37,6 @@
 
     <div class="section">
 
-        {{!-- <span class="project" id="price" data-image="/img/bitcoin-btc-logo.png"></span>
-        <div class="card" id="prices-card">
-            <img width="16px" src="/img/bitcoin-btc-logo.png" />
-            <button class="hide-button">x</button>
-            <div class="card-content">
-                <div class="card-title">Prices</div>
-                {{#if vrscOnline}}
-                <div class="card-row-wrapper">
-                    <div class="card-row-item">Bitcoin (BTC)</div>
-                    <div class="card-row-item">
-                        $ {{{bitcoinPrice}}}
-                        <img class="card-row-image" src="/img/coingecko_dark.png" />
-                    </div>
-                </div>
-
-                <div class="card-row-wrapper">
-                    <div class="card-row-item">Ethereum (ETH)</div>
-                    <div class="card-row-item">
-                        $ {{{ethereumBridgePrice}}}
-                        <img class="card-row-image" src="/img/bridge-veth-icon.png" />
-                    </div>
-                </div>
-                <div class="card-row-wrapper">
-                    <div class="card-row-item">Maker (MKR)</div>
-                    <div class="card-row-item">
-                        $ {{{mkrBridgePrice}}}
-                        <img class="card-row-image" src="/img/bridge-veth-icon.png" />
-                    </div>
-                </div>
-                <div class="card-row-wrapper">
-                    <div class="card-row-item">VerusCoin (VRSC)</div>
-                    <div class="card-row-item">
-                        $ {{{vrscBridgePrice}}}
-                        <img class="card-row-image" src="/img/bridge-veth-icon.png" />
-                    </div>
-                </div>
-                {{else}}
-                {{{vrscStatusMessage}}}
-                {{/if}}
-            </div>
-        </div> --}}
-
         <span class="project" id="price" data-image="/img/dollars.png"></span>
         <div class="card" id="prices-card-btc">
             <img width="16px" src="/img/bitcoin-btc-logo.png" />
@@ -203,13 +161,6 @@
                         {{/ifEquals}}</div>
                 </div>
 
-
-                {{!-- <div style="text-transform:none;" class="card-sub-title"> {{country}} </div>
-                <div class="card-sub-title-value"> {{username}} </div>
-                <div class="card-sub-details">{{nodeId}} {{#ifEquals status "up"}} <div class="node-online"> {{status}}
-                    </div> {{/ifEquals}} {{#ifEquals status "down"}} <div class="node-offline"> {{status}} </div>
-                    {{/ifEquals}}</div> --}}
-
                 {{/each}}
 
             </div>
@@ -268,11 +219,10 @@
                 <div class="card-row-wrapper">
                     <div class="card-row-item">{{{currencyName}}}</div>
                     <div class="card-row-item">
-                        $ {{{amount}}}
+                         {{{amount}}}
                     </div>
                 </div>
-                {{!-- <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
-                <div class="card-sub-title-value"> {{amount}} </div> --}}
+   
                 {{/each}}
 
 
@@ -930,22 +880,6 @@
                     <div class="card-row-item">Average Block Fees</div>
                     <div class="card-row-item"> {{{varrraverageblockfees}}} vARRR</div>
                 </div>
-                {{!-- <div class="card-row-item-details">Last 100 blocks</div> --}}
-
-                {{!-- <div class="card-sub-title">block height</div>
-                <div id="verus-block-height" class="card-sub-title-main-value"> {{{varrrblocks}}} </div>
-                <div class="card-sub-details">{{{varrrblockLastSend}}}</div>
-
-                <div class="card-sub-title">block reward</div>
-                <div id="verus-block-reward" class="card-sub-title-value"> {{{varrrblockReward}}} vARRR</div>
-
-                <div class="card-sub-title">fee pool reward</div>
-                <div id="verus-fee-reward" class="card-sub-title-value"> {{{varrrfeeReward}}} vARRR</div>
-
-                <div class="card-sub-title">average block fees (fee pool size)</div>
-                <div id="verus-average-fee-pool-size" class="card-sub-title-value">{{{varrraverageblockfees}}} vARRR
-                </div>
-                <div class="card-sub-details">Calculated from the last 100 blocks</div> --}}
 
                 {{else}}
                 {{{varrrStatusMessage}}}
