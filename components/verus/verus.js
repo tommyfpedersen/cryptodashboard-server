@@ -30,6 +30,7 @@ async function getBlockAndFeePoolRewards() {
         result.blockLastSend = new Date(peerinfo[0].lastsend * 1000).toLocaleString();
         const miningInfo = await getMiningInfo();
         result.block = miningInfo.blocks;
+        result.stakingsupply = miningInfo.stakingsupply;
         const block = await getBlock(miningInfo.blocks);
         const blocksubsidy = await getBlockSubsidy(miningInfo.blocks);
         block.tx[0].vout.map((item) => {
@@ -40,6 +41,7 @@ async function getBlockAndFeePoolRewards() {
         result.feeReward = feeReward;
         result.averageblockfees = miningInfo.averageblockfees
     }
+   
     return result;
 }
 
@@ -134,6 +136,40 @@ async function getAddressBalance(address) {
     return result;
 }
 
+async function calculateStakingRewards(stakingsupply, stakingAmountUnencoded, vrscPrice) {
+    let result = {};
+    let stakingArray = [];
+    if (stakingAmountUnencoded) {
+        stakingAmount = decodeURIComponent(stakingAmountUnencoded);
+    } else {
+        stakingAmount = 100;
+    }
+    result.stakingAmount = stakingAmount;
+    let apy = 720 * 6 * 365 / stakingsupply;
+
+    let stakingRewardsDaily = {
+        label: "Daily",
+        rewards: Math.round(apy * stakingAmount / 365*10000)/10000,
+        dollars: Math.round(apy * stakingAmount / 365 * vrscPrice *100)/100
+    }
+    let stakingRewardsMonthly = {
+        label: "Monthly",
+        rewards: Math.round(apy * stakingAmount / 12*10000)/10000,
+        dollars: Math.round(apy * stakingAmount / 12 * vrscPrice *100)/100
+    }
+    let stakingRewardsYearly = {
+        label: "Yearly",
+        rewards: Math.round(apy * stakingAmount *10000)/10000,
+        dollars: Math.round(apy * stakingAmount * vrscPrice *100)/100
+    }
+    stakingArray.push(stakingRewardsDaily);
+    stakingArray.push(stakingRewardsMonthly);
+    stakingArray.push(stakingRewardsYearly);
+    result.stakingArray = stakingArray;
+
+    return result;
+}
+
 async function getCurrencyVolume(currencyName, blockcount) {
     const miningInfo = await getMiningInfo();
     let result;
@@ -173,4 +209,4 @@ async function getCurrencyReserve(currencyName, priceArray, vrscBridgePrice) {
     }
 }
 
-module.exports = { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, getCurrencyVolume, getCurrencyReserve };
+module.exports = { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, getCurrencyVolume, getCurrencyReserve };

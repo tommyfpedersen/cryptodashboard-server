@@ -38,6 +38,20 @@ function init() {
             }
         })
     }
+
+    let vrscStakingElm = document.querySelector("#vrsc-staking-amount");
+    if (vrscStakingElm) {
+        vrscStakingElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(vrscStakingElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('vrscstakingamount', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
+
     /* verus varrr */
     let getVarrrAddressBalanceElm = document.querySelector("#get-varrr-address-balance");
     if (getVarrrAddressBalanceElm) {

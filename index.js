@@ -11,11 +11,11 @@ app.use(cors({
 }));
 
 let pageLoads = 0;
-let days = 31;
+let days = 1;
 
 
 // components
-const { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, getCurrencyVolume, getCurrencyReserve } = require('./components/verus/verus');
+const { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, getCurrencyVolume, getCurrencyReserve } = require('./components/verus/verus');
 const { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, getVarrrCurrencyVolume, getVarrrCurrencyReserve } = require('./components/varrr/varrr');
 const { getCoingeckoPrice } = require('./components/coingecko/coingecko');
 const { getThreeFoldNodeArray } = require('./components/threefold/threefold');
@@ -57,6 +57,9 @@ app.get('/', async (req, res) => {
     const currencyVolumeBridge = await getCurrencyVolume("bridge.veth", (1440 * days));//31
     currencyReserveBridge = await getCurrencyReserve("bridge.veth", coingeckoPriceArray);
 
+    /* Calculate staking rewards */
+    const stakingRewards = await calculateStakingRewards(blockandfeepoolrewards.stakingsupply, req.query.vrscstakingamount, currencyReserveBridge.vrscBridgePrice);
+
     /* Get Kaiju volume and reserve info */
     const currencyReserveKaiju = await getCurrencyReserve("kaiju", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
     const currencyVolumeKaiju = await getCurrencyVolume("kaiju", (1440 * days));//31
@@ -76,6 +79,8 @@ app.get('/', async (req, res) => {
       blockReward: blockandfeepoolrewards.blockReward,
       feeReward: blockandfeepoolrewards.feeReward,
       averageblockfees: blockandfeepoolrewards.averageblockfees,
+      stakingAmount: stakingRewards.stakingAmount,
+      stakingRewardsArray: stakingRewards.stakingArray,
       vrscOnline: vrscNodeStatus.online,
       vrscStatusMessage: vrscNodeStatus.statusMessage,
       getAddressBalanceArray: verusAddressBalance.getAddressBalanceArray,
@@ -143,9 +148,9 @@ app.get('/', async (req, res) => {
       estimatedSwitchValueUSDVRSC: currencyReserveSwitch.estimatedSwitchValueUSDVRSC
     };
     // adding to pricingArray
-    priceArray = [...priceArray,...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray];
+    priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray];
     // adding to reserveArray
-    vrscReserveArray = [...vrscReserveArray, {basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: ""}, {basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: ""}, {basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via:""}, {basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: ""}];
+    vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }];
   } else {
     vrscRenderData = {
       vrscNodeStatus: vrscNodeStatus.online,
@@ -172,7 +177,7 @@ app.get('/', async (req, res) => {
     /* Get bridge.varrr volume and reserve info */
     const currencyReserveVarrrBridge = await getVarrrCurrencyReserve("bridge.varrr", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
     const currencyVolumeVarrrBridge = await getVarrrCurrencyVolume("bridge.varrr", (1440 * days));//31
-   // console.log("currencyVolumeVarrrBridge: ", currencyVolumeVarrrBridge);
+    // console.log("currencyVolumeVarrrBridge: ", currencyVolumeVarrrBridge);
 
     varrrRenderData = {
       //varrr
@@ -225,7 +230,7 @@ app.get('/', async (req, res) => {
   //   console.log(typeof a.reserve, typeof b.reserve)
   //   let aReserve = a.reserve;
   //   let bReserve = Number(b.reserve);
-    
+
   //   console.log("a: ", Number(aReserve));
   //   console.log("b: ", b.reserve);
   //   return b.reserve - a.reserve});
