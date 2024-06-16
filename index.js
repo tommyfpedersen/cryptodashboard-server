@@ -15,7 +15,7 @@ let days = 1;
 
 
 // components
-const { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, getCurrencyVolume, getCurrencyReserve } = require('./components/verus/verus');
+const { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve } = require('./components/verus/verus');
 const { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, getVarrrCurrencyVolume, getVarrrCurrencyReserve } = require('./components/varrr/varrr');
 const { getCoingeckoPrice } = require('./components/coingecko/coingecko');
 const { getThreeFoldNodeArray } = require('./components/threefold/threefold');
@@ -60,6 +60,9 @@ app.get('/', async (req, res) => {
     /* Calculate staking rewards */
     const stakingRewards = await calculateStakingRewards(blockandfeepoolrewards.stakingsupply, req.query.vrscstakingamount, currencyReserveBridge.vrscBridgePrice);
 
+    /* Calculate mining rewards */
+    const miningRewards = await calculateMiningRewards(blockandfeepoolrewards.networkhashps, req.query.vrscmininghash, currencyReserveBridge.vrscBridgePrice);
+
     /* Get Kaiju volume and reserve info */
     const currencyReserveKaiju = await getCurrencyReserve("kaiju", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
     const currencyVolumeKaiju = await getCurrencyVolume("kaiju", (1440 * days));//31
@@ -81,6 +84,8 @@ app.get('/', async (req, res) => {
       averageblockfees: blockandfeepoolrewards.averageblockfees,
       stakingAmount: stakingRewards.stakingAmount,
       stakingRewardsArray: stakingRewards.stakingArray,
+      vrscMiningHash: miningRewards.vrscMiningHash,
+      miningRewardsArray: miningRewards.miningArray,
       vrscOnline: vrscNodeStatus.online,
       vrscStatusMessage: vrscNodeStatus.statusMessage,
       getAddressBalanceArray: verusAddressBalance.getAddressBalanceArray,

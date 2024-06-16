@@ -31,6 +31,7 @@ async function getBlockAndFeePoolRewards() {
         const miningInfo = await getMiningInfo();
         result.block = miningInfo.blocks;
         result.stakingsupply = miningInfo.stakingsupply;
+        result.networkhashps = miningInfo.networkhashps;
         const block = await getBlock(miningInfo.blocks);
         const blocksubsidy = await getBlockSubsidy(miningInfo.blocks);
         block.tx[0].vout.map((item) => {
@@ -169,6 +170,41 @@ async function calculateStakingRewards(stakingsupply, stakingAmountUnencoded, vr
 
     return result;
 }
+async function calculateMiningRewards(networkHashPerSecond, vrscMiningHashUnencoded, vrscPrice) {
+    let result = {};
+    let miningArray = [];
+    if (vrscMiningHashUnencoded) {
+        vrscMiningHash = decodeURIComponent(vrscMiningHashUnencoded);
+    } else {
+        vrscMiningHash = 1;
+    }
+
+    result.vrscMiningHash = vrscMiningHash;
+    let apy = 720 * 6 * 365 / networkHashPerSecond * 1000000;
+    
+    let miningRewardsDaily = {
+        label: "Daily",
+        rewards: Math.round(apy * vrscMiningHash / 365*10000)/10000,
+        dollars: Math.round(apy * vrscMiningHash / 365 * vrscPrice *100)/100
+    }
+    let miningRewardsMonthly = {
+        label: "Monthly",
+        rewards: Math.round(apy * vrscMiningHash / 12*10000)/10000,
+        dollars: Math.round(apy * vrscMiningHash / 12 * vrscPrice *100)/100
+    }
+    let miningRewardsYearly = {
+        label: "Yearly",
+        rewards: Math.round(apy * vrscMiningHash *10000)/10000,
+        dollars: Math.round(apy * vrscMiningHash * vrscPrice *100)/100
+    }
+    
+    miningArray.push(miningRewardsDaily);
+    miningArray.push(miningRewardsMonthly);
+    miningArray.push(miningRewardsYearly);
+    result.miningArray = miningArray;
+
+    return result;
+}
 
 async function getCurrencyVolume(currencyName, blockcount) {
     const miningInfo = await getMiningInfo();
@@ -209,4 +245,4 @@ async function getCurrencyReserve(currencyName, priceArray, vrscBridgePrice) {
     }
 }
 
-module.exports = { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, getCurrencyVolume, getCurrencyReserve };
+module.exports = { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve };

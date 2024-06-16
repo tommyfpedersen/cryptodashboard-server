@@ -52,6 +52,19 @@ function init() {
         })
     }
 
+    let vrscMiningElm = document.querySelector("#vrsc-mining-hash");
+    if (vrscMiningElm) {
+        vrscMiningElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(vrscMiningElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('vrscmininghash', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
+
     /* verus varrr */
     let getVarrrAddressBalanceElm = document.querySelector("#get-varrr-address-balance");
     if (getVarrrAddressBalanceElm) {
