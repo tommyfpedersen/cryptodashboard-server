@@ -79,6 +79,32 @@ function init() {
         })
     }
 
+    let varrrStakingElm = document.querySelector("#varrr-staking-amount");
+    if (varrrStakingElm) {
+        varrrStakingElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(varrrStakingElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('varrrstakingamount', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
+
+    let varrrMiningElm = document.querySelector("#varrr-mining-hash");
+    if (varrrMiningElm) {
+        varrrMiningElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(varrrMiningElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('varrrmininghash', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
+
     /* threefold */
     let getThreeFoldNodesElm = document.querySelector("#get-threefold-nodes");
     if (getThreeFoldNodesElm) {

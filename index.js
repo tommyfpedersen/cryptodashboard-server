@@ -16,7 +16,7 @@ let days = 1;
 
 // components
 const { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve } = require('./components/verus/verus');
-const { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, getVarrrCurrencyVolume, getVarrrCurrencyReserve } = require('./components/varrr/varrr');
+const { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve } = require('./components/varrr/varrr');
 const { getCoingeckoPrice } = require('./components/coingecko/coingecko');
 const { getThreeFoldNodeArray } = require('./components/threefold/threefold');
 
@@ -84,8 +84,10 @@ app.get('/', async (req, res) => {
       averageblockfees: blockandfeepoolrewards.averageblockfees,
       stakingAmount: stakingRewards.stakingAmount,
       stakingRewardsArray: stakingRewards.stakingArray,
+      stakingSupply: Math.round(blockandfeepoolrewards.stakingsupply).toLocaleString(),
       vrscMiningHash: miningRewards.vrscMiningHash,
       miningRewardsArray: miningRewards.miningArray,
+      vrscNetworkHash: (Math.round(blockandfeepoolrewards.networkhashps) / 1000000000).toLocaleString(),
       vrscOnline: vrscNodeStatus.online,
       vrscStatusMessage: vrscNodeStatus.statusMessage,
       getAddressBalanceArray: verusAddressBalance.getAddressBalanceArray,
@@ -179,10 +181,19 @@ app.get('/', async (req, res) => {
     /* Get block and fee pool rewards */
     const varrrblockandfeepoolrewards = await getVarrrBlockAndFeePoolRewards();
 
+
+
     /* Get bridge.varrr volume and reserve info */
     const currencyReserveVarrrBridge = await getVarrrCurrencyReserve("bridge.varrr", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
     const currencyVolumeVarrrBridge = await getVarrrCurrencyVolume("bridge.varrr", (1440 * days));//31
-    // console.log("currencyVolumeVarrrBridge: ", currencyVolumeVarrrBridge);
+
+    const varrrBridgePrice = currencyReserveVarrrBridge.currencyVarrrBridgeArray.find(item => item.currencyName === 'vARRR').price;
+
+    /* Calculate varrr staking rewards */
+    const varrrStakingRewards = await calculateVarrrStakingRewards(varrrblockandfeepoolrewards.stakingsupply, req.query.varrrstakingamount, varrrBridgePrice);
+
+    /* Calculate varrr mining rewards */
+    const varrrMiningRewards = await calculateVarrrMiningRewards(varrrblockandfeepoolrewards.networkhashps, req.query.varrrmininghash, varrrBridgePrice);
 
     varrrRenderData = {
       //varrr
@@ -194,6 +205,12 @@ app.get('/', async (req, res) => {
       varrrblockReward: varrrblockandfeepoolrewards.blockReward,
       varrrfeeReward: varrrblockandfeepoolrewards.feeReward,
       varrraverageblockfees: varrrblockandfeepoolrewards.averageblockfees,
+      varrrStakingAmount: varrrStakingRewards.stakingAmount,
+      varrrStakingRewardsArray: varrrStakingRewards.stakingArray,
+      varrrStakingSupply: Math.round(varrrblockandfeepoolrewards.stakingsupply).toLocaleString(),
+      varrrMiningHash: varrrMiningRewards.varrrMiningHash,
+      varrrMiningRewardsArray: varrrMiningRewards.miningArray,
+      varrrNetworkHash: (Math.round(varrrblockandfeepoolrewards.networkhashps) / 1000000000).toLocaleString(),
       //varrr bridge
       varrrBridgeVolumeInDollars24Hours: currencyVolumeVarrrBridge.volumeInDollars24Hours,
       varrrBridgeVolumeInDollars24HoursArray: currencyVolumeVarrrBridge.volumeInDollars24HoursArray,

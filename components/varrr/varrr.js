@@ -28,6 +28,8 @@ async function getVarrrBlockAndFeePoolRewards() {
         result.blockLastSend = new Date(peerinfo[0].lastsend * 1000).toLocaleString();
         const miningInfo = await getMiningInfo();
         result.block = miningInfo.blocks;
+        result.stakingsupply = miningInfo.stakingsupply;
+        result.networkhashps = miningInfo.networkhashps;
         const block = await getBlock(miningInfo.blocks);
         const blocksubsidy = await getBlockSubsidy(miningInfo.blocks);
         block.tx[0].vout.map((item) => {
@@ -54,7 +56,7 @@ async function getVarrrAddressBalance(address) {
 
     // varrr
     try {
-        const getVarrrAddressBalanceResponse = await fetch(process.env.VERUS_REST_API_VARRR+ "addressindex/getaddressbalance/" + verusAddress);
+        const getVarrrAddressBalanceResponse = await fetch(process.env.VERUS_REST_API_VARRR + "addressindex/getaddressbalance/" + verusAddress);
         const getVarrrAddressBalanceResult = await getVarrrAddressBalanceResponse.json();
         const getVarrrAddressBalance = getVarrrAddressBalanceResult.result;
         getAddressBalance = getVarrrAddressBalanceResult.result;
@@ -108,6 +110,75 @@ async function getVarrrAddressBalance(address) {
     return result;
 }
 
+async function calculateVarrrStakingRewards(stakingsupply, stakingAmountUnencoded, vrscPrice) {
+    let result = {};
+    let stakingArray = [];
+    if (stakingAmountUnencoded) {
+        stakingAmount = decodeURIComponent(stakingAmountUnencoded);
+    } else {
+        stakingAmount = 100;
+    }
+    result.stakingAmount = stakingAmount;
+    let apy = 720 * 0.08 * 365 / stakingsupply;
+
+    let stakingRewardsDaily = {
+        label: "Daily",
+        rewards: Math.round(apy * stakingAmount / 365 * 10000) / 10000,
+        dollars: Math.round(apy * stakingAmount / 365 * vrscPrice * 100) / 100
+    }
+    let stakingRewardsMonthly = {
+        label: "Monthly",
+        rewards: Math.round(apy * stakingAmount / 12 * 10000) / 10000,
+        dollars: Math.round(apy * stakingAmount / 12 * vrscPrice * 100) / 100
+    }
+    let stakingRewardsYearly = {
+        label: "Yearly",
+        rewards: Math.round(apy * stakingAmount * 10000) / 10000,
+        dollars: Math.round(apy * stakingAmount * vrscPrice * 100) / 100
+    }
+    stakingArray.push(stakingRewardsDaily);
+    stakingArray.push(stakingRewardsMonthly);
+    stakingArray.push(stakingRewardsYearly);
+    result.stakingArray = stakingArray;
+
+    return result;
+}
+async function calculateVarrrMiningRewards(networkHashPerSecond, varrrMiningHashUnencoded, varrrPrice) {
+    let result = {};
+    let miningArray = [];
+    if (varrrMiningHashUnencoded) {
+        varrrMiningHash = decodeURIComponent(varrrMiningHashUnencoded);
+    } else {
+        varrrMiningHash = 1;
+    }
+
+    result.varrrMiningHash = varrrMiningHash;
+    let apy = 720 * 0.08 * 365 / networkHashPerSecond * 1000000;
+    
+    let miningRewardsDaily = {
+        label: "Daily",
+        rewards: Math.round(apy * varrrMiningHash / 365*10000)/10000,
+        dollars: Math.round(apy * varrrMiningHash / 365 * varrrPrice *100)/100
+    }
+    let miningRewardsMonthly = {
+        label: "Monthly",
+        rewards: Math.round(apy * varrrMiningHash / 12*10000)/10000,
+        dollars: Math.round(apy * varrrMiningHash / 12 * varrrPrice *100)/100
+    }
+    let miningRewardsYearly = {
+        label: "Yearly",
+        rewards: Math.round(apy * varrrMiningHash *10000)/10000,
+        dollars: Math.round(apy * varrrMiningHash * varrrPrice *100)/100
+    }
+    
+    miningArray.push(miningRewardsDaily);
+    miningArray.push(miningRewardsMonthly);
+    miningArray.push(miningRewardsYearly);
+    result.miningArray = miningArray;
+
+    return result;
+}
+
 async function getVarrrCurrencyVolume(currencyName, blockcount) {
     const miningInfo = await getMiningInfo();
     let result;
@@ -126,4 +197,4 @@ async function getVarrrCurrencyReserve(currencyName, priceArray, vrscBridgePrice
     }
 }
 
-module.exports = { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, getVarrrCurrencyVolume, getVarrrCurrencyReserve };
+module.exports = { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve };

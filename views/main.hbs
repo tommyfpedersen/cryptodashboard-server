@@ -330,7 +330,11 @@
                 </div>
 
                 {{/each}}
-
+                <br>
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">Staking Supply</div>
+                    <div class="card-row-item"> {{{stakingSupply}}} VRSC </div>
+                </div>
 
                 {{else}}
                 {{{vrscStatusMessage}}}
@@ -366,7 +370,11 @@
                 </div>
 
                 {{/each}}
-
+                <br>
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">Network Hashrate</div>
+                    <div class="card-row-item"> {{{vrscNetworkHash}}} GH/s </div>
+                </div>
 
                 {{else}}
                 {{{vrscStatusMessage}}}
@@ -961,6 +969,74 @@
             </div>
 
         </div>
+
+        <div class="card" id="varrr-staking-rewards-card">
+            <img width="16px" src="/img/Pirate_Logo_Coin_Gold.png" />
+            <button class="hide-button">x</button>
+            <div class="card-content">
+                <div class="card-title">Staking Rewards</div>
+                {{#if varrrOnline}}
+
+                <div class="card-sub-title">Staking Amount</div>
+                <div class="card-sub-title-value"><input id="varrr-staking-amount" class="card-input"
+                        value="{{{varrrStakingAmount}}}"></div>
+
+                {{#each varrrStakingRewardsArray}}
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">{{{label}}}</div>
+                    <div class="card-row-item-network">{{{rewards}}} vARRR</div>
+                    <div class="card-row-item"> $ {{{dollars}}} </div>
+                </div>
+
+                {{/each}}
+                <br>
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">Staking Supply</div>
+                    <div class="card-row-item"> {{{varrrStakingSupply}}} vARRR </div>
+                </div>
+
+                {{else}}
+                {{{varrrStatusMessage}}}
+                {{/if}}
+
+            </div>
+        </div>
+
+        <div class="card" id="varrr-mining-rewards-card">
+            <img width="16px" src="/img/Pirate_Logo_Coin_Gold.png" />
+            <button class="hide-button">x</button>
+            <div class="card-content">
+                <div class="card-title">Mining Rewards</div>
+                {{#if varrrOnline}}
+
+                <div class="card-sub-title">MH/s</div>
+                <div class="card-sub-title-value"><input id="varrr-mining-hash" class="card-input"
+                        value="{{{varrrMiningHash}}}"></div>
+
+                {{#each varrrMiningRewardsArray}}
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">{{{label}}}</div>
+                    <div class="card-row-item-network">{{{rewards}}} vARRR</div>
+                    <div class="card-row-item"> $ {{{dollars}}} </div>
+                </div>
+
+                {{/each}}
+
+                <br>
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">Network Hashrate</div>
+                    <div class="card-row-item"> {{{varrrNetworkHash}}} GH/s </div>
+                </div>
+
+                {{else}}
+                {{{varrrStatusMessage}}}
+                {{/if}}
+
+            </div>
+        </div>
+
+
+
         <div class="card" id="verus-varrr-bridge-veth-basket-volume-card">
             <img width="16px" src="/img/Pirate_Logo_Coin_Gold.png" />
             <button class="hide-button">x</button>
