@@ -50,6 +50,19 @@ async function getPeerInfo() {
         return null;
     }
 }
+async function getCurrencyState(chainname, blockstart, blockend, blockintervals, converttocurrency) {
+
+    try {
+        const getcurrencystateResponse = await fetch(process.env.VERUS_REST_API+ "multichain/getcurrencystate/"+chainname+"/"+blockstart+"/"+blockend+"/"+blockintervals+"/"+converttocurrency+"/");
+        const getcurrencystateResult = await getcurrencystateResponse.json();
+        const getcurrencystate = getcurrencystateResult.result;
+        return getcurrencystate;
+    } catch (error) {
+        // Handle the error here
+        // console.log("Error fetching mining info:", error);
+        return null;
+    }
+}
 
 
-module.exports = { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo }
+module.exports = { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getCurrencyState }

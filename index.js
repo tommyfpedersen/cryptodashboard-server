@@ -11,8 +11,6 @@ app.use(cors({
 }));
 
 let pageLoads = 0;
-let days = 1;
-
 
 // components
 const { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve } = require('./components/verus/verus');
@@ -52,9 +50,13 @@ app.get('/', async (req, res) => {
 
     /* Get block and fee pool rewards */
     const blockandfeepoolrewards = await getBlockAndFeePoolRewards();
+    const currentBlock = blockandfeepoolrewards.block;
 
     /* Get bridge.veth volume and reserve info */
-    const currencyVolumeBridge = await getCurrencyVolume("bridge.veth", (1440 * days));//31
+    const vrscVolume24Hours = await getCurrencyVolume("bridge.veth", currentBlock - 1440, currentBlock, 60, "DAI.vETH");
+    const vrscVolume7Days = await getCurrencyVolume("bridge.veth", currentBlock - 1440 * 7, currentBlock, 1440, "DAI.vETH");
+    const vrscVolume30Days = await getCurrencyVolume("bridge.veth", currentBlock - 1440 * 30, currentBlock, 1440, "DAI.vETH");
+
     currencyReserveBridge = await getCurrencyReserve("bridge.veth", coingeckoPriceArray);
 
     /* Calculate staking rewards */
@@ -65,15 +67,21 @@ app.get('/', async (req, res) => {
 
     /* Get Kaiju volume and reserve info */
     const currencyReserveKaiju = await getCurrencyReserve("kaiju", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
-    const currencyVolumeKaiju = await getCurrencyVolume("kaiju", (1440 * days));//31
+    const kaijuVolume24Hours = await getCurrencyVolume("kaiju", currentBlock - 1440, currentBlock, 60, "vUSDT.vETH");
+    const kaijuVolume7Days = await getCurrencyVolume("kaiju", currentBlock - 1440 * 7, currentBlock, 1440, "vUSDT.vETH");
+    const kaijuVolume30Days = await getCurrencyVolume("kaiju", currentBlock - 1440 * 30, currentBlock, 1440, "vUSDT.vETH");
 
     /* Get pure volume and reserve info */
     const currencyReservePure = await getCurrencyReserve("pure", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
-    const currencyVolumePure = await getCurrencyVolume("pure", (1440 * days));//31
+    const pureVolume24Hours = await getCurrencyVolume("pure", currentBlock - 1440, currentBlock, 60, "vrsc");
+    const pureVolume7Days = await getCurrencyVolume("pure", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
+    const pureVolume30Days = await getCurrencyVolume("pure", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
 
     /* Get pure volume and reserve info */
     const currencyReserveSwitch = await getCurrencyReserve("switch", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
-    const currencyVolumeSwitch = await getCurrencyVolume("switch", (1440 * days));//31
+    const switchVolume24Hours = await getCurrencyVolume("switch", currentBlock - 1440, currentBlock, 60, "DAI.vETH");
+    const switchVolume7Days = await getCurrencyVolume("switch", currentBlock - 1440 * 7, currentBlock, 1440, "DAI.vETH");
+    const switchVolume30Days = await getCurrencyVolume("switch", currentBlock - 1440 * 30, currentBlock, 1440, "DAI.vETH");
 
     vrscRenderData = {
       // Verus
@@ -97,67 +105,67 @@ app.get('/', async (req, res) => {
       vrscBridgePrice: currencyReserveBridge.vrscBridgePrice,
       mkrBridgePrice: currencyReserveBridge.mkrBridgePrice,
       // Verus bridge
-      vrscBridgeVolumeInDollars24Hours: currencyVolumeBridge.volumeInDollars24Hours,
-      vrscBridgeVolumeInDollars24HoursArray: currencyVolumeBridge.volumeInDollars24HoursArray,
-      vrscBridgeVolumeInDollars24HoursArrayYAxis: currencyVolumeBridge.volumeInDollars24HoursArrayYAxis,
-      vrscBridgeVolumeInDollars7Days: currencyVolumeBridge.volumeInDollars7Days,
-      vrscBridgeVolumeInDollars7DaysArray: currencyVolumeBridge.volumeInDollars7DaysArray,
-      vrscBridgeVolumeInDollars7DaysArrayYAxis: currencyVolumeBridge.volumeInDollars7DaysArrayYAxis,
-      vrscBridgeVolumeInDollars30Days: currencyVolumeBridge.volumeInDollars30Days,
-      vrscBridgeVolumeInDollars30DaysArray: currencyVolumeBridge.volumeInDollars30DaysArray,
-      vrscBridgeVolumeInDollars30DaysArrayYAxis: currencyVolumeBridge.volumeInDollars30DaysArrayYAxis,
+      vrscBridgeVolumeInDollars24Hours: vrscVolume24Hours.totalVolume,
+      vrscBridgeVolumeInDollars24HoursArray: vrscVolume24Hours.volumeArray,
+      vrscBridgeVolumeInDollars24HoursArrayYAxis: vrscVolume24Hours.yAxisArray,
+      vrscBridgeVolumeInDollars7Days: vrscVolume7Days.totalVolume,
+      vrscBridgeVolumeInDollars7DaysArray: vrscVolume7Days.volumeArray,
+      vrscBridgeVolumeInDollars7DaysArrayYAxis: vrscVolume7Days.yAxisArray,
+      vrscBridgeVolumeInDollars30Days: vrscVolume30Days.totalVolume,
+      vrscBridgeVolumeInDollars30DaysArray: vrscVolume30Days.volumeArray,
+      vrscBridgeVolumeInDollars30DaysArrayYAxis: vrscVolume30Days.yAxisArray,
       estimatedBridgeValueUSD: currencyReserveBridge.estimatedBridgeValueUSD,
       estimatedBridgeValueVRSC: currencyReserveBridge.estimatedBridgeValueVRSC,
       currencyBridgeArray: currencyReserveBridge.currencyBridgeArray,
       estimatedBridgeReserveValue: currencyReserveBridge.estimatedBridgeValue,
       //kaiju
-      kaijuVolumeInDollars24Hours: currencyVolumeKaiju.volumeInDollars24Hours,
-      kaijuVolumeInDollars24HoursArray: currencyVolumeKaiju.volumeInDollars24HoursArray,
-      kaijuVolumeInDollars24HoursArrayYAxis: currencyVolumeKaiju.volumeInDollars24HoursArrayYAxis,
-      kaijuVolumeInDollars7Days: currencyVolumeKaiju.volumeInDollars7Days,
-      kaijuVolumeInDollars7DaysArray: currencyVolumeKaiju.volumeInDollars7DaysArray,
-      kaijuVolumeInDollars7DaysArrayYAxis: currencyVolumeKaiju.volumeInDollars7DaysArrayYAxis,
-      kaijuVolumeInDollars30Days: currencyVolumeKaiju.volumeInDollars30Days,
-      kaijuVolumeInDollars30DaysArray: currencyVolumeKaiju.volumeInDollars30DaysArray,
-      kaijuVolumeInDollars30DaysArrayYAxis: currencyVolumeKaiju.volumeInDollars30DaysArrayYAxis,
+      kaijuVolumeInDollars24Hours: kaijuVolume24Hours.totalVolume,
+      kaijuVolumeInDollars24HoursArray: kaijuVolume24Hours.volumeArray,
+      kaijuVolumeInDollars24HoursArrayYAxis: kaijuVolume24Hours.yAxisArray,
+      kaijuVolumeInDollars7Days: kaijuVolume7Days.totalVolume,
+      kaijuVolumeInDollars7DaysArray: kaijuVolume7Days.volumeArray,
+      kaijuVolumeInDollars7DaysArrayYAxis: kaijuVolume7Days.yAxisArray,
+      kaijuVolumeInDollars30Days: kaijuVolume30Days.totalVolume,
+      kaijuVolumeInDollars30DaysArray: kaijuVolume30Days.volumeArray,
+      kaijuVolumeInDollars30DaysArrayYAxis: kaijuVolume30Days.yAxisArray,
       estimatedKaijuValueUSD: currencyReserveKaiju.estimatedKaijuValueUSD,
       estimatedKaijuValueVRSC: currencyReserveKaiju.estimatedKaijuValueVRSC,
       currencyKaijuArray: currencyReserveKaiju.currencyKaijuArray,
       estimatedKaijuReserveValue: currencyReserveKaiju.estimatedKaijuValue,
       // Verus pure
-      currencyVolumePure24Hours: currencyVolumePure.volumeInDollars24Hours,
-      currencyVolumePure24HoursArray: currencyVolumePure.volumeInDollars24HoursArray,
-      currencyVolumePure24HoursArrayYAxis: currencyVolumePure.volumeInDollars24HoursArrayYAxis,
-      currencyVolumePure7Days: currencyVolumePure.volumeInDollars7Days,
-      currencyVolumePure7DaysArray: currencyVolumePure.volumeInDollars7DaysArray,
-      currencyVolumePure7DaysArrayYAxis: currencyVolumePure.volumeInDollars7DaysArrayYAxis,
-      currencyVolumePure30Days: currencyVolumePure.volumeInDollars30Days,
-      currencyVolumePure30DaysArray: currencyVolumePure.volumeInDollars30DaysArray,
-      currencyVolumePure30DaysArrayYAxis: currencyVolumePure.volumeInDollars30DaysArrayYAxis,
+      currencyVolumePure24Hours: pureVolume24Hours.totalVolume,
+      currencyVolumePure24HoursArray: pureVolume24Hours.volumeArray,
+      currencyVolumePure24HoursArrayYAxis: pureVolume24Hours.yAxisArray,
+      currencyVolumePure7Days: pureVolume7Days.totalVolume,
+      currencyVolumePure7DaysArray: pureVolume7Days.volumeArray,
+      currencyVolumePure7DaysArrayYAxis: pureVolume7Days.yAxisArray,
+      currencyVolumePure30Days: pureVolume30Days.totalVolume,
+      currencyVolumePure30DaysArray: pureVolume30Days.volumeArray,
+      currencyVolumePure30DaysArrayYAxis: pureVolume30Days.yAxisArray,
       currencyPureArray: currencyReservePure.currencyPureArray,
       estimatedPureValueUSD: currencyReservePure.estimatedPureValueUSD,
       estimatedPureValueVRSC: currencyReservePure.estimatedPureValueVRSC,
       estimatedPureReserveValueUSDBTC: currencyReservePure.estimatedPureValueUSDBTC,
       estimatedPureReserveValueUSDVRSC: currencyReservePure.estimatedPureValueUSDVRSC,
       // Verus switch
-      currencyVolumeSwitch24Hours: currencyVolumeSwitch.volumeInDollars24Hours,
-      currencyVolumeSwitch24HoursArray: currencyVolumeSwitch.volumeInDollars24HoursArray,
-      currencyVolumeSwitch24HoursArrayYAxis: currencyVolumeSwitch.volumeInDollars24HoursArrayYAxis,
-      currencyVolumeSwitch7Days: currencyVolumeSwitch.volumeInDollars7Days,
-      currencyVolumeSwitch7DaysArray: currencyVolumeSwitch.volumeInDollars7DaysArray,
-      currencyVolumeSwitch7DaysArrayYAxis: currencyVolumeSwitch.volumeInDollars7DaysArrayYAxis,
-      currencyVolumeSwitch30Days: currencyVolumeSwitch.volumeInDollars30Days,
-      currencyVolumeSwitch30DaysArray: currencyVolumeSwitch.volumeInDollars30DaysArray,
-      currencyVolumeSwitch30DaysArrayYAxis: currencyVolumeSwitch.volumeInDollars30DaysArrayYAxis,
+      currencyVolumeSwitch24Hours: switchVolume24Hours.totalVolume,
+      currencyVolumeSwitch24HoursArray: switchVolume24Hours.volumeArray,
+      currencyVolumeSwitch24HoursArrayYAxis: switchVolume24Hours.yAxisArray,
+      currencyVolumeSwitch7Days: switchVolume7Days.totalVolume,
+      currencyVolumeSwitch7DaysArray: switchVolume7Days.volumeArray,
+      currencyVolumeSwitch7DaysArrayYAxis: switchVolume7Days.yAxisArray,
+      currencyVolumeSwitch30Days: switchVolume30Days.totalVolume,
+      currencyVolumeSwitch30DaysArray: switchVolume30Days.volumeArray,
+      currencyVolumeSwitch30DaysArrayYAxis: switchVolume30Days.yAxisArray,
       currencySwitchArray: currencyReserveSwitch.currencySwitchArray,
       estimatedSwitchValue: currencyReserveSwitch.estimatedSwitchValue,
       estimatedSwitchReserveValue: currencyReserveSwitch.estimatedSwitcheReserveValue,
       estimatedSwitchValueUSDVRSC: currencyReserveSwitch.estimatedSwitchValueUSDVRSC
     };
     // adding to pricingArray
-    priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray];
+        priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray];
     // adding to reserveArray
-    vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }];
+        vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }];
   } else {
     vrscRenderData = {
       vrscNodeStatus: vrscNodeStatus.online,
@@ -180,12 +188,13 @@ app.get('/', async (req, res) => {
 
     /* Get block and fee pool rewards */
     const varrrblockandfeepoolrewards = await getVarrrBlockAndFeePoolRewards();
-
-
+    const currentBlock = varrrblockandfeepoolrewards.block;
 
     /* Get bridge.varrr volume and reserve info */
     const currencyReserveVarrrBridge = await getVarrrCurrencyReserve("bridge.varrr", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
-    const currencyVolumeVarrrBridge = await getVarrrCurrencyVolume("bridge.varrr", (1440 * days));//31
+    const varrrVolume24Hours = await getVarrrCurrencyVolume("bridge.varrr", currentBlock - 1440, currentBlock, 60, "vrsc");
+    const varrrVolume7Days = await getVarrrCurrencyVolume("bridge.varrr", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
+    const varrrVolume30Days = await getVarrrCurrencyVolume("bridge.varrr", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
 
     const varrrBridgePrice = currencyReserveVarrrBridge.currencyVarrrBridgeArray.find(item => item.currencyName === 'vARRR').price;
 
@@ -212,23 +221,23 @@ app.get('/', async (req, res) => {
       varrrMiningRewardsArray: varrrMiningRewards.miningArray,
       varrrNetworkHash: (Math.round(varrrblockandfeepoolrewards.networkhashps) / 1000000000).toLocaleString(),
       //varrr bridge
-      varrrBridgeVolumeInDollars24Hours: currencyVolumeVarrrBridge.volumeInDollars24Hours,
-      varrrBridgeVolumeInDollars24HoursArray: currencyVolumeVarrrBridge.volumeInDollars24HoursArray,
-      varrrBridgeVolumeInDollars24HoursArrayYAxis: currencyVolumeVarrrBridge.volumeInDollars24HoursArrayYAxis,
-      varrrBridgeVolumeInDollars7Days: currencyVolumeVarrrBridge.volumeInDollars7Days,
-      varrrBridgeVolumeInDollars7DaysArray: currencyVolumeVarrrBridge.volumeInDollars7DaysArray,
-      varrrBridgeVolumeInDollars7DaysArrayYAxis: currencyVolumeVarrrBridge.volumeInDollars7DaysArrayYAxis,
-      varrrBridgeVolumeInDollars30Days: currencyVolumeVarrrBridge.volumeInDollars30Days,
-      varrrBridgeVolumeInDollars30DaysArray: currencyVolumeVarrrBridge.volumeInDollars30DaysArray,
-      varrrBridgeVolumeInDollars30DaysArrayYAxis: currencyVolumeVarrrBridge.volumeInDollars30DaysArrayYAxis,
+      varrrBridgeVolumeInDollars24Hours: varrrVolume24Hours.totalVolume,
+      varrrBridgeVolumeInDollars24HoursArray: varrrVolume24Hours.volumeArray,
+      varrrBridgeVolumeInDollars24HoursArrayYAxis: varrrVolume24Hours.yAxisArray,
+      varrrBridgeVolumeInDollars7Days: varrrVolume7Days.totalVolume,
+      varrrBridgeVolumeInDollars7DaysArray: varrrVolume7Days.volumeArray,
+      varrrBridgeVolumeInDollars7DaysArrayYAxis: varrrVolume7Days.yAxisArray,
+      varrrBridgeVolumeInDollars30Days: varrrVolume30Days.totalVolume,
+      varrrBridgeVolumeInDollars30DaysArray: varrrVolume30Days.volumeArray,
+      varrrBridgeVolumeInDollars30DaysArrayYAxis: varrrVolume30Days.yAxisArray,
       currencyVarrrBridgeArray: currencyReserveVarrrBridge.currencyVarrrBridgeArray,
       estimatedVarrrBridgeValueUSD: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSD,
       estimatedVarrrBridgeValueVRSC: currencyReserveVarrrBridge.estimatedVarrrBridgeValueVRSC,
       estimatedVarrrBridgeReserveValueUSDBTC: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDBTC,
       estimatedVarrrBridgeReserveValueUSDVRSC: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC
     }
-    priceArray = [...priceArray, ...varrrRenderData.currencyVarrrBridgeArray];
-    //vrscReserveArray = [...vrscReserveArray, {basket: "Bridge.vARRR", reserve: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC, via: "VRSC"}];
+        priceArray = [...priceArray, ...varrrRenderData.currencyVarrrBridgeArray];
+    vrscReserveArray = [...vrscReserveArray, {basket: "Bridge.vARRR", reserve: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC, via: "VRSC"}];
   } else {
     varrrRenderData = {
       varrrOnline: varrrNodeStatus.online,

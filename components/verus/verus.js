@@ -1,5 +1,6 @@
 require('dotenv').config();
-const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy } = require("./api/api");
+const { convertToAxisString } = require('../../utils/stringUtil');
+const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState } = require("./api/api");
 const { vrscEthBridgeVolume, currencyReserveEthBridge } = require("./ethbridge/ethbridge");
 const { kaijuVolume, currencyReserveKaiju } = require("./kaiju/kaiju");
 const { currencyReservePure, pureVolume } = require("./pure/pure");
@@ -65,28 +66,6 @@ async function getAddressBalance(address) {
     } catch (error) {
         console.log("no verus api connected...")
     }
-   
-
-    // varrr
-    // try {
-    //     const getVarrrAddressBalanceResponse = await fetch("http://localhost:9010/addressindex/getaddressbalance/" + verusAddress);
-    //     const getVarrrAddressBalanceResult = await getVarrrAddressBalanceResponse.json();
-    //     const getVarrrAddressBalance = getVarrrAddressBalanceResult.result;
-    //     getAddressBalance.currencybalance = { ...getAddressBalance.currencybalance, ...getVarrrAddressBalance.currencybalance };
-    //     // if (getAddressBalance.currencybalance && getVarrrAddressBalance.currencybalance) {
-    //     //     Object.keys(getVarrrAddressBalance.currencybalance).forEach((key) => {
-    //     //         if (getAddressBalance.currencybalance[key]) {
-    //     //             getAddressBalance.currencybalance[key] += getVarrrAddressBalance.currencybalance[key];
-    //     //         } else {
-    //     //             getAddressBalance.currencybalance[key] = getVarrrAddressBalance.currencybalance[key];
-    //     //         }
-    //     //     });
-    //     // } else if (getVarrrAddressBalance.currencybalance) {
-    //     //     getAddressBalance.currencybalance = getVarrrAddressBalance.currencybalance;
-    //     // }
-    // } catch (error) {
-    //     console.log("no varrr api connected")
-    // }
 
 
     if (getAddressBalance?.currencybalance) {
@@ -206,26 +185,36 @@ async function calculateMiningRewards(networkHashPerSecond, vrscMiningHashUnenco
     return result;
 }
 
-async function getCurrencyVolume(currencyName, blockcount) {
-    const miningInfo = await getMiningInfo();
-    let result;
-    let volumeArray;
-    if (currencyName === "bridge.veth") {
-        volumeArray = await vrscEthBridgeVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
-        result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
-    }
-    if (currencyName === "kaiju") {
-        volumeArray = await kaijuVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
-        result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
-    }
-    if (currencyName === "pure") {
-        volumeArray = await pureVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
-        result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
-    }
-    if (currencyName === "switch") {
-        volumeArray = await vrscSwitchVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
-        result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
-    }
+async function getCurrencyVolume(currencyName, fromBlock, toBlock, interval, converttocurrency) {
+    let result = {};
+    let totalVolume = 0;
+    let volumeArray = [];
+    let yAxisArray = [];
+
+    const currencyState = await getCurrencyState(currencyName, fromBlock, toBlock, interval, converttocurrency);
+    
+    currencyState.map((item)=>{
+        if(item.conversiondata){
+            let volume = Math.round(item.conversiondata.volumethisinterval);
+            volumeArray.push({volume:volume});
+        }
+        if(item.totalvolume){
+            totalVolume =  Math.round(item.totalvolume).toLocaleString();
+        }
+    })
+
+    let volumeArrayMax = Math.max(...volumeArray.map(o => o.volume));
+    yAxisArray.push({ value: convertToAxisString(volumeArrayMax) });
+    yAxisArray.push({ value: convertToAxisString(volumeArrayMax / 2) });
+    yAxisArray.push({ value: 0 });
+
+    volumeArray.forEach((item) => {
+        item.barPCT = Math.round((item.volume / volumeArrayMax) * 100);
+        item.volume = convertToAxisString(item.volume);
+    })
+    result.totalVolume = totalVolume;
+    result.volumeArray = volumeArray;
+    result.yAxisArray = yAxisArray;
 
     return result;
 }

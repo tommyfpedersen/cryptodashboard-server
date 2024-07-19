@@ -1,8 +1,9 @@
 require('dotenv').config();
-const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy } = require("./api/api");
+const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState } = require("./api/api");
 const { vrscVarrrBridgeVolume, currencyReserveVarrrBridge } = require("./varrrbridge/varrrbridge");
 
 const { calculateCurrencyVolume } = require("./utils/utils");
+const { convertToAxisString } = require('../../utils/stringUtil');
 
 async function getVarrrNodeStatus() {
     let result = {};
@@ -178,15 +179,36 @@ async function calculateVarrrMiningRewards(networkHashPerSecond, varrrMiningHash
 
     return result;
 }
+async function getVarrrCurrencyVolume(currencyName, fromBlock, toBlock, interval, converttocurrency) {
+    let result = {};
+    let totalVolume = 0;
+    let volumeArray = [];
+    let yAxisArray = [];
 
-async function getVarrrCurrencyVolume(currencyName, blockcount) {
-    const miningInfo = await getMiningInfo();
-    let result;
-    let volumeArray;
-    if (currencyName === "bridge.varrr") {
-        volumeArray = await vrscVarrrBridgeVolume(miningInfo.blocks - blockcount, miningInfo.blocks);
-        result = await calculateCurrencyVolume(volumeArray, miningInfo.blocks);
-    }
+    const currencyState = await getCurrencyState(currencyName, fromBlock, toBlock, interval, converttocurrency);
+    
+    currencyState.map((item)=>{
+        if(item.conversiondata){
+            let volume = Math.round(item.conversiondata.volumethisinterval);
+            volumeArray.push({volume:volume});
+        }
+        if(item.totalvolume){
+            totalVolume =  Math.round(item.totalvolume).toLocaleString();
+        }
+    })
+
+    let volumeArrayMax = Math.max(...volumeArray.map(o => o.volume));
+    yAxisArray.push({ value: convertToAxisString(volumeArrayMax) });
+    yAxisArray.push({ value: convertToAxisString(volumeArrayMax / 2) });
+    yAxisArray.push({ value: 0 });
+
+    volumeArray.forEach((item) => {
+        item.barPCT = Math.round((item.volume / volumeArrayMax) * 100);
+        item.volume = convertToAxisString(item.volume);
+    })
+    result.totalVolume = totalVolume;
+    result.volumeArray = volumeArray;
+    result.yAxisArray = yAxisArray;
 
     return result;
 }
