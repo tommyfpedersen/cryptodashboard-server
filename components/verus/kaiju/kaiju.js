@@ -341,7 +341,7 @@ async function currencyReserveKaiju(priceArray) {
 
 
                         if (reservesCurrency.currencyid === "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY") {
-                            estimatedKaijuValue = (Math.round(reservesCurrency.reserves * 4 * 100) / 100).toLocaleString();
+                            estimatedKaijuValue = (Math.round(reservesCurrency.reserves * 4 )).toLocaleString();
                             estimatedKaijuValueUSD = (Math.round(reservesCurrency.reserves * 4 / estimatedKaijuSupply *100)/ 100).toLocaleString();
                             estimatedKaijuValueVRSC = (Math.round(reservesCurrency.reserves * 4 / estimatedKaijuSupply / vrscKaijuPrice *100000000)/ 100000000).toLocaleString();
                         }
@@ -356,7 +356,7 @@ async function currencyReserveKaiju(priceArray) {
 
     /* estimated value of kaiju */
     currencyKaijuArray.forEach((currency) => {
-        currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 8 });
+        currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 4 });
     })
 
     result.currencyKaijuArray = currencyKaijuArray;

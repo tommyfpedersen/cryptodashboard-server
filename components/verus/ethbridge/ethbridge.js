@@ -351,7 +351,7 @@ async function currencyReserveEthBridge(priceArray) {
 
 
                         if (reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
-                            estimatedBridgeValue = (Math.round(reservesCurrency.reserves * 4 * 100) / 100).toLocaleString();
+                            estimatedBridgeValue = (Math.round(reservesCurrency.reserves * 4 ) ).toLocaleString();
                             estimatedBridgeValueUSD = (Math.round(reservesCurrency.reserves * 4 / estimatedBridgeSupply *100)/ 100).toLocaleString();
                             estimatedBridgeValueVRSC = (Math.round(reservesCurrency.reserves * 4 / estimatedBridgeSupply / vrscBridgePrice *100000000)/ 100000000).toLocaleString();
                         }
@@ -366,7 +366,7 @@ async function currencyReserveEthBridge(priceArray) {
 
     /* estimated value of bridge */
     currencyBridgeArray.forEach((currency) => {
-        currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 8 });
+        currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 4 });
     })
 
     result.currencyBridgeArray = currencyBridgeArray;

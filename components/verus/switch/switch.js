@@ -300,7 +300,7 @@ async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
                             estimatedSwitchReserveValue = daiReserve * 1 / reservesCurrency.weight;
                             estimatedSwitchValue = (Math.round(estimatedSwitchReserveValue / estimatedSwitchSupply * 100) / 100).toLocaleString();
                             estimatedSwitchValueUSDVRSC = (Math.round(estimatedSwitchValue / vrscBridgePrice * 100000000) / 100000000).toLocaleString();
-                            estimatedSwitchReserveValue = (Math.round(estimatedSwitchReserveValue * 100) / 100).toLocaleString();
+                            estimatedSwitchReserveValue = (Math.round(estimatedSwitchReserveValue ) ).toLocaleString();
                         }
                     })
                 }
@@ -371,7 +371,7 @@ async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
 
     /* estimated value of Switch */
     currencySwitchArray.forEach((currency) => {
-        currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 8 });
+        currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 4 });
     })
 
     result.currencySwitchArray = currencySwitchArray;

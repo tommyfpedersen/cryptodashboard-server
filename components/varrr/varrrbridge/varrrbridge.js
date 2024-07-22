@@ -423,12 +423,12 @@ async function currencyReserveVarrrBridge(priceArray, vrscBridgePrice, estimated
 
 
                             if (reservesCurrency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                                estimatedVarrrBridgeValueUSDVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 4 * 100) / 100).toLocaleString();
+                                estimatedVarrrBridgeValueUSDVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 4 )).toLocaleString();
                                 estimatedVarrrBridgeValueUSD = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 4 / estimatedVarrrBridgeSupply * 100) / 100).toLocaleString();
                                 estimatedVarrrBridgeValueVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 4 / estimatedVarrrBridgeSupply / vrscBridgePrice * 100000000) / 100000000).toLocaleString();
                             }
                             if (reservesCurrency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
-                                estimatedVarrrBridgeValueUSDBTC = (Math.round(tBTCvETHCoingeckoPrice * reservesCurrency.reserves * 4 * 100) / 100).toLocaleString();
+                                estimatedVarrrBridgeValueUSDBTC = (Math.round(tBTCvETHCoingeckoPrice * reservesCurrency.reserves * 4 ) ).toLocaleString();
                             }
                         })
                         currency.currencyId = currencyId;
@@ -441,7 +441,7 @@ async function currencyReserveVarrrBridge(priceArray, vrscBridgePrice, estimated
 
         /* estimated value of bridge */
         currencyBridgeArray.forEach((currency) => {
-            currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 8 });
+            currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 4 });
         })
 
         result.currencyVarrrBridgeArray = currencyBridgeArray;
