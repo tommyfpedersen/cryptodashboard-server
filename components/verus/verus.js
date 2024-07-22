@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { convertToAxisString } = require('../../utils/stringUtil');
-const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState } = require("./api/api");
+const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState, getCoinSupply } = require("./api/api");
 const { vrscEthBridgeVolume, currencyReserveEthBridge } = require("./ethbridge/ethbridge");
 const { kaijuVolume, currencyReserveKaiju } = require("./kaiju/kaiju");
 const { currencyReservePure, pureVolume } = require("./pure/pure");
@@ -44,6 +44,23 @@ async function getBlockAndFeePoolRewards() {
         result.averageblockfees = miningInfo.averageblockfees
     }
    
+    return result;
+}
+
+async function getMarketCapStats(block, vrscPrice){
+    let result = {};
+    let totalSupply = null;
+    let maxSupply = 83540184;
+
+    const coinSupply = await getCoinSupply(block);
+    totalSupply = coinSupply.total;
+
+    result.totalSupply = Math.round(totalSupply).toLocaleString();
+    result.circulatingSupply = Math.round(totalSupply).toLocaleString();
+    result.marketCap = Math.round(totalSupply * vrscPrice ).toLocaleString();
+    result.maxSupply =maxSupply.toLocaleString(); 
+    result.fullyDilutedMarketCap = Math.round((maxSupply * vrscPrice)).toLocaleString();
+
     return result;
 }
 
@@ -234,4 +251,4 @@ async function getCurrencyReserve(currencyName, priceArray, vrscBridgePrice) {
     }
 }
 
-module.exports = { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve };
+module.exports = { getNodeStatus, getBlockAndFeePoolRewards, getMarketCapStats, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve };

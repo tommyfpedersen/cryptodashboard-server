@@ -13,7 +13,7 @@ app.use(cors({
 let pageLoads = 0;
 
 // components
-const { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve } = require('./components/verus/verus');
+const { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats } = require('./components/verus/verus');
 const { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve } = require('./components/varrr/varrr');
 const { getCoingeckoPrice } = require('./components/coingecko/coingecko');
 const { getThreeFoldNodeArray } = require('./components/threefold/threefold');
@@ -59,6 +59,10 @@ app.get('/', async (req, res) => {
 
     currencyReserveBridge = await getCurrencyReserve("bridge.veth", coingeckoPriceArray);
 
+    /* Get Coinsupply - marketcap */
+    const coinSupply = await getMarketCapStats(currentBlock, currencyReserveBridge.vrscBridgePrice)
+    console.log("coinSupply", coinSupply);
+
     /* Calculate staking rewards */
     const stakingRewards = await calculateStakingRewards(blockandfeepoolrewards.stakingsupply, req.query.vrscstakingamount, currencyReserveBridge.vrscBridgePrice);
 
@@ -90,6 +94,11 @@ app.get('/', async (req, res) => {
       blockReward: blockandfeepoolrewards.blockReward,
       feeReward: blockandfeepoolrewards.feeReward,
       averageblockfees: blockandfeepoolrewards.averageblockfees,
+      totalSupply: coinSupply.totalSupply,
+      circulatingSupply: coinSupply.circulatingSupply,
+      marketCap: coinSupply.marketCap,
+      maxSupply: coinSupply.maxSupply,
+      fullyDilutedMarketCap: coinSupply.fullyDilutedMarketCap,
       stakingAmount: stakingRewards.stakingAmount,
       stakingRewardsArray: stakingRewards.stakingArray,
       stakingSupply: Math.round(blockandfeepoolrewards.stakingsupply).toLocaleString(),
@@ -163,9 +172,9 @@ app.get('/', async (req, res) => {
       estimatedSwitchValueUSDVRSC: currencyReserveSwitch.estimatedSwitchValueUSDVRSC
     };
     // adding to pricingArray
-        priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray];
+    priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray];
     // adding to reserveArray
-        vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }];
+    vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }];
   } else {
     vrscRenderData = {
       vrscNodeStatus: vrscNodeStatus.online,
@@ -236,8 +245,8 @@ app.get('/', async (req, res) => {
       estimatedVarrrBridgeReserveValueUSDBTC: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDBTC,
       estimatedVarrrBridgeReserveValueUSDVRSC: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC
     }
-        priceArray = [...priceArray, ...varrrRenderData.currencyVarrrBridgeArray];
-    vrscReserveArray = [...vrscReserveArray, {basket: "Bridge.vARRR", reserve: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC, via: "VRSC"}];
+    priceArray = [...priceArray, ...varrrRenderData.currencyVarrrBridgeArray];
+    vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vARRR", reserve: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC, via: "VRSC" }];
   } else {
     varrrRenderData = {
       varrrOnline: varrrNodeStatus.online,

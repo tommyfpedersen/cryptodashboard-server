@@ -12,6 +12,19 @@ async function getMiningInfo() {
     }
 }
 
+async function getCoinSupply(block) {
+    try {
+        const getcoinsupplyResponse = await fetch(process.env.VERUS_REST_API+ "blockchain/coinsupply/" + block);
+        const getcoinsupplyResult = await getcoinsupplyResponse.json();
+        const getcoinsupply = getcoinsupplyResult.result;
+        return getcoinsupply;
+    } catch (error) {
+        // Handle the error here
+        // console.log("Error fetching mining info:", error);
+        return null;
+    }
+}
+
 async function getBlockSubsidy(block) {
     try {
         const getblocksubsidyResponse = await fetch(process.env.VERUS_REST_API+ "mining/getblocksubsidy/" + block);
@@ -65,4 +78,4 @@ async function getCurrencyState(chainname, blockstart, blockend, blockintervals,
 }
 
 
-module.exports = { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getCurrencyState }
+module.exports = { getMiningInfo, getCoinSupply, getBlockSubsidy, getBlock, getPeerInfo, getCurrencyState }
