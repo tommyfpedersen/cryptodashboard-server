@@ -43,11 +43,11 @@ async function getBlockAndFeePoolRewards() {
         result.feeReward = feeReward;
         result.averageblockfees = miningInfo.averageblockfees
     }
-   
+
     return result;
 }
 
-async function getMarketCapStats(block, vrscPrice){
+async function getMarketCapStats(block, vrscPrice) {
     let result = {};
     let totalSupply = null;
     let maxSupply = 83540184;
@@ -55,11 +55,12 @@ async function getMarketCapStats(block, vrscPrice){
     const coinSupply = await getCoinSupply(block);
     totalSupply = coinSupply.total;
 
-    result.totalSupply = Math.round(totalSupply).toLocaleString();
-    result.circulatingSupply = Math.round(totalSupply).toLocaleString();
-    result.marketCap = Math.round(totalSupply * vrscPrice ).toLocaleString();
-    result.maxSupply =maxSupply.toLocaleString(); 
-    result.fullyDilutedMarketCap = Math.round((maxSupply * vrscPrice)).toLocaleString();
+    result.totalSupply = totalSupply;
+    result.circulatingSupply = totalSupply;
+    result.circulatingSupplyPercentage = totalSupply / maxSupply * 100;
+    result.marketCap = totalSupply * vrscPrice;
+    result.maxSupply = maxSupply;
+    result.fullyDilutedMarketCap = maxSupply * vrscPrice;
 
     return result;
 }
@@ -77,7 +78,7 @@ async function getAddressBalance(address) {
 
     // vrsc
     try {
-        const getAddressBalanceResponse = await fetch(process.env.VERUS_REST_API+ "addressindex/getaddressbalance/" + verusAddress);
+        const getAddressBalanceResponse = await fetch(process.env.VERUS_REST_API + "addressindex/getaddressbalance/" + verusAddress);
         const getAddressBalanceResult = await getAddressBalanceResponse.json();
         getAddressBalance = getAddressBalanceResult.result;
     } catch (error) {
@@ -133,7 +134,7 @@ async function getAddressBalance(address) {
     return result;
 }
 
-async function calculateStakingRewards(stakingsupply, stakingAmountUnencoded, vrscPrice) {
+async function calculateStakingRewards(totalSupply, stakingsupply, stakingAmountUnencoded, vrscPrice) {
     let result = {};
     let stakingArray = [];
     if (stakingAmountUnencoded) {
@@ -142,22 +143,23 @@ async function calculateStakingRewards(stakingsupply, stakingAmountUnencoded, vr
         stakingAmount = 100;
     }
     result.stakingAmount = stakingAmount;
+    result.stakingPercentage = stakingsupply / totalSupply *100;
     let apy = 720 * 6 * 365 / stakingsupply;
 
     let stakingRewardsDaily = {
         label: "Daily",
-        rewards: Math.round(apy * stakingAmount / 365*10000)/10000,
-        dollars: Math.round(apy * stakingAmount / 365 * vrscPrice *100)/100
+        rewards: Math.round(apy * stakingAmount / 365 * 10000) / 10000,
+        dollars: Math.round(apy * stakingAmount / 365 * vrscPrice * 100) / 100
     }
     let stakingRewardsMonthly = {
         label: "Monthly",
-        rewards: Math.round(apy * stakingAmount / 12*10000)/10000,
-        dollars: Math.round(apy * stakingAmount / 12 * vrscPrice *100)/100
+        rewards: Math.round(apy * stakingAmount / 12 * 10000) / 10000,
+        dollars: Math.round(apy * stakingAmount / 12 * vrscPrice * 100) / 100
     }
     let stakingRewardsYearly = {
         label: "Yearly",
-        rewards: Math.round(apy * stakingAmount *10000)/10000,
-        dollars: Math.round(apy * stakingAmount * vrscPrice *100)/100
+        rewards: Math.round(apy * stakingAmount * 10000) / 10000,
+        dollars: Math.round(apy * stakingAmount * vrscPrice * 100) / 100
     }
     stakingArray.push(stakingRewardsDaily);
     stakingArray.push(stakingRewardsMonthly);
@@ -177,23 +179,23 @@ async function calculateMiningRewards(networkHashPerSecond, vrscMiningHashUnenco
 
     result.vrscMiningHash = vrscMiningHash;
     let apy = 720 * 6 * 365 / networkHashPerSecond * 1000000;
-    
+
     let miningRewardsDaily = {
         label: "Daily",
-        rewards: Math.round(apy * vrscMiningHash / 365*10000)/10000,
-        dollars: Math.round(apy * vrscMiningHash / 365 * vrscPrice *100)/100
+        rewards: Math.round(apy * vrscMiningHash / 365 * 10000) / 10000,
+        dollars: Math.round(apy * vrscMiningHash / 365 * vrscPrice * 100) / 100
     }
     let miningRewardsMonthly = {
         label: "Monthly",
-        rewards: Math.round(apy * vrscMiningHash / 12*10000)/10000,
-        dollars: Math.round(apy * vrscMiningHash / 12 * vrscPrice *100)/100
+        rewards: Math.round(apy * vrscMiningHash / 12 * 10000) / 10000,
+        dollars: Math.round(apy * vrscMiningHash / 12 * vrscPrice * 100) / 100
     }
     let miningRewardsYearly = {
         label: "Yearly",
-        rewards: Math.round(apy * vrscMiningHash *10000)/10000,
-        dollars: Math.round(apy * vrscMiningHash * vrscPrice *100)/100
+        rewards: Math.round(apy * vrscMiningHash * 10000) / 10000,
+        dollars: Math.round(apy * vrscMiningHash * vrscPrice * 100) / 100
     }
-    
+
     miningArray.push(miningRewardsDaily);
     miningArray.push(miningRewardsMonthly);
     miningArray.push(miningRewardsYearly);
@@ -209,14 +211,14 @@ async function getCurrencyVolume(currencyName, fromBlock, toBlock, interval, con
     let yAxisArray = [];
 
     const currencyState = await getCurrencyState(currencyName, fromBlock, toBlock, interval, converttocurrency);
-    
-    currencyState.map((item)=>{
-        if(item.conversiondata){
+
+    currencyState.map((item) => {
+        if (item.conversiondata) {
             let volume = Math.round(item.conversiondata.volumethisinterval);
-            volumeArray.push({volume:volume});
+            volumeArray.push({ volume: volume });
         }
-        if(item.totalvolume){
-            totalVolume =  Math.round(item.totalvolume).toLocaleString();
+        if (item.totalvolume) {
+            totalVolume = Math.round(item.totalvolume).toLocaleString();
         }
     })
 

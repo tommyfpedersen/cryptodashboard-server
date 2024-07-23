@@ -63,7 +63,7 @@ app.get('/', async (req, res) => {
     const coinSupply = await getMarketCapStats(currentBlock, currencyReserveBridge.vrscBridgePrice)
 
     /* Calculate staking rewards */
-    const stakingRewards = await calculateStakingRewards(blockandfeepoolrewards.stakingsupply, req.query.vrscstakingamount, currencyReserveBridge.vrscBridgePrice);
+    const stakingRewards = await calculateStakingRewards(coinSupply.totalSupply, blockandfeepoolrewards.stakingsupply, req.query.vrscstakingamount, currencyReserveBridge.vrscBridgePrice);
 
     /* Calculate mining rewards */
     const miningRewards = await calculateMiningRewards(blockandfeepoolrewards.networkhashps, req.query.vrscmininghash, currencyReserveBridge.vrscBridgePrice);
@@ -93,12 +93,14 @@ app.get('/', async (req, res) => {
       blockReward: blockandfeepoolrewards.blockReward,
       feeReward: blockandfeepoolrewards.feeReward,
       averageblockfees: blockandfeepoolrewards.averageblockfees,
-      totalSupply: coinSupply.totalSupply,
-      circulatingSupply: coinSupply.circulatingSupply,
-      marketCap: coinSupply.marketCap,
-      maxSupply: coinSupply.maxSupply,
-      fullyDilutedMarketCap: coinSupply.fullyDilutedMarketCap,
+      totalSupply: Math.round(coinSupply.totalSupply).toLocaleString(),
+      circulatingSupply: Math.round(coinSupply.circulatingSupply).toLocaleString(),
+      circulatingSupplyPercentage: (Math.round(coinSupply.circulatingSupplyPercentage*100)/100).toLocaleString(),
+      marketCap: Math.round(coinSupply.marketCap).toLocaleString(),
+      maxSupply: coinSupply.maxSupply.toLocaleString(),
+      fullyDilutedMarketCap:  Math.round(coinSupply.fullyDilutedMarketCap).toLocaleString(),
       stakingAmount: stakingRewards.stakingAmount,
+      stakingPercentage: (Math.round(stakingRewards.stakingPercentage*100)/100).toLocaleString(),
       stakingRewardsArray: stakingRewards.stakingArray,
       stakingSupply: Math.round(blockandfeepoolrewards.stakingsupply).toLocaleString(),
       vrscMiningHash: miningRewards.vrscMiningHash,
