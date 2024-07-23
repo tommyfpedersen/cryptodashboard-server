@@ -189,12 +189,17 @@
             </svg>
             <button class="hide-button">x</button>
             <div class="card-content">
-                <div class="card-title">Market Cap Stats</div>
+                <div class="card-title">Market Cap</div>
                 {{#if vrscOnline}}
                 <div class="card-row-wrapper">
                     <div class="card-row-item">Market cap</div>
                     <div class="card-row-item">$ {{{marketCap}}}</div>
                 </div>
+                 <div class="card-row-wrapper">
+                    <div class="card-row-item">Fully diluted market cap</div>
+                    <div class="card-row-item">$ {{{fullyDilutedMarketCap}}} </div>
+                </div>
+                   <br> 
                 <div class="card-row-wrapper">
                     <div class="card-row-item">Circulating supply</div>
                     <div class="card-row-item"> {{{circulatingSupply}}}</div>
@@ -207,10 +212,7 @@
                     <div class="card-row-item">Max. supply</div>
                     <div class="card-row-item"> {{{maxSupply}}} </div>
                 </div>
-                <div class="card-row-wrapper">
-                    <div class="card-row-item">Fully diluted market cap</div>
-                    <div class="card-row-item">$ {{{fullyDilutedMarketCap}}} </div>
-                </div>
+               
                 {{!-- <div class="card-row-item-details">Last 100 blocks</div> --}}
                 {{else}}
                 {{{vrscStatusMessage}}}

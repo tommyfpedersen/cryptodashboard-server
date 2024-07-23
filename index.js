@@ -61,7 +61,6 @@ app.get('/', async (req, res) => {
 
     /* Get Coinsupply - marketcap */
     const coinSupply = await getMarketCapStats(currentBlock, currencyReserveBridge.vrscBridgePrice)
-    console.log("coinSupply", coinSupply);
 
     /* Calculate staking rewards */
     const stakingRewards = await calculateStakingRewards(blockandfeepoolrewards.stakingsupply, req.query.vrscstakingamount, currencyReserveBridge.vrscBridgePrice);
