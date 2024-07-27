@@ -229,6 +229,7 @@ app.get('/', async (req, res) => {
       varrrStakingAmount: varrrStakingRewards.stakingAmount,
       varrrStakingRewardsArray: varrrStakingRewards.stakingArray,
       varrrStakingSupply: Math.round(varrrblockandfeepoolrewards.stakingsupply).toLocaleString(),
+      varrrStakingAPY: (Math.round(varrrStakingRewards.apy*10000)/100).toLocaleString(),
       varrrMiningHash: varrrMiningRewards.varrrMiningHash,
       varrrMiningRewardsArray: varrrMiningRewards.miningArray,
       varrrNetworkHash: (Math.round(varrrblockandfeepoolrewards.networkhashps) / 1000000000).toLocaleString(),
