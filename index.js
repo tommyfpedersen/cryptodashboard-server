@@ -104,6 +104,7 @@ app.get('/', async (req, res) => {
       stakingRewardsArray: stakingRewards.stakingArray,
       stakingSupply: Math.round(blockandfeepoolrewards.stakingsupply).toLocaleString(),
       stakingValue: Math.round(blockandfeepoolrewards.stakingsupply*currencyReserveBridge.vrscBridgePrice).toLocaleString(),
+      stakingAPY: (Math.round(stakingRewards.apy*10000)/100).toLocaleString(),
       vrscMiningHash: miningRewards.vrscMiningHash,
       miningRewardsArray: miningRewards.miningArray,
       vrscNetworkHash: (Math.round(blockandfeepoolrewards.networkhashps) / 1000000000).toLocaleString(),

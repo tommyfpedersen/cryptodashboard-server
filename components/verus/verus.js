@@ -145,6 +145,7 @@ async function calculateStakingRewards(totalSupply, stakingsupply, stakingAmount
     result.stakingAmount = stakingAmount;
     result.stakingPercentage = stakingsupply / totalSupply *100;
     let apy = 720 * 6 * 365 / stakingsupply;
+    result.apy = apy;
 
     let stakingRewardsDaily = {
         label: "Daily",
