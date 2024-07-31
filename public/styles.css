@@ -122,6 +122,7 @@ body {
     padding: 7px 5px 2.5px 5px;
     border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
+  fill: #ccc;
 }
 
 .side-menu-item-selected{
