@@ -125,9 +125,9 @@ body {
 }
 
 .side-menu-item-selected{
-    background-color: orange;
+    /* background-color: white; */
     color:white;
-    fill: white;
+    fill: orange;
 }
 
 
@@ -406,6 +406,10 @@ input[type="reset"] {
     font: inherit;
     cursor: pointer;
     outline: inherit;
+}
+
+a {
+    color: #444
 }
 
 @keyframes fadeIn {
