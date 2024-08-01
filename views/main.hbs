@@ -872,7 +872,7 @@
                     <div class="card-row-item-network">VRSC {{estimatedPureValueVRSC}}</div>
                     <div class="card-row-item"> $ {{{estimatedPureValueUSD}}}</div>
                 </div>
-                
+
                 {{#each currencyPureArray}}
                 <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
                 <div class="card-row-wrapper">
@@ -883,12 +883,12 @@
                     <div class="card-row-item">{{pricelabel}} Price</div>
                     <div class="card-row-item"> {{priceNative}}</div>
                 </div>
-                   <div class="card-row-wrapper">
+                <div class="card-row-wrapper">
                     <div class="card-row-item">Basket Price</div>
                     <div class="card-row-item"> $ {{price}}</div>
                 </div>
-                </div>
-                   <div class="card-row-wrapper">
+
+                <div class="card-row-wrapper">
                     <div class="card-row-item">{{coingeckoLabel}} Price</div>
                     <div class="card-row-item"> $ {{coingeckoprice}} </div>
                 </div>
@@ -1005,18 +1005,32 @@
                 <div class="card-title">Switch Basket</div>
                 {{#if vrscOnline}}
 
-                <div class="card-sub-title">Estimated reserves value</div>
-                <div class="card-sub-title-main-value">$ {{{estimatedSwitchReserveValue}}}</div>
+                 <div class="card-row-wrapper">
+                    <div class="card-row-item">Reserves Value</div>
+                    <div class="card-row-item"> $ {{estimatedSwitchReserveValue}}</div>
+                </div>
+                 <div class="card-row-wrapper">
+                    <div class="card-row-item">Switch Value</div>
+                     <div class="card-row-item-network">VRSC {{estimatedSwitchValueUSDVRSC}} </div>
+                    <div class="card-row-item"> $ {{estimatedSwitchValueUSDVRSC}}</div>
+                </div>
 
-                <div class="card-sub-title">Estimated Switch value</div>
-                <div class="card-sub-title-value">$ {{{estimatedSwitchValue}}}</div>
-                <div class="card-sub-details">VRSC {{estimatedSwitchValueUSDVRSC}} </div>
 
                 {{#each currencySwitchArray}}
                 <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
-                <div class="card-sub-title-value"> {{reserves}} </div>
-                <div class="card-sub-details">Basket: $ {{price}} </div>
-                <div class="card-sub-details">{{coingeckoLabel}}: $ {{coingeckoprice}} </div>
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">Reserve</div>
+                    <div class="card-row-item"> {{reserves}}</div>
+                </div>
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">Basket Price</div>
+                    <div class="card-row-item"> $ {{price}}</div>
+                </div>
+
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">{{coingeckoLabel}} Price</div>
+                    <div class="card-row-item"> $ {{coingeckoprice}} </div>
+                </div>
 
                 {{/each}}
 
@@ -1260,21 +1274,41 @@
                 <div class="card-title">Bridge.vARRR Basket</div>
                 {{#if varrrOnline}}
 
-                <div class="card-sub-title">Estimated reserves value</div>
-                <div class="card-sub-title-main-value">$ {{{estimatedVarrrBridgeReserveValueUSDBTC}}} <span
-                        class="card-sub-title-value-prefix">via BTC</span></div>
-                <div class="card-sub-details">$ {{{estimatedVarrrBridgeReserveValueUSDVRSC}}} via VRSC</div>
-
-                <div class="card-sub-title">Estimated Bridge.vARRR value</div>
-                <div class="card-sub-title-value">$ {{{estimatedVarrrBridgeValueUSD}}}</div>
-                <div class="card-sub-details">VRSC {{estimatedVarrrBridgeValueVRSC}} </div>
+                 <div class="card-row-wrapper">
+                    <div class="card-row-item">Reserves Value</div>
+                    <div class="card-row-item-network">via BTC</div>
+                    <div class="card-row-item"> $ {{{estimatedVarrrBridgeReserveValueUSDBTC}}}</div>
+                </div>
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">Reserves Value</div>
+                    <div class="card-row-item-network">via VRSC</div>
+                    <div class="card-row-item"> $ {{{estimatedVarrrBridgeReserveValueUSDVRSC}}}</div>
+                </div>
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">Bridge.vARRR</div>
+                    <div class="card-row-item-network">VRSC {{estimatedVarrrBridgeValueVRSC}}</div>
+                    <div class="card-row-item"> $ {{{estimatedVarrrBridgeValueUSD}}}</div>
+                </div>
 
                 {{#each currencyVarrrBridgeArray}}
                 <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
-                <div class="card-sub-title-value"> {{reserves}} </div>
-                <div class="card-sub-details">{{pricelabel}} {{priceNative}} </div>
-                <div class="card-sub-details">Basket: $ {{price}} </div>
-                <div class="card-sub-details">{{coingeckoLabel}}: $ {{coingeckoprice}} </div>
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">Reserve</div>
+                    <div class="card-row-item"> {{reserves}}</div>
+                </div>
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">{{pricelabel}} Price</div>
+                    <div class="card-row-item"> {{priceNative}}</div>
+                </div>
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">Basket Price</div>
+                    <div class="card-row-item"> $ {{price}}</div>
+                </div>
+
+                <div class="card-row-wrapper">
+                    <div class="card-row-item">{{coingeckoLabel}} Price</div>
+                    <div class="card-row-item"> $ {{coingeckoprice}} </div>
+                </div>
 
                 {{/each}}
 
