@@ -1,11 +1,10 @@
 require('dotenv').config();
 const { convertToAxisString } = require('../../utils/stringUtil');
 const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState, getCoinSupply } = require("./api/api");
-const { vrscEthBridgeVolume, currencyReserveEthBridge } = require("./ethbridge/ethbridge");
-const { kaijuVolume, currencyReserveKaiju } = require("./kaiju/kaiju");
-const { currencyReservePure, pureVolume } = require("./pure/pure");
-const { vrscSwitchVolume, currencyReserveSwitch } = require("./switch/switch");
-const { calculateCurrencyVolume } = require("./utils/utils");
+const { currencyReserveEthBridge } = require("./ethbridge/ethbridge");
+const { currencyReserveKaiju } = require("./kaiju/kaiju");
+const { currencyReservePure } = require("./pure/pure");
+const { currencyReserveSwitch } = require("./switch/switch");
 
 async function getNodeStatus() {
     let result = {};

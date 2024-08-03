@@ -1,8 +1,6 @@
 require('dotenv').config();
 const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState } = require("./api/api");
-const { vrscVarrrBridgeVolume, currencyReserveVarrrBridge } = require("./varrrbridge/varrrbridge");
-
-const { calculateCurrencyVolume } = require("./utils/utils");
+const { currencyReserveVarrrBridge } = require("./varrrbridge/varrrbridge");
 const { convertToAxisString } = require('../../utils/stringUtil');
 
 async function getVarrrNodeStatus() {
