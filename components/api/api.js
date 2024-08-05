@@ -5,8 +5,6 @@ async function getMiningInfo(baseUrlPath) {
         const getmininginfo = getmininginfoResult.result;
         return getmininginfo;
     } catch (error) {
-        // Handle the error here
-        // console.log("Error fetching mining info:", error);
         return null;
     }
 }
@@ -18,8 +16,6 @@ async function getBlockSubsidy(baseUrlPath, block) {
         const getblocksubsidy = getblocksubsidyResult.result;
         return getblocksubsidy;
     } catch (error) {
-        // Handle the error here
-        // console.log("Error fetching mining info:", error);
         return null;
     }
 }
@@ -31,8 +27,6 @@ async function getBlock(baseUrlPath, block) {
         const getblock = getblockResult.result;
         return getblock;
     } catch (error) {
-        // Handle the error here
-        // console.log("Error fetching mining info:", error);
         return null;
     }
 }
@@ -44,11 +38,20 @@ async function getPeerInfo(baseUrlPath) {
         const getpeerinfo = getpeerinfoResult.result;
         return getpeerinfo;
     } catch (error) {
-        // Handle the error here
-        // console.log("Error fetching mining info:", error);
         return null;
     }
 }
 
+async function getCurrencyState(baseUrlPath, chainname, blockstart, blockend, blockintervals, converttocurrency) {
 
-module.exports = { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo }
+    try {
+        const getcurrencystateResponse = await fetch(baseUrlPath+ "multichain/getcurrencystate/"+chainname+"/"+blockstart+"/"+blockend+"/"+blockintervals+"/"+converttocurrency+"/");
+        const getcurrencystateResult = await getcurrencystateResponse.json();
+        const getcurrencystate = getcurrencystateResult.result;
+        return getcurrencystate;
+    } catch (error) {
+        return null;
+    }
+}
+
+module.exports = { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getCurrencyState }
