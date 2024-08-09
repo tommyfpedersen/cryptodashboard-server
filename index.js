@@ -19,19 +19,44 @@ const { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance,
 const { getCoingeckoPrice } = require('./components/coingecko/coingecko');
 const { getThreeFoldNodeArray } = require('./components/threefold/threefold');
 
+/* RenderData def*/
+// let mainRenderData = {};
+// let priceArray = [];
+// let vrscReserveArray = [];
+
+
+/* cache */
+let cacheReady = false;
+let cacheTime = 20000;
+let cacheTimeStamp = Date.now() + cacheTime;
+
 
 /* dashboard */
 app.get('/', async (req, res) => {
 
   /* page loads */
   pageLoads++;
-  console.log("page loads: ", pageLoads);
+  console.log("page loads: ", new Date().toLocaleString(), pageLoads);
+
+  /* cache */
+  if (cacheTimeStamp < Date.now()) {
+
+    //clear cache
+    cacheTimeStamp = Date.now() + cacheTime;
+    cacheReady = false;
+
+    // clear render data
+    // mainRenderData = {};
+    // priceArray.length = 0;
+    // vrscReserveArray.length = 0;
+
+  }
 
   /* RenderData def*/
   let mainRenderData = {};
   let priceArray = [];
   let vrscReserveArray = [];
-  let vrscPriceData = {};
+
 
   /* Get price from coingecko */
   let coingeckoPriceArray = await getCoingeckoPrice();
@@ -52,6 +77,10 @@ app.get('/', async (req, res) => {
     /* Get block and fee pool rewards */
     const blockandfeepoolrewards = await getBlockAndFeePoolRewards();
     const currentBlock = blockandfeepoolrewards.block;
+
+    if (cacheTimeStamp > Date.now()) {
+
+    }
 
     /* Get bridge.veth volume and reserve info */
     const vrscVolume24Hours = await getCurrencyVolume("bridge.veth", currentBlock - 1440, currentBlock, 60, "DAI.vETH");
@@ -96,16 +125,16 @@ app.get('/', async (req, res) => {
       averageblockfees: blockandfeepoolrewards.averageblockfees,
       totalSupply: Math.round(coinSupply.totalSupply).toLocaleString(),
       circulatingSupply: Math.round(coinSupply.circulatingSupply).toLocaleString(),
-      circulatingSupplyPercentage: (Math.round(coinSupply.circulatingSupplyPercentage*100)/100).toLocaleString(),
+      circulatingSupplyPercentage: (Math.round(coinSupply.circulatingSupplyPercentage * 100) / 100).toLocaleString(),
       marketCap: Math.round(coinSupply.marketCap).toLocaleString(),
       maxSupply: coinSupply.maxSupply.toLocaleString(),
-      fullyDilutedMarketCap:  Math.round(coinSupply.fullyDilutedMarketCap).toLocaleString(),
+      fullyDilutedMarketCap: Math.round(coinSupply.fullyDilutedMarketCap).toLocaleString(),
       stakingAmount: stakingRewards.stakingAmount,
-      stakingPercentage: (Math.round(stakingRewards.stakingPercentage*100)/100).toLocaleString(),
+      stakingPercentage: (Math.round(stakingRewards.stakingPercentage * 100) / 100).toLocaleString(),
       stakingRewardsArray: stakingRewards.stakingArray,
       stakingSupply: Math.round(blockandfeepoolrewards.stakingsupply).toLocaleString(),
-      stakingValue: Math.round(blockandfeepoolrewards.stakingsupply*currencyReserveBridge.vrscBridgePrice).toLocaleString(),
-      stakingAPY: (Math.round(stakingRewards.apy*10000)/100).toLocaleString(),
+      stakingValue: Math.round(blockandfeepoolrewards.stakingsupply * currencyReserveBridge.vrscBridgePrice).toLocaleString(),
+      stakingAPY: (Math.round(stakingRewards.apy * 10000) / 100).toLocaleString(),
       vrscMiningHash: miningRewards.vrscMiningHash,
       miningRewardsArray: miningRewards.miningArray,
       vrscNetworkHash: (Math.round(blockandfeepoolrewards.networkhashps) / 1000000000).toLocaleString(),
@@ -230,7 +259,7 @@ app.get('/', async (req, res) => {
       varrrStakingAmount: varrrStakingRewards.stakingAmount,
       varrrStakingRewardsArray: varrrStakingRewards.stakingArray,
       varrrStakingSupply: Math.round(varrrblockandfeepoolrewards.stakingsupply).toLocaleString(),
-      varrrStakingAPY: (Math.round(varrrStakingRewards.apy*10000)/100).toLocaleString(),
+      varrrStakingAPY: (Math.round(varrrStakingRewards.apy * 10000) / 100).toLocaleString(),
       varrrMiningHash: varrrMiningRewards.varrrMiningHash,
       varrrMiningRewardsArray: varrrMiningRewards.miningArray,
       varrrNetworkHash: (Math.round(varrrblockandfeepoolrewards.networkhashps) / 1000000000).toLocaleString(),
@@ -301,7 +330,7 @@ app.get('/', async (req, res) => {
       vdexStakingAmount: vdexStakingRewards.stakingAmount,
       vdexStakingRewardsArray: vdexStakingRewards.stakingArray,
       vdexStakingSupply: Math.round(vdexblockandfeepoolrewards.stakingsupply).toLocaleString(),
-      vdexStakingAPY: (Math.round(vdexStakingRewards.apy*10000)/100).toLocaleString(),
+      vdexStakingAPY: (Math.round(vdexStakingRewards.apy * 10000) / 100).toLocaleString(),
       vdexMiningHash: vdexMiningRewards.vdexMiningHash,
       vdexMiningRewardsArray: vdexMiningRewards.miningArray,
       vdexNetworkHash: (Math.round(vdexblockandfeepoolrewards.networkhashps) / 1000000000).toLocaleString(),
@@ -362,6 +391,9 @@ app.get('/', async (req, res) => {
   mainRenderData = { ...mainRenderData, ...threeFoldRenderData };
 
   res.render('main', mainRenderData)
+
+  /* cache */
+  cacheReady = true;
 })
 
 /* hbs */
@@ -384,3 +416,4 @@ app.use(express.static(__dirname + "/public", {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`)
 })
+
