@@ -105,6 +105,46 @@ function init() {
         })
     }
 
+    /* verus varrr */
+    let getVdexAddressBalanceElm = document.querySelector("#get-vdex-address-balance");
+    if (getVdexAddressBalanceElm) {
+        getVdexAddressBalanceElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(getVdexAddressBalanceElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('vdexaddress', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
+
+    let vdexStakingElm = document.querySelector("#vdex-staking-amount");
+    if (vdexStakingElm) {
+        vdexStakingElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(vdexStakingElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('vdexstakingamount', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
+
+    let vdexMiningElm = document.querySelector("#vdex-mining-hash");
+    if (vdexMiningElm) {
+        vdexMiningElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(vdexMiningElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('vdexmininghash', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
+
     /* threefold */
     let getThreeFoldNodesElm = document.querySelector("#get-threefold-nodes");
     if (getThreeFoldNodesElm) {
@@ -283,12 +323,16 @@ function initSideMenu() {
                 sideMenuTitleElm = document.createElement("div");
                 sideMenuTitleElm.classList.add("side-menu-title");
 
-                // img or svg
+                // img, text or svg
                 if (elm.getAttribute("data-image") !== null) {
                     let imageElm = document.createElement("img");
                     imageElm.src = elm.getAttribute("data-image");
                     imageElm.width = "16";
                     sideMenuTitleElm.append(imageElm);
+                } else if (elm.getAttribute("data-text") !== null) {
+                    let textElm = document.createElement("span");
+                    textElm.innerHTML = elm.getAttribute("data-text");
+                    sideMenuTitleElm.append(textElm);
                 } else {
                     let svgElm = elm.querySelector("svg");
                     sideMenuTitleElm.append(svgElm);

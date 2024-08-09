@@ -15,6 +15,7 @@ let pageLoads = 0;
 // components
 const { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats } = require('./components/verus/verus');
 const { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve } = require('./components/varrr/varrr');
+const { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance, calculateVdexStakingRewards, calculateVdexMiningRewards, getVdexCurrencyVolume, getVdexCurrencyReserve } = require('./components/vdex/vdex');
 const { getCoingeckoPrice } = require('./components/coingecko/coingecko');
 const { getThreeFoldNodeArray } = require('./components/threefold/threefold');
 
@@ -177,7 +178,7 @@ app.get('/', async (req, res) => {
     // adding to pricingArray
     priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray];
     // adding to reserveArray
-    vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }];
+    vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }];
   } else {
     vrscRenderData = {
       vrscNodeStatus: vrscNodeStatus.online,
@@ -250,7 +251,7 @@ app.get('/', async (req, res) => {
       estimatedVarrrBridgeReserveValueUSDVRSC: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC
     }
     priceArray = [...priceArray, ...varrrRenderData.currencyVarrrBridgeArray];
-    vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vARRR", reserve: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC, via: "VRSC" }];
+    vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vARRR", reserve: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC, via: "via VRSC" }];
   } else {
     varrrRenderData = {
       varrrOnline: varrrNodeStatus.online,
@@ -258,6 +259,78 @@ app.get('/', async (req, res) => {
     }
   }
   mainRenderData = { ...mainRenderData, ...varrrRenderData };
+
+
+  /* Verus vDEX */
+  let vdexRenderData = {};
+  const vdexNodeStatus = await getVdexNodeStatus();
+
+  if (vdexNodeStatus.online === true) {
+
+    /* Get address balance */
+    const vdexAddressBalance = await getVdexAddressBalance(req.query.vdexaddress);
+
+    /* Get block and fee pool rewards */
+    const vdexblockandfeepoolrewards = await getVdexBlockAndFeePoolRewards();
+    const currentBlock = vdexblockandfeepoolrewards.block;
+
+    /* Get bridge.vdex volume and reserve info */
+    const currencyReserveVdexBridge = await getVdexCurrencyReserve("bridge.vdex", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
+    const vdexVolume24Hours = await getVdexCurrencyVolume("bridge.vdex", currentBlock - 1440, currentBlock, 60, "DAI.vETH");
+    const vdexVolume7Days = await getVdexCurrencyVolume("bridge.vdex", currentBlock - 1440 * 7, currentBlock, 1440, "DAI.vETH");
+    const vdexVolume30Days = await getVdexCurrencyVolume("bridge.vdex", currentBlock - 1440 * 30, currentBlock, 1440, "DAI.vETH");
+
+    const vdexBridgePrice = currencyReserveVdexBridge.currencyBridgeArray.find(item => item.currencyName === 'vDEX').price;
+
+    /* Calculate vdex staking rewards */
+    const vdexStakingRewards = await calculateVdexStakingRewards(vdexblockandfeepoolrewards.stakingsupply, req.query.vdexstakingamount, vdexBridgePrice);
+
+    /* Calculate vdex mining rewards */
+    const vdexMiningRewards = await calculateVdexMiningRewards(vdexblockandfeepoolrewards.networkhashps, req.query.vdexmininghash, vdexBridgePrice);
+
+    vdexRenderData = {
+      //vdex
+      vdexOnline: vdexNodeStatus.online,
+      getVdexAddressBalanceArray: vdexAddressBalance.getAddressBalanceArray,
+      getVdexAddress: vdexAddressBalance.verusAddress === "none" ? "" : vdexAddressBalance.verusAddress,
+      vdexblocks: vdexblockandfeepoolrewards.block.toLocaleString(),
+      vdexblockLastSend: vdexblockandfeepoolrewards.blockLastSend,
+      vdexblockReward: vdexblockandfeepoolrewards.blockReward,
+      vdexfeeReward: vdexblockandfeepoolrewards.feeReward,
+      vdexaverageblockfees: vdexblockandfeepoolrewards.averageblockfees,
+      vdexStakingAmount: vdexStakingRewards.stakingAmount,
+      vdexStakingRewardsArray: vdexStakingRewards.stakingArray,
+      vdexStakingSupply: Math.round(vdexblockandfeepoolrewards.stakingsupply).toLocaleString(),
+      vdexStakingAPY: (Math.round(vdexStakingRewards.apy*10000)/100).toLocaleString(),
+      vdexMiningHash: vdexMiningRewards.vdexMiningHash,
+      vdexMiningRewardsArray: vdexMiningRewards.miningArray,
+      vdexNetworkHash: (Math.round(vdexblockandfeepoolrewards.networkhashps) / 1000000000).toLocaleString(),
+      //vdex bridge
+      vdexBridgeVolumeInDollars24Hours: vdexVolume24Hours.totalVolume,
+      vdexBridgeVolumeInDollars24HoursArray: vdexVolume24Hours.volumeArray,
+      vdexBridgeVolumeInDollars24HoursArrayYAxis: vdexVolume24Hours.yAxisArray,
+      vdexBridgeVolumeInDollars7Days: vdexVolume7Days.totalVolume,
+      vdexBridgeVolumeInDollars7DaysArray: vdexVolume7Days.volumeArray,
+      vdexBridgeVolumeInDollars7DaysArrayYAxis: vdexVolume7Days.yAxisArray,
+      vdexBridgeVolumeInDollars30Days: vdexVolume30Days.totalVolume,
+      vdexBridgeVolumeInDollars30DaysArray: vdexVolume30Days.volumeArray,
+      vdexBridgeVolumeInDollars30DaysArrayYAxis: vdexVolume30Days.yAxisArray,
+      currencyVdexBridgeArray: currencyReserveVdexBridge.currencyBridgeArray,
+      estimatedVdexBridgeReserveValue: currencyReserveVdexBridge.estimatedBridgeValue,
+      estimatedVdexBridgeValueUSD: currencyReserveVdexBridge.estimatedBridgeValueUSD,
+      estimatedVdexBridgeValueVRSC: currencyReserveVdexBridge.estimatedBridgeValueVRSC,
+      estimatedVdexBridgeReserveValueUSDBTC: currencyReserveVdexBridge.estimatedBridgeValueUSDBTC,
+      estimatedVdexBridgeReserveValueUSDVRSC: currencyReserveVdexBridge.estimatedBridgeValueUSDVRSC
+    }
+    priceArray = [...priceArray, ...vdexRenderData.currencyVdexBridgeArray];
+    vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vDEX", reserve: currencyReserveVdexBridge.estimatedBridgeValue, via: "" }];
+  } else {
+    vdexRenderData = {
+      vdexOnline: vdexNodeStatus.online,
+      vdexStatusMessage: vdexNodeStatus.statusMessage
+    }
+  }
+  mainRenderData = { ...mainRenderData, ...vdexRenderData };
 
   let btcPriceArray = priceArray.filter(item => item.currencyId === 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU').sort((a, b) => b.price - a.price);
   let ethereumPriceArray = priceArray.filter(item => item.currencyId === 'i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X').sort((a, b) => b.price - a.price);
@@ -267,23 +340,9 @@ app.get('/', async (req, res) => {
 
   vrscReserveArray.sort((a, b) => parseFloat(b.reserve.replace(/,/g, '')) - parseFloat(a.reserve.replace(/,/g, '')));
 
-
-  //let numberValue = parseFloat("12,701,613.72".replace(/,/g, ''));
-
-  // let vrscReserveArray = reserveArray.sort((a, b) => {
-  //   console.log(typeof a.reserve, typeof b.reserve)
-  //   let aReserve = a.reserve;
-  //   let bReserve = Number(b.reserve);
-
-  //   console.log("a: ", Number(aReserve));
-  //   console.log("b: ", b.reserve);
-  //   return b.reserve - a.reserve});
-
-  // vrscReserveArray.map((item) => {
-  //   console.log("vrscReserveArray: ", item.basket, item.reserve, item.via);
-  // });
-
   mainRenderData = { ...mainRenderData, ...{ btcPriceArray, ethereumPriceArray, makerPriceArray, vrscPriceArray, arrrPriceArray, vrscReserveArray } };
+
+
 
   // ThreeFold //
   let threeFoldNodeArray = []
@@ -306,7 +365,7 @@ app.get('/', async (req, res) => {
 })
 
 /* hbs */
-const hbs = require('hbs')
+const hbs = require('hbs');
 app.set('views', './views')
 app.set('view engine', 'hbs')
 

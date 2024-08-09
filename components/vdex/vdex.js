@@ -100,7 +100,10 @@ async function getVdexAddressBalance(address) {
                 getAddressBalanceArray.push({ currencyName: "EURC.vETH", amount: getAddressBalance.currencybalance.iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE })
             }
             if ("iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2" === item) {
-                getAddressBalanceArray.push({ currencyName: "Vdex", amount: getAddressBalance.currencybalance.iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2 })
+                getAddressBalanceArray.push({ currencyName: "vARRR", amount: getAddressBalance.currencybalance.iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2 })
+            }
+            if ("iHog9UCTrn95qpUBFCZ7kKz7qWdMA8MQ6N" === item) {
+                getAddressBalanceArray.push({ currencyName: "vDEX", amount: getAddressBalance.currencybalance.iHog9UCTrn95qpUBFCZ7kKz7qWdMA8MQ6N })
             }
         })
     }
