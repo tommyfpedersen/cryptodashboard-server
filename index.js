@@ -122,10 +122,10 @@ app.get('/', async (req, res) => {
     const natiVolume7Days = await getCurrencyVolume("nati", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
     const natiVolume30Days = await getCurrencyVolume("nati", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
 
-    console.log("currencyReserveNati ",currencyReserveNati)
-    console.log("natiVolume24Hours ",natiVolume24Hours)
-    console.log("natiVolume7Days ",natiVolume7Days)
-    console.log("natiVolume30Days ",natiVolume30Days)
+    // console.log("currencyReserveNati ",currencyReserveNati)
+    // console.log("natiVolume24Hours ",natiVolume24Hours)
+    // console.log("natiVolume7Days ",natiVolume7Days)
+    // console.log("natiVolume30Days ",natiVolume30Days)
 
     vrscRenderData = {
       // Verus
