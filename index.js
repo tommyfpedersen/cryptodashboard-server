@@ -110,11 +110,22 @@ app.get('/', async (req, res) => {
     const pureVolume7Days = await getCurrencyVolume("pure", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
     const pureVolume30Days = await getCurrencyVolume("pure", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
 
-    /* Get pure volume and reserve info */
+    /* Get switch volume and reserve info */
     const currencyReserveSwitch = await getCurrencyReserve("switch", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
     const switchVolume24Hours = await getCurrencyVolume("switch", currentBlock - 1440, currentBlock, 60, "DAI.vETH");
     const switchVolume7Days = await getCurrencyVolume("switch", currentBlock - 1440 * 7, currentBlock, 1440, "DAI.vETH");
     const switchVolume30Days = await getCurrencyVolume("switch", currentBlock - 1440 * 30, currentBlock, 1440, "DAI.vETH");
+
+    /* Get nati volume and reserve info */
+    const currencyReserveNati = await getCurrencyReserve("nati", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
+    const natiVolume24Hours = await getCurrencyVolume("nati", currentBlock - 1440, currentBlock, 60, "vrsc");
+    const natiVolume7Days = await getCurrencyVolume("nati", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
+    const natiVolume30Days = await getCurrencyVolume("nati", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
+
+    console.log("currencyReserveNati ",currencyReserveNati)
+    console.log("natiVolume24Hours ",natiVolume24Hours)
+    console.log("natiVolume7Days ",natiVolume7Days)
+    console.log("natiVolume30Days ",natiVolume30Days)
 
     vrscRenderData = {
       // Verus
@@ -202,12 +213,27 @@ app.get('/', async (req, res) => {
       currencySwitchArray: currencyReserveSwitch.currencySwitchArray,
       estimatedSwitchValue: currencyReserveSwitch.estimatedSwitchValue,
       estimatedSwitchReserveValue: currencyReserveSwitch.estimatedSwitcheReserveValue,
-      estimatedSwitchValueUSDVRSC: currencyReserveSwitch.estimatedSwitchValueUSDVRSC
+      estimatedSwitchValueUSDVRSC: currencyReserveSwitch.estimatedSwitchValueUSDVRSC,
+      // Verus nati
+      currencyVolumeNati24Hours: natiVolume24Hours.totalVolume,
+      currencyVolumeNati24HoursArray: natiVolume24Hours.volumeArray,
+      currencyVolumeNati24HoursArrayYAxis: natiVolume24Hours.yAxisArray,
+      currencyVolumeNati7Days: natiVolume7Days.totalVolume,
+      currencyVolumeNati7DaysArray: natiVolume7Days.volumeArray,
+      currencyVolumeNati7DaysArrayYAxis: natiVolume7Days.yAxisArray,
+      currencyVolumeNati30Days: natiVolume30Days.totalVolume,
+      currencyVolumeNati30DaysArray: natiVolume30Days.volumeArray,
+      currencyVolumeNati30DaysArrayYAxis: natiVolume30Days.yAxisArray,
+      currencyNatiArray: currencyReserveNati.currencyNatiArray,
+      estimatedNatiValueUSD: currencyReserveNati.estimatedNatiValueUSD,
+      estimatedNatiValueVRSC: currencyReserveNati.estimatedNatiValueVRSC,
+      estimatedNatiReserveValueUSDBTC: currencyReserveNati.estimatedNatiValueUSDBTC,
+      estimatedNatiReserveValueUSDVRSC: currencyReserveNati.estimatedNatiValueUSDVRSC
     };
     // adding to pricingArray
-    priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray];
+    priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray, ...vrscRenderData.currencyNatiArray];
     // adding to reserveArray
-    vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }];
+    vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }, { basket: "NATI", reserve: currencyReserveNati.estimatedNatiValueUSDVRSC, via: "via VRSC" }];
   } else {
     vrscRenderData = {
       vrscNodeStatus: vrscNodeStatus.online,

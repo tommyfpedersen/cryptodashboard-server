@@ -3,6 +3,7 @@ const { convertToAxisString } = require('../../utils/stringUtil');
 const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState, getCoinSupply } = require("./api/api");
 const { currencyReserveEthBridge } = require("./ethbridge/ethbridge");
 const { currencyReserveKaiju } = require("./kaiju/kaiju");
+const { currencyReserveNati } = require('./nati/nati');
 const { currencyReservePure } = require("./pure/pure");
 const { currencyReserveSwitch } = require("./switch/switch");
 
@@ -125,6 +126,9 @@ async function getAddressBalance(address) {
             }
             if ("i9kVWKU2VwARALpbXn4RS9zvrhvNRaUibb" === item) {
                 getAddressBalanceArray.push({ currencyName: "Kaiju", amount: getAddressBalance.currencybalance.i9kVWKU2VwARALpbXn4RS9zvrhvNRaUibb })
+            }
+            if ("iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx" === item) {
+                getAddressBalanceArray.push({ currencyName: "NATI.vETH", amount: getAddressBalance.currencybalance.iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx })
             }
         })
     }
@@ -250,6 +254,9 @@ async function getCurrencyReserve(currencyName, priceArray, vrscBridgePrice) {
     }
     if (currencyName === "switch") {
         return currencyReserveSwitch(priceArray, vrscBridgePrice);
+    }
+    if (currencyName === "nati") {
+        return currencyReserveNati(priceArray, vrscBridgePrice);
     }
 }
 

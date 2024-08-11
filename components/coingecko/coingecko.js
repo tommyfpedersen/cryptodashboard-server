@@ -21,7 +21,7 @@ async function getCoingeckoPrice() {
             if (coingeckoPrice.length > 0) {
                 coingeckoPrice.forEach((item) => {
                     if (item.id === "bitcoin") {
-                      //  bitcoinPrice = item.current_price.toLocaleString();
+                        //  bitcoinPrice = item.current_price.toLocaleString();
                         priceArray.push({
                             currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
                             price: item.current_price,
@@ -31,7 +31,7 @@ async function getCoingeckoPrice() {
                         })
                     }
                     if (item.id === "verus-coin") {
-                      //  vrscPrice = item.current_price.toLocaleString();
+                        //  vrscPrice = item.current_price.toLocaleString();
                         priceArray.push({
                             currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
                             price: item.current_price,
@@ -58,7 +58,7 @@ async function getCoingeckoPrice() {
                         })
                     }
                     if (item.id === "ethereum") {
-                       // ethereumPrice = item.current_price.toLocaleString();
+                        // ethereumPrice = item.current_price.toLocaleString();
                         priceArray.push({
                             currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
                             price: item.current_price,
@@ -68,7 +68,7 @@ async function getCoingeckoPrice() {
                         })
                     }
                     if (item.id === "usd-coin") {
-                      //  ethereumPrice = item.current_price.toLocaleString();
+                        //  ethereumPrice = item.current_price.toLocaleString();
                         priceArray.push({
                             currencyId: "i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd",
                             price: item.current_price,
@@ -77,7 +77,7 @@ async function getCoingeckoPrice() {
                         })
                     }
                     if (item.id === "euro-coin") {
-                      //  ethereumPrice = item.current_price.toLocaleString();
+                        //  ethereumPrice = item.current_price.toLocaleString();
                         priceArray.push({
                             currencyId: "iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE",
                             price: item.current_price,
@@ -86,7 +86,7 @@ async function getCoingeckoPrice() {
                         })
                     }
                     if (item.id === "pirate-chain") {
-                      //  ethereumPrice = item.current_price.toLocaleString();
+                        //  ethereumPrice = item.current_price.toLocaleString();
                         priceArray.push({
                             currencyId: "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2",
                             price: item.current_price,
@@ -96,13 +96,21 @@ async function getCoingeckoPrice() {
                         })
                     }
                     if (item.id === "tether") {
-                          priceArray.push({
-                              currencyId: "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY",
-                              price: item.current_price,
-                              name: "usdt",
-                              origin: "Coingecko"
-                          })
-                      }
+                        priceArray.push({
+                            currencyId: "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY",
+                            price: item.current_price,
+                            name: "usdt",
+                            origin: "Coingecko"
+                        })
+                    }
+                    if (item.id === "illuminaticoin") {
+                        priceArray.push({
+                            currencyId: "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx",
+                            price: item.current_price,
+                            name: "nati",
+                            origin: "Coingecko"
+                        })
+                    }
                 })
             }
         }
