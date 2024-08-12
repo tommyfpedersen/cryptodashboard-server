@@ -66,14 +66,14 @@ async function currencyReserveNati(priceArray, vrscBridgePrice) {
                            
 
                             if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                                currency.priceNative = Math.round(NATIvETHReserve / currency.reserves * 100000000) / 100000000 *10000;
+                                currency.priceNative = Math.round(NATIvETHReserve / currency.reserves * 1000) / 1000;
                                 currency.pricelabel = "NATI.vETH";
-                                currency.price = Math.round(NATIvETHCoingeckoPrice * currency.priceNative * 100) / 100;
+                                currency.price = Math.round(NATIvETHCoingeckoPrice * currency.priceNative * 100 *10000) / 100 ;
                             }
                             if (currencyId === "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx") {
-                                currency.priceNative = Math.round(vrscReserve / currency.reserves * 100000000) / 100000000 /10000;
+                                currency.priceNative = (Math.round(vrscReserve / currency.reserves * 100000000) / 100000000 ).toFixed(5);
                                 currency.pricelabel = "VRSC";
-                                currency.price = vrscBridgePrice * currency.priceNative;
+                                currency.price = (vrscBridgePrice * currency.priceNative).toFixed(5);
                             }
                         }
 
@@ -85,7 +85,7 @@ async function currencyReserveNati(priceArray, vrscBridgePrice) {
                                         currency.coingeckoLabel = "Bridge.vETH";
                                     }
                                     if (currencyId === "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx") {
-                                        currency.coingeckoprice = price.price;//Math.round(price.price * 100000000) / 100000000;
+                                        currency.coingeckoprice = (Math.round(price.price * 100000000) / 100000000).toFixed(8);//Math.round(price.price.toFixed(10) * 10000) / 10000;//Math.round(price.price * 100000000) / 100000000;
                                         currency.coingeckoLabel = "Coingecko";
                                     }
                                 }
