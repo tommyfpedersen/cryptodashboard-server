@@ -4,7 +4,7 @@ async function currencyReserveNati(priceArray, vrscBridgePrice) {
     let result = {};
 
     /* NATI reserves */
-    const getcurrencyResponse = await fetch(process.env.VERUS_REST_API+ "multichain/getcurrency/nati");
+    const getcurrencyResponse = await fetch(process.env.VERUS_REST_API + "multichain/getcurrency/nati");
     const getcurrencyResult = await getcurrencyResponse.json();
     const getcurrency = getcurrencyResult.result;
 
@@ -14,6 +14,7 @@ async function currencyReserveNati(priceArray, vrscBridgePrice) {
     let vrscCoingeckoPrice = 0;
     let vrscReserve = 0;
     let natiReserve = 0;
+    let NATIvETHReserve = 0;
     let estimatedNatiValueUSDNATI = 0;
     let estimatedNatiValueUSDVRSC = 0;
     let estimatedNatiValueVRSC = 0;
@@ -62,41 +63,43 @@ async function currencyReserveNati(priceArray, vrscBridgePrice) {
                             currency.origin = "NATI";
                             currency.network = "vrsc";
 
+                           
+
                             if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                                currency.priceNative = Math.round( NATIvETHReserve / currency.reserves * 100000000) / 100000000;
+                                currency.priceNative = Math.round(NATIvETHReserve / currency.reserves * 100000000) / 100000000 *10000;
                                 currency.pricelabel = "NATI.vETH";
-                                currency.price = Math.round( NATIvETHCoingeckoPrice * currency.priceNative * 100) / 100;
+                                currency.price = Math.round(NATIvETHCoingeckoPrice * currency.priceNative * 100) / 100;
                             }
                             if (currencyId === "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx") {
-                                currency.priceNative = Math.round(vrscReserve / currency.reserves * 100) / 100;
+                                currency.priceNative = Math.round(vrscReserve / currency.reserves * 100000000) / 100000000 /10000;
                                 currency.pricelabel = "VRSC";
-                                currency.price = Math.round(vrscBridgePrice * currency.priceNative * 100) / 100;
+                                currency.price = vrscBridgePrice * currency.priceNative;
                             }
                         }
 
                         if (priceArray.length > 0) {
                             priceArray.forEach((price) => {
                                 if (price.currencyId === currencyId) {
-                                    if(currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
+                                    if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                                         currency.coingeckoprice = Math.round(vrscBridgePrice * 100) / 100;
                                         currency.coingeckoLabel = "Bridge.vETH";
                                     }
-                                    if(currencyId === "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx"){
-                                        currency.coingeckoprice = Math.round(price.price * 100) / 100;
+                                    if (currencyId === "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx") {
+                                        currency.coingeckoprice = price.price;//Math.round(price.price * 100000000) / 100000000;
                                         currency.coingeckoLabel = "Coingecko";
-                                    } 
+                                    }
                                 }
                             })
                         }
 
 
                         if (reservesCurrency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                            estimatedNatiValueUSDVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 2 ) ).toLocaleString();
-                            estimatedNatiValueUSD = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 2 / estimatedNatiSupply *100)/ 100).toLocaleString();
-                            estimatedNatiValueVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 2 / estimatedNatiSupply /vrscBridgePrice *100000000)/ 100000000).toLocaleString();
+                            estimatedNatiValueUSDVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 2)).toLocaleString();
+                            estimatedNatiValueUSD = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 2 / estimatedNatiSupply * 100) / 100).toLocaleString();
+                            estimatedNatiValueVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 2 / estimatedNatiSupply / vrscBridgePrice * 100000000) / 100000000).toLocaleString();
                         }
                         if (reservesCurrency.currencyid === "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx") {
-                            estimatedNatiValueUSDBTC = (Math.round(NATIvETHCoingeckoPrice * reservesCurrency.reserves * 2 ) ).toLocaleString();
+                            estimatedNatiValueUSDNATI = (Math.round(NATIvETHCoingeckoPrice * reservesCurrency.reserves * 2 * 10000)).toLocaleString();
                         }
                     })
                     currency.currencyId = currencyId;
@@ -113,11 +116,11 @@ async function currencyReserveNati(priceArray, vrscBridgePrice) {
     })
 
     result.currencyNatiArray = currencyNatiArray;
-    result.estimatedNatiValueUSDBTC = estimatedNatiValueUSDBTC;
+    result.estimatedNatiValueUSDNATI = estimatedNatiValueUSDNATI;
     result.estimatedNatiValueUSDVRSC = estimatedNatiValueUSDVRSC;
     result.estimatedNatiValueUSD = estimatedNatiValueUSD;
     result.estimatedNatiValueVRSC = estimatedNatiValueVRSC;
     return result;
 }
 
-module.exports = { currencyReserveNati}
+module.exports = { currencyReserveNati }

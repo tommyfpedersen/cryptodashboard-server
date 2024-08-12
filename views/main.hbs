@@ -804,6 +804,11 @@
                     <div class="card-row-item-network">via BTC</div>
                     <div class="card-row-item"> $ {{{estimatedNatiReserveValueUSDBTC}}}</div>
                 </div> --}}
+                  <div class="card-row-wrapper">
+                    <div class="card-row-item">Reserves Value</div>
+                    <div class="card-row-item-network">via ETH</div>
+                    <div class="card-row-item"> $ {{{estimatedNatiReserveValueUSDNATI}}}</div>
+                </div>
                 <div class="card-row-wrapper">
                     <div class="card-row-item">Reserves Value</div>
                     <div class="card-row-item-network">via VRSC</div>
@@ -812,7 +817,7 @@
                 <div class="card-row-wrapper">
                     <div class="card-row-item">NATI</div>
                     <div class="card-row-item-network">VRSC {{estimatedNatiValueVRSC}}</div>
-                    <div class="card-row-item"> $ {{{estimatedPureValueUSD}}}</div>
+                    <div class="card-row-item"> $ {{{estimatedNatiValueUSD}}}</div>
                 </div>
 
                 {{#each currencyNatiArray}}
@@ -821,10 +826,10 @@
                     <div class="card-row-item">Reserve</div>
                     <div class="card-row-item"> {{reserves}}</div>
                 </div>
-                {{!-- <div class="card-row-wrapper">
+                <div class="card-row-wrapper">
                     <div class="card-row-item">{{pricelabel}} Price</div>
                     <div class="card-row-item"> {{priceNative}}</div>
-                </div> --}}
+                </div>
                 <div class="card-row-wrapper">
                     <div class="card-row-item">Basket Price</div>
                     <div class="card-row-item"> $ {{price}}</div>

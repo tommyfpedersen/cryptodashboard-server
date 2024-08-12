@@ -227,7 +227,7 @@ app.get('/', async (req, res) => {
       currencyNatiArray: currencyReserveNati.currencyNatiArray,
       estimatedNatiValueUSD: currencyReserveNati.estimatedNatiValueUSD,
       estimatedNatiValueVRSC: currencyReserveNati.estimatedNatiValueVRSC,
-      estimatedNatiReserveValueUSDBTC: currencyReserveNati.estimatedNatiValueUSDBTC,
+      estimatedNatiReserveValueUSDNATI: currencyReserveNati.estimatedNatiValueUSDNATI,
       estimatedNatiReserveValueUSDVRSC: currencyReserveNati.estimatedNatiValueUSDVRSC
     };
     // adding to pricingArray
