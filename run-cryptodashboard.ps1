@@ -1,0 +1,2 @@
+Write-Host "Cryptodashboard loading..."
+invoke-expression 'cmd /c start powershell -NoExit -Command  { write-host "Cryptodashboard running"; set-location "C:\Users\Tommy\apps\cryptodashboard-server\"; node index;}'
