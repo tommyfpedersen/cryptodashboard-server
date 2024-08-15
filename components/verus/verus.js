@@ -91,7 +91,13 @@ async function getAddressBalance(address) {
         let currencyIdArray = Object.keys(getAddressBalance.currencybalance);
 
         currencyIdArray.forEach((item) => {
+
+            if(getAddressBalance.currencybalance < 0.000001){
+                return;
+            }
+
             if ("i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" === item) {
+
                 getAddressBalanceArray.push({ currencyName: "VRSC", amount: getAddressBalance.currencybalance.i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV })
             }
             if ("iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM" === item) {
@@ -101,6 +107,9 @@ async function getAddressBalance(address) {
                 getAddressBalanceArray.push({ currencyName: "MKR.vETH", amount: getAddressBalance.currencybalance.iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4 })
             }
             if ("i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X" === item) {
+                if(  getAddressBalance.currencybalance.i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X < 0.00001){
+                    return;
+                }
                 getAddressBalanceArray.push({ currencyName: "vETH", amount: getAddressBalance.currencybalance.i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X })
             }
             if ("i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx" === item) {
@@ -126,6 +135,9 @@ async function getAddressBalance(address) {
             }
             if ("i9kVWKU2VwARALpbXn4RS9zvrhvNRaUibb" === item) {
                 getAddressBalanceArray.push({ currencyName: "Kaiju", amount: getAddressBalance.currencybalance.i9kVWKU2VwARALpbXn4RS9zvrhvNRaUibb })
+            }
+            if ("iRt7tpLewArQnRddBVFARGKJStK6w5pDmC" === item) {
+                getAddressBalanceArray.push({ currencyName: "NATI", amount: getAddressBalance.currencybalance.iRt7tpLewArQnRddBVFARGKJStK6w5pDmC })
             }
             if ("iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx" === item) {
                 getAddressBalanceArray.push({ currencyName: "NATI.vETH", amount: getAddressBalance.currencybalance.iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx })
