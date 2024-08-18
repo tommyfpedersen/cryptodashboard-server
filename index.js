@@ -56,6 +56,7 @@ app.get('/', async (req, res) => {
   let mainRenderData = {};
   let priceArray = [];
   let vrscReserveArray = [];
+  let vrsc24HVolumeArray = [];
 
 
   /* Get price from coingecko */
@@ -234,6 +235,14 @@ app.get('/', async (req, res) => {
     priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray, ...vrscRenderData.currencyNatiArray];
     // adding to reserveArray
     vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }, { basket: "NATI", reserve: currencyReserveNati.estimatedNatiValueUSDVRSC, via: "via VRSC" }];
+    // console.log("parse nati: ", parseFloat((natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice);
+    // console.log("parse vrsc: ", (parseFloat((natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice).toLocaleString());
+    // adding to 24H volume array
+    vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vETH", volume: vrscVolume24Hours.totalVolume, via: "" }, 
+      { basket: "Kaiju", volume: kaijuVolume24Hours.totalVolume, via: "" }, 
+      { basket: "Pure", volume: ((Math.round(parseFloat((pureVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice)*100)/100).toLocaleString(), via: "via VRSC" }, 
+      { basket: "Switch", volume: switchVolume24Hours.totalVolume, via: "" }, 
+      { basket: "NATI", volume: ((Math.round(parseFloat((natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice)*100)/100).toLocaleString(), via: "via VRSC" }]
   } else {
     vrscRenderData = {
       vrscNodeStatus: vrscNodeStatus.online,
@@ -315,7 +324,6 @@ app.get('/', async (req, res) => {
   }
   mainRenderData = { ...mainRenderData, ...varrrRenderData };
 
-
   /* Verus vDEX */
   let vdexRenderData = {};
   const vdexNodeStatus = await getVdexNodeStatus();
@@ -394,9 +402,9 @@ app.get('/', async (req, res) => {
   let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
 
   vrscReserveArray.sort((a, b) => parseFloat(b.reserve.replace(/,/g, '')) - parseFloat(a.reserve.replace(/,/g, '')));
+  vrsc24HVolumeArray.sort((a, b) => parseFloat(b.volume.replace(/,/g, '')) - parseFloat(a.volume.replace(/,/g, '')));
 
-  mainRenderData = { ...mainRenderData, ...{ btcPriceArray, ethereumPriceArray, makerPriceArray, vrscPriceArray, arrrPriceArray, vrscReserveArray } };
-
+  mainRenderData = { ...mainRenderData, ...{ btcPriceArray, ethereumPriceArray, makerPriceArray, vrscPriceArray, arrrPriceArray, vrscReserveArray, vrsc24HVolumeArray } };
 
 
   // ThreeFold //
