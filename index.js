@@ -316,6 +316,7 @@ app.get('/', async (req, res) => {
     }
     priceArray = [...priceArray, ...varrrRenderData.currencyVarrrBridgeArray];
     vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vARRR", reserve: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC, via: "via VRSC" }];
+    vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vARRR", volume: ((Math.round(parseFloat((varrrVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice)*100)/100).toLocaleString(), via: "via VRSC" }]
   } else {
     varrrRenderData = {
       varrrOnline: varrrNodeStatus.online,
@@ -387,6 +388,7 @@ app.get('/', async (req, res) => {
     }
     priceArray = [...priceArray, ...vdexRenderData.currencyVdexBridgeArray];
     vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vDEX", reserve: currencyReserveVdexBridge.estimatedBridgeValue, via: "" }];
+    vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vDEX", volume: ((Math.round(parseFloat((vdexVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice)*100)/100).toLocaleString(), via: "via VRSC" }]
   } else {
     vdexRenderData = {
       vdexOnline: vdexNodeStatus.online,
