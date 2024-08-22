@@ -121,7 +121,7 @@ async function calculateVdexStakingRewards(stakingsupply, stakingAmountUnencoded
         stakingAmount = 100;
     }
     result.stakingAmount = stakingAmount;
-    let apy = 720 * 0.08 * 365 / stakingsupply;
+    let apy = 720 * 0.00777 * 365 / stakingsupply;
     result.apy = apy;
 
     let stakingRewardsDaily = {
