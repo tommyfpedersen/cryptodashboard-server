@@ -237,12 +237,15 @@ app.get('/', async (req, res) => {
     vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }, { basket: "NATI", reserve: currencyReserveNati.estimatedNatiValueUSDVRSC, via: "via VRSC" }];
     // console.log("parse nati: ", parseFloat((natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice);
     // console.log("parse vrsc: ", (parseFloat((natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice).toLocaleString());
+     console.log("parse nati: ", natiVolume24Hours.totalVolume, currencyReserveBridge.vrscBridgePrice);
+     console.log(natiVolume24Hours.totalVolume === 0 ? 0 : ((Math.round(parseFloat((natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice)*100)/100).toLocaleString() );
     // adding to 24H volume array
     vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vETH", volume: vrscVolume24Hours.totalVolume, via: "" }, 
       { basket: "Kaiju", volume: kaijuVolume24Hours.totalVolume, via: "" }, 
       { basket: "Pure", volume: ((Math.round(parseFloat((pureVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice)*100)/100).toLocaleString(), via: "via VRSC" }, 
       { basket: "Switch", volume: switchVolume24Hours.totalVolume, via: "" }, 
-      { basket: "NATI", volume: ((Math.round(parseFloat((natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice)*100)/100).toLocaleString(), via: "via VRSC" }]
+     // { basket: "NATI", volume: natiVolume24Hours.totalVolume === 0 ? 0 : ((Math.round(parseFloat((natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice)*100)/100).toLocaleString(), via: "via VRSC" }
+    ]
   } else {
     vrscRenderData = {
       vrscNodeStatus: vrscNodeStatus.online,
