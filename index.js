@@ -1,10 +1,11 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 /* express */
-const express = require('express');
+import express from 'express';
 const app = express();
 const PORT = process.env.PORT || 3000;
-const cors = require('cors');
+import cors from 'cors';
 app.use(express.json());
 app.use(cors({
   origin: 'cryptodashboard.faldt.net' // <-- which domains can access this API
@@ -12,7 +13,10 @@ app.use(cors({
 
 let pageLoads = 0;
 
+
 // components
+import { writeToCache, readFromCache } from './components/cache/cache.js';
+
 const { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats } = require('./components/verus/verus');
 const { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve } = require('./components/varrr/varrr');
 const { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance, calculateVdexStakingRewards, calculateVdexMiningRewards, getVdexCurrencyVolume, getVdexCurrencyReserve } = require('./components/vdex/vdex');
@@ -27,7 +31,7 @@ const { getThreeFoldNodeArray } = require('./components/threefold/threefold');
 
 /* cache */
 let cacheReady = false;
-let cacheTime = 20000;
+let cacheTime = 30000;
 let cacheTimeStamp = Date.now() + cacheTime;
 
 
@@ -45,12 +49,26 @@ app.get('/', async (req, res) => {
     cacheTimeStamp = Date.now() + cacheTime;
     cacheReady = false;
 
+    console.log("clear cache");
+
     // clear render data
     // mainRenderData = {};
     // priceArray.length = 0;
     // vrscReserveArray.length = 0;
 
   }
+
+  // check if there are user inputs and then call the functions and add the data to mainRenderData
+
+
+  if (cacheReady) {
+     console.log("cache load ");
+    const cacheData = await readFromCache('cache.json');
+    res.render('main', cacheData);
+    return;
+  }
+
+  console.log("normal load");
 
   /* RenderData def*/
   let mainRenderData = {};
@@ -420,10 +438,14 @@ app.get('/', async (req, res) => {
 
   /* cache */
   cacheReady = true;
+  console.log("write cache");
+  writeToCache('cache.json', mainRenderData);
 })
 
 /* hbs */
 const hbs = require('hbs');
+
+
 app.set('views', './views')
 app.set('view engine', 'hbs')
 
