@@ -1,0 +1,20 @@
+<div class="card" id="prices-card-ethereum">
+    <img width="16px" src="/img/ethereum.webp" />
+    <button class="hide-button">x</button>
+    <div class="card-content">
+        <div class="card-title">Ethereum</div>
+        {{#if vrscOnline}}
+        {{#each ethereumPriceArray}}
+        <div class="card-row-wrapper">
+            <div class="card-row-item">{{{origin}}}</div>
+            <div class="card-row-item-network">{{{network}}}</div>
+            <div class="card-row-item">
+                $ {{{price}}}
+            </div>
+        </div>
+        {{/each}}
+        {{else}}
+        {{{vrscStatusMessage}}}
+        {{/if}}
+    </div>
+</div>

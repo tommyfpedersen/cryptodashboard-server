@@ -447,18 +447,22 @@ app.get('/', async (req, res) => {
 
 /* hbs */
 import hbs from 'hbs';
-
+import path from 'path';
+const __dirname = path.resolve();
 
 app.set('views', './views')
 app.set('view engine', 'hbs')
+
+// Register the partials
+hbs.registerPartials(path.join(__dirname, 'views', 'partials'));
 
 hbs.registerHelper('ifEquals', function (arg1, arg2, options) {
   return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
 
-import path from 'path';
 
-const __dirname = path.resolve();
+
+
 app.use(express.static(path.join(__dirname, 'public'), {
   index: false,
   immutable: true,
