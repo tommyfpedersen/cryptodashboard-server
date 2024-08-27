@@ -18,20 +18,19 @@ let pageLoads = 0;
 import { writeToCache, readFromCache } from './components/cache/cache.js';
 
 import { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats } from './components/verus/verus.js';
-import { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve } from'./components/varrr/varrr.js';
+import { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve } from './components/varrr/varrr.js';
 import { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance, calculateVdexStakingRewards, calculateVdexMiningRewards, getVdexCurrencyVolume, getVdexCurrencyReserve } from './components/vdex/vdex.js';
 import { getCoingeckoPrice } from './components/coingecko/coingecko.js';
 import { getThreeFoldNodeArray } from './components/threefold/threefold.js';
 
-/* RenderData def*/
-// let mainRenderData = {};
-// let priceArray = [];
-// let vrscReserveArray = [];
+
+/* websocket cache play */
+/* front cache and back cache - front and back buffer - overwrite when back buffer is ready and run backbuffer job with interval of 60 sec */ 
 
 
 /* cache */
 let cacheReady = false;
-let cacheTime = 30000;
+let cacheTime = 60000;
 let cacheTimeStamp = Date.now() + cacheTime;
 
 
@@ -48,27 +47,19 @@ app.get('/', async (req, res) => {
     //clear cache
     cacheTimeStamp = Date.now() + cacheTime;
     cacheReady = false;
-
-    console.log("clear cache");
-
-    // clear render data
-    // mainRenderData = {};
-    // priceArray.length = 0;
-    // vrscReserveArray.length = 0;
-
   }
 
-  // check if there are user inputs and then call the functions and add the data to mainRenderData
-
+  /*  if user input - no cache  */
+  if (req.query.address || req.query.vrscstakingamount || req.query.vrscmininghash || req.query.varrraddress || req.query.varrrstakingamount || req.query.varrrmininghash || req.query.vdexstakingamount || req.query.vdexmininghash) {
+    cacheReady = false;
+  }
 
   if (cacheReady) {
-     console.log("cache load ");
     const cacheData = await readFromCache('cache.json');
+
     res.render('main', cacheData);
     return;
   }
-
-  console.log("normal load");
 
   /* RenderData def*/
   let mainRenderData = {};
@@ -255,14 +246,14 @@ app.get('/', async (req, res) => {
     vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }, { basket: "NATI", reserve: currencyReserveNati.estimatedNatiValueUSDVRSC, via: "via VRSC" }];
     // console.log("parse nati: ", parseFloat((natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice);
     // console.log("parse vrsc: ", (parseFloat((natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice).toLocaleString());
-  //   console.log("parse nati: ", natiVolume24Hours.totalVolume, currencyReserveBridge.vrscBridgePrice);
-   //  console.log( ((Math.round(parseFloat((natiVolume24Hours.totalVolume === 0 ? "0" : natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice)*100)/100).toLocaleString() );
+    //   console.log("parse nati: ", natiVolume24Hours.totalVolume, currencyReserveBridge.vrscBridgePrice);
+    //  console.log( ((Math.round(parseFloat((natiVolume24Hours.totalVolume === 0 ? "0" : natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice)*100)/100).toLocaleString() );
     // adding to 24H volume array
-    vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vETH", volume: vrscVolume24Hours.totalVolume, via: "" }, 
-      { basket: "Kaiju", volume: kaijuVolume24Hours.totalVolume, via: "" }, 
-      { basket: "Pure", volume: ((Math.round(parseFloat((pureVolume24Hours.totalVolume === 0 ? "0" : pureVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice)*100)/100).toLocaleString(), via: "via VRSC" }, 
-      { basket: "Switch", volume: switchVolume24Hours.totalVolume, via: "" }, 
-      { basket: "NATI", volume: ((Math.round(parseFloat(( natiVolume24Hours.totalVolume === 0 ? "0" : natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice)*100)/100).toLocaleString(), via: "via VRSC" }
+    vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vETH", volume: vrscVolume24Hours.totalVolume, via: "" },
+    { basket: "Kaiju", volume: kaijuVolume24Hours.totalVolume, via: "" },
+    { basket: "Pure", volume: ((Math.round(parseFloat((pureVolume24Hours.totalVolume === 0 ? "0" : pureVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+    { basket: "Switch", volume: switchVolume24Hours.totalVolume, via: "" },
+    { basket: "NATI", volume: ((Math.round(parseFloat((natiVolume24Hours.totalVolume === 0 ? "0" : natiVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }
     ]
   } else {
     vrscRenderData = {
@@ -337,7 +328,7 @@ app.get('/', async (req, res) => {
     }
     priceArray = [...priceArray, ...varrrRenderData.currencyVarrrBridgeArray];
     vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vARRR", reserve: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC, via: "via VRSC" }];
-    vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vARRR", volume: ((Math.round(parseFloat((varrrVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice)*100)/100).toLocaleString(), via: "via VRSC" }]
+    vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vARRR", volume: ((Math.round(parseFloat((varrrVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }]
   } else {
     varrrRenderData = {
       varrrOnline: varrrNodeStatus.online,
@@ -451,7 +442,6 @@ app.get('/', async (req, res) => {
 
   /* cache */
   cacheReady = true;
-  console.log("write cache");
   writeToCache('cache.json', mainRenderData);
 })
 
