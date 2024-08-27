@@ -1,13 +1,15 @@
-require('dotenv').config();
-const { convertToAxisString } = require('../../utils/stringUtil');
-const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState, getCoinSupply } = require("./api/api");
-const { currencyReserveEthBridge } = require("./ethbridge/ethbridge");
-const { currencyReserveKaiju } = require("./kaiju/kaiju");
-const { currencyReserveNati } = require('./nati/nati');
-const { currencyReservePure } = require("./pure/pure");
-const { currencyReserveSwitch } = require("./switch/switch");
+import dotenv from 'dotenv';
+dotenv.config();
 
-async function getNodeStatus() {
+import { convertToAxisString } from '../../utils/stringUtil.js';
+import { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState, getCoinSupply } from "./api/api.js";
+import { currencyReserveEthBridge } from "./ethbridge/ethbridge.js";
+import { currencyReserveKaiju } from "./kaiju/kaiju.js";
+import { currencyReserveNati } from './nati/nati.js';
+import { currencyReservePure } from "./pure/pure.js";
+import { currencyReserveSwitch } from "./switch/switch.js";
+
+export async function getNodeStatus() {
     let result = {};
     const mininginfo = await getMiningInfo();
     result.online = false;
@@ -19,7 +21,7 @@ async function getNodeStatus() {
     return result;
 }
 
-async function getBlockAndFeePoolRewards() {
+export async function getBlockAndFeePoolRewards() {
     let result = {};
     result.blockLastSend = "";
     result.block = 0;
@@ -47,7 +49,7 @@ async function getBlockAndFeePoolRewards() {
     return result;
 }
 
-async function getMarketCapStats(block, vrscPrice) {
+export async function getMarketCapStats(block, vrscPrice) {
     let result = {};
     let totalSupply = null;
     let maxSupply = 83540184;
@@ -65,8 +67,8 @@ async function getMarketCapStats(block, vrscPrice) {
     return result;
 }
 
-async function getAddressBalance(address) {
-    result = {};
+export async function getAddressBalance(address) {
+    let result = {};
     let getAddressBalanceArray = [];
     let getAddressBalance = {};
     let verusAddress = "";
@@ -92,7 +94,7 @@ async function getAddressBalance(address) {
 
         currencyIdArray.forEach((item) => {
 
-            if(getAddressBalance.currencybalance < 0.000001){
+            if (getAddressBalance.currencybalance < 0.000001) {
                 return;
             }
 
@@ -107,7 +109,7 @@ async function getAddressBalance(address) {
                 getAddressBalanceArray.push({ currencyName: "MKR.vETH", amount: getAddressBalance.currencybalance.iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4 })
             }
             if ("i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X" === item) {
-                if(  getAddressBalance.currencybalance.i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X < 0.00001){
+                if (getAddressBalance.currencybalance.i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X < 0.00001) {
                     return;
                 }
                 getAddressBalanceArray.push({ currencyName: "vETH", amount: getAddressBalance.currencybalance.i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X })
@@ -149,16 +151,15 @@ async function getAddressBalance(address) {
     return result;
 }
 
-async function calculateStakingRewards(totalSupply, stakingsupply, stakingAmountUnencoded, vrscPrice) {
+export async function calculateStakingRewards(totalSupply, stakingsupply, stakingAmountUnencoded, vrscPrice) {
     let result = {};
     let stakingArray = [];
+    let stakingAmount = 100;
     if (stakingAmountUnencoded) {
         stakingAmount = decodeURIComponent(stakingAmountUnencoded);
-    } else {
-        stakingAmount = 100;
     }
     result.stakingAmount = stakingAmount;
-    result.stakingPercentage = stakingsupply / totalSupply *100;
+    result.stakingPercentage = stakingsupply / totalSupply * 100;
     let apy = 720 * 6 * 365 / stakingsupply;
     result.apy = apy;
 
@@ -184,13 +185,12 @@ async function calculateStakingRewards(totalSupply, stakingsupply, stakingAmount
 
     return result;
 }
-async function calculateMiningRewards(networkHashPerSecond, vrscMiningHashUnencoded, vrscPrice) {
+export async function calculateMiningRewards(networkHashPerSecond, vrscMiningHashUnencoded, vrscPrice) {
     let result = {};
     let miningArray = [];
+    let vrscMiningHash = 1;
     if (vrscMiningHashUnencoded) {
         vrscMiningHash = decodeURIComponent(vrscMiningHashUnencoded);
-    } else {
-        vrscMiningHash = 1;
     }
 
     result.vrscMiningHash = vrscMiningHash;
@@ -220,7 +220,7 @@ async function calculateMiningRewards(networkHashPerSecond, vrscMiningHashUnenco
     return result;
 }
 
-async function getCurrencyVolume(currencyName, fromBlock, toBlock, interval, converttocurrency) {
+export async function getCurrencyVolume(currencyName, fromBlock, toBlock, interval, converttocurrency) {
     let result = {};
     let totalVolume = 0;
     let volumeArray = [];
@@ -254,7 +254,7 @@ async function getCurrencyVolume(currencyName, fromBlock, toBlock, interval, con
     return result;
 }
 
-async function getCurrencyReserve(currencyName, priceArray, vrscBridgePrice) {
+export async function getCurrencyReserve(currencyName, priceArray, vrscBridgePrice) {
     if (currencyName === "bridge.veth") {
         return currencyReserveEthBridge(priceArray);
     }
@@ -271,5 +271,3 @@ async function getCurrencyReserve(currencyName, priceArray, vrscBridgePrice) {
         return currencyReserveNati(priceArray, vrscBridgePrice);
     }
 }
-
-module.exports = { getNodeStatus, getBlockAndFeePoolRewards, getMarketCapStats, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve };

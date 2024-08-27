@@ -1,10 +1,11 @@
-require('dotenv').config();
-const { saveVolumeDataToFile, getVolumeDataFromFile } = require("../cache/cache");
+import dotenv from 'dotenv';
+dotenv.config();
+// import { saveVolumeDataToFile, getVolumeDataFromFile } from "../cache/cache.js";
 
 let volumeInDollarsArrayLoadFromCache = false;
 
 
-async function currencyReserveEthBridge(priceArray) {
+export async function currencyReserveEthBridge(priceArray) {
     let result = {};
 
     /* VRSC-ETH Bridge reserves */
@@ -100,5 +101,3 @@ async function currencyReserveEthBridge(priceArray) {
     result.estimatedBridgeValueVRSC = estimatedBridgeValueVRSC;
     return result;
 }
-
-module.exports = { currencyReserveEthBridge}

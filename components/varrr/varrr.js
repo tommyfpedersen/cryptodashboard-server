@@ -1,9 +1,11 @@
-require('dotenv').config();
-const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState } = require("./api/api");
-const { currencyReserveVarrrBridge } = require("./varrrbridge/varrrbridge");
-const { convertToAxisString } = require('../../utils/stringUtil');
+import dotenv from 'dotenv';
+dotenv.config();
 
-async function getVarrrNodeStatus() {
+import { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState } from "./api/api.js";
+import { currencyReserveVarrrBridge }  from "./varrrbridge/varrrbridge.js";
+import { convertToAxisString }  from'../../utils/stringUtil.js';
+
+export async function getVarrrNodeStatus() {
     let result = {};
     const mininginfo = await getMiningInfo();
     result.online = false;
@@ -15,7 +17,7 @@ async function getVarrrNodeStatus() {
     return result;
 }
 
-async function getVarrrBlockAndFeePoolRewards() {
+export async function getVarrrBlockAndFeePoolRewards() {
     let result = {};
     result.blockLastSend = "";
     result.block = 0;
@@ -42,8 +44,8 @@ async function getVarrrBlockAndFeePoolRewards() {
     return result;
 }
 
-async function getVarrrAddressBalance(address) {
-    result = {};
+export async function getVarrrAddressBalance(address) {
+    let result = {};
     let getAddressBalanceArray = [];
     let getAddressBalance = {};
     let verusAddress = "";
@@ -109,14 +111,13 @@ async function getVarrrAddressBalance(address) {
     return result;
 }
 
-async function calculateVarrrStakingRewards(stakingsupply, stakingAmountUnencoded, vrscPrice) {
+export async function calculateVarrrStakingRewards(stakingsupply, stakingAmountUnencoded, vrscPrice) {
     let result = {};
     let stakingArray = [];
+    let  stakingAmount = 100;
     if (stakingAmountUnencoded) {
         stakingAmount = decodeURIComponent(stakingAmountUnencoded);
-    } else {
-        stakingAmount = 100;
-    }
+    } 
     result.stakingAmount = stakingAmount;
     let apy = 720 * 0.08 * 365 / stakingsupply;
     result.apy = apy;
@@ -143,13 +144,12 @@ async function calculateVarrrStakingRewards(stakingsupply, stakingAmountUnencode
 
     return result;
 }
-async function calculateVarrrMiningRewards(networkHashPerSecond, varrrMiningHashUnencoded, varrrPrice) {
+export async function calculateVarrrMiningRewards(networkHashPerSecond, varrrMiningHashUnencoded, varrrPrice) {
     let result = {};
     let miningArray = [];
+    let varrrMiningHash = 1;
     if (varrrMiningHashUnencoded) {
         varrrMiningHash = decodeURIComponent(varrrMiningHashUnencoded);
-    } else {
-        varrrMiningHash = 1;
     }
 
     result.varrrMiningHash = varrrMiningHash;
@@ -178,7 +178,7 @@ async function calculateVarrrMiningRewards(networkHashPerSecond, varrrMiningHash
 
     return result;
 }
-async function getVarrrCurrencyVolume(currencyName, fromBlock, toBlock, interval, converttocurrency) {
+export async function getVarrrCurrencyVolume(currencyName, fromBlock, toBlock, interval, converttocurrency) {
     let result = {};
     let totalVolume = 0;
     let volumeArray = [];
@@ -212,10 +212,8 @@ async function getVarrrCurrencyVolume(currencyName, fromBlock, toBlock, interval
     return result;
 }
 
-async function getVarrrCurrencyReserve(currencyName, priceArray, vrscBridgePrice, estimatedBridgeValueUSD) {
+export async function getVarrrCurrencyReserve(currencyName, priceArray, vrscBridgePrice, estimatedBridgeValueUSD) {
     if (currencyName === "bridge.varrr") {
         return currencyReserveVarrrBridge(priceArray, vrscBridgePrice, estimatedBridgeValueUSD);
     }
 }
-
-module.exports = { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve };

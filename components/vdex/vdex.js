@@ -1,9 +1,11 @@
-require('dotenv').config();
-const { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState } = require("./api/api");
-const { currencyReserveVdexBridge } = require("./vdexbridge/vdexbridge");
-const { convertToAxisString } = require('../../utils/stringUtil');
+import dotenv from 'dotenv';
+dotenv.config();
 
-async function getVdexNodeStatus() {
+import { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState } from "./api/api.js";
+import { currencyReserveVdexBridge } from "./vdexbridge/vdexbridge.js";
+import { convertToAxisString } from '../../utils/stringUtil.js';
+
+export async function getVdexNodeStatus() {
     let result = {};
     const mininginfo = await getMiningInfo();
     result.online = false;
@@ -15,7 +17,7 @@ async function getVdexNodeStatus() {
     return result;
 }
 
-async function getVdexBlockAndFeePoolRewards() {
+export async function getVdexBlockAndFeePoolRewards() {
     let result = {};
     result.blockLastSend = "";
     result.block = 0;
@@ -42,8 +44,8 @@ async function getVdexBlockAndFeePoolRewards() {
     return result;
 }
 
-async function getVdexAddressBalance(address) {
-    result = {};
+export async function getVdexAddressBalance(address) {
+    let result = {};
     let getAddressBalanceArray = [];
     let getAddressBalance = {};
     let verusAddress = "";
@@ -112,14 +114,14 @@ async function getVdexAddressBalance(address) {
     return result;
 }
 
-async function calculateVdexStakingRewards(stakingsupply, stakingAmountUnencoded, vrscPrice) {
+export async function calculateVdexStakingRewards(stakingsupply, stakingAmountUnencoded, vrscPrice) {
     let result = {};
     let stakingArray = [];
+    let stakingAmount = 100;
     if (stakingAmountUnencoded) {
         stakingAmount = decodeURIComponent(stakingAmountUnencoded);
-    } else {
-        stakingAmount = 100;
-    }
+    } 
+
     result.stakingAmount = stakingAmount;
     let apy = 720 * 0.00777 * 365 / stakingsupply;
     result.apy = apy;
@@ -146,13 +148,12 @@ async function calculateVdexStakingRewards(stakingsupply, stakingAmountUnencoded
 
     return result;
 }
-async function calculateVdexMiningRewards(networkHashPerSecond, vdexMiningHashUnencoded, vdexPrice) {
+export async function calculateVdexMiningRewards(networkHashPerSecond, vdexMiningHashUnencoded, vdexPrice) {
     let result = {};
     let miningArray = [];
+    let vdexMiningHash = 1;
     if (vdexMiningHashUnencoded) {
         vdexMiningHash = decodeURIComponent(vdexMiningHashUnencoded);
-    } else {
-        vdexMiningHash = 1;
     }
 
     result.vdexMiningHash = vdexMiningHash;
@@ -181,7 +182,7 @@ async function calculateVdexMiningRewards(networkHashPerSecond, vdexMiningHashUn
 
     return result;
 }
-async function getVdexCurrencyVolume(currencyName, fromBlock, toBlock, interval, converttocurrency) {
+export async function getVdexCurrencyVolume(currencyName, fromBlock, toBlock, interval, converttocurrency) {
     let result = {};
     let totalVolume = 0;
     let volumeArray = [];
@@ -215,10 +216,8 @@ async function getVdexCurrencyVolume(currencyName, fromBlock, toBlock, interval,
     return result;
 }
 
-async function getVdexCurrencyReserve(currencyName, priceArray, vrscBridgePrice, estimatedBridgeValueUSD) {
+export async function getVdexCurrencyReserve(currencyName, priceArray, vrscBridgePrice, estimatedBridgeValueUSD) {
     if (currencyName === "bridge.vdex") {
         return currencyReserveVdexBridge(priceArray, vrscBridgePrice, estimatedBridgeValueUSD);
     }
 }
-
-module.exports = { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance, calculateVdexStakingRewards, calculateVdexMiningRewards, getVdexCurrencyVolume, getVdexCurrencyReserve };

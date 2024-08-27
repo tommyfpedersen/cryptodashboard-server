@@ -1,5 +1,7 @@
-require('dotenv').config();
-async function getMiningInfo() {
+import dotenv from 'dotenv';
+dotenv.config();
+
+export async function getMiningInfo() {
     try {
         const getmininginfoResponse = await fetch(process.env.VERUS_REST_API+ "mining/getmininginfo")
         const getmininginfoResult = await getmininginfoResponse.json();
@@ -12,7 +14,7 @@ async function getMiningInfo() {
     }
 }
 
-async function getCoinSupply(block) {
+export async function getCoinSupply(block) {
     try {
         const getcoinsupplyResponse = await fetch(process.env.VERUS_REST_API+ "blockchain/coinsupply/" + block);
         const getcoinsupplyResult = await getcoinsupplyResponse.json();
@@ -25,7 +27,7 @@ async function getCoinSupply(block) {
     }
 }
 
-async function getBlockSubsidy(block) {
+export async function getBlockSubsidy(block) {
     try {
         const getblocksubsidyResponse = await fetch(process.env.VERUS_REST_API+ "mining/getblocksubsidy/" + block);
         const getblocksubsidyResult = await getblocksubsidyResponse.json();
@@ -38,7 +40,7 @@ async function getBlockSubsidy(block) {
     }
 }
 
-async function getBlock(block) {
+export async function getBlock(block) {
     try {
         const getblockResponse = await fetch(process.env.VERUS_REST_API+ "blockchain/getblock/" + block);
         const getblockResult = await getblockResponse.json();
@@ -51,7 +53,7 @@ async function getBlock(block) {
     }
 }
 
-async function getPeerInfo() {
+export async function getPeerInfo() {
     try {
         const getpeerinfoResponse = await fetch(process.env.VERUS_REST_API+ "network/getpeerinfo/");
         const getpeerinfoResult = await getpeerinfoResponse.json();
@@ -63,7 +65,7 @@ async function getPeerInfo() {
         return null;
     }
 }
-async function getCurrencyState(chainname, blockstart, blockend, blockintervals, converttocurrency) {
+export async function getCurrencyState(chainname, blockstart, blockend, blockintervals, converttocurrency) {
 
     try {
         const getcurrencystateResponse = await fetch(process.env.VERUS_REST_API+ "multichain/getcurrencystate/"+chainname+"/"+blockstart+"/"+blockend+"/"+blockintervals+"/"+converttocurrency+"/");
@@ -76,6 +78,3 @@ async function getCurrencyState(chainname, blockstart, blockend, blockintervals,
         return null;
     }
 }
-
-
-module.exports = { getMiningInfo, getCoinSupply, getBlockSubsidy, getBlock, getPeerInfo, getCurrencyState }

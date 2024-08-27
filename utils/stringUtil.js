@@ -1,4 +1,4 @@
-function convertToAxisString(value) {
+export function convertToAxisString(value) {
     value = parseInt(value);
     const valueLength = value.toString().length;
     let convertString = value;
@@ -37,9 +37,7 @@ function convertToAxisString(value) {
     return convertString;
 }
 
-function convertCurrencyVolumeFromBitcoinToDollars(volume, bitcoin) {
+export function convertCurrencyVolumeFromBitcoinToDollars(volume, bitcoin) {
     // (Math.round(reservesCurrency.reserves * 4 * 100) / 100).toLocaleString();
     return ( Math.round( Number(volume) * Number(bitcoin.replace(',', '') *100) / 100)).toLocaleString();
 }
-
-module.exports = { convertToAxisString, convertCurrencyVolumeFromBitcoinToDollars };

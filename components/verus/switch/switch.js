@@ -1,6 +1,7 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
-async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
+export async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
     let result = {};
 
     /* VRSC-ETH Bridge reserves */
@@ -115,5 +116,3 @@ async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
     result.estimatedSwitchValueUSDVRSC = estimatedSwitchValueUSDVRSC;
     return result;
 }
-
-module.exports = { currencyReserveSwitch }

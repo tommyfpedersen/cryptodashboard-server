@@ -1,4 +1,4 @@
-async function getMiningInfo(baseUrlPath) {
+export async function getMiningInfo(baseUrlPath) {
     try {
         const getmininginfoResponse = await fetch(baseUrlPath+"/mining/getmininginfo")
         const getmininginfoResult = await getmininginfoResponse.json();
@@ -9,7 +9,7 @@ async function getMiningInfo(baseUrlPath) {
     }
 }
 
-async function getBlockSubsidy(baseUrlPath, block) {
+export async function getBlockSubsidy(baseUrlPath, block) {
     try {
         const getblocksubsidyResponse = await fetch(baseUrlPath+"/mining/getblocksubsidy/" + block);
         const getblocksubsidyResult = await getblocksubsidyResponse.json();
@@ -20,7 +20,7 @@ async function getBlockSubsidy(baseUrlPath, block) {
     }
 }
 
-async function getBlock(baseUrlPath, block) {
+export async function getBlock(baseUrlPath, block) {
     try {
         const getblockResponse = await fetch(baseUrlPath+"/blockchain/getblock/" + block);
         const getblockResult = await getblockResponse.json();
@@ -31,7 +31,7 @@ async function getBlock(baseUrlPath, block) {
     }
 }
 
-async function getPeerInfo(baseUrlPath) {
+export async function getPeerInfo(baseUrlPath) {
     try {
         const getpeerinfoResponse = await fetch(baseUrlPath+"/network/getpeerinfo/");
         const getpeerinfoResult = await getpeerinfoResponse.json();
@@ -42,7 +42,7 @@ async function getPeerInfo(baseUrlPath) {
     }
 }
 
-async function getCurrencyState(baseUrlPath, chainname, blockstart, blockend, blockintervals, converttocurrency) {
+export async function getCurrencyState(baseUrlPath, chainname, blockstart, blockend, blockintervals, converttocurrency) {
 
     try {
         const getcurrencystateResponse = await fetch(baseUrlPath+ "multichain/getcurrencystate/"+chainname+"/"+blockstart+"/"+blockend+"/"+blockintervals+"/"+converttocurrency+"/");
@@ -53,5 +53,3 @@ async function getCurrencyState(baseUrlPath, chainname, blockstart, blockend, bl
         return null;
     }
 }
-
-module.exports = { getMiningInfo, getBlockSubsidy, getBlock, getPeerInfo, getCurrencyState }

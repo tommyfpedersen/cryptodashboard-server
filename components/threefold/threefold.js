@@ -1,4 +1,4 @@
-async function getThreeFoldNodeArray(nodeString) {
+export async function getThreeFoldNodeArray(nodeString) {
 
     let nodeIdArray = [];
     let nodeUserNameArray = []
@@ -38,7 +38,6 @@ async function getNodeDetails(node) {
     }
 
 }
-module.exports = { getThreeFoldNodeArray };
 
 //https://gridproxy.grid.tf/swagger/index.html
 //https://gridproxy.grid.tf/nodes/3170/statistics

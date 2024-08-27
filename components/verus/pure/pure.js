@@ -1,6 +1,7 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
-async function currencyReservePure(priceArray, vrscBridgePrice) {
+export async function currencyReservePure(priceArray, vrscBridgePrice) {
     let result = {};
 
     /* Pure reserves */
@@ -121,5 +122,3 @@ async function currencyReservePure(priceArray, vrscBridgePrice) {
     result.estimatedPureValueVRSC = estimatedPureValueVRSC;
     return result;
 }
-
-module.exports = { currencyReservePure}

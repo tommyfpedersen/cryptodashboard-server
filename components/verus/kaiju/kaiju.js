@@ -1,14 +1,15 @@
-require('dotenv').config();
-const { saveVolumeDataToFile, getVolumeDataFromFile } = require("../cache/cache");
+import dotenv from 'dotenv';
+dotenv.config();
+// import { saveVolumeDataToFile, getVolumeDataFromFile } from "../cache/cache.js";
 
 let volumeInDollarsArrayLoadFromCache = false;
 let volumeInDollarsArray = [];
 
-async function currencyReserveKaiju(priceArray) {
+export async function currencyReserveKaiju(priceArray) {
     let result = {};
 
     /* KAIJU reserves */
-    const getcurrencyResponse = await fetch(process.env.VERUS_REST_API+ "multichain/getcurrency/kaiju");
+    const getcurrencyResponse = await fetch(process.env.VERUS_REST_API + "multichain/getcurrency/kaiju");
     const getcurrencyResult = await getcurrencyResponse.json();
     const getcurrency = getcurrencyResult.result;
 
@@ -73,9 +74,9 @@ async function currencyReserveKaiju(priceArray) {
 
 
                         if (reservesCurrency.currencyid === "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY") {
-                            estimatedKaijuValue = (Math.round(reservesCurrency.reserves * 4 )).toLocaleString();
-                            estimatedKaijuValueUSD = (Math.round(reservesCurrency.reserves * 4 / estimatedKaijuSupply *100)/ 100).toLocaleString();
-                            estimatedKaijuValueVRSC = (Math.round(reservesCurrency.reserves * 4 / estimatedKaijuSupply / vrscKaijuPrice *100000000)/ 100000000).toLocaleString();
+                            estimatedKaijuValue = (Math.round(reservesCurrency.reserves * 4)).toLocaleString();
+                            estimatedKaijuValueUSD = (Math.round(reservesCurrency.reserves * 4 / estimatedKaijuSupply * 100) / 100).toLocaleString();
+                            estimatedKaijuValueVRSC = (Math.round(reservesCurrency.reserves * 4 / estimatedKaijuSupply / vrscKaijuPrice * 100000000) / 100000000).toLocaleString();
                         }
                     })
                     currency.currencyId = currencyId;
@@ -95,10 +96,8 @@ async function currencyReserveKaiju(priceArray) {
     result.estimatedKaijuValue = estimatedKaijuValue;
     result.vrscKaijuPrice = vrscKaijuPrice;
     result.ethereumKaijuPrice = ethereumKaijuPrice;
-    result.tBTCKaijuPrice = tBTCKaijuPrice; 
+    result.tBTCKaijuPrice = tBTCKaijuPrice;
     result.estimatedKaijuValueUSD = estimatedKaijuValueUSD;
     result.estimatedKaijuValueVRSC = estimatedKaijuValueVRSC;
     return result;
 }
-
-module.exports = { currencyReserveKaiju}

@@ -1,6 +1,7 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
-async function currencyReserveVdexBridge(priceArray, vrscBridgePrice, estimatedBridgeValueUSD) {
+export async function currencyReserveVdexBridge(priceArray, vrscBridgePrice, estimatedBridgeValueUSD) {
     let result = {};
 
     /* Bridge vdex reserves */
@@ -129,5 +130,3 @@ async function currencyReserveVdexBridge(priceArray, vrscBridgePrice, estimatedB
         return result;
     }
 }
-
-module.exports = { currencyReserveVdexBridge }

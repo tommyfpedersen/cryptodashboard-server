@@ -9,7 +9,7 @@ let priceArray = [];
 // MKR: iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4
 // ETH: i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X
 // BTC: iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU
-async function getCoingeckoPrice() {
+export async function getCoingeckoPrice() {
 
     if (cacheStartTime + coolDownTime < Date.now()) {
         priceArray = [];
@@ -117,5 +117,3 @@ async function getCoingeckoPrice() {
     }
     return priceArray;
 }
-
-module.exports = { getCoingeckoPrice };

@@ -1,6 +1,5 @@
 
 
-//const fs = require('fs').promises; // Use fs.promises for async/await support
 import fs from 'fs/promises';
 
 export async function writeToCache(fileName, dataObject) {

@@ -17,11 +17,11 @@ let pageLoads = 0;
 // components
 import { writeToCache, readFromCache } from './components/cache/cache.js';
 
-const { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats } = require('./components/verus/verus');
-const { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve } = require('./components/varrr/varrr');
-const { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance, calculateVdexStakingRewards, calculateVdexMiningRewards, getVdexCurrencyVolume, getVdexCurrencyReserve } = require('./components/vdex/vdex');
-const { getCoingeckoPrice } = require('./components/coingecko/coingecko');
-const { getThreeFoldNodeArray } = require('./components/threefold/threefold');
+import { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats } from './components/verus/verus.js';
+import { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve } from'./components/varrr/varrr.js';
+import { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance, calculateVdexStakingRewards, calculateVdexMiningRewards, getVdexCurrencyVolume, getVdexCurrencyReserve } from './components/vdex/vdex.js';
+import { getCoingeckoPrice } from './components/coingecko/coingecko.js';
+import { getThreeFoldNodeArray } from './components/threefold/threefold.js';
 
 /* RenderData def*/
 // let mainRenderData = {};
@@ -456,7 +456,7 @@ app.get('/', async (req, res) => {
 })
 
 /* hbs */
-const hbs = require('hbs');
+import hbs from 'hbs';
 
 
 app.set('views', './views')
@@ -466,7 +466,10 @@ hbs.registerHelper('ifEquals', function (arg1, arg2, options) {
   return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
 
-app.use(express.static(__dirname + "/public", {
+import path from 'path';
+
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, 'public'), {
   index: false,
   immutable: true,
   cacheControl: true,

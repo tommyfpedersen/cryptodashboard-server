@@ -1,5 +1,6 @@
-const config = require('../config');
-const express = require('express');
+import config from '../config';
+import express from 'express';
+
 const router = express.Router();
 
 router.get('/getmininginfo', async (req, res) => {

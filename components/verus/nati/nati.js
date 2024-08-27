@@ -1,6 +1,7 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
-async function currencyReserveNati(priceArray, vrscBridgePrice) {
+export async function currencyReserveNati(priceArray, vrscBridgePrice) {
     let result = {};
 
     /* NATI reserves */
@@ -122,5 +123,3 @@ async function currencyReserveNati(priceArray, vrscBridgePrice) {
     result.estimatedNatiValueVRSC = estimatedNatiValueVRSC;
     return result;
 }
-
-module.exports = { currencyReserveNati }

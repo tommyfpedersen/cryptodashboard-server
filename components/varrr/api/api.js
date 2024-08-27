@@ -1,5 +1,7 @@
-require('dotenv').config();
-async function getMiningInfo() {
+import dotenv from 'dotenv';
+dotenv.config();
+
+export async function getMiningInfo() {
     try {
         const getmininginfoResponse = await fetch(process.env.VERUS_REST_API_VARRR + "mining/getmininginfo");
         const getmininginfoResult = await getmininginfoResponse.json();
@@ -10,9 +12,9 @@ async function getMiningInfo() {
     }
 }
 
-async function getCoinSupply(block) {
+export async function getCoinSupply(block) {
     try {
-        const getcoinsupplyResponse = await fetch(process.env.VERUS_REST_API_VARRR+ "blockchain/coinsupply/" + block);
+        const getcoinsupplyResponse = await fetch(process.env.VERUS_REST_API_VARRR + "blockchain/coinsupply/" + block);
         const getcoinsupplyResult = await getcoinsupplyResponse.json();
         const getcoinsupply = getcoinsupplyResult.result;
         return getcoinsupply;
@@ -21,7 +23,7 @@ async function getCoinSupply(block) {
     }
 }
 
-async function getBlockSubsidy(block) {
+export async function getBlockSubsidy(block) {
     try {
         const getblocksubsidyResponse = await fetch(process.env.VERUS_REST_API_VARRR + "mining/getblocksubsidy/" + block);
         const getblocksubsidyResult = await getblocksubsidyResponse.json();
@@ -32,7 +34,7 @@ async function getBlockSubsidy(block) {
     }
 }
 
-async function getBlock(block) {
+export async function getBlock(block) {
     try {
         const getblockResponse = await fetch(process.env.VERUS_REST_API_VARRR + "blockchain/getblock/" + block);
         const getblockResult = await getblockResponse.json();
@@ -43,7 +45,7 @@ async function getBlock(block) {
     }
 }
 
-async function getPeerInfo() {
+export async function getPeerInfo() {
     try {
         const getpeerinfoResponse = await fetch(process.env.VERUS_REST_API_VARRR + "network/getpeerinfo/");
         const getpeerinfoResult = await getpeerinfoResponse.json();
@@ -53,10 +55,10 @@ async function getPeerInfo() {
         return null;
     }
 }
-async function getCurrencyState(chainname, blockstart, blockend, blockintervals, converttocurrency) {
+export async function getCurrencyState(chainname, blockstart, blockend, blockintervals, converttocurrency) {
 
     try {
-        const getcurrencystateResponse = await fetch(process.env.VERUS_REST_API_VARRR+ "multichain/getcurrencystate/"+chainname+"/"+blockstart+"/"+blockend+"/"+blockintervals+"/"+converttocurrency+"/");
+        const getcurrencystateResponse = await fetch(process.env.VERUS_REST_API_VARRR + "multichain/getcurrencystate/" + chainname + "/" + blockstart + "/" + blockend + "/" + blockintervals + "/" + converttocurrency + "/");
         const getcurrencystateResult = await getcurrencystateResponse.json();
         const getcurrencystate = getcurrencystateResult.result;
         return getcurrencystate;
@@ -64,7 +66,3 @@ async function getCurrencyState(chainname, blockstart, blockend, blockintervals,
         return null;
     }
 }
-
-
-
-module.exports = { getMiningInfo, getCoinSupply, getBlockSubsidy, getBlock, getPeerInfo, getCurrencyState }

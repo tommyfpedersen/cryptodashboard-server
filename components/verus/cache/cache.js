@@ -1,4 +1,4 @@
-const fs = require('node:fs');
+import fs from 'fs';
 
 async function saveVolumeDataToFile(volumeData, fileName) {
   const content = JSON.stringify(volumeData);
