@@ -355,7 +355,6 @@ app.get('/', async (req, res) => {
     const vdexVolume24Hours = await getVdexCurrencyVolume("bridge.vdex", currentBlock - 1440, currentBlock, 60, "DAI.vETH");
     const vdexVolume7Days = await getVdexCurrencyVolume("bridge.vdex", currentBlock - 1440 * 7, currentBlock, 1440, "DAI.vETH");
     const vdexVolume30Days = await getVdexCurrencyVolume("bridge.vdex", currentBlock - 1440 * 30, currentBlock, 1440, "DAI.vETH");
-
     const vdexBridgePrice = currencyReserveVdexBridge.currencyBridgeArray.find(item => item.currencyName === 'vDEX').price;
 
     /* Calculate vdex staking rewards */

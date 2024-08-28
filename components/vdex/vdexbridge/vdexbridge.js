@@ -15,7 +15,9 @@ export async function currencyReserveVdexBridge(priceArray, vrscBridgePrice, est
         let vrscCoingeckoPrice = 0;
         let vdexCoingeckoPrice = 0;
         let ethereumCoingeckoPrice = 0;
+        let vdexBridgePrice = 0;
         let ethereumBridgePrice = 0;
+        let tBTCvETHBridgePrice = 0;
         let tBTCvETHCoingeckoPrice = 0;
 
         let daiReserve = 0;
@@ -42,6 +44,7 @@ export async function currencyReserveVdexBridge(priceArray, vrscBridgePrice, est
             }
         })
 
+       
         if (getcurrency) {
             let currencyIdArray = Object.values(getcurrency.currencies);
             let currencyNames = Object.entries(getcurrency.currencynames);
@@ -60,11 +63,14 @@ export async function currencyReserveVdexBridge(priceArray, vrscBridgePrice, est
                 })
             })
 
+
             currencyIdArray.forEach((currencyId) => {
                 currencyNames.forEach((item) => {
                     let currency = {}
                     if (item[0] === currencyId) {
+
                         getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
+ 
                             if (reservesCurrency.currencyid === currencyId) {
                                 currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
                                 currency.priceinreserve = reservesCurrency.priceinreserve;
@@ -101,16 +107,17 @@ export async function currencyReserveVdexBridge(priceArray, vrscBridgePrice, est
                             }
 
                             if (reservesCurrency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
-                                estimatedBridgeValueUSDBTC = (Math.round(tBTCvETHCoingeckoPrice * reservesCurrency.reserves * 4)).toLocaleString();
+                                estimatedBridgeValueUSDBTC = (Math.round(tBTCvETHCoingeckoPrice * reservesCurrency.reserves * 5)).toLocaleString();
                             }
                         })
                         currency.currencyId = currencyId;
                         currency.currencyName = item[1];
-                        currencyBridgeArray.push(currency);
+                        currencyBridgeArray.push(currency); 
                     }
                 })
             })
         }
+
 
         /* estimated value of bridge */
         currencyBridgeArray.forEach((currency) => {
