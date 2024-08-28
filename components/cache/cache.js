@@ -1,11 +1,13 @@
 
-
 //import fs from 'fs/promises';
+import client from '../../redisClient.js';
 
 let data = {};
 
 export async function writeToCache(fileName, dataObject) {
-  data = dataObject;
+  data =  JSON.stringify(dataObject);
+  client.set("data", data);
+
   // try {
   //   const dataString = JSON.stringify(dataObject);
   //   await fs.writeFile(fileName, dataString, 'utf8');
@@ -16,7 +18,9 @@ export async function writeToCache(fileName, dataObject) {
 }
 
 export async function readFromCache(fileName) {
-  return data;
+  let result = await client.get("data");
+  return await JSON.parse(result);
+
     // try {
     //   const dataString = await fs.readFile(fileName, 'utf8');
     //   const dataObject = JSON.parse(dataString);

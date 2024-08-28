@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
@@ -25,6 +25,7 @@
     "hbs": "^4.2.0",
     "helmet": "^7.0.0",
     "nodemon": "^3.0.1",
+    "redis": "^4.7.0",
     "ws": "^8.18.0"
   }
 }
