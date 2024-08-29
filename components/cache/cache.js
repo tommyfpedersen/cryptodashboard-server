@@ -31,3 +31,8 @@ export async function readFromCache(fileName) {
   //   return null; // or throw the error, depending on your error handling strategy
   // }
 }
+
+export async function isCacheReady() {
+  let result = await client.get("cacheready");
+  return result;
+}

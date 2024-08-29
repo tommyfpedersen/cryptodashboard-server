@@ -15,7 +15,7 @@ let pageLoads = 0;
 
 
 // components
-import { writeToCache, readFromCache } from './components/cache/cache.js';
+import { writeToCache, readFromCache, isCacheReady } from './components/cache/cache.js';
 
 import { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats } from './components/verus/verus.js';
 import { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve } from './components/varrr/varrr.js';
@@ -28,26 +28,21 @@ import { getThreeFoldNodeArray } from './components/threefold/threefold.js';
 /* front cache and back cache - front and back buffer - overwrite when back buffer is ready and run backbuffer job with interval of 60 sec */ 
 
 
-/* cache */
-let cacheReady = false;
-let cacheTime = 60000;
-let cacheTimeStamp = Date.now() + cacheTime;
+
+// let cacheTime = 60000;
+// let cacheTimeStamp = Date.now() + cacheTime;
 
 
 /* dashboard */
 app.get('/', async (req, res) => {
+
 
   /* page loads */
   pageLoads++;
   console.log("page loads: ", new Date().toLocaleString(), pageLoads);
 
   /* cache */
-  if (cacheTimeStamp < Date.now()) {
-
-    //clear cache
-    cacheTimeStamp = Date.now() + cacheTime;
-    cacheReady = false;
-  }
+  let cacheReady = await isCacheReady();
 
   /*  if user input - no cache  */
   if (req.query.address || req.query.vrscstakingamount || req.query.vrscmininghash || req.query.varrraddress || req.query.varrrstakingamount || req.query.varrrmininghash || req.query.vdexstakingamount || req.query.vdexmininghash) {
@@ -87,10 +82,6 @@ app.get('/', async (req, res) => {
     /* Get block and fee pool rewards */
     const blockandfeepoolrewards = await getBlockAndFeePoolRewards();
     const currentBlock = blockandfeepoolrewards.block;
-
-    if (cacheTimeStamp > Date.now()) {
-
-    }
 
     /* Get bridge.veth volume and reserve info */
     const vrscVolume24Hours = await getCurrencyVolume("bridge.veth", currentBlock - 1440, currentBlock, 60, "DAI.vETH");
@@ -439,9 +430,9 @@ app.get('/', async (req, res) => {
 
   res.render('main', mainRenderData)
 
-  /* cache */
-  cacheReady = true;
-  writeToCache('cache.json', mainRenderData);
+  // /* cache */
+  // cacheReady = true;
+  // writeToCache('cache.json', mainRenderData);
 })
 
 /* hbs */

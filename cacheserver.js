@@ -1,19 +1,22 @@
 import client from './redisClient.js';
+import { getBlockchainData } from './components/data/fetchBlockchainData.js';
 
 /* Main data loop - no user inputs - get data from verus daemon and add to cache (redis) */
+console.log("cache server running");
+client.set("cacheready", JSON.stringify(false));
 
-let fetchedData = {};
 
 //let result = await client.get("data");
-//console.log("get data: ",result);
+
 
 setInterval(async () => {
-   // client.set("data", JSON.stringify(fetchedData));
-   fetchData();
-    let result = await client.get("data");
-    console.log("get data: ",result);
-}, 2000);
+  await fetchAndUpdateData();
+}, 60000);
 
-function fetchData() {
-  console.log("fetching data");
+async function fetchAndUpdateData() {
+  console.log("get blockchain data: ");
+  let fetchedData = await getBlockchainData();
+  console.log("saving data to redis");
+  client.set("data", JSON.stringify(fetchedData));
+  client.set("cacheready", JSON.stringify(true));
 }
