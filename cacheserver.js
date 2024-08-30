@@ -15,8 +15,10 @@ setInterval(async () => {
 
 async function fetchAndUpdateData() {
   console.log("get blockchain data: ");
+  let getTime = Date.now();
   let fetchedData = await getBlockchainData();
-  console.log("saving data to redis");
+  console.log("saving data to redis", (Date.now() - getTime) / 1000);
   client.set("data", JSON.stringify(fetchedData));
   client.set("cacheready", JSON.stringify(true));
+  client.set("timestamp", JSON.stringify(Date.now()));
 }

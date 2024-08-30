@@ -33,6 +33,12 @@ export async function readFromCache(fileName) {
 }
 
 export async function isCacheReady() {
-  let result = await client.get("cacheready");
+  let result = false;
+  let ready = await client.get("cacheready");
+  let cacheTimestamp = await client.get("timestamp");
+
+  if(ready === true && Date.now() < cacheTimestamp + 80000){
+    result = true;
+  }
   return result;
 }
