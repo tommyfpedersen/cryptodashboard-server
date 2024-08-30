@@ -25,7 +25,7 @@ import { getThreeFoldNodeArray } from './components/threefold/threefold.js';
 
 
 /* websocket cache play */
-/* front cache and back cache - front and back buffer - overwrite when back buffer is ready and run backbuffer job with interval of 60 sec */ 
+/* front cache and back cache - front and back buffer - overwrite when back buffer is ready and run backbuffer job with interval of 60 sec */
 
 
 
@@ -319,7 +319,7 @@ app.get('/', async (req, res) => {
     }
     priceArray = [...priceArray, ...varrrRenderData.currencyVarrrBridgeArray];
     vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vARRR", reserve: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC, via: "via VRSC" }];
-    vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vARRR", volume: ((Math.round(parseFloat((varrrVolume24Hours.totalVolume === 0 ? "0" : varrrVolume24Hours.totalVolume).replace(/,/g, ''))  * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }]
+    vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vARRR", volume: ((Math.round(parseFloat((varrrVolume24Hours.totalVolume === 0 ? "0" : varrrVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }]
   } else {
     varrrRenderData = {
       varrrOnline: varrrNodeStatus.online,
@@ -406,7 +406,7 @@ app.get('/', async (req, res) => {
   let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
 
   vrscReserveArray.sort((a, b) => parseFloat(b.reserve.replace(/,/g, '')) - parseFloat(a.reserve.replace(/,/g, '')));
-  vrsc24HVolumeArray.sort((a, b) => parseFloat(b.volume.replace(/,/g, '')) - parseFloat(a.volume.replace(/,/g, '')));
+  vrsc24HVolumeArray.sort((a, b) => parseFloat((b.volume === 0 ? "0" : b.volume).replace(/,/g, '')) - parseFloat((a.volume === 0 ? "0" : a.volume).replace(/,/g, '')));
 
   mainRenderData = { ...mainRenderData, ...{ btcPriceArray, ethereumPriceArray, makerPriceArray, vrscPriceArray, arrrPriceArray, vrscReserveArray, vrsc24HVolumeArray } };
 

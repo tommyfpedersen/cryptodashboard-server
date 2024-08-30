@@ -360,7 +360,7 @@ export async function getBlockchainData() {
     let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
 
     vrscReserveArray.sort((a, b) => parseFloat(b.reserve.replace(/,/g, '')) - parseFloat(a.reserve.replace(/,/g, '')));
-    vrsc24HVolumeArray.sort((a, b) => parseFloat(b.volume.replace(/,/g, '')) - parseFloat(a.volume.replace(/,/g, '')));
+    vrsc24HVolumeArray.sort((a, b) => parseFloat(  (b.volume === 0 ? "0" : b.volume).replace(/,/g, '')) - parseFloat( (a.volume === 0 ? "0" : a.volume).replace(/,/g, '')));
 
     mainRenderData = { ...mainRenderData, ...{ btcPriceArray, ethereumPriceArray, makerPriceArray, vrscPriceArray, arrrPriceArray, vrscReserveArray, vrsc24HVolumeArray } };
 
