@@ -37,7 +37,7 @@ export async function isCacheReady() {
   let ready = await client.get("cacheready");
   let cacheTimestamp = await client.get("timestamp");
 
-  if(ready === true && Date.now() < cacheTimestamp + 80000){
+  if(ready === "true" && Date.now() < cacheTimestamp + 80000){
     result = true;
   }
   return result;
