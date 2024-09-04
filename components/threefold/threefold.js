@@ -5,7 +5,7 @@ export async function getThreeFoldNodeArray(nodeString) {
     let nodesToFetchArray = [];
     let resultArray = [];
 
-    nodeElements = nodeString.split(" ");
+    let nodeElements = nodeString.split(" ");
     nodeElements.map((elm, index) => {
         if (index % 2 === 0) {
             nodeUserNameArray.push(elm);
