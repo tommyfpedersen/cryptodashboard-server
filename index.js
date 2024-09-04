@@ -128,6 +128,12 @@ app.get('/', async (req, res) => {
     // console.log("natiVolume7Days ",natiVolume7Days)
     // console.log("natiVolume30Days ",natiVolume30Days)
 
+    const vrscPriceItem = priceArray.find(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV');
+    let marketRank = "###";
+    if(vrscPriceItem){
+      marketRank = vrscPriceItem.marketRank;
+    }
+
     vrscRenderData = {
       // Verus
       blocks: blockandfeepoolrewards.block.toLocaleString(),
@@ -141,6 +147,7 @@ app.get('/', async (req, res) => {
       marketCap: Math.round(coinSupply.marketCap).toLocaleString(),
       maxSupply: coinSupply.maxSupply.toLocaleString(),
       fullyDilutedMarketCap: Math.round(coinSupply.fullyDilutedMarketCap).toLocaleString(),
+      marketRank: marketRank,
       stakingAmount: stakingRewards.stakingAmount,
       stakingPercentage: (Math.round(stakingRewards.stakingPercentage * 100) / 100).toLocaleString(),
       stakingRewardsArray: stakingRewards.stakingArray,

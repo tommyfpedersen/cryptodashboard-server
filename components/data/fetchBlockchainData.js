@@ -82,6 +82,12 @@ export async function getBlockchainData() {
         // console.log("natiVolume7Days ",natiVolume7Days)
         // console.log("natiVolume30Days ",natiVolume30Days)
 
+        const vrscPriceItem = priceArray.find(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV');
+        let marketRank = "###";
+        if(vrscPriceItem){
+          marketRank = vrscPriceItem.marketRank;
+        }
+
         vrscRenderData = {
             // Verus
             blocks: blockandfeepoolrewards.block.toLocaleString(),
@@ -95,6 +101,7 @@ export async function getBlockchainData() {
             marketCap: Math.round(coinSupply.marketCap).toLocaleString(),
             maxSupply: coinSupply.maxSupply.toLocaleString(),
             fullyDilutedMarketCap: Math.round(coinSupply.fullyDilutedMarketCap).toLocaleString(),
+            marketRank: marketRank,
             stakingAmount: stakingRewards.stakingAmount,
             stakingPercentage: (Math.round(stakingRewards.stakingPercentage * 100) / 100).toLocaleString(),
             stakingRewardsArray: stakingRewards.stakingArray,
@@ -360,7 +367,7 @@ export async function getBlockchainData() {
     let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
 
     vrscReserveArray.sort((a, b) => parseFloat(b.reserve.replace(/,/g, '')) - parseFloat(a.reserve.replace(/,/g, '')));
-    vrsc24HVolumeArray.sort((a, b) => parseFloat(  (b.volume === 0 ? "0" : b.volume).replace(/,/g, '')) - parseFloat( (a.volume === 0 ? "0" : a.volume).replace(/,/g, '')));
+    vrsc24HVolumeArray.sort((a, b) => parseFloat((b.volume === 0 ? "0" : b.volume).replace(/,/g, '')) - parseFloat((a.volume === 0 ? "0" : a.volume).replace(/,/g, '')));
 
     mainRenderData = { ...mainRenderData, ...{ btcPriceArray, ethereumPriceArray, makerPriceArray, vrscPriceArray, arrrPriceArray, vrscReserveArray, vrsc24HVolumeArray } };
 

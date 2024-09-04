@@ -27,7 +27,8 @@ export async function getCoingeckoPrice() {
                             price: Math.round(item.current_price*100)/100,
                             name: "bitcoin",
                             origin: "Coingecko",
-                            network: "btc"
+                            network: "btc",
+                            marketRank: item.market_cap_rank
                         })
                     }
                     if (item.id === "verus-coin") {
@@ -37,7 +38,8 @@ export async function getCoingeckoPrice() {
                             price: Math.round(item.current_price*100)/100,
                             name: "verus-coin",
                             origin: "Coingecko",
-                            network: "vrsc"
+                            network: "vrsc",
+                            marketRank: item.market_cap_rank
                         })
                     }
                     if (item.id === "dai") {
@@ -45,7 +47,8 @@ export async function getCoingeckoPrice() {
                             currencyId: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
                             price: Math.round(item.current_price*100)/100,
                             name: "dai",
-                            origin: "Coingecko"
+                            origin: "Coingecko",
+                            marketRank: item.market_cap_rank
                         })
                     }
                     if (item.id === "maker") {
@@ -54,7 +57,8 @@ export async function getCoingeckoPrice() {
                             price: Math.round(item.current_price*100)/100,
                             name: "maker",
                             origin: "Coingecko",
-                            network: "ethereum"
+                            network: "ethereum",
+                            marketRank: item.market_cap_rank
                         })
                     }
                     if (item.id === "ethereum") {
@@ -64,7 +68,8 @@ export async function getCoingeckoPrice() {
                             price: Math.round(item.current_price*100)/100,
                             name: "ethereum",
                             origin: "Coingecko",
-                            network: "ethereum"
+                            network: "ethereum",
+                            marketRank: item.market_cap_rank
                         })
                     }
                     if (item.id === "usd-coin") {
@@ -73,7 +78,8 @@ export async function getCoingeckoPrice() {
                             currencyId: "i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd",
                             price: Math.round(item.current_price*100)/100,
                             name: "usdc",
-                            origin: "Coingecko"
+                            origin: "Coingecko",
+                            marketRank: item.market_cap_rank
                         })
                     }
                     if (item.id === "euro-coin") {
@@ -82,7 +88,8 @@ export async function getCoingeckoPrice() {
                             currencyId: "iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE",
                             price: Math.round(item.current_price*100)/100,
                             name: "eurc",
-                            origin: "Coingecko"
+                            origin: "Coingecko",
+                            marketRank: item.market_cap_rank
                         })
                     }
                     if (item.id === "pirate-chain") {
@@ -92,7 +99,8 @@ export async function getCoingeckoPrice() {
                             price: Math.round(item.current_price*100)/100,
                             name: "pirate-chain",
                             origin: "Coingecko",
-                            network: "piratechain"
+                            network: "piratechain",
+                            marketRank: item.market_cap_rank
                         })
                     }
                     if (item.id === "tether") {
@@ -100,7 +108,8 @@ export async function getCoingeckoPrice() {
                             currencyId: "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY",
                             price: Math.round(item.current_price*100)/100,
                             name: "usdt",
-                            origin: "Coingecko"
+                            origin: "Coingecko",
+                            marketRank: item.market_cap_rank
                         })
                     }
                     if (item.id === "illuminaticoin") {
@@ -108,7 +117,8 @@ export async function getCoingeckoPrice() {
                             currencyId: "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx",
                             price: item.current_price,
                             name: "nati",
-                            origin: "Coingecko"
+                            origin: "Coingecko",
+                            marketRank: item.market_cap_rank
                         })
                     }
                 })
