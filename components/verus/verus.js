@@ -55,14 +55,24 @@ export async function getMarketCapStats(block, vrscPrice) {
     let maxSupply = 83540184;
 
     const coinSupply = await getCoinSupply(block);
-    totalSupply = coinSupply.total;
 
-    result.totalSupply = totalSupply;
-    result.circulatingSupply = totalSupply;
-    result.circulatingSupplyPercentage = totalSupply / maxSupply * 100;
-    result.marketCap = totalSupply * vrscPrice;
-    result.maxSupply = maxSupply;
-    result.fullyDilutedMarketCap = maxSupply * vrscPrice;
+    if(coinSupply){
+        totalSupply = coinSupply.total;
+        result.totalSupply = totalSupply;
+        result.circulatingSupply = totalSupply;
+        result.circulatingSupplyPercentage = totalSupply / maxSupply * 100;
+        result.marketCap = totalSupply * vrscPrice;
+        result.maxSupply = maxSupply;
+        result.fullyDilutedMarketCap = maxSupply * vrscPrice;
+    }else{
+        result.totalSupply = "syncing";
+        result.circulatingSupply = "syncing";
+        result.circulatingSupplyPercentage = "syncing";
+        result.marketCap = "syncing";
+        result.maxSupply = "syncing";
+        result.fullyDilutedMarketCap = "syncing";
+    }
+
 
     return result;
 }
