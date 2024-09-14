@@ -56,7 +56,7 @@ export async function getMarketCapStats(block, vrscPrice) {
 
     const coinSupply = await getCoinSupply(block);
 
-    if(coinSupply){
+    if (coinSupply) {
         totalSupply = coinSupply.total;
         result.totalSupply = totalSupply;
         result.circulatingSupply = totalSupply;
@@ -64,7 +64,7 @@ export async function getMarketCapStats(block, vrscPrice) {
         result.marketCap = totalSupply * vrscPrice;
         result.maxSupply = maxSupply;
         result.fullyDilutedMarketCap = maxSupply * vrscPrice;
-    }else{
+    } else {
         result.totalSupply = "syncing";
         result.circulatingSupply = "syncing";
         result.circulatingSupplyPercentage = "syncing";
@@ -238,15 +238,18 @@ export async function getCurrencyVolume(currencyName, fromBlock, toBlock, interv
 
     const currencyState = await getCurrencyState(currencyName, fromBlock, toBlock, interval, converttocurrency);
 
-    currencyState.map((item) => {
-        if (item.conversiondata) {
-            let volume = Math.round(item.conversiondata.volumethisinterval);
-            volumeArray.push({ volume: volume });
-        }
-        if (item.totalvolume) {
-            totalVolume = Math.round(item.totalvolume).toLocaleString();
-        }
-    })
+    if (currencyState.length > 0) {
+        currencyState.map((item) => {
+            if (item.conversiondata) {
+                let volume = Math.round(item.conversiondata.volumethisinterval);
+                volumeArray.push({ volume: volume });
+            }
+            if (item.totalvolume) {
+                totalVolume = Math.round(item.totalvolume).toLocaleString();
+            }
+        })
+    }
+
 
     let volumeArrayMax = Math.max(...volumeArray.map(o => o.volume));
     yAxisArray.push({ value: convertToAxisString(volumeArrayMax) });
