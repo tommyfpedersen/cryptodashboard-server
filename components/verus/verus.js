@@ -8,6 +8,7 @@ import { currencyReserveKaiju } from "./kaiju/kaiju.js";
 import { currencyReserveNati } from './nati/nati.js';
 import { currencyReservePure } from "./pure/pure.js";
 import { currencyReserveSwitch } from "./switch/switch.js";
+import { currencyReserveNatiOwl } from './natiOwl/natiOwl.js';
 
 export async function getNodeStatus() {
     let result = {};
@@ -282,5 +283,8 @@ export async function getCurrencyReserve(currencyName, priceArray, vrscBridgePri
     }
     if (currencyName === "nati") {
         return currencyReserveNati(priceArray, vrscBridgePrice);
+    }
+    if (currencyName === "nati🦉") {
+        return currencyReserveNatiOwl(priceArray, vrscBridgePrice);
     }
 }
