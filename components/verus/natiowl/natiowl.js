@@ -18,6 +18,7 @@ export async function currencyReserveNatiOwl(priceArray, vrscBridgePrice) {
     let ethereumBridgePrice = 0;
     let NatiOwlvETHCoingeckoPrice = 0;
     let NATIvETHCoingeckoPrice = 0;
+    let vrscBasketPrice =0;
 
     let vrscReserve = 0;
     let tBTCvETHReserve = 0;
@@ -82,22 +83,22 @@ export async function currencyReserveNatiOwl(priceArray, vrscBridgePrice) {
                             if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                                 currency.priceNative = Math.round(tBTCvETHReserve / currency.reserves * 100000000) / 100000000;
                                 currency.pricelabel = "tBTCvETH";
-                                currency.price = Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 100) / 100;
+                                currency.price = vrscBasketPrice = Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 100) / 100;
                             }
                             if (currencyId === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
                                 currency.priceNative = Math.round(vrscReserve / currency.reserves * 100) / 100;
                                 currency.pricelabel = "VRSC";
-                                currency.price = Math.round(vrscBridgePrice * currency.priceNative * 100) / 100;
+                                currency.price = Math.round(vrscBasketPrice * currency.priceNative * 100) / 100;
                             }
                             if (currencyId === "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X") {
-                                currency.priceNative = Math.round(tBTCvETHReserve / currency.reserves * 1000) / 1000;
+                                currency.priceNative = Math.round(vrscReserve / currency.reserves * 1000) / 1000;
                                 currency.pricelabel = "VRSC";
-                                currency.price = Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 100) / 100 ;
+                                currency.price = Math.round(vrscBasketPrice * currency.priceNative * 100) / 100 ;
                             }
                             if (currencyId === "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx") {
                                 currency.priceNative = (Math.round(vrscReserve / currency.reserves * 100000000) / 100000000 ).toFixed(5);
                                 currency.pricelabel = "VRSC";
-                                currency.price = (vrscBridgePrice * currency.priceNative).toFixed(5);
+                                currency.price = (vrscBasketPrice * currency.priceNative).toFixed(5);
                             }
                         }
 
