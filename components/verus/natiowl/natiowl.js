@@ -90,7 +90,7 @@ export async function currencyReserveNatiOwl(priceArray, vrscBridgePrice) {
                                 currency.price = Math.round(vrscBridgePrice * currency.priceNative * 100) / 100;
                             }
                             if (currencyId === "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X") {
-                                currency.priceNative = Math.round(vrscReserve / currency.reserves * 1000) / 1000;
+                                currency.priceNative = Math.round(tBTCvETHReserve / currency.reserves * 1000) / 1000;
                                 currency.pricelabel = "VRSC";
                                 currency.price = Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 100) / 100 ;
                             }
