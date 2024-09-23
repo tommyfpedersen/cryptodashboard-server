@@ -77,8 +77,12 @@ export async function getBlockchainData() {
         const natiVolume7Days = await getCurrencyVolume("nati", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
         const natiVolume30Days = await getCurrencyVolume("nati", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
 
-         /* Get nati🦉 volume and reserve info */
-    const currencyReserveNatiOwl = await getCurrencyReserve("nati🦉", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
+        /* Get nati🦉 volume and reserve info */
+        const currencyReserveNatiOwl = await getCurrencyReserve("nati🦉", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
+        const natiOwlVolume24Hours = await getCurrencyVolume("nati🦉", currentBlock - 1440, currentBlock, 60, "vrsc");
+        const natiOwlVolume7Days = await getCurrencyVolume("nati🦉", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
+        const natiOwlVolume30Days = await getCurrencyVolume("nati🦉", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
+
 
         // console.log("currencyReserveNati ",currencyReserveNati)
         // console.log("natiVolume24Hours ",natiVolume24Hours)
@@ -87,8 +91,8 @@ export async function getBlockchainData() {
 
         const vrscPriceItem = priceArray.find(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV');
         let marketRank = "###";
-        if(vrscPriceItem){
-          marketRank = vrscPriceItem.marketRank;
+        if (vrscPriceItem) {
+            marketRank = vrscPriceItem.marketRank;
         }
 
         vrscRenderData = {
@@ -194,16 +198,16 @@ export async function getBlockchainData() {
             estimatedNatiValueVRSC: currencyReserveNati.estimatedNatiValueVRSC,
             estimatedNatiReserveValueUSDNATI: currencyReserveNati.estimatedNatiValueUSDNATI,
             estimatedNatiReserveValueUSDVRSC: currencyReserveNati.estimatedNatiValueUSDVRSC,
-                   // Verus nati Owl
-      //  currencyVolumeNatiOwl24Hours: natiOwlVolume24Hours.totalVolume,
-      //  currencyVolumeNatiOwl24HoursArray: natiOwlVolume24Hours.volumeArray,
-      //  currencyVolumeNatiOwl24HoursArrayYAxis: natiOwlVolume24Hours.yAxisArray,
-      //  currencyVolumeNatiOwl7Days: natiOwlVolume7Days.totalVolume,
-      //  currencyVolumeNatiOwl7DaysArray: natiOwlVolume7Days.volumeArray,
-      //  currencyVolumeNatiOwl7DaysArrayYAxis: natiOwlVolume7Days.yAxisArray,
-      //  currencyVolumeNatiOwl30Days: natiOwlVolume30Days.totalVolume,
-      //  currencyVolumeNatiOwl30DaysArray: natiOwlVolume30Days.volumeArray,
-      //  currencyVolumeNatiOwl30DaysArrayYAxis: natiOwlVolume30Days.yAxisArray,
+            // Verus nati Owl
+            currencyVolumeNatiOwl24Hours: natiOwlVolume24Hours.totalVolume,
+            currencyVolumeNatiOwl24HoursArray: natiOwlVolume24Hours.volumeArray,
+            currencyVolumeNatiOwl24HoursArrayYAxis: natiOwlVolume24Hours.yAxisArray,
+            currencyVolumeNatiOwl7Days: natiOwlVolume7Days.totalVolume,
+            currencyVolumeNatiOwl7DaysArray: natiOwlVolume7Days.volumeArray,
+            currencyVolumeNatiOwl7DaysArrayYAxis: natiOwlVolume7Days.yAxisArray,
+            currencyVolumeNatiOwl30Days: natiOwlVolume30Days.totalVolume,
+            currencyVolumeNatiOwl30DaysArray: natiOwlVolume30Days.volumeArray,
+            currencyVolumeNatiOwl30DaysArrayYAxis: natiOwlVolume30Days.yAxisArray,
             currencyNatiOwlArray: currencyReserveNatiOwl.currencyNatiOwlArray,
             estimatedNatiOwlValueUSD: currencyReserveNatiOwl.estimatedNatiOwlValueUSD,
             estimatedNatiOwlValueVRSC: currencyReserveNatiOwl.estimatedNatiOwlValueVRSC,
@@ -211,9 +215,9 @@ export async function getBlockchainData() {
             estimatedNatiOwlReserveValueUSDVRSC: currencyReserveNatiOwl.estimatedNatiOwlValueUSDVRSC
         };
         // adding to pricingArray
-        priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray, ...vrscRenderData.currencyNatiArray];
+        priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray, ...vrscRenderData.currencyNatiArray, ...vrscRenderData.currencyNatiOwlArray];
         // adding to reserveArray
-        vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }, { basket: "NATI", reserve: currencyReserveNati.estimatedNatiValueUSDVRSC, via: "via VRSC" }];
+        vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }, { basket: "NATI", reserve: currencyReserveNati.estimatedNatiValueUSDVRSC, via: "via VRSC" }, { basket: "NATI🦉", reserve: currencyReserveNatiOwl.estimatedNatiOwlValueUSDVRSC, via: "via VRSC" }];
         // console.log("parse nati: ", parseFloat((natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice);
         // console.log("parse vrsc: ", (parseFloat((natiVolume24Hours.totalVolume).replace(/,/g, ''))* currencyReserveBridge.vrscBridgePrice).toLocaleString());
         //   console.log("parse nati: ", natiVolume24Hours.totalVolume, currencyReserveBridge.vrscBridgePrice);
@@ -223,7 +227,8 @@ export async function getBlockchainData() {
         { basket: "Kaiju", volume: kaijuVolume24Hours.totalVolume, via: "" },
         { basket: "Pure", volume: ((Math.round(parseFloat((pureVolume24Hours.totalVolume === 0 ? "0" : pureVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
         { basket: "Switch", volume: switchVolume24Hours.totalVolume, via: "" },
-        { basket: "NATI", volume: ((Math.round(parseFloat((natiVolume24Hours.totalVolume === 0 ? "0" : natiVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }
+        { basket: "NATI", volume: ((Math.round(parseFloat((natiVolume24Hours.totalVolume === 0 ? "0" : natiVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+        { basket: "NATI🦉", volume: ((Math.round(parseFloat((natiOwlVolume24Hours.totalVolume === 0 ? "0" : natiOwlVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }
         ]
     } else {
         vrscRenderData = {
