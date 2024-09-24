@@ -8,7 +8,7 @@ import { currencyReserveKaiju } from "./kaiju/kaiju.js";
 import { currencyReserveNati } from './nati/nati.js';
 import { currencyReservePure } from "./pure/pure.js";
 import { currencyReserveSwitch } from "./switch/switch.js";
-import { currencyReserveNatiOwl } from './natiOwl/natiOwl.js';
+import { currencyReserveNatiOwl } from './natiowl/natiowl.js';
 
 export async function getNodeStatus() {
     let result = {};
