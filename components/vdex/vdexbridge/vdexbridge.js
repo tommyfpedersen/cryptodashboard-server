@@ -73,6 +73,7 @@ export async function currencyReserveVdexBridge(priceArray, vrscBridgePrice, est
  
                             if (reservesCurrency.currencyid === currencyId) {
                                 currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
+                                currency.weight = reservesCurrency.weight *100;
                                 currency.priceinreserve = reservesCurrency.priceinreserve;
                                 currency.origin = "Bridge.vDEX";
                                 currency.network = "vDEX";
@@ -124,6 +125,7 @@ export async function currencyReserveVdexBridge(priceArray, vrscBridgePrice, est
             currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 4 });
         })
 
+        result.estimatedBridgeSupply = estimatedBridgeSupply;
         result.currencyBridgeArray = currencyBridgeArray;
         result.estimatedBridgeValue = estimatedBridgeValue;
         result.estimatedBridgeValueUSDBTC = estimatedBridgeValueUSDBTC;

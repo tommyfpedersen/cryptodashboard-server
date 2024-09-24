@@ -68,6 +68,7 @@ export async function currencyReserveVarrrBridge(priceArray, vrscBridgePrice, es
                     if (item[0] === currencyId) {
                         getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
                             if (reservesCurrency.currencyid === currencyId) {
+                                currency.weight = reservesCurrency.weight *100;
                                 currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
                                 currency.priceinreserve = reservesCurrency.priceinreserve;
                                 currency.origin = "Bridge.vARRR";
@@ -140,6 +141,7 @@ export async function currencyReserveVarrrBridge(priceArray, vrscBridgePrice, es
             currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 4 });
         })
 
+        result.estimatedVarrrBridgeSupply = estimatedVarrrBridgeSupply;
         result.currencyVarrrBridgeArray = currencyBridgeArray;
         result.estimatedVarrrBridgeValueUSDBTC = estimatedVarrrBridgeValueUSDBTC;
         result.estimatedVarrrBridgeValueUSDVRSC = estimatedVarrrBridgeValueUSDVRSC;

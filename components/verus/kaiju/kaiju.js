@@ -48,6 +48,7 @@ export async function currencyReserveKaiju(priceArray) {
                     getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
                         if (reservesCurrency.currencyid === currencyId) {
                             currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
+                            currency.weight = reservesCurrency.weight *100;
                             currency.priceinreserve = reservesCurrency.priceinreserve;
                             currency.price = Math.round(usdtReserve / currency.reserves * 100) / 100;
                             currency.origin = "Kaiju";
@@ -92,6 +93,7 @@ export async function currencyReserveKaiju(priceArray) {
         currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 4 });
     })
 
+    result.estimatedKaijuSupply = estimatedKaijuSupply; 
     result.currencyKaijuArray = currencyKaijuArray;
     result.estimatedKaijuValue = estimatedKaijuValue;
     result.vrscKaijuPrice = vrscKaijuPrice;

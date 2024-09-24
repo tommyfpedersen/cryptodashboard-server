@@ -49,6 +49,7 @@ export async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
                 if (item[0] === currencyId) {
                     getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
                         if (reservesCurrency.currencyid === currencyId) {
+                            currency.weight = reservesCurrency.weight *100;
                             currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
                             currency.priceinreserve = reservesCurrency.priceinreserve;
                             currency.origin = "Switch";
@@ -110,6 +111,7 @@ export async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
         currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 4 });
     })
 
+    result.estimatedSwitchSupply = estimatedSwitchSupply;
     result.currencySwitchArray = currencySwitchArray;
     result.estimatedSwitchValue = estimatedSwitchValue;
     result.estimatedSwitcheReserveValue = estimatedSwitchReserveValue;

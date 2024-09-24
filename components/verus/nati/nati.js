@@ -60,6 +60,7 @@ export async function currencyReserveNati(priceArray, vrscBridgePrice) {
                     getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
                         if (reservesCurrency.currencyid === currencyId) {
                             currency.reserves = reservesCurrency.reserves;
+                            currency.weight = reservesCurrency.weight *100;
                             currency.priceinreserve = reservesCurrency.priceinreserve;
                             currency.origin = "NATI";
                             currency.network = "vrsc";
@@ -116,6 +117,7 @@ export async function currencyReserveNati(priceArray, vrscBridgePrice) {
         currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 4 });
     })
 
+    result.estimatedNatiSupply = estimatedNatiSupply;
     result.currencyNatiArray = currencyNatiArray;
     result.estimatedNatiValueUSDNATI = estimatedNatiValueUSDNATI;
     result.estimatedNatiValueUSDVRSC = estimatedNatiValueUSDVRSC;

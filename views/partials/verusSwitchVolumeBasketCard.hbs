@@ -83,15 +83,20 @@
             <div class="card-row-item">Reserves Value</div>
             <div class="card-row-item"> $ {{estimatedSwitchReserveValue}}</div>
         </div>
+        <br>
         <div class="card-row-wrapper">
-            <div class="card-row-item">Switch Value</div>
+            <div class="card-row-item">Switch price</div>
             <div class="card-row-item-network">VRSC {{estimatedSwitchValueUSDVRSC}} </div>
             <div class="card-row-item"> $ {{estimatedSwitchValueUSDVRSC}}</div>
+        </div>
+        <div class="card-row-wrapper">
+            <div class="card-row-item">Switch supply</div>
+            <div class="card-row-item"> {{estimatedSwitchSupply}}</div>
         </div>
 
 
         {{#each currencySwitchArray}}
-        <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
+        <div style="text-transform:none;" class="card-sub-title">{{currencyName}} ({{weight}}%)</div>
         <div class="card-row-wrapper">
             <div class="card-row-item">Reserve</div>
             <div class="card-row-item"> {{reserves}}</div>

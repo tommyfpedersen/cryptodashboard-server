@@ -75,6 +75,7 @@ export async function currencyReserveNatiOwl(priceArray, vrscBridgePrice) {
                     getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
                         if (reservesCurrency.currencyid === currencyId) {
                             currency.reserves = reservesCurrency.reserves;
+                            currency.weight = reservesCurrency.weight *100;
                             currency.priceinreserve = reservesCurrency.priceinreserve;
                             currency.origin = "NATI🦉";
                             currency.network = "vrsc";
@@ -148,6 +149,7 @@ export async function currencyReserveNatiOwl(priceArray, vrscBridgePrice) {
         currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 4 });
     })
 
+    result.estimatedNatiOwlSupply = estimatedNatiOwlSupply
     result.currencyNatiOwlArray = currencyNatiOwlArray;
     result.estimatedNatiOwlValueUSDtBTC = estimatedNatiOwlValueUSDtBTC;
     result.estimatedNatiOwlValueUSDVRSC = estimatedNatiOwlValueUSDVRSC;

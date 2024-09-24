@@ -48,6 +48,7 @@ export async function currencyReserveEthBridge(priceArray) {
                     getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
                         if (reservesCurrency.currencyid === currencyId) {
                             currency.reserves = reservesCurrency.reserves;//(reservesCurrency.reserves).toLocaleString(undefined, { minimumFractionDigits: 8 });
+                            currency.weight = reservesCurrency.weight *100;
                             currency.priceinreserve = reservesCurrency.priceinreserve;
                             currency.price = Math.round(daiReserve / currency.reserves * 100) / 100;
                             currency.origin = "Bridge.vETH";
@@ -92,6 +93,7 @@ export async function currencyReserveEthBridge(priceArray) {
         currency.reserves = currency.reserves.toLocaleString(undefined, { minimumFractionDigits: 4 });
     })
 
+    result.estimatedBridgeSupply = estimatedBridgeSupply;
     result.currencyBridgeArray = currencyBridgeArray;
     result.estimatedBridgeValue = estimatedBridgeValue;
     result.vrscBridgePrice = vrscBridgePrice;

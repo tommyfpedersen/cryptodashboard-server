@@ -83,13 +83,18 @@
             <div class="card-row-item">Reserves Value</div>
             <div class="card-row-item"> $ {{{estimatedKaijuReserveValue}}}</div>
         </div>
+         <br>
         <div class="card-row-wrapper">
-            <div class="card-row-item">Kaiju</div>
+            <div class="card-row-item">Kaiju price</div>
             <div class="card-row-item"> $ {{{estimatedKaijuValueUSD}}}</div>
+        </div>
+        <div class="card-row-wrapper">
+            <div class="card-row-item">Kaiju supply</div>
+            <div class="card-row-item">{{{estimatedKaijuSupply}}}</div>
         </div>
 
         {{#each currencyKaijuArray}}
-        <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
+        <div style="text-transform:none;" class="card-sub-title">{{currencyName}} ({{weight}}%)</div>
         <div class="card-row-wrapper">
             <div class="card-row-item">Reserve</div>
             <div class="card-row-item"> {{reserves}} </div>

@@ -91,14 +91,19 @@
             <div class="card-row-item-network">via VRSC</div>
             <div class="card-row-item"> $ {{{estimatedPureReserveValueUSDVRSC}}}</div>
         </div>
+        <br>
         <div class="card-row-wrapper">
-            <div class="card-row-item">Pure</div>
+            <div class="card-row-item">Pure price</div>
             <div class="card-row-item-network">VRSC {{estimatedPureValueVRSC}}</div>
             <div class="card-row-item"> $ {{{estimatedPureValueUSD}}}</div>
         </div>
+        <div class="card-row-wrapper">
+            <div class="card-row-item">Pure supply</div>
+            <div class="card-row-item"> {{{estimatedPureSupply}}}</div>
+        </div>
 
         {{#each currencyPureArray}}
-        <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
+        <div style="text-transform:none;" class="card-sub-title">{{currencyName}} ({{weight}}%)</div>
         <div class="card-row-wrapper">
             <div class="card-row-item">Reserve</div>
             <div class="card-row-item"> {{reserves}}</div>

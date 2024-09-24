@@ -96,14 +96,19 @@
             <div class="card-row-item-network">via VRSC</div>
             <div class="card-row-item"> $ {{{estimatedNatiReserveValueUSDVRSC}}}</div>
         </div>
+         <br>
         <div class="card-row-wrapper">
-            <div class="card-row-item">NATI</div>
+            <div class="card-row-item">NATI price</div>
             <div class="card-row-item-network">VRSC {{estimatedNatiValueVRSC}}</div>
             <div class="card-row-item"> $ {{{estimatedNatiValueUSD}}}</div>
         </div>
+        <div class="card-row-wrapper">
+            <div class="card-row-item">NATI supply</div>
+            <div class="card-row-item"> {{{estimatedNatiSupply}}}</div>
+        </div>
 
         {{#each currencyNatiArray}}
-        <div style="text-transform:none;" class="card-sub-title">{{currencyName}}</div>
+        <div style="text-transform:none;" class="card-sub-title">{{currencyName}} ({{weight}}%)</div>
         <div class="card-row-wrapper">
             <div class="card-row-item">Reserve</div>
             <div class="card-row-item"> {{reserves}}</div>
