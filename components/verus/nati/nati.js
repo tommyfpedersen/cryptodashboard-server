@@ -13,6 +13,7 @@ export async function currencyReserveNati(priceArray, vrscBridgePrice) {
 
     let NATIvETHCoingeckoPrice = 0;
     let vrscCoingeckoPrice = 0;
+    let NATIBasketPrice =0;
     let vrscReserve = 0;
     let natiReserve = 0;
     let NATIvETHReserve = 0;
@@ -70,12 +71,14 @@ export async function currencyReserveNati(priceArray, vrscBridgePrice) {
                             if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                                 currency.priceNative = Math.round(NATIvETHReserve / currency.reserves * 1000) / 1000;
                                 currency.pricelabel = "NATI.vETH";
+                              //  currency.price = Math.round( (Math.round(vrscReserve / NATIvETHReserve * 100000000) / 100000000 ) * currency.priceNative * 100 ) / 100 ;
+                              //  currency.price = Math.round(vrscBridgePrice * currency.reserves *100) / 100 ;
                                 currency.price = Math.round(NATIvETHCoingeckoPrice * currency.priceNative * 100 *10000) / 100 ;
                             }
                             if (currencyId === "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx") {
                                 currency.priceNative = (Math.round(vrscReserve / currency.reserves * 100000000) / 100000000 ).toFixed(5);
                                 currency.pricelabel = "VRSC";
-                                currency.price = (vrscBridgePrice * currency.priceNative).toFixed(5);
+                                currency.price = NATIBasketPrice =(vrscBridgePrice * currency.priceNative).toFixed(5);
                             }
                         }
 
@@ -108,9 +111,21 @@ export async function currencyReserveNati(priceArray, vrscBridgePrice) {
                     currency.currencyName = item[1];
                     currencyNatiArray.push(currency);
                 }
+
+             
+             
+
             })
         })
     }
+
+    /*recalc vrsc - nati */
+   // NATIBasketPrice
+    currencyNatiArray.forEach(elm=>{
+        if (elm.currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
+           elm.price =  Math.round(NATIBasketPrice * elm.priceNative * 100) / 100;
+        }
+    })
 
     /* estimated value of Nati */
     currencyNatiArray.forEach((currency) => {
