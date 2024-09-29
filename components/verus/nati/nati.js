@@ -66,14 +66,10 @@ export async function currencyReserveNati(priceArray, vrscBridgePrice) {
                             currency.origin = "NATI";
                             currency.network = "vrsc";
 
-                           
-
                             if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                                 currency.priceNative = Math.round(NATIvETHReserve / currency.reserves * 1000) / 1000;
                                 currency.pricelabel = "NATI.vETH";
-                              //  currency.price = Math.round( (Math.round(vrscReserve / NATIvETHReserve * 100000000) / 100000000 ) * currency.priceNative * 100 ) / 100 ;
-                              //  currency.price = Math.round(vrscBridgePrice * currency.reserves *100) / 100 ;
-                                currency.price = Math.round(NATIvETHCoingeckoPrice * currency.priceNative * 100 *10000) / 100 ;
+                                currency.price = vrscBridgePrice;
                             }
                             if (currencyId === "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx") {
                                 currency.priceNative = (Math.round(vrscReserve / currency.reserves * 100000000) / 100000000 ).toFixed(5);
@@ -112,20 +108,12 @@ export async function currencyReserveNati(priceArray, vrscBridgePrice) {
                     currencyNatiArray.push(currency);
                 }
 
-             
-             
+
+
 
             })
         })
     }
-
-    /*recalc vrsc - nati */
-   // NATIBasketPrice
-    currencyNatiArray.forEach(elm=>{
-        if (elm.currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
-           elm.price =  Math.round(NATIBasketPrice * elm.priceNative * 100) / 100;
-        }
-    })
 
     /* estimated value of Nati */
     currencyNatiArray.forEach((currency) => {
