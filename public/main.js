@@ -8,7 +8,8 @@ function init() {
     /* load settings */
     let settings = JSON.parse(localStorage.getItem("settings"));
     let settingsObject = {
-        cards: []
+        cards: [],
+        darkmode: false
     }
     if (!settings) {
         localStorage.setItem("settings", JSON.stringify(settingsObject));
@@ -23,6 +24,9 @@ function init() {
                 cardElm.classList.add("hide");
             }
         })
+        if(settings.darkmode === true){
+            enterDarkmode();
+        }
     }
 
     /* verus */
@@ -165,6 +169,86 @@ function init() {
     initResetLocalStorage();
     initSideMenu();
     initGraphBarHints();
+    initDarkmodeButton();
+}
+
+
+function initDarkmodeButton(){
+    let darkmodeButtonElement = document.querySelector("#dark-mode");
+    darkmodeButtonElement.addEventListener('click', (evt) => {
+        let settings = JSON.parse(localStorage.getItem("settings"));
+
+        if(settings.darkmode === true){
+            enterLightmode();
+        }else{
+            enterDarkmode();
+        }
+
+        settings.darkmode = !settings.darkmode;
+        localStorage.setItem("settings", JSON.stringify(settings));
+    })
+}
+function enterDarkmode(){
+    let backgroundColor = "#444";
+    let darkerBaggrundColor = "#111";
+    let color = "rgb(246, 246, 246)";
+
+    document.body.style.backgroundColor = backgroundColor; 
+    document.body.style.color = color; 
+    document.querySelector(".side-menu").style.backgroundColor = darkerBaggrundColor;
+    document.querySelector(".side-menu").style.color = color;
+
+    document.querySelector("#cache-updated").style.color = backgroundColor;
+
+    let cards = document.querySelectorAll(".card");
+    cards.forEach((card) => {
+        card.style.backgroundColor = darkerBaggrundColor;
+    })
+
+    let graphButtons = document.querySelectorAll('.button-deselected');
+    graphButtons.forEach((label) => {
+        label.style.color = color;
+    })
+
+    let aElements = document.querySelectorAll('a');
+    aElements.forEach((a) => {
+        a.style.color = color;
+    })
+
+    document.querySelector(".light-mode-icon").classList.replace("light-mode-icon","dark-mode-icon")
+
+}
+function enterLightmode(){
+    console.log("lightmode");
+
+    let backgroundColor = "rgb(246, 246, 246)";
+    let darkerBaggrundColor = "#fff";
+    let color = "#444";
+
+    document.body.style.backgroundColor = backgroundColor; 
+    document.body.style.color = color; 
+    document.querySelector(".side-menu").style.backgroundColor = darkerBaggrundColor;
+    document.querySelector(".side-menu").style.color = color;
+
+    document.querySelector("#cache-updated").style.color = color;
+
+    let cards = document.querySelectorAll(".card");
+    cards.forEach((card) => {
+        card.style.backgroundColor = darkerBaggrundColor;
+    })
+
+    let graphButtons = document.querySelectorAll('.button-deselected');
+    graphButtons.forEach((label) => {
+        label.style.color = color;
+    })
+
+    let aElements = document.querySelectorAll('a');
+    aElements.forEach((a) => {
+        a.style.color = color;
+    })
+
+    document.querySelector(".dark-mode-icon").classList.replace("dark-mode-icon","light-mode-icon")
+
 }
 
 function replaceUrlParam(url, paramName, paramValue) {

@@ -5,6 +5,7 @@
 
 body {
     background-color: rgb(246, 246, 246);
+    transition: background-color 0.3s ease, color 0.3s;
     color: #444;
     font-family: maven;
     position: relative;
@@ -32,11 +33,13 @@ body {
 #cache-updated{
     font-size: 12px;
     text-transform: none;
+    color: #444;
     background-color: white;
     border: 1px solid lightgray;
-    padding: 3px 10px;
+    padding: 8px 10px;
     border-radius: 3px;
     display: inline-block;
+    vertical-align: top;
 }
 .cache-out-of-sync{
     border: 1px solid orange !important;
@@ -46,6 +49,24 @@ body {
     width: 14px;
     height: 14px;
     display: inline-block;
+}
+
+#dark-mode {
+    display: inline-block;
+    cursor: pointer;
+}
+.light-mode-icon{
+    width: 20px; 
+    padding: 5px;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    fill: orange;
+}
+
+.dark-mode-icon{
+    width: 20px; 
+    padding: 5px;
+    fill: #ccc;
 }
 
 .side-menu-icon {
