@@ -20,6 +20,11 @@ export async function getBlockchainData() {
     let bitcoinPrice = bitcoinPriceItem?.price.toLocaleString() || "0";
     priceArray = [...coingeckoPriceArray];
 
+    /* Get 24h volume from coingecko*/
+    let vrscCoingeckoVolume = "0";
+    if (coingeckoPriceArray.find(item => item.name === "verus-coin") !== undefined) {
+        vrscCoingeckoVolume = coingeckoPriceArray.find(item => item.name === "verus-coin").totalVolume;
+    }
 
 
     ////
@@ -126,6 +131,7 @@ export async function getBlockchainData() {
             ethereumBridgePrice: currencyReserveBridge.ethereumBridgePrice,
             vrscBridgePrice: currencyReserveBridge.vrscBridgePrice,
             mkrBridgePrice: currencyReserveBridge.mkrBridgePrice,
+            vrscCoingeckoVolume: vrscCoingeckoVolume.toLocaleString(),
             // Verus bridge
             vrscBridgeVolumeInDollars24Hours: vrscVolume24Hours.totalVolume,
             vrscBridgeVolumeInDollars24HoursArray: vrscVolume24Hours.volumeArray,
@@ -226,18 +232,12 @@ export async function getBlockchainData() {
         vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }, { basket: "NATI", reserve: currencyReserveNati.estimatedNatiValueUSDVRSC, via: "via VRSC" }, { basket: "NATI🦉", reserve: currencyReserveNatiOwl.estimatedNatiOwlValueUSDVRSC, via: "via VRSC" }];
 
         // adding to 24H volume array
-        let vrscCoingeckoVolume = "0";
-        if (coingeckoPriceArray.find(item => item.name === "verus-coin") !== undefined) {
-            vrscCoingeckoVolume = coingeckoPriceArray.find(item => item.name === "verus-coin").totalVolume;
-        }
-
         vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vETH", volume: vrscVolume24Hours.totalVolume, via: "" },
         { basket: "Kaiju", volume: kaijuVolume24Hours.totalVolume, via: "" },
         { basket: "Pure", volume: ((Math.round(parseFloat((pureVolume24Hours.totalVolume === 0 ? "0" : pureVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
         { basket: "Switch", volume: switchVolume24Hours.totalVolume, via: "" },
         { basket: "NATI", volume: ((Math.round(parseFloat((natiVolume24Hours.totalVolume === 0 ? "0" : natiVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-        { basket: "NATI🦉", volume: ((Math.round(parseFloat((natiOwlVolume24Hours.totalVolume === 0 ? "0" : natiOwlVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-        { basket: "Coingecko", volume: (vrscCoingeckoVolume).toLocaleString(), via: "" }
+        { basket: "NATI🦉", volume: ((Math.round(parseFloat((natiOwlVolume24Hours.totalVolume === 0 ? "0" : natiOwlVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }
         ]
     } else {
         vrscRenderData = {
