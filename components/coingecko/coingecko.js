@@ -25,6 +25,7 @@ export async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
                             price: Math.round(item.current_price*100)/100,
+                            totalVolume: item.total_volume,
                             name: "bitcoin",
                             origin: "Coingecko",
                             network: "btc",
@@ -36,6 +37,7 @@ export async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
                             price: Math.round(item.current_price*100)/100,
+                            totalVolume: item.total_volume,
                             name: "verus-coin",
                             origin: "Coingecko",
                             network: "vrsc",
@@ -46,6 +48,7 @@ export async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
                             price: Math.round(item.current_price*100)/100,
+                            totalVolume: item.total_volume,
                             name: "dai",
                             origin: "Coingecko",
                             marketRank: item.market_cap_rank
@@ -55,6 +58,7 @@ export async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4",
                             price: Math.round(item.current_price*100)/100,
+                            totalVolume: item.total_volume,
                             name: "maker",
                             origin: "Coingecko",
                             network: "ethereum",
@@ -66,6 +70,7 @@ export async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
                             price: Math.round(item.current_price*100)/100,
+                            totalVolume: item.total_volume,
                             name: "ethereum",
                             origin: "Coingecko",
                             network: "ethereum",
@@ -77,6 +82,7 @@ export async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd",
                             price: Math.round(item.current_price*100)/100,
+                            totalVolume: item.total_volume,
                             name: "usdc",
                             origin: "Coingecko",
                             marketRank: item.market_cap_rank
@@ -87,6 +93,7 @@ export async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE",
                             price: Math.round(item.current_price*100)/100,
+                            totalVolume: item.total_volume,
                             name: "eurc",
                             origin: "Coingecko",
                             marketRank: item.market_cap_rank
@@ -97,6 +104,7 @@ export async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2",
                             price: Math.round(item.current_price*100)/100,
+                            totalVolume: item.total_volume,
                             name: "pirate-chain",
                             origin: "Coingecko",
                             network: "piratechain",
@@ -107,6 +115,7 @@ export async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY",
                             price: Math.round(item.current_price*100)/100,
+                            totalVolume: item.total_volume,
                             name: "usdt",
                             origin: "Coingecko",
                             marketRank: item.market_cap_rank
@@ -116,6 +125,7 @@ export async function getCoingeckoPrice() {
                         priceArray.push({
                             currencyId: "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx",
                             price: item.current_price,
+                            totalVolume: item.total_volume,
                             name: "nati",
                             origin: "Coingecko",
                             marketRank: item.market_cap_rank
