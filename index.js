@@ -449,10 +449,23 @@ app.get('/', async (req, res) => {
   let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
 
   vrscReserveArray.sort((a, b) => parseFloat(b.reserve.replace(/,/g, '')) - parseFloat(a.reserve.replace(/,/g, '')));
-  //vrscReserveArray.sort((a, b) => parseFloat( (b.reserve === 0 ? "0" : b.reserve).replace(/,/g, '')) - parseFloat((a.reserve === 0 ? "0" : a.reserve).replace(/,/g, '')));
   vrsc24HVolumeArray.sort((a, b) => parseFloat((b.volume === 0 ? "0" : b.volume).replace(/,/g, '')) - parseFloat((a.volume === 0 ? "0" : a.volume).replace(/,/g, '')));
 
-  mainRenderData = { ...mainRenderData, ...{ btcPriceArray, ethereumPriceArray, makerPriceArray, vrscPriceArray, arrrPriceArray, vrscReserveArray, vrsc24HVolumeArray } };
+  // Total reserve volume
+  let vrscReserveTotal = 0;
+  vrscReserveArray.map(item => {
+    vrscReserveTotal = vrscReserveTotal + parseFloat((item.reserve === 0 ? "0" : item.reserve).replace(/,/g, ''));
+  })
+  vrscReserveTotal = vrscReserveTotal.toLocaleString();
+
+  // Total 24H volume
+  let vrsc24HVolumeTotal = 0;
+  vrsc24HVolumeArray.map(item => {
+    vrsc24HVolumeTotal = vrsc24HVolumeTotal + parseFloat((item.volume === 0 ? "0" : item.volume).replace(/,/g, ''));
+  })
+  vrsc24HVolumeTotal = vrsc24HVolumeTotal.toLocaleString();
+
+  mainRenderData = { ...mainRenderData, ...{ btcPriceArray, ethereumPriceArray, makerPriceArray, vrscPriceArray, arrrPriceArray, vrscReserveArray, vrsc24HVolumeArray, vrscReserveTotal, vrsc24HVolumeTotal } };
 
 
   // ThreeFold //

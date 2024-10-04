@@ -22,13 +22,19 @@
         </div>
         {{/each}}
         <br>
-         <div class="card-row-wrapper">
+        <div class="card-row-wrapper">
+            <div class="card-row-item"> Total volume</div>
+            <div class="card-row-item">
+                $ {{vrsc24HVolumeTotal}}
+            </div>
+        </div>
+        <div class="card-row-wrapper">
             <div class="card-row-item"> CEX volume (Coingecko)</div>
             <div class="card-row-item">
                 $ {{vrscCoingeckoVolume}}
             </div>
         </div>
-       
+
         {{else}}
         {{{vrscStatusMessage}}}
         {{/if}}
