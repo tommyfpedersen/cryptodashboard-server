@@ -135,6 +135,13 @@ app.get('/', async (req, res) => {
     const natiOwlVolume7Days = await getCurrencyVolume("nati🦉", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
     const natiOwlVolume30Days = await getCurrencyVolume("nati🦉", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
 
+    /* Get superVRSC volume and reserve info */
+    const currencyReserveSuperVRSC = await getCurrencyReserve("supervrsc", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
+    // const natiVolume24Hours = await getCurrencyVolume("nati", currentBlock - 1440, currentBlock, 60, "vrsc");
+    // const natiVolume7Days = await getCurrencyVolume("nati", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
+    // const natiVolume30Days = await getCurrencyVolume("nati", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
+
+    //console.log("currencyReserveSuperVRSC", currencyReserveSuperVRSC);
 
 
     //  console.log("currencyReserveNati🦉 ",currencyReserveNatiOwl)
@@ -272,12 +279,28 @@ app.get('/', async (req, res) => {
       estimatedNatiOwlValueUSD: currencyReserveNatiOwl.estimatedNatiOwlValueUSD,
       estimatedNatiOwlValueVRSC: currencyReserveNatiOwl.estimatedNatiOwlValueVRSC,
       estimatedNatiOwlReserveValueUSDtBTC: currencyReserveNatiOwl.estimatedNatiOwlValueUSDtBTC,
-      estimatedNatiOwlReserveValueUSDVRSC: currencyReserveNatiOwl.estimatedNatiOwlValueUSDVRSC
+      estimatedNatiOwlReserveValueUSDVRSC: currencyReserveNatiOwl.estimatedNatiOwlValueUSDVRSC,
+      // Verus supervrsc
+      // currencyVolumeNati24Hours: natiVolume24Hours.totalVolume,
+      // currencyVolumeNati24HoursArray: natiVolume24Hours.volumeArray,
+      // currencyVolumeNati24HoursArrayYAxis: natiVolume24Hours.yAxisArray,
+      // currencyVolumeNati7Days: natiVolume7Days.totalVolume,
+      // currencyVolumeNati7DaysArray: natiVolume7Days.volumeArray,
+      // currencyVolumeNati7DaysArrayYAxis: natiVolume7Days.yAxisArray,
+      // currencyVolumeNati30Days: natiVolume30Days.totalVolume,
+      // currencyVolumeNati30DaysArray: natiVolume30Days.volumeArray,
+      // currencyVolumeNati30DaysArrayYAxis: natiVolume30Days.yAxisArray,
+      currencySuperVRSCArray: currencyReserveSuperVRSC.currencySuperVRSCArray,
+      estimatedSuperVRSCSupply: Math.round(currencyReserveSuperVRSC.estimatedSuperVRSCSupply).toLocaleString(),
+      estimatedSuperVRSCValueUSD: currencyReserveSuperVRSC.estimatedSuperVRSCValueUSD,
+      estimatedSuperVRSCValueVRSC: currencyReserveSuperVRSC.estimatedSuperVRSCValueVRSC,
+      estimatedSuperVRSCReserveValueUSDSuperVRSC: currencyReserveSuperVRSC.estimatedSuperVRSCValueUSDSuperVRSC,
+      estimatedSuperVRSCReserveValueUSDVRSC: currencyReserveSuperVRSC.estimatedSuperVRSCValueUSDVRSC,
     };
     // adding to pricingArray
-    priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray, ...vrscRenderData.currencyNatiArray, ...vrscRenderData.currencyNatiOwlArray];
+    priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray, ...vrscRenderData.currencyNatiArray, ...vrscRenderData.currencyNatiOwlArray, ...vrscRenderData.currencySuperVRSCArray];
     // adding to reserveArray
-    vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }, { basket: "NATI", reserve: currencyReserveNati.estimatedNatiValueUSDVRSC, via: "via VRSC" }, { basket: "NATI🦉", reserve: currencyReserveNatiOwl.estimatedNatiOwlValueUSDVRSC, via: "via VRSC" }];
+    vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }, { basket: "NATI", reserve: currencyReserveNati.estimatedNatiValueUSDVRSC, via: "via VRSC" }, { basket: "NATI🦉", reserve: currencyReserveNatiOwl.estimatedNatiOwlValueUSDVRSC, via: "via VRSC" }, { basket: "SUPERVRSC", reserve: currencyReserveSuperVRSC.estimatedSuperVRSCValueUSDVRSC, via: "via VRSC" }];
 
     // adding to 24H volume array
     vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vETH", volume: vrscVolume24Hours.totalVolume, via: "" },

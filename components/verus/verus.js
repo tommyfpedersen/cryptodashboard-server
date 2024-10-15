@@ -9,6 +9,7 @@ import { currencyReserveNati } from './nati/nati.js';
 import { currencyReservePure } from "./pure/pure.js";
 import { currencyReserveSwitch } from "./switch/switch.js";
 import { currencyReserveNatiOwl } from './natiowl/natiowl.js';
+import { currencyReserveSuperVRSC } from './supervrsc/supervrsc.js';
 
 export async function getNodeStatus() {
     let result = {};
@@ -286,5 +287,8 @@ export async function getCurrencyReserve(currencyName, priceArray, vrscBridgePri
     }
     if (currencyName === "nati🦉") {
         return currencyReserveNatiOwl(priceArray, vrscBridgePrice);
+    }
+    if (currencyName === "supervrsc") {
+        return currencyReserveSuperVRSC(priceArray, vrscBridgePrice);
     }
 }
