@@ -137,9 +137,9 @@ app.get('/', async (req, res) => {
 
     /* Get superVRSC volume and reserve info */
     const currencyReserveSuperVRSC = await getCurrencyReserve("supervrsc", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
-    // const natiVolume24Hours = await getCurrencyVolume("nati", currentBlock - 1440, currentBlock, 60, "vrsc");
-    // const natiVolume7Days = await getCurrencyVolume("nati", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
-    // const natiVolume30Days = await getCurrencyVolume("nati", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
+    const superVRSCVolume24Hours = await getCurrencyVolume("supervrsc", currentBlock - 1440, currentBlock, 60, "vrsc");
+    const superVRSCVolume7Days = await getCurrencyVolume("supervrsc", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
+    const superVRSCVolume30Days = await getCurrencyVolume("supervrsc", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
 
     //console.log("currencyReserveSuperVRSC", currencyReserveSuperVRSC);
 
@@ -281,15 +281,15 @@ app.get('/', async (req, res) => {
       estimatedNatiOwlReserveValueUSDtBTC: currencyReserveNatiOwl.estimatedNatiOwlValueUSDtBTC,
       estimatedNatiOwlReserveValueUSDVRSC: currencyReserveNatiOwl.estimatedNatiOwlValueUSDVRSC,
       // Verus supervrsc
-      // currencyVolumeNati24Hours: natiVolume24Hours.totalVolume,
-      // currencyVolumeNati24HoursArray: natiVolume24Hours.volumeArray,
-      // currencyVolumeNati24HoursArrayYAxis: natiVolume24Hours.yAxisArray,
-      // currencyVolumeNati7Days: natiVolume7Days.totalVolume,
-      // currencyVolumeNati7DaysArray: natiVolume7Days.volumeArray,
-      // currencyVolumeNati7DaysArrayYAxis: natiVolume7Days.yAxisArray,
-      // currencyVolumeNati30Days: natiVolume30Days.totalVolume,
-      // currencyVolumeNati30DaysArray: natiVolume30Days.volumeArray,
-      // currencyVolumeNati30DaysArrayYAxis: natiVolume30Days.yAxisArray,
+      currencyVolumeSuperVRSC24Hours: superVRSCVolume24Hours.totalVolume,
+      currencyVolumeSuperVRSC24HoursArray: superVRSCVolume24Hours.volumeArray,
+      currencyVolumeSuperVRSC24HoursArrayYAxis: superVRSCVolume24Hours.yAxisArray,
+      currencyVolumeSuperVRSC7Days: superVRSCVolume7Days.totalVolume,
+      currencyVolumeSuperVRSC7DaysArray: superVRSCVolume7Days.volumeArray,
+      currencyVolumeSuperVRSC7DaysArrayYAxis: superVRSCVolume7Days.yAxisArray,
+      currencyVolumeSuperVRSC30Days: superVRSCVolume30Days.totalVolume,
+      currencyVolumeSuperVRSC30DaysArray: superVRSCVolume30Days.volumeArray,
+      currencyVolumeSuperVRSC30DaysArrayYAxis: superVRSCVolume30Days.yAxisArray,
       currencySuperVRSCArray: currencyReserveSuperVRSC.currencySuperVRSCArray,
       estimatedSuperVRSCSupply: Math.round(currencyReserveSuperVRSC.estimatedSuperVRSCSupply).toLocaleString(),
       estimatedSuperVRSCValueUSD: currencyReserveSuperVRSC.estimatedSuperVRSCValueUSD,
@@ -308,8 +308,9 @@ app.get('/', async (req, res) => {
     { basket: "Pure", volume: ((Math.round(parseFloat((pureVolume24Hours.totalVolume === 0 ? "0" : pureVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
     { basket: "Switch", volume: switchVolume24Hours.totalVolume, via: "" },
     { basket: "NATI", volume: ((Math.round(parseFloat((natiVolume24Hours.totalVolume === 0 ? "0" : natiVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-    { basket: "NATI🦉", volume: ((Math.round(parseFloat((natiOwlVolume24Hours.totalVolume === 0 ? "0" : natiOwlVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }
-    ]
+    { basket: "NATI🦉", volume: ((Math.round(parseFloat((natiOwlVolume24Hours.totalVolume === 0 ? "0" : natiOwlVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+    { basket: "SUPERVRSC", volume: ((Math.round(parseFloat((superVRSCVolume24Hours.totalVolume === 0 ? "0" : superVRSCVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }  
+  ]
   } else {
     vrscRenderData = {
       vrscNodeStatus: vrscNodeStatus.online,
