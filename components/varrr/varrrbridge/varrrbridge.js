@@ -81,9 +81,9 @@ export async function currencyReserveVarrrBridge(priceArray, vrscBridgePrice, es
                                     currency.price = Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 100) / 100;
                                 }
                                 if (currencyId === "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2") {
-                                    currency.priceNative = Math.round(vrscReserve / currency.reserves * 100) / 100;
+                                    currency.priceNative = Math.round(vrscReserve / currency.reserves * 10000) / 10000;
                                     currency.pricelabel = "VRSC";
-                                    currency.price = Math.round(vrscBridgePrice * currency.priceNative * 100) / 100;
+                                    currency.price = Math.round(vrscBridgePrice * currency.priceNative * 1000) / 1000;
                                 }
                                 if (currencyId === "i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx") {
                                     currency.priceNative = Math.round(vrscReserve / currency.reserves * 100) / 100;
@@ -108,7 +108,7 @@ export async function currencyReserveVarrrBridge(priceArray, vrscBridgePrice, es
                                             currency.coingeckoLabel = "Bridge.vETH";
                                         }
                                         if (currencyId === "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2") {
-                                            currency.coingeckoprice = Math.round(price.price * 100) / 100;
+                                            currency.coingeckoprice = Math.round(price.price * 1000) / 1000;
                                             currency.coingeckoLabel = "Coingecko";
                                         }
                                         if (currencyId === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {

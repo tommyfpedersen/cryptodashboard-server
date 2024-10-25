@@ -103,7 +103,7 @@ export async function getCoingeckoPrice() {
                         //  ethereumPrice = item.current_price.toLocaleString();
                         priceArray.push({
                             currencyId: "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2",
-                            price: Math.round(item.current_price*100)/100,
+                            price: Math.round(item.current_price*1000)/1000,
                             totalVolume: item.total_volume,
                             name: "pirate-chain",
                             origin: "Coingecko",
