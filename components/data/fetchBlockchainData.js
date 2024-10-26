@@ -1,6 +1,6 @@
-import { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats } from '../verus/verus.js';
+import { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats, getVerusPriceList } from '../verus/verus.js';
 import { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve } from '../varrr/varrr.js';
-import { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance, calculateVdexStakingRewards, calculateVdexMiningRewards, getVdexCurrencyVolume, getVdexCurrencyReserve } from '../vdex/vdex.js';
+import { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance, calculateVdexStakingRewards, calculateVdexMiningRewards, getVdexCurrencyVolume, getVdexCurrencyReserve, getVdexPriceList } from '../vdex/vdex.js';
 import { getCoingeckoPrice } from '../coingecko/coingecko.js';
 import { getThreeFoldNodeArray } from '../threefold/threefold.js';
 
@@ -51,6 +51,9 @@ export async function getBlockchainData() {
 
         /* Get Coinsupply - marketcap */
         const coinSupply = await getMarketCapStats(currentBlock, currencyReserveBridge.vrscBridgePrice)
+
+        /* Get verus price list*/
+        const vrscPriceList = await getVerusPriceList(currencyReserveBridge.vrscBridgePrice)
 
         /* Calculate staking rewards */
         const stakingRewards = await calculateStakingRewards(coinSupply.totalSupply, blockandfeepoolrewards.stakingsupply, 100, currencyReserveBridge.vrscBridgePrice);
@@ -121,6 +124,7 @@ export async function getBlockchainData() {
             maxSupply: coinSupply.maxSupply.toLocaleString(),
             fullyDilutedMarketCap: Math.round(coinSupply.fullyDilutedMarketCap).toLocaleString(),
             marketRank: marketRank,
+            vrscPriceList: vrscPriceList.priceList,
             stakingAmount: stakingRewards.stakingAmount,
             stakingPercentage: (Math.round(stakingRewards.stakingPercentage * 100) / 100).toLocaleString(),
             stakingRewardsArray: stakingRewards.stakingArray,
@@ -261,8 +265,8 @@ export async function getBlockchainData() {
         { basket: "Switch", volume: switchVolume24Hours.totalVolume, via: "" },
         { basket: "NATI", volume: ((Math.round(parseFloat((natiVolume24Hours.totalVolume === 0 ? "0" : natiVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
         { basket: "NATI🦉", volume: ((Math.round(parseFloat((natiOwlVolume24Hours.totalVolume === 0 ? "0" : natiOwlVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-        { basket: "SUPERVRSC", volume: ((Math.round(parseFloat((superVRSCVolume24Hours.totalVolume === 0 ? "0" : superVRSCVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }  
-    ]
+        { basket: "SUPERVRSC", volume: ((Math.round(parseFloat((superVRSCVolume24Hours.totalVolume === 0 ? "0" : superVRSCVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }
+        ]
     } else {
         vrscRenderData = {
             vrscNodeStatus: vrscNodeStatus.online,
@@ -366,6 +370,9 @@ export async function getBlockchainData() {
         const vdexVolume30Days = await getVdexCurrencyVolume("bridge.vdex", currentBlock - 1440 * 30, currentBlock, 1440, "DAI.vETH");
         const vdexBridgePrice = currencyReserveVdexBridge.currencyBridgeArray.find(item => item.currencyName === 'vDEX').price;
 
+        /* Get vdex price list*/
+        const vdexPriceList = await getVdexPriceList(vdexBridgePrice);
+
         /* Calculate vdex staking rewards */
         const vdexStakingRewards = await calculateVdexStakingRewards(vdexblockandfeepoolrewards.stakingsupply, 100, vdexBridgePrice);
 
@@ -382,6 +389,7 @@ export async function getBlockchainData() {
             vdexblockReward: vdexblockandfeepoolrewards.blockReward,
             vdexfeeReward: vdexblockandfeepoolrewards.feeReward,
             vdexaverageblockfees: vdexblockandfeepoolrewards.averageblockfees,
+            vdexPriceList: vdexPriceList.priceList,
             vdexStakingAmount: vdexStakingRewards.stakingAmount,
             vdexStakingRewardsArray: vdexStakingRewards.stakingArray,
             vdexStakingSupply: Math.round(vdexblockandfeepoolrewards.stakingsupply).toLocaleString(),

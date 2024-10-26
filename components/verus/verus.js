@@ -79,6 +79,23 @@ export async function getMarketCapStats(block, vrscPrice) {
     return result;
 }
 
+export async function getVerusPriceList(vrscPrice) {
+    let result = {}
+    let priceList = [];
+
+    priceList.push({ label: "VerusID", nativePrice: "100", price: Math.round(vrscPrice * 100) })
+    priceList.push({ label: "VerusID 1. ref", nativePrice: "80", price: Math.round(vrscPrice * 80) })
+    priceList.push({ label: "VerusID 2. ref", nativePrice: "60", price: Math.round(vrscPrice * 60) })
+    priceList.push({ label: "VerusID 3. ref", nativePrice: "40", price: Math.round(vrscPrice * 40) })
+    priceList.push({ label: "Verus subID *", nativePrice: "0.01", price: Math.round(vrscPrice * 0.01 * 100) / 100 })
+    priceList.push({ label: "Currency", nativePrice: "200", price: Math.round(vrscPrice * 200) })
+    priceList.push({ label: "PBaaS", nativePrice: "10000", price: Math.round(vrscPrice * 10000).toLocaleString() })
+
+    result.priceList = priceList;
+    result.note = "* Verus subId needs a VerusID and a currency";
+    return result;
+}
+
 export async function getAddressBalance(address) {
     let result = {};
     let getAddressBalanceArray = [];

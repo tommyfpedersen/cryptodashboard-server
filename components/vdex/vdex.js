@@ -114,6 +114,19 @@ export async function getVdexAddressBalance(address) {
     return result;
 }
 
+export async function getVdexPriceList(vDexPrice) {
+    let result = {}
+    let priceList = [];
+
+    priceList.push({ label: "vDEX ID", nativePrice: "1", price: Math.round(vDexPrice * 1) })
+    priceList.push({ label: "vDEX subID *", nativePrice: "0.01", price: Math.round(vDexPrice * 0.01 * 100) / 100 })
+    priceList.push({ label: "Currency", nativePrice: "10", price: Math.round(vDexPrice * 10) })
+
+    result.priceList = priceList;
+    result.note = "* Verus subId needs a VerusID and a currency";
+    return result;
+}
+
 export async function calculateVdexStakingRewards(stakingsupply, stakingAmountUnencoded, vrscPrice) {
     let result = {};
     let stakingArray = [];

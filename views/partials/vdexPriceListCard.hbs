@@ -1,0 +1,25 @@
+<div class="card" id="vdex-price-list">
+    vDEX
+    <button class="hide-button">x</button>
+    <div class="card-content">
+        <div class="card-title">Price List</div>
+        {{#if vdexOnline}}
+
+        {{#each vdexPriceList}}
+        <div class="card-row-wrapper">
+            <div class="card-row-item">{{{label}}}</div>
+            <div class="card-row-item-network">vDEX {{{nativePrice}}}</div>
+            <div class="card-row-item">
+                $ {{{price}}}
+            </div>
+        </div>
+        {{/each}}
+        <br>
+        <div style="font-size: 12px">* vDEX subId needs a vDEX ID and a Currency</div>
+
+        {{!-- <div class="card-row-item-details">Last 100 blocks</div> --}}
+        {{else}}
+        {{{vdexStatusMessage}}}
+        {{/if}}
+    </div>
+</div>
