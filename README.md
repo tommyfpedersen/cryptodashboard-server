@@ -21,5 +21,5 @@ VERUS_REST_API_VDEX=http://localhost:9011/
 7. Open your browser and go to the page http://localhost:3000/ and you will see the cryptodashboard.
 
 # Notes
-1. this project is still in development - missing some error handling
-2. things could be more compact and code could be more reuseably
+1. This project is still in development - missing some error handling
+2. Things could be more compact and code could be more reuseably
