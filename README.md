@@ -1,26 +1,25 @@
-# verus-rest-api
-Free to use Verus node express REST API framework. 
+# cryptodahboard-server
+Free to use cryptodashboard build to show stats from the Verus Protocol.
 
-Useful for Javascript developers and can be used as a base REST API for your dapps.
+Useful for Javascript developers and can be used as a monitor for your PBaaS or currencies on the Verus Protocol.
 
 # Requirements 
-A running Verus Node
+1. A running Verus Node
+2. A running Redis server
+3. One to more running instance of https://github.com/tommyfpedersen/verus-rpc-node-api - one for every pbaas chain - change the port e.g. 9009 for verus, 9010 for varrr and 9011 for vdex so you have multiple endpoints. Remember also to change username and password to the Verus RPC.
 
 # Setup 
-1. Install and run Verus CLI Wallet / Verus Desktop App
-2. Clone or download this repository
-3. Find the rpc_user and rpc_password in VRSC.conf
+1. Run NPM install
+2. Make sure you have endpoints up and running e.g. http://localhost:9009/mining/getmininginfo and http://localhost:9010/mining/getmininginfo
+3. Create .env file with e.g
+VERUS_REST_API=http://localhost:9009/
+VERUS_REST_API_VARRR=http://localhost:9010/
+VERUS_REST_API_VDEX=http://localhost:9011/
+4. Prepare coinsupply - call e.g. http://localhost:9009/blockchain/coinsupply/3262063 <- change the blocknumber to the latest - this can take up to an hour and you may call the endpoint a couple of times because it times out. When getting a result go on to the next step.
+5. Run node cacheserver.js - this will call Verus RPC every 1 minute and save the results in Redis.
+6. Run node index.js - this will run the cryptodashboard and call the Redis server. If user inputs as address balance is used the index.js also calls additional endpoints to get the latest values.
+7. Open your browser and go to the page http://localhost:3000/ and you will see the cryptodashboard.
 
-  - windows: %appdata%\Komodo\VRSC 
-  - linux: ~/.komodo/VRSC
-  - macOS: ~/Library/Application Support/Komodo/VRSC
-  - https://wiki.verus.io/#!faq-windows/winfaq-03_verus_desktop_locations.md
-
-4. change the config.js variables with your rpc_user and rpc_password
-5. Optional: Add your own .env file with with your rpc_user and rpc_password
-6. Run NPM install
-7. Run node index.js
-8. Open your browser and go to the page http://localhost:3000/ and e.g http://localhost:3000/mining/getmininginfo
-
-# Options available to the Verus RPC client.
-https://wiki.verus.io/#!faq-cli/clifaq-02_verus_commands.md
+# Notes
+1. this project is still in development - missing some error handling
+2. things could be more compact and code could be more reuseably
