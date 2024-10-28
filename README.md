@@ -1,4 +1,4 @@
-# cryptodahboard-server
+# cryptodashboard-server
 Free to use cryptodashboard build to show stats from the Verus Protocol.
 
 Useful for Javascript developers and can be used as a monitor for your PBaaS or currencies on the Verus Protocol.
