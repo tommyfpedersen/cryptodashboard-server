@@ -118,9 +118,13 @@ export async function getVdexPriceList(vDexPrice) {
     let result = {}
     let priceList = [];
 
-    priceList.push({ label: "vDEX ID", nativePrice: "1", price: Math.round(vDexPrice * 1) })
-    priceList.push({ label: "vDEX subID *", nativePrice: "0.01", price: Math.round(vDexPrice * 0.01 * 100) / 100 })
-    priceList.push({ label: "Currency", nativePrice: "10", price: Math.round(vDexPrice * 10) })
+    priceList.push({ label: "Addr <-> Addr", nativePrice: "vDEX 0.0001", price: "$ " + Number.parseFloat(Math.round(vDexPrice * 0.0001)).toFixed(2) })
+    priceList.push({ label: "Basket <-> Reserve", nativePrice: "", price: "0.025%" })
+    priceList.push({ label: "Reserve <-> Reserve", nativePrice: "", price: "0.050%" })
+    priceList.push({ label: "Storage fee (1k)", nativePrice: "vDEX 0.01", price: "$ " + Math.round(vDexPrice * 0.01 * 100) / 100 })
+    priceList.push({ label: "vDEX ID", nativePrice: "vDEX 1", price: "$ " + Math.round(vDexPrice * 1) })
+    priceList.push({ label: "vDEX subID *", nativePrice: "vDEX >0.01", price: "$ >" + Math.round(vDexPrice * 0.01 * 100) / 100 })
+    priceList.push({ label: "Currency", nativePrice: "vDEX 10", price: "$ " + Math.round(vDexPrice * 10) })
 
     result.priceList = priceList;
     result.note = "* Verus subId needs a VerusID and a currency";
@@ -133,7 +137,7 @@ export async function calculateVdexStakingRewards(stakingsupply, stakingAmountUn
     let stakingAmount = 100;
     if (stakingAmountUnencoded) {
         stakingAmount = decodeURIComponent(stakingAmountUnencoded);
-    } 
+    }
 
     result.stakingAmount = stakingAmount;
     let apy = 720 * 0.00777 * 365 / stakingsupply;
@@ -171,23 +175,23 @@ export async function calculateVdexMiningRewards(networkHashPerSecond, vdexMinin
 
     result.vdexMiningHash = vdexMiningHash;
     let apy = 720 * 0.08 * 365 / networkHashPerSecond * 1000000;
-    
+
     let miningRewardsDaily = {
         label: "Daily",
-        rewards: Math.round(apy * vdexMiningHash / 365*10000)/10000,
-        dollars: Math.round(apy * vdexMiningHash / 365 * vdexPrice *100)/100
+        rewards: Math.round(apy * vdexMiningHash / 365 * 10000) / 10000,
+        dollars: Math.round(apy * vdexMiningHash / 365 * vdexPrice * 100) / 100
     }
     let miningRewardsMonthly = {
         label: "Monthly",
-        rewards: Math.round(apy * vdexMiningHash / 12*10000)/10000,
-        dollars: Math.round(apy * vdexMiningHash / 12 * vdexPrice *100)/100
+        rewards: Math.round(apy * vdexMiningHash / 12 * 10000) / 10000,
+        dollars: Math.round(apy * vdexMiningHash / 12 * vdexPrice * 100) / 100
     }
     let miningRewardsYearly = {
         label: "Yearly",
-        rewards: Math.round(apy * vdexMiningHash *10000)/10000,
-        dollars: Math.round(apy * vdexMiningHash * vdexPrice *100)/100
+        rewards: Math.round(apy * vdexMiningHash * 10000) / 10000,
+        dollars: Math.round(apy * vdexMiningHash * vdexPrice * 100) / 100
     }
-    
+
     miningArray.push(miningRewardsDaily);
     miningArray.push(miningRewardsMonthly);
     miningArray.push(miningRewardsYearly);
@@ -202,14 +206,14 @@ export async function getVdexCurrencyVolume(currencyName, fromBlock, toBlock, in
     let yAxisArray = [];
 
     const currencyState = await getCurrencyState(currencyName, fromBlock, toBlock, interval, converttocurrency);
-    
-    currencyState.map((item)=>{
-        if(item.conversiondata){
+
+    currencyState.map((item) => {
+        if (item.conversiondata) {
             let volume = Math.round(item.conversiondata.volumethisinterval);
-            volumeArray.push({volume:volume});
+            volumeArray.push({ volume: volume });
         }
-        if(item.totalvolume){
-            totalVolume =  Math.round(item.totalvolume).toLocaleString();
+        if (item.totalvolume) {
+            totalVolume = Math.round(item.totalvolume).toLocaleString();
         }
     })
 

@@ -83,13 +83,17 @@ export async function getVerusPriceList(vrscPrice) {
     let result = {}
     let priceList = [];
 
-    priceList.push({ label: "VerusID", nativePrice: "100", price: Math.round(vrscPrice * 100) })
-    priceList.push({ label: "VerusID 1. ref", nativePrice: "80", price: Math.round(vrscPrice * 80) })
-    priceList.push({ label: "VerusID 2. ref", nativePrice: "60", price: Math.round(vrscPrice * 60) })
-    priceList.push({ label: "VerusID 3. ref", nativePrice: "40", price: Math.round(vrscPrice * 40) })
-    priceList.push({ label: "Verus subID *", nativePrice: "0.01", price: Math.round(vrscPrice * 0.01 * 100) / 100 })
-    priceList.push({ label: "Currency", nativePrice: "200", price: Math.round(vrscPrice * 200) })
-    priceList.push({ label: "PBaaS", nativePrice: "10000", price: Math.round(vrscPrice * 10000).toLocaleString() })
+    priceList.push({ label: "Addr <-> Addr", nativePrice: "VRSC 0.0001", price: "$ " +Number.parseFloat(Math.round(vrscPrice * 0.0001)).toFixed(2) })
+    priceList.push({ label: "Basket <-> Reserve", nativePrice: "", price: "0.025%" })
+    priceList.push({ label: "Reserve <-> Reserve", nativePrice: "", price: "0.050%" })
+    priceList.push({ label: "Storage fee (1k)", nativePrice: "VRSC 0.01", price: "$ " + Math.round(vrscPrice * 0.01*100)/100 })
+    priceList.push({ label: "VerusID", nativePrice: "VRSC 100", price:  "$ " +Math.round(vrscPrice * 100) })
+    priceList.push({ label: "VerusID 1. ref", nativePrice: "VRSC 80", price:  "$ " +Math.round(vrscPrice * 80) })
+    priceList.push({ label: "VerusID 2. ref", nativePrice: "VRSC 60", price:  "$ " +Math.round(vrscPrice * 60) })
+    priceList.push({ label: "VerusID 3. ref", nativePrice: "VRSC 40", price:  "$ " +Math.round(vrscPrice * 40) })
+    priceList.push({ label: "Verus subID *", nativePrice: "VRSC >0.01", price:  "$ >" +Math.round(vrscPrice * 0.01 * 100) / 100 })
+    priceList.push({ label: "Currency", nativePrice: "VRSC 200", price:  "$ " +Math.round(vrscPrice * 200) })
+    priceList.push({ label: "PBaaS", nativePrice: "VRSC 10000", price:  "$ " +Math.round(vrscPrice * 10000).toLocaleString() })
 
     result.priceList = priceList;
     result.note = "* Verus subId needs a VerusID and a currency";
@@ -172,6 +176,12 @@ export async function getAddressBalance(address) {
             }
             if ("iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx" === item) {
                 getAddressBalanceArray.push({ currencyName: "NATI.vETH", amount: getAddressBalance.currencybalance.iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx })
+            }
+            if ("iHnYAmrS45Hb8GVgyzy7nVQtZ5vttJ9N3X" === item) {
+                getAddressBalanceArray.push({ currencyName: "SUPERVRSC", amount: getAddressBalance.currencybalance.iHnYAmrS45Hb8GVgyzy7nVQtZ5vttJ9N3X })
+            }
+            if ("i6SapneNdvpkrLPgqPhDVim7Ljek3h2UQZ" === item) {
+                getAddressBalanceArray.push({ currencyName: "SUPERNET", amount: getAddressBalance.currencybalance.i6SapneNdvpkrLPgqPhDVim7Ljek3h2UQZ })
             }
         })
     }
