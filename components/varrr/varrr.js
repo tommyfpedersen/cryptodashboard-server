@@ -44,6 +44,26 @@ export async function getVarrrBlockAndFeePoolRewards() {
     return result;
 }
 
+export async function getVarrrPriceList(varrrPrice) {
+    let result = {}
+    let priceList = [];
+
+    priceList.push({ label: "Addr <-> Addr", nativePrice: "vARRR 0.0001", price: "$ " +Number.parseFloat(Math.round(varrrPrice * 0.0001)).toFixed(2) })
+    priceList.push({ label: "Basket <-> Reserve", nativePrice: "", price: "0.025%" })
+    priceList.push({ label: "Reserve <-> Reserve", nativePrice: "", price: "0.050%" })
+    priceList.push({ label: "Storage fee (1k)", nativePrice: "vARRR 0.01", price: "$ " + Math.round(varrrPrice * 0.01*100)/100 })
+    priceList.push({ label: "vARRR ID", nativePrice: "vARRR 100", price:  "$ " +Math.round(varrrPrice * 100) })
+    priceList.push({ label: "vARRR 1. ref", nativePrice: "vARRR 80", price:  "$ " +Math.round(varrrPrice * 80) })
+    priceList.push({ label: "vARRR 2. ref", nativePrice: "vARRR 60", price:  "$ " +Math.round(varrrPrice * 60) })
+    priceList.push({ label: "vARRR 3. ref", nativePrice: "vARRR 40", price:  "$ " +Math.round(varrrPrice * 40) })
+    priceList.push({ label: "vARRR subID *", nativePrice: "vARRR >0.01", price:  "$ >" +Math.round(varrrPrice * 0.01 * 100) / 100 })
+    priceList.push({ label: "Currency", nativePrice: "vARRR 200", price:  "$ " +Math.round(varrrPrice * 200) })
+  
+    result.priceList = priceList;
+    result.note = "* Verus subId needs a VerusID and a currency";
+    return result;
+}
+
 export async function getVarrrAddressBalance(address) {
     let result = {};
     let getAddressBalanceArray = [];

@@ -1,5 +1,5 @@
 import { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats, getVerusPriceList } from '../verus/verus.js';
-import { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve } from '../varrr/varrr.js';
+import { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve, getVarrrPriceList } from '../varrr/varrr.js';
 import { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance, calculateVdexStakingRewards, calculateVdexMiningRewards, getVdexCurrencyVolume, getVdexCurrencyReserve, getVdexPriceList } from '../vdex/vdex.js';
 import { getCoingeckoPrice } from '../coingecko/coingecko.js';
 import { getThreeFoldNodeArray } from '../threefold/threefold.js';
@@ -299,6 +299,9 @@ export async function getBlockchainData() {
 
         const varrrBridgePrice = currencyReserveVarrrBridge.currencyVarrrBridgeArray.find(item => item.currencyName === 'vARRR').price;
 
+        /* Get vARRR price list*/
+        const varrrPriceList = await getVarrrPriceList(varrrBridgePrice);
+
         /* Calculate varrr staking rewards */
         const varrrStakingRewards = await calculateVarrrStakingRewards(varrrblockandfeepoolrewards.stakingsupply, 100, varrrBridgePrice);
 
@@ -315,6 +318,7 @@ export async function getBlockchainData() {
             varrrblockReward: varrrblockandfeepoolrewards.blockReward,
             varrrfeeReward: varrrblockandfeepoolrewards.feeReward,
             varrraverageblockfees: varrrblockandfeepoolrewards.averageblockfees,
+            varrrPriceList: varrrPriceList.priceList,
             varrrStakingAmount: varrrStakingRewards.stakingAmount,
             varrrStakingRewardsArray: varrrStakingRewards.stakingArray,
             varrrStakingSupply: Math.round(varrrblockandfeepoolrewards.stakingsupply).toLocaleString(),
