@@ -5,16 +5,16 @@ import client from '../../redisClient.js';
 let data = {};
 
 export async function writeToCache(fileName, dataObject) {
+
+  // check fetching error
+  let fetchingError = await client.get("fetchingerror");
+  if(fetchingError === true){
+    // do not save data
+    return;
+  }
+
   data = JSON.stringify(dataObject);
   client.set("data", data);
-
-  // try {
-  //   const dataString = JSON.stringify(dataObject);
-  //   await fs.writeFile(fileName, dataString, 'utf8');
-  //   console.log('Data written to cache successfully.');
-  // } catch (error) {
-  //   console.error('Failed to write to cache:', error);
-  // }
 }
 
 export async function readFromCache(fileName) {
@@ -35,16 +35,6 @@ export async function readFromCache(fileName) {
   resultParsed.timeAgo = timeAgo;
 
   return resultParsed;
-
-  // try {
-  //   const dataString = await fs.readFile(fileName, 'utf8');
-  //   const dataObject = JSON.parse(dataString);
-  //   console.log('Data read from cache successfully.');
-  //   return dataObject;
-  // } catch (error) {
-  //   console.error('Failed to read from cache:', error);
-  //   return null; // or throw the error, depending on your error handling strategy
-  // }
 }
 
 export async function isCacheReady() {

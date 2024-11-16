@@ -3,10 +3,15 @@ import { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBala
 import { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance, calculateVdexStakingRewards, calculateVdexMiningRewards, getVdexCurrencyVolume, getVdexCurrencyReserve, getVdexPriceList } from '../vdex/vdex.js';
 import { getCoingeckoPrice } from '../coingecko/coingecko.js';
 import { getThreeFoldNodeArray } from '../threefold/threefold.js';
+import client from '../../redisClient.js';
 
 
 
 export async function getBlockchainData() {
+
+    /* Clear fetch status */
+    client.set("fetchingerror", JSON.stringify(false));
+
 
     /* RenderData def*/
     let mainRenderData = {};
@@ -204,6 +209,7 @@ export async function getBlockchainData() {
             estimatedSwitchValue: currencyReserveSwitch.estimatedSwitchValue,
             estimatedSwitchReserveValue: currencyReserveSwitch.estimatedSwitcheReserveValue,
             estimatedSwitchValueUSDVRSC: currencyReserveSwitch.estimatedSwitchValueUSDVRSC,
+            estimatedSwitchValueVRSC: currencyReserveSwitch.estimatedSwitchValueVRSC,
             // Verus nati
             currencyVolumeNati24Hours: natiVolume24Hours.totalVolume,
             currencyVolumeNati24HoursArray: natiVolume24Hours.volumeArray,

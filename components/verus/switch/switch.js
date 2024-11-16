@@ -19,7 +19,7 @@ export async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
     let estimatedSwitchReserveValue = 0;
     let estimatedSwitchValueUSDVRSC = 0;
     let estimatedSwitchSupply = getcurrency.bestcurrencystate.supply;
-    let estimatedSwitchValueUSD = 0;
+    let estimatedSwitchValueVRSC = 0;
 
     if (getcurrency) {
         let currencyIdArray = Object.values(getcurrency.currencies);
@@ -35,8 +35,9 @@ export async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
                             daiReserve = reservesCurrency.reserves;
                             estimatedSwitchReserveValue = daiReserve * 1 / reservesCurrency.weight;
                             estimatedSwitchValue = (Math.round(estimatedSwitchReserveValue / estimatedSwitchSupply * 100) / 100).toLocaleString();
-                            estimatedSwitchValueUSDVRSC = (Math.round(estimatedSwitchValue / vrscBridgePrice * 100000000) / 100000000).toLocaleString();
+                            estimatedSwitchValueUSDVRSC = (Math.round(estimatedSwitchValue / vrscBridgePrice *100) / 100).toLocaleString();
                             estimatedSwitchReserveValue = (Math.round(estimatedSwitchReserveValue ) ).toLocaleString();
+                            estimatedSwitchValueVRSC = (Math.round(estimatedSwitchValueUSDVRSC / vrscBridgePrice*1000)/1000 ).toLocaleString();
                         }
                     })
                 }
@@ -116,5 +117,6 @@ export async function currencyReserveSwitch(priceArray, vrscBridgePrice) {
     result.estimatedSwitchValue = estimatedSwitchValue;
     result.estimatedSwitcheReserveValue = estimatedSwitchReserveValue;
     result.estimatedSwitchValueUSDVRSC = estimatedSwitchValueUSDVRSC;
+    result.estimatedSwitchValueVRSC = estimatedSwitchValueVRSC;
     return result;
 }
