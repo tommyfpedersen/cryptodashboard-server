@@ -131,6 +131,13 @@ export async function currencyReserveSuperVRSC(priceArray, vrscBridgePrice) {
     catch {
         console.log("supervrsc fetch failed");
         client.set("fetchingerror", JSON.stringify(true));
+
+        result.estimatedSuperVRSCSupply = 0;
+        result.currencySuperVRSCArray = [];
+        result.estimatedSuperVRSCValueUSDSuperVRSC = 0;
+        result.estimatedSuperVRSCValueUSDVRSC = 0;
+        result.estimatedSuperVRSCValueUSD = 0;
+        result.estimatedSuperVRSCValueVRSC = 0;
     }
 
     return result;
