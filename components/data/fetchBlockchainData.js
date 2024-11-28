@@ -102,10 +102,16 @@ export async function getBlockchainData() {
         const superVRSCVolume7Days = await getCurrencyVolume("supervrsc", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
         const superVRSCVolume30Days = await getCurrencyVolume("supervrsc", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
 
+        /* Get vYIELD volume and reserve info */
+        const currencyReserveVyield = await getCurrencyReserve("vyield", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
+        // const vyieldVolume24Hours = await getCurrencyVolume("vyield", currentBlock - 1440, currentBlock, 60, "scrvUSD.vETH");
+        // const vyieldVolume7Days = await getCurrencyVolume("vyield", currentBlock - 1440 * 7, currentBlock, 1440, "scrvUSD.vETH");
+        // const vyieldVolume30Days = await getCurrencyVolume("vyield", currentBlock - 1440 * 30, currentBlock, 1440, "scrvUSD.vETH");
+
+      //  console.log("currencyReserveVyield", currencyReserveVyield )
+
         /* Get 30 days price data */
- //       const purePriceArray30Days = await getCurrencyPriceArray("pure", currentBlock, 30);
-
-
+        //       const purePriceArray30Days = await getCurrencyPriceArray("pure", currentBlock, 30);
         // console.log("currencyReserveNati ",currencyReserveNati)
         // console.log("natiVolume24Hours ",natiVolume24Hours)
         // console.log("natiVolume7Days ",natiVolume7Days)
@@ -260,6 +266,23 @@ export async function getBlockchainData() {
             estimatedSuperVRSCValueVRSC: currencyReserveSuperVRSC.estimatedSuperVRSCValueVRSC,
             estimatedSuperVRSCReserveValueUSDSuperVRSC: currencyReserveSuperVRSC.estimatedSuperVRSCValueUSDSuperVRSC,
             estimatedSuperVRSCReserveValueUSDVRSC: currencyReserveSuperVRSC.estimatedSuperVRSCValueUSDVRSC,
+            // vYIELD
+            // currencyVolumeVyield24Hours: vyieldVolume24Hours.totalVolume,
+            // currencyVolumeVyield24HoursArray: vyieldVolume24Hours.volumeArray,
+            // currencyVolumeVyield24HoursArrayYAxis: vyieldVolume24Hours.yAxisArray,
+            // currencyVolumeVyield7Days: vyieldVolume7Days.totalVolume,
+            // currencyVolumeVyield7DaysArray: vyieldVolume7Days.volumeArray,
+            // currencyVolumeVyield7DaysArrayYAxis: vyieldVolume7Days.yAxisArray,
+            // currencyVolumeVyield30Days: vyieldVolume30Days.totalVolume,
+            // currencyVolumeVyield30DaysArray: vyieldVolume30Days.volumeArray,
+            // currencyVolumeVyield30DaysArrayYAxis: vyieldVolume30Days.yAxisArray,
+            currencyVyieldArray: currencyReserveVyield.currencyVyieldArray,
+            estimatedVyieldSupply: Math.round(currencyReserveVyield.estimatedVyieldSupply).toLocaleString(),
+            estimatedVyieldValueUSD: currencyReserveVyield.estimatedVyieldValueUSD,
+            estimatedVyieldValueVRSC: currencyReserveVyield.estimatedVyieldValueVRSC,
+            estimatedVyieldReserveValue: currencyReserveVyield.estimatedVyieldReserveValue,
+            estimatedVyieldValue: currencyReserveVyield.estimatedVyieldValue,
+            estimatedVyieldValueUSDVRSC: currencyReserveVyield.estimatedVyieldValueUSDVRSC
         };
         // adding to pricingArray
         priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray, ...vrscRenderData.currencyNatiArray, ...vrscRenderData.currencyNatiOwlArray, ...vrscRenderData.currencySuperVRSCArray];

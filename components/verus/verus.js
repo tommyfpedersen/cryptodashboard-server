@@ -10,6 +10,7 @@ import { currencyReservePure } from "./pure/pure.js";
 import { currencyReserveSwitch } from "./switch/switch.js";
 import { currencyReserveNatiOwl } from './natiowl/natiowl.js';
 import { currencyReserveSuperVRSC } from './supervrsc/supervrsc.js';
+import { currencyReserveVyield } from './vyield/vyield.js';
 
 export async function getNodeStatus() {
     let result = {};
@@ -317,6 +318,9 @@ export async function getCurrencyReserve(currencyName, priceArray, vrscBridgePri
     }
     if (currencyName === "supervrsc") {
         return currencyReserveSuperVRSC(priceArray, vrscBridgePrice);
+    }
+    if (currencyName === "vyield") {
+        return currencyReserveVyield(priceArray, vrscBridgePrice);
     }
 }
 

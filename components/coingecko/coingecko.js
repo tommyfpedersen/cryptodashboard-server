@@ -17,7 +17,7 @@ export async function getCoingeckoPrice() {
         if (cacheStartTime + coolDownTime < Date.now()) {
             priceArray = [];
 
-            let coingeckoPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2C%20verus-coin%2C%20dai%2C%20maker%2C%20ethereum%2C%20usd-coin%2C%20euro-coin%2C%20pirate-chain%2C%20tether%2C%20illuminaticoin&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en&order=market_cap_desc&precision=8");
+            let coingeckoPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2C%20verus-coin%2C%20dai%2C%20maker%2C%20ethereum%2C%20usd-coin%2C%20euro-coin%2C%20pirate-chain%2C%20tether%2C%20illuminaticoin%2C%20crvusd%2C%20savings-crvusd&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en&order=market_cap_desc&precision=8");
             const coingeckoPriceResult = await coingeckoPriceResponse.json();
             const coingeckoPrice = coingeckoPriceResult;
 
@@ -125,12 +125,22 @@ export async function getCoingeckoPrice() {
                                 marketRank: item.market_cap_rank
                             })
                         }
-                        if (item.id === "illuminaticoin") {
+                        // if (item.id === "crvusd") {
+                        //     priceArray.push({
+                        //         currencyId: "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx",
+                        //         price: item.current_price,
+                        //         totalVolume: item.total_volume,
+                        //         name: "crvusd",
+                        //         origin: "Coingecko",
+                        //         marketRank: item.market_cap_rank
+                        //     })
+                        // }
+                        if (item.id === "savings-crvusd") {
                             priceArray.push({
-                                currencyId: "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx",
+                                currencyId: "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj",
                                 price: item.current_price,
                                 totalVolume: item.total_volume,
-                                name: "nati",
+                                name: "scrvusd",
                                 origin: "Coingecko",
                                 marketRank: item.market_cap_rank
                             })
