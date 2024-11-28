@@ -319,3 +319,10 @@ export async function getCurrencyReserve(currencyName, priceArray, vrscBridgePri
         return currencyReserveSuperVRSC(priceArray, vrscBridgePrice);
     }
 }
+
+export async function getCurrencyPriceArray(currencyName, currentBlock, days){
+     // do magic
+    const blockend = 1440 * days;
+
+    return "";//getCurrencyState(currencyName, currentBlock, blockend, 1, "vrsc");
+}

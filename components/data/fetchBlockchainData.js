@@ -1,4 +1,4 @@
-import { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats, getVerusPriceList } from '../verus/verus.js';
+import { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats, getVerusPriceList, getCurrencyPriceArray } from '../verus/verus.js';
 import { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve, getVarrrPriceList } from '../varrr/varrr.js';
 import { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance, calculateVdexStakingRewards, calculateVdexMiningRewards, getVdexCurrencyVolume, getVdexCurrencyReserve, getVdexPriceList } from '../vdex/vdex.js';
 import { getCoingeckoPrice } from '../coingecko/coingecko.js';
@@ -102,6 +102,8 @@ export async function getBlockchainData() {
         const superVRSCVolume7Days = await getCurrencyVolume("supervrsc", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
         const superVRSCVolume30Days = await getCurrencyVolume("supervrsc", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
 
+        /* Get 30 days price data */
+ //       const purePriceArray30Days = await getCurrencyPriceArray("pure", currentBlock, 30);
 
 
         // console.log("currencyReserveNati ",currencyReserveNati)
