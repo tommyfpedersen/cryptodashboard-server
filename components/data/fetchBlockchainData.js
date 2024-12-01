@@ -18,6 +18,8 @@ export async function getBlockchainData() {
     let priceArray = [];
     let vrscReserveArray = [];
     let vrsc24HVolumeArray = [];
+    let vrscReserveTotal = 0;
+    let vrsc24HVolumeTotal = 0;
 
     /* Get price from coingecko */
     let coingeckoPriceArray = await getCoingeckoPrice();
@@ -108,7 +110,7 @@ export async function getBlockchainData() {
         // const vyieldVolume7Days = await getCurrencyVolume("vyield", currentBlock - 1440 * 7, currentBlock, 1440, "scrvUSD.vETH");
         // const vyieldVolume30Days = await getCurrencyVolume("vyield", currentBlock - 1440 * 30, currentBlock, 1440, "scrvUSD.vETH");
 
-      //  console.log("currencyReserveVyield", currencyReserveVyield )
+        //  console.log("currencyReserveVyield", currencyReserveVyield )
 
         /* Get 30 days price data */
         //       const purePriceArray30Days = await getCurrencyPriceArray("pure", currentBlock, 30);
@@ -284,20 +286,27 @@ export async function getBlockchainData() {
             estimatedVyieldValue: currencyReserveVyield.estimatedVyieldValue,
             estimatedVyieldValueUSDVRSC: currencyReserveVyield.estimatedVyieldValueUSDVRSC
         };
-        // adding to pricingArray
-        priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray, ...vrscRenderData.currencyNatiArray, ...vrscRenderData.currencyNatiOwlArray, ...vrscRenderData.currencySuperVRSCArray];
-        // adding to reserveArray
-        vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }, { basket: "NATI", reserve: currencyReserveNati.estimatedNatiValueUSDVRSC, via: "via VRSC" }, { basket: "NATI🦉", reserve: currencyReserveNatiOwl.estimatedNatiOwlValueUSDVRSC, via: "via VRSC" }, { basket: "SUPERVRSC", reserve: currencyReserveSuperVRSC.estimatedSuperVRSCValueUSDVRSC, via: "via VRSC" }];
 
-        // adding to 24H volume array
-        vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vETH", volume: vrscVolume24Hours.totalVolume, via: "" },
-        { basket: "Kaiju", volume: kaijuVolume24Hours.totalVolume, via: "" },
-        { basket: "Pure", volume: ((Math.round(parseFloat((pureVolume24Hours.totalVolume === 0 ? "0" : pureVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-        { basket: "Switch", volume: switchVolume24Hours.totalVolume, via: "" },
-        { basket: "NATI", volume: ((Math.round(parseFloat((natiVolume24Hours.totalVolume === 0 ? "0" : natiVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-        { basket: "NATI🦉", volume: ((Math.round(parseFloat((natiOwlVolume24Hours.totalVolume === 0 ? "0" : natiOwlVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-        { basket: "SUPERVRSC", volume: ((Math.round(parseFloat((superVRSCVolume24Hours.totalVolume === 0 ? "0" : superVRSCVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }
-        ]
+        // check fetching error
+        let fetchingError = await client.get("fetchingerror");
+        console.log("error", fetchingError, typeof fetchingError)
+        if (fetchingError === "false") {
+            // adding to pricingArray
+            priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray, ...vrscRenderData.currencyNatiArray, ...vrscRenderData.currencyNatiOwlArray, ...vrscRenderData.currencySuperVRSCArray];
+            // adding to reserveArray
+            vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" }, { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }, { basket: "NATI", reserve: currencyReserveNati.estimatedNatiValueUSDVRSC, via: "via VRSC" }, { basket: "NATI🦉", reserve: currencyReserveNatiOwl.estimatedNatiOwlValueUSDVRSC, via: "via VRSC" }, { basket: "SUPERVRSC", reserve: currencyReserveSuperVRSC.estimatedSuperVRSCValueUSDVRSC, via: "via VRSC" }];
+
+            // adding to 24H volume array
+            vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vETH", volume: vrscVolume24Hours.totalVolume, via: "" },
+            { basket: "Kaiju", volume: kaijuVolume24Hours.totalVolume, via: "" },
+            { basket: "Pure", volume: ((Math.round(parseFloat((pureVolume24Hours.totalVolume === 0 ? "0" : pureVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+            { basket: "Switch", volume: switchVolume24Hours.totalVolume, via: "" },
+            { basket: "NATI", volume: ((Math.round(parseFloat((natiVolume24Hours.totalVolume === 0 ? "0" : natiVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+            { basket: "NATI🦉", volume: ((Math.round(parseFloat((natiOwlVolume24Hours.totalVolume === 0 ? "0" : natiOwlVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+            { basket: "SUPERVRSC", volume: ((Math.round(parseFloat((superVRSCVolume24Hours.totalVolume === 0 ? "0" : superVRSCVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }
+            ]
+        }
+
     } else {
         vrscRenderData = {
             vrscNodeStatus: vrscNodeStatus.online,
@@ -374,9 +383,13 @@ export async function getBlockchainData() {
             estimatedVarrrBridgeReserveValueUSDBTC: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDBTC,
             estimatedVarrrBridgeReserveValueUSDVRSC: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC
         }
-        priceArray = [...priceArray, ...varrrRenderData.currencyVarrrBridgeArray];
-        vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vARRR", reserve: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC, via: "via VRSC" }];
-        vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vARRR", volume: ((Math.round(parseFloat((varrrVolume24Hours.totalVolume === 0 ? "0" : varrrVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }]
+        // check fetching error
+        let fetchingError = await client.get("fetchingerror");
+        if (fetchingError === "false") {
+            priceArray = [...priceArray, ...varrrRenderData.currencyVarrrBridgeArray];
+            vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vARRR", reserve: currencyReserveVarrrBridge.estimatedVarrrBridgeValueUSDVRSC, via: "via VRSC" }];
+            vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vARRR", volume: ((Math.round(parseFloat((varrrVolume24Hours.totalVolume === 0 ? "0" : varrrVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }]
+        }
     } else {
         varrrRenderData = {
             varrrOnline: varrrNodeStatus.online,
@@ -450,9 +463,13 @@ export async function getBlockchainData() {
             estimatedVdexBridgeReserveValueUSDBTC: currencyReserveVdexBridge.estimatedBridgeValueUSDBTC,
             estimatedVdexBridgeReserveValueUSDVRSC: currencyReserveVdexBridge.estimatedBridgeValueUSDVRSC
         }
-        priceArray = [...priceArray, ...vdexRenderData.currencyVdexBridgeArray];
-        vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vDEX", reserve: currencyReserveVdexBridge.estimatedBridgeValue, via: "" }];
-        vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vDEX", volume: vdexVolume24Hours.totalVolume, via: "" }]
+        // check fetching error
+        let fetchingError = await client.get("fetchingerror");
+        if (fetchingError === "false") {
+            priceArray = [...priceArray, ...vdexRenderData.currencyVdexBridgeArray];
+            vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.vDEX", reserve: currencyReserveVdexBridge.estimatedBridgeValue, via: "" }];
+            vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vDEX", volume: vdexVolume24Hours.totalVolume, via: "" }]
+        }
     } else {
         vdexRenderData = {
             vdexOnline: vdexNodeStatus.online,
@@ -467,22 +484,24 @@ export async function getBlockchainData() {
     let vrscPriceArray = priceArray.filter(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV').sort((a, b) => b.price - a.price);
     let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
 
-    vrscReserveArray.sort((a, b) => parseFloat(b.reserve.replace(/,/g, '')) - parseFloat(a.reserve.replace(/,/g, '')));
-    vrsc24HVolumeArray.sort((a, b) => parseFloat((b.volume === 0 ? "0" : b.volume).replace(/,/g, '')) - parseFloat((a.volume === 0 ? "0" : a.volume).replace(/,/g, '')));
+    // check fetching error
+    let fetchingError = await client.get("fetchingerror");
+    if (fetchingError === "false") {
+        vrscReserveArray.sort((a, b) => parseFloat(b.reserve.replace(/,/g, '')) - parseFloat(a.reserve.replace(/,/g, '')));
+        vrsc24HVolumeArray.sort((a, b) => parseFloat((b.volume === 0 ? "0" : b.volume).replace(/,/g, '')) - parseFloat((a.volume === 0 ? "0" : a.volume).replace(/,/g, '')));
 
-    // Total reserve volume
-    let vrscReserveTotal = 0;
-    vrscReserveArray.map(item => {
-        vrscReserveTotal = vrscReserveTotal + parseFloat((item.reserve === 0 ? "0" : item.reserve).replace(/,/g, ''));
-    })
-    vrscReserveTotal = vrscReserveTotal.toLocaleString();
+        // Total reserve volume
+        vrscReserveArray.map(item => {
+            vrscReserveTotal = vrscReserveTotal + parseFloat((item.reserve === 0 ? "0" : item.reserve).replace(/,/g, ''));
+        })
+        vrscReserveTotal = vrscReserveTotal.toLocaleString();
 
-    // Total 24H volume
-    let vrsc24HVolumeTotal = 0;
-    vrsc24HVolumeArray.map(item => {
-        vrsc24HVolumeTotal = vrsc24HVolumeTotal + parseFloat((item.volume === 0 ? "0" : item.volume).replace(/,/g, ''));
-    })
-    vrsc24HVolumeTotal = vrsc24HVolumeTotal.toLocaleString();
+        // Total 24H volume
+        vrsc24HVolumeArray.map(item => {
+            vrsc24HVolumeTotal = vrsc24HVolumeTotal + parseFloat((item.volume === 0 ? "0" : item.volume).replace(/,/g, ''));
+        })
+        vrsc24HVolumeTotal = vrsc24HVolumeTotal.toLocaleString();
+    }
 
     mainRenderData = { ...mainRenderData, ...{ btcPriceArray, ethereumPriceArray, makerPriceArray, vrscPriceArray, arrrPriceArray, vrscReserveArray, vrsc24HVolumeArray, vrscReserveTotal, vrsc24HVolumeTotal } };
 
