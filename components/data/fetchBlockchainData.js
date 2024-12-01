@@ -289,7 +289,6 @@ export async function getBlockchainData() {
 
         // check fetching error
         let fetchingError = await client.get("fetchingerror");
-        console.log("error", fetchingError, typeof fetchingError)
         if (fetchingError === "false") {
             // adding to pricingArray
             priceArray = [...priceArray, ...vrscRenderData.currencyBridgeArray, ...vrscRenderData.currencyKaijuArray, ...vrscRenderData.currencyPureArray, ...vrscRenderData.currencySwitchArray, ...vrscRenderData.currencyNatiArray, ...vrscRenderData.currencyNatiOwlArray, ...vrscRenderData.currencySuperVRSCArray];
