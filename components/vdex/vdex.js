@@ -122,12 +122,12 @@ export async function getVdexPriceList(vDexPrice) {
     priceList.push({ label: "Basket <-> Reserve", nativePrice: "", price: "0.025%" })
     priceList.push({ label: "Reserve <-> Reserve", nativePrice: "", price: "0.050%" })
     priceList.push({ label: "Storage fee (1k)", nativePrice: "vDEX 0.01", price: "$ " + Math.round(vDexPrice * 0.01 * 100) / 100 })
-    priceList.push({ label: "vDEX ID", nativePrice: "vDEX 1", price: "$ " + Math.round(vDexPrice * 1) })
-    priceList.push({ label: "vDEX subID *", nativePrice: "vDEX >0.01", price: "$ >" + Math.round(vDexPrice * 0.01 * 100) / 100 })
+    priceList.push({ label: "ID", nativePrice: "vDEX 1", price: "$ " + Math.round(vDexPrice * 1) })
+    priceList.push({ label: "SubID *", nativePrice: "vDEX >0.01", price: "$ >" + Math.round(vDexPrice * 0.01 * 100) / 100 })
     priceList.push({ label: "Currency", nativePrice: "vDEX 10", price: "$ " + Math.round(vDexPrice * 10) })
 
     result.priceList = priceList;
-    result.note = "* Verus subId needs a VerusID and a currency";
+    result.note = "* SubId needs a ID and a currency";
     return result;
 }
 

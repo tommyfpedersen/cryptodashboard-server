@@ -52,15 +52,16 @@ export async function getVarrrPriceList(varrrPrice) {
     priceList.push({ label: "Basket <-> Reserve", nativePrice: "", price: "0.025%" })
     priceList.push({ label: "Reserve <-> Reserve", nativePrice: "", price: "0.050%" })
     priceList.push({ label: "Storage fee (1k)", nativePrice: "vARRR 0.01", price: "$ " + Math.round(varrrPrice * 0.01*100)/100 })
-    priceList.push({ label: "vARRR ID", nativePrice: "vARRR 100", price:  "$ " +Math.round(varrrPrice * 100) })
-    priceList.push({ label: "vARRR 1. ref", nativePrice: "vARRR 80", price:  "$ " +Math.round(varrrPrice * 80) })
-    priceList.push({ label: "vARRR 2. ref", nativePrice: "vARRR 60", price:  "$ " +Math.round(varrrPrice * 60) })
-    priceList.push({ label: "vARRR 3. ref", nativePrice: "vARRR 40", price:  "$ " +Math.round(varrrPrice * 40) })
-    priceList.push({ label: "vARRR subID *", nativePrice: "vARRR >0.01", price:  "$ >" +Math.round(varrrPrice * 0.01 * 100) / 100 })
+    priceList.push({ label: "ID no ref", nativePrice: "vARRR 100", price:  "$ " +Math.round(varrrPrice * 100) })
+    priceList.push({ label: "ID 1.ref, not yours", nativePrice: "vARRR 80", price:  "$ " +Math.round(varrrPrice * 80) })
+    priceList.push({ label: "ID 1.ref, yours", nativePrice: "vARRR 60", price:  "$ " +Math.round(varrrPrice * 60) })
+    priceList.push({ label: "ID 2.ref, all yours", nativePrice: "vARRR 40", price:  "$ " +Math.round(varrrPrice * 40) })
+    priceList.push({ label: "ID 3.ref, all yours", nativePrice: "vARRR 20", price:  "$ " +Math.round(varrrPrice * 20) })
+    priceList.push({ label: "SubID *", nativePrice: "vARRR >0.01", price:  "$ >" +Math.round(varrrPrice * 0.01 * 100) / 100 })
     priceList.push({ label: "Currency", nativePrice: "vARRR 200", price:  "$ " +Math.round(varrrPrice * 200) })
   
     result.priceList = priceList;
-    result.note = "* Verus subId needs a VerusID and a currency";
+    result.note = "* SubId needs a ID and a currency";
     return result;
 }
 

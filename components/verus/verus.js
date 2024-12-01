@@ -88,16 +88,17 @@ export async function getVerusPriceList(vrscPrice) {
     priceList.push({ label: "Basket <-> Reserve", nativePrice: "", price: "0.025%" })
     priceList.push({ label: "Reserve <-> Reserve", nativePrice: "", price: "0.050%" })
     priceList.push({ label: "Storage fee (1k)", nativePrice: "VRSC 0.01", price: "$ " + Math.round(vrscPrice * 0.01*100)/100 })
-    priceList.push({ label: "VerusID", nativePrice: "VRSC 100", price:  "$ " +Math.round(vrscPrice * 100) })
-    priceList.push({ label: "VerusID 1. ref", nativePrice: "VRSC 80", price:  "$ " +Math.round(vrscPrice * 80) })
-    priceList.push({ label: "VerusID 2. ref", nativePrice: "VRSC 60", price:  "$ " +Math.round(vrscPrice * 60) })
-    priceList.push({ label: "VerusID 3. ref", nativePrice: "VRSC 40", price:  "$ " +Math.round(vrscPrice * 40) })
-    priceList.push({ label: "Verus subID *", nativePrice: "VRSC >0.01", price:  "$ >" +Math.round(vrscPrice * 0.01 * 100) / 100 })
+    priceList.push({ label: "ID no ref", nativePrice: "VRSC 100", price:  "$ " +Math.round(vrscPrice * 100) })
+    priceList.push({ label: "ID 1.ref, not yours", nativePrice: "VRSC 80", price:  "$ " +Math.round(vrscPrice * 80) })
+    priceList.push({ label: "ID 1.ref, yours", nativePrice: "VRSC 60", price:  "$ " +Math.round(vrscPrice * 60) })
+    priceList.push({ label: "ID 2.ref, all yours", nativePrice: "VRSC 40", price:  "$ " +Math.round(vrscPrice * 40) })
+    priceList.push({ label: "ID 3.ref, all yours", nativePrice: "VRSC 20", price:  "$ " +Math.round(vrscPrice * 20) })
+    priceList.push({ label: "SubID *", nativePrice: "VRSC >0.01", price:  "$ >" +Math.round(vrscPrice * 0.01 * 100) / 100 })
     priceList.push({ label: "Currency", nativePrice: "VRSC 200", price:  "$ " +Math.round(vrscPrice * 200) })
     priceList.push({ label: "PBaaS", nativePrice: "VRSC 10000", price:  "$ " +Math.round(vrscPrice * 10000).toLocaleString() })
 
     result.priceList = priceList;
-    result.note = "* Verus subId needs a VerusID and a currency";
+    result.note = "* SubId needs a ID and a currency";
     return result;
 }
 

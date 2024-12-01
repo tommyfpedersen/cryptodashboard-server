@@ -91,7 +91,7 @@ export async function currencyReserveVyield(priceArray, vrscBridgePrice) {
 
                                 currency.priceNative = Math.round(vrscReserve / currency.reserves * 100) / 100;
                                 currency.pricelabel = "VRSC";
-                                currency.price = Math.round(vrscBridgePrice * currency.priceNative * 100) / 100;
+                                currency.price = Math.round(vrscBridgePrice * currency.priceNative * 10000) / 10000;
                             }
                         }
                     })
