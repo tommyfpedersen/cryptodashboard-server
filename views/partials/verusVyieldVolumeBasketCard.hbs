@@ -13,19 +13,19 @@
         <div class="card-title">vYIELD Basket</div>
         {{#if vrscOnline}}
 
-        {{!-- <div class="graph-container">
+        <div class="graph-container">
             <div class="graph-group hide">
                 <div class="card-sub-title">24 hours Volume</div>
-                <div class="card-sub-title-main-value">$ {{{currencyVolumeSwitch24Hours}}}</div>
+                <div class="card-sub-title-main-value">$ {{{currencyVolumeVyield24Hours}}}</div>
                 <br>
                 <div class="graph-y-axis">
-                    {{#each currencyVolumeSwitch24HoursArrayYAxis}}<div class="graph-y-axis-item">
+                    {{#each currencyVolumeVyield24HoursArrayYAxis}}<div class="graph-y-axis-item">
                         {{value}}
                     </div>{{/each}}
                 </div>
 
                 <div class="graph-bar-container">
-                    {{#each currencyVolumeSwitch24HoursArray}}<div style="height:{{barPCT}}px;"
+                    {{#each currencyVolumeVyield24HoursArray}}<div style="height:{{barPCT}}px;"
                         class="graph-bar graph-bar-large" data-volume="{{volume}}" data-label="">
                     </div>{{/each}}
                     <div class="graph-x-axis"></div>
@@ -35,16 +35,16 @@
 
             <div class="graph-group hide">
                 <div class="card-sub-title">7 days Volume</div>
-                <div class="card-sub-title-main-value">$ {{{currencyVolumeSwitch7Days}}} </div>
+                <div class="card-sub-title-main-value">$ {{{currencyVolumeVyield7Days}}} </div>
                 <br>
                 <div class="graph-y-axis">
-                    {{#each currencyVolumeSwitch7DaysArrayYAxis}}<div class="graph-y-axis-item">
+                    {{#each currencyVolumeVyield7DaysArrayYAxis}}<div class="graph-y-axis-item">
                         {{value}}
                     </div>{{/each}}
                 </div>
 
                 <div class="graph-bar-container">
-                    {{#each currencyVolumeSwitch7DaysArray}}<div style="height:{{barPCT}}px;"
+                    {{#each currencyVolumeVyield7DaysArray}}<div style="height:{{barPCT}}px;"
                         class="graph-bar graph-bar-xlarge" data-volume="{{volume}}" data-label="">
                     </div>{{/each}}
                     <div class="graph-x-axis"></div>
@@ -54,16 +54,16 @@
 
             <div class="graph-group">
                 <div class="card-sub-title">30 days Volume</div>
-                <div class="card-sub-title-main-value">$ {{{currencyVolumeSwitch30Days}}} </div>
+                <div class="card-sub-title-main-value">$ {{{currencyVolumeVyield30Days}}} </div>
                 <br>
                 <div class="graph-y-axis">
-                    {{#each currencyVolumeSwitch30DaysArrayYAxis}}<div class="graph-y-axis-item">
+                    {{#each currencyVolumeVyield30DaysArrayYAxis}}<div class="graph-y-axis-item">
                         {{value}}
                     </div>{{/each}}
                 </div>
 
                 <div class="graph-bar-container">
-                    {{#each currencyVolumeSwitch30DaysArray}}<div style="height:{{barPCT}}px;"
+                    {{#each currencyVolumeVyield30DaysArray}}<div style="height:{{barPCT}}px;"
                         class="graph-bar graph-bar-small" data-volume="{{volume}}" data-label="">
                     </div>{{/each}}
                     <div class="graph-x-axis"></div>
@@ -75,7 +75,7 @@
                     class="graph-button button-deselected">7D</button><button
                     class="graph-button button-selected">30D</button>
             </div>
-        </div> --}}
+        </div>
 
         <br>
 
