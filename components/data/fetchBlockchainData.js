@@ -110,6 +110,14 @@ export async function getBlockchainData() {
         const vyieldVolume7Days = await getCurrencyVolume("vyield", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
         const vyieldVolume30Days = await getCurrencyVolume("vyield", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
 
+        /* Get Kek🐸 volume and reserve info */
+        const currencyReserveKekFrog = await getCurrencyReserve("Kek🐸", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
+        // const kekFrogVolume24Hours = await getCurrencyVolume("Kek🐸", currentBlock - 1440, currentBlock, 60, "vrsc");
+        // const kekFrogVolume7Days = await getCurrencyVolume("Kek🐸", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
+        // const kekFrogVolume30Days = await getCurrencyVolume("Kek🐸", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
+
+
+        //  console.log("currencyReserveKekFrog", currencyReserveKekFrog );
         //  console.log("currencyReserveVyield", currencyReserveVyield )
 
         /* Get 30 days price data */
@@ -284,34 +292,51 @@ export async function getBlockchainData() {
             estimatedVyieldValueVRSC: currencyReserveVyield.estimatedVyieldValueVRSC,
             estimatedVyieldReserveValue: currencyReserveVyield.estimatedVyieldReserveValue,
             estimatedVyieldValue: currencyReserveVyield.estimatedVyieldValue,
-            estimatedVyieldValueUSDVRSC: currencyReserveVyield.estimatedVyieldValueUSDVRSC
+            estimatedVyieldValueUSDVRSC: currencyReserveVyield.estimatedVyieldValueUSDVRSC,
+            // KekFrog
+            // currencyVolumeKekFrog24Hours: kekFrogVolume24Hours.totalVolume,
+            // currencyVolumeKekFrog24HoursArray: kekFrogVolume24Hours.volumeArray,
+            // currencyVolumeKekFrog24HoursArrayYAxis: kekFrogVolume24Hours.yAxisArray,
+            // currencyVolumeKekFrog7Days: kekFrogVolume7Days.totalVolume,
+            // currencyVolumeKekFrog7DaysArray: kekFrogVolume7Days.volumeArray,
+            // currencyVolumeKekFrog7DaysArrayYAxis: kekFrogVolume7Days.yAxisArray,
+            // currencyVolumeKekFrog30Days: kekFrogVolume30Days.totalVolume,
+            // currencyVolumeKekFrog30DaysArray: kekFrogVolume30Days.volumeArray,
+            // currencyVolumeKekFrog30DaysArrayYAxis: kekFrogVolume30Days.yAxisArray,
+            currencyKekFrogArray: currencyReserveKekFrog.currencyKekFrogArray,
+            estimatedKekFrogSupply: Math.round(currencyReserveKekFrog.estimatedKekFrogSupply).toLocaleString(),
+            estimatedKekFrogValueUSD: currencyReserveKekFrog.estimatedKekFrogValueUSD,
+            estimatedKekFrogValueVRSC: currencyReserveKekFrog.estimatedKekFrogValueVRSC,
+            estimatedKekFrogReserveValue: currencyReserveKekFrog.estimatedKekFrogReserveValue,
+            estimatedKekFrogValue: currencyReserveKekFrog.estimatedKekFrogValue,
+            estimatedKekFrogValueUSDVRSC: currencyReserveKekFrog.estimatedKekFrogValueUSDVRSC
         };
 
         // check fetching error
         let fetchingError = await client.get("fetchingerror");
         if (fetchingError === "false") {
             // adding to pricingArray
-            priceArray = [...priceArray, 
-                ...vrscRenderData.currencyBridgeArray, 
-                ...vrscRenderData.currencyKaijuArray, 
-                ...vrscRenderData.currencyPureArray, 
-                ...vrscRenderData.currencySwitchArray, 
-                ...vrscRenderData.currencyNatiArray, 
-                ...vrscRenderData.currencyNatiOwlArray, 
-                ...vrscRenderData.currencySuperVRSCArray, 
-                ...vrscRenderData.currencyVyieldArray
+            priceArray = [...priceArray,
+            ...vrscRenderData.currencyBridgeArray,
+            ...vrscRenderData.currencyKaijuArray,
+            ...vrscRenderData.currencyPureArray,
+            ...vrscRenderData.currencySwitchArray,
+            ...vrscRenderData.currencyNatiArray,
+            ...vrscRenderData.currencyNatiOwlArray,
+            ...vrscRenderData.currencySuperVRSCArray,
+            ...vrscRenderData.currencyVyieldArray
             ];
 
             // adding to reserveArray
-            vrscReserveArray = [...vrscReserveArray, 
-                { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" }, 
-                { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" }, 
-                { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" }, 
-                { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" }, 
-                { basket: "NATI", reserve: currencyReserveNati.estimatedNatiValueUSDVRSC, via: "via VRSC" }, 
-                { basket: "NATI🦉", reserve: currencyReserveNatiOwl.estimatedNatiOwlValueUSDVRSC, via: "via VRSC" }, 
-                { basket: "SUPERVRSC", reserve: currencyReserveSuperVRSC.estimatedSuperVRSCValueUSDVRSC, via: "via VRSC" },
-                { basket: "vYIELD", reserve: currencyReserveVyield.estimatedVyieldReserveValue, via: "via VRSC" }
+            vrscReserveArray = [...vrscReserveArray,
+            { basket: "Bridge.vETH", reserve: currencyReserveBridge.estimatedBridgeValue, via: "" },
+            { basket: "Kaiju", reserve: currencyReserveKaiju.estimatedKaijuValue, via: "" },
+            { basket: "Pure", reserve: currencyReservePure.estimatedPureValueUSDVRSC, via: "via VRSC" },
+            { basket: "Switch", reserve: currencyReserveSwitch.estimatedSwitcheReserveValue, via: "" },
+            { basket: "NATI", reserve: currencyReserveNati.estimatedNatiValueUSDVRSC, via: "via VRSC" },
+            { basket: "NATI🦉", reserve: currencyReserveNatiOwl.estimatedNatiOwlValueUSDVRSC, via: "via VRSC" },
+            { basket: "SUPERVRSC", reserve: currencyReserveSuperVRSC.estimatedSuperVRSCValueUSDVRSC, via: "via VRSC" },
+            { basket: "vYIELD", reserve: currencyReserveVyield.estimatedVyieldReserveValue, via: "via VRSC" }
             ];
 
             // adding to 24H volume array

@@ -17,7 +17,7 @@ export async function getCoingeckoPrice() {
         if (cacheStartTime + coolDownTime < Date.now()) {
             priceArray = [];
 
-            let coingeckoPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2C%20verus-coin%2C%20dai%2C%20maker%2C%20ethereum%2C%20usd-coin%2C%20euro-coin%2C%20pirate-chain%2C%20tether%2C%20illuminaticoin%2C%20crvusd%2C%20savings-crvusd&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en&order=market_cap_desc&precision=8");
+            let coingeckoPriceResponse = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2C%20verus-coin%2C%20dai%2C%20maker%2C%20ethereum%2C%20usd-coin%2C%20euro-coin%2C%20pirate-chain%2C%20tether%2C%20illuminaticoin%2C%20crvusd%2C%20savings-crvusd%2C%20pepecoin-2&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en&order=market_cap_desc&precision=8");
             const coingeckoPriceResult = await coingeckoPriceResponse.json();
             const coingeckoPrice = coingeckoPriceResult;
 
@@ -141,6 +141,16 @@ export async function getCoingeckoPrice() {
                                 price: item.current_price,
                                 totalVolume: item.total_volume,
                                 name: "scrvusd",
+                                origin: "Coingecko",
+                                marketRank: item.market_cap_rank
+                            })
+                        }
+                        if (item.id === "pepecoin-2") {
+                            priceArray.push({
+                                currencyId: "i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR",
+                                price: item.current_price,
+                                totalVolume: item.total_volume,
+                                name: "pepecoin",
                                 origin: "Coingecko",
                                 marketRank: item.market_cap_rank
                             })

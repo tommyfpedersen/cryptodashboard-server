@@ -11,6 +11,7 @@ import { currencyReserveSwitch } from "./switch/switch.js";
 import { currencyReserveNatiOwl } from './natiowl/natiowl.js';
 import { currencyReserveSuperVRSC } from './supervrsc/supervrsc.js';
 import { currencyReserveVyield } from './vyield/vyield.js';
+import { currencyReserveKekFrog } from './kekfrog/kekfrog.js';
 
 export async function getNodeStatus() {
     let result = {};
@@ -322,6 +323,9 @@ export async function getCurrencyReserve(currencyName, priceArray, vrscBridgePri
     }
     if (currencyName === "vyield") {
         return currencyReserveVyield(priceArray, vrscBridgePrice);
+    }
+    if (currencyName === "Kek🐸") {
+        return currencyReserveKekFrog(priceArray, vrscBridgePrice);
     }
 }
 
