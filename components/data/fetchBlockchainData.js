@@ -337,7 +337,7 @@ export async function getBlockchainData() {
             { basket: "NATI", reserve: currencyReserveNati.estimatedNatiValueUSDVRSC, via: "via VRSC" },
             { basket: "NATI🦉", reserve: currencyReserveNatiOwl.estimatedNatiOwlValueUSDVRSC, via: "via VRSC" },
             { basket: "SUPERVRSC", reserve: currencyReserveSuperVRSC.estimatedSuperVRSCValueUSDVRSC, via: "via VRSC" },
-            { basket: "vYIELD", reserve: currencyReserveVyield.estimatedVyieldValueUSDVRSC, via: "via VRSC" },
+            { basket: "vYIELD", reserve: currencyReserveVyield.estimatedVyieldReserveValue, via: "via VRSC" },
             { basket: "Kek🐸", reserve: currencyReserveKekFrog.estimatedKekFrogValueUSDVRSC, via: "via VRSC" }
             ];
 
