@@ -186,6 +186,18 @@ export async function getAddressBalance(address) {
             if ("i6SapneNdvpkrLPgqPhDVim7Ljek3h2UQZ" === item) {
                 getAddressBalanceArray.push({ currencyName: "SUPERNET", amount: getAddressBalance.currencybalance.i6SapneNdvpkrLPgqPhDVim7Ljek3h2UQZ })
             }
+            if ("iAik7rePReFq2t7LZMZhHCJ52fT5pisJ5C" === item) {
+                getAddressBalanceArray.push({ currencyName: "vYIELD", amount: getAddressBalance.currencybalance.iAik7rePReFq2t7LZMZhHCJ52fT5pisJ5C })
+            }
+            if ("i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj" === item) {
+                getAddressBalanceArray.push({ currencyName: "scrvUSD.vETH", amount: getAddressBalance.currencybalance.i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj })
+            }
+            if ("iCDjBN71SbSppgsNTpwwMBT69399DpV4hA" === item) {
+                getAddressBalanceArray.push({ currencyName: "Kek🐸", amount: getAddressBalance.currencybalance.iCDjBN71SbSppgsNTpwwMBT69399DpV4hA })
+            }
+            if ("i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR" === item) {
+                getAddressBalanceArray.push({ currencyName: "pepecoin.vETH", amount: getAddressBalance.currencybalance.i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR })
+            }
         })
     }
     result.verusAddress = verusAddress;
