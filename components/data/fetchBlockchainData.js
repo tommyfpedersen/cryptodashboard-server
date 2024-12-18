@@ -534,12 +534,12 @@ export async function getBlockchainData() {
     let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
 
     let btcReserve = 0;
-    priceArray.filter(item => item.currencyId === 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU').map( (item) =>{ return btcReserve += (Number(item.reserves) || 0);})
+    priceArray.filter(item => item.currencyId === 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU').map( (item) =>{ return btcReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0);})
     btcReserve = Math.round(btcReserve)
     let btcReserveValue = (btcReserve*bitcoinPriceItem?.price).toLocaleString() || "0";
    
     let ethReserve = 0;
-    priceArray.filter(item => item.currencyId === 'i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X').map( (item) =>{ return ethReserve += (Number(item.reserves) || 0);})
+    priceArray.filter(item => item.currencyId === 'i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X').map( (item) =>{ return ethReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0);})
     ethReserve = Math.round(ethReserve)
     let ethReserveValue = (ethReserve*ethereumPriceItem?.price).toLocaleString() || "0";
 
