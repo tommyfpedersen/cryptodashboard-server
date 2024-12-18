@@ -25,6 +25,8 @@ export async function getBlockchainData() {
     let coingeckoPriceArray = await getCoingeckoPrice();
     let bitcoinPriceItem = coingeckoPriceArray.find(item => item.name === "bitcoin");
     let bitcoinPrice = bitcoinPriceItem?.price.toLocaleString() || "0";
+    let ethereumPriceItem = coingeckoPriceArray.find(item => item.name === "ethereum");
+
     priceArray = [...coingeckoPriceArray];
 
     /* Get 24h volume from coingecko*/
@@ -531,6 +533,16 @@ export async function getBlockchainData() {
     let vrscPriceArray = priceArray.filter(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV').sort((a, b) => b.price - a.price);
     let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
 
+    let btcReserve = 0;
+    priceArray.filter(item => item.currencyId === 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU').map( (item) =>{ return btcReserve += (Number(item.reserves) || 0);})
+    btcReserve = Math.round(btcReserve)
+    let btcReserveValue = (btcReserve*bitcoinPriceItem?.price).toLocaleString() || "0";
+   
+    let ethReserve = 0;
+    priceArray.filter(item => item.currencyId === 'i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X').map( (item) =>{ return ethReserve += (Number(item.reserves) || 0);})
+    ethReserve = Math.round(ethReserve)
+    let ethReserveValue = (ethReserve*ethereumPriceItem?.price).toLocaleString() || "0";
+
     // check fetching error
     let fetchingError = await client.get("fetchingerror");
     if (fetchingError === "false") {
@@ -550,7 +562,21 @@ export async function getBlockchainData() {
         vrsc24HVolumeTotal = vrsc24HVolumeTotal.toLocaleString();
     }
 
-    mainRenderData = { ...mainRenderData, ...{ btcPriceArray, ethereumPriceArray, makerPriceArray, vrscPriceArray, arrrPriceArray, vrscReserveArray, vrsc24HVolumeArray, vrscReserveTotal, vrsc24HVolumeTotal } };
+    mainRenderData = { ...mainRenderData, ...{ 
+        btcPriceArray, 
+        ethereumPriceArray,
+        makerPriceArray, 
+        vrscPriceArray, 
+        arrrPriceArray,
+        btcReserve,
+        btcReserveValue,
+        ethReserve,
+        ethReserveValue, 
+        vrscReserveArray, 
+        vrsc24HVolumeArray, 
+        vrscReserveTotal, 
+        vrsc24HVolumeTotal 
+    } };
 
 
     // ThreeFold //
