@@ -214,7 +214,7 @@ export async function calculateStakingRewards(totalSupply, stakingsupply, stakin
     }
     result.stakingAmount = stakingAmount;
     result.stakingPercentage = stakingsupply / totalSupply * 100;
-    let apy = 720 * 6 * 365 / stakingsupply;
+    let apy = 720 * 3 * 365 / stakingsupply;
     result.apy = apy;
 
     let stakingRewardsDaily = {
@@ -248,7 +248,7 @@ export async function calculateMiningRewards(networkHashPerSecond, vrscMiningHas
     }
 
     result.vrscMiningHash = vrscMiningHash;
-    let apy = 720 * 6 * 365 / networkHashPerSecond * 1000000;
+    let apy = 720 * 3 * 365 / networkHashPerSecond * 1000000;
 
     let miningRewardsDaily = {
         label: "Daily",
