@@ -22,12 +22,35 @@
         </div>
         {{/each}}
         <br>
-         <div class="card-row-wrapper">
+        <div class="card-row-wrapper">
             <div class="card-row-item"> Total reserve</div>
             <div class="card-row-item">
                 $ {{vrscReserveTotal}}
             </div>
         </div>
+        <br>
+        <div class="card-row-wrapper">
+            <div class="card-row-item">Bitcoin</div>
+            <div class="card-row-item-network">{{{btcReserve}}}</div>
+            <div class="card-row-item">
+                $ {{{btcReserveValue}}}
+            </div>
+        </div>
+        <div class="card-row-wrapper">
+            <div class="card-row-item">Ethereum</div>
+            <div class="card-row-item-network">{{{ethReserve}}}</div>
+            <div class="card-row-item">
+                $ {{{ethReserveValue}}}
+            </div>
+        </div>
+        <div class="card-row-wrapper">
+            <div class="card-row-item">VerusCoin</div>
+            <div class="card-row-item-network">{{{vrscReserve}}}</div>
+            <div class="card-row-item">
+                $ {{{vrscReserveValue}}}
+            </div>
+        </div>
+
         {{else}}
         {{{vrscStatusMessage}}}
         {{/if}}

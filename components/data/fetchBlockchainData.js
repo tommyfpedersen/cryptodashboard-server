@@ -540,19 +540,19 @@ export async function getBlockchainData() {
     let btcReserve = 0;
     priceArray.filter(item => item.currencyId === 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU').map( (item) =>{ return btcReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0);})
     btcReserve = Math.round(btcReserve)
-    let btcReserveValue = (btcReserve*bitcoinPriceItem?.price).toLocaleString() || "0";
+    let btcReserveValue = (Math.round(btcReserve*bitcoinPriceItem?.price)).toLocaleString() || "0";
     btcReserve = btcReserve.toLocaleString();
    
     let ethReserve = 0;
     priceArray.filter(item => item.currencyId === 'i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X').map( (item) =>{ return ethReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0);})
     ethReserve = Math.round(ethReserve)
-    let ethReserveValue = (ethReserve*ethereumPriceItem?.price).toLocaleString() || "0";
+    let ethReserveValue = (Math.round(ethReserve*ethereumPriceItem?.price)).toLocaleString() || "0";
     ethReserve = ethReserve.toLocaleString();
 
     let vrscReserve = 0;
     priceArray.filter(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV').map( (item) =>{ return vrscReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0);})
     vrscReserve = Math.round(vrscReserve)
-    let vrscReserveValue = (vrscReserve*vrscPrice).toLocaleString() || "0";
+    let vrscReserveValue = (Math.round(vrscReserve*vrscPrice)).toLocaleString() || "0";
     vrscReserve = vrscReserve.toLocaleString();
 
     // check fetching error
