@@ -12,6 +12,7 @@ import { currencyReserveNatiOwl } from './natiowl/natiowl.js';
 import { currencyReserveSuperVRSC } from './supervrsc/supervrsc.js';
 import { currencyReserveVyield } from './vyield/vyield.js';
 import { currencyReserveKekFrog } from './kekfrog/kekfrog.js';
+import { currencyReserveBridgeChips } from './chipsbridge/chipsbridge.js';
 
 export async function getNodeStatus() {
     let result = {};
@@ -198,6 +199,12 @@ export async function getAddressBalance(address) {
             if ("i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR" === item) {
                 getAddressBalanceArray.push({ currencyName: "pepecoin.vETH", amount: getAddressBalance.currencybalance.i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR })
             }
+            if ("i3nokiCTVevZMLpR3VmZ7YDfCqA5juUqqH" === item) {
+                getAddressBalanceArray.push({ currencyName: "Bridge.CHIPS", amount: getAddressBalance.currencybalance.i3nokiCTVevZMLpR3VmZ7YDfCqA5juUqqH })
+            }
+            if ("iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP" === item) {
+                getAddressBalanceArray.push({ currencyName: "CHIPS", amount: getAddressBalance.currencybalance.iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP })
+            }
         })
     }
     result.verusAddress = verusAddress;
@@ -338,6 +345,9 @@ export async function getCurrencyReserve(currencyName, priceArray, vrscBridgePri
     }
     if (currencyName === "Kek🐸") {
         return currencyReserveKekFrog(priceArray, vrscBridgePrice);
+    }
+    if (currencyName === "bridge.chips") {
+        return currencyReserveBridgeChips(priceArray, vrscBridgePrice);
     }
 }
 

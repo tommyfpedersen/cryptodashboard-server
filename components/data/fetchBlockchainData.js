@@ -123,6 +123,10 @@ export async function getBlockchainData() {
         const kekFrogVolume30Days = await getCurrencyVolume("Kek🐸", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
 
 
+        /* Get temp Bridge.CHIPS volume and reserve info */
+        const currencyReserveBridgeChips = await getCurrencyReserve("bridge.chips", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
+        console.log("currencyReserveBridgeChips", currencyReserveBridgeChips);
+
         //  console.log("currencyReserveKekFrog", currencyReserveKekFrog );
         //  console.log("currencyReserveVyield", currencyReserveVyield )
 
@@ -315,7 +319,14 @@ export async function getBlockchainData() {
             estimatedKekFrogValueVRSC: currencyReserveKekFrog.estimatedKekFrogValueVRSC,
             estimatedKekFrogReserveValue: currencyReserveKekFrog.estimatedKekFrogReserveValue,
             estimatedKekFrogValue: currencyReserveKekFrog.estimatedKekFrogValue,
-            estimatedKekFrogValueUSDVRSC: currencyReserveKekFrog.estimatedKekFrogValueUSDVRSC
+            estimatedKekFrogValueUSDVRSC: currencyReserveKekFrog.estimatedKekFrogValueUSDVRSC,
+            // Bridge.CHIPS
+            currencyBridgeChipsArray: currencyReserveBridgeChips.currencyBridgeChipsArray,
+            estimatedBridgeChipsSupply: Math.round(currencyReserveBridgeChips.estimatedBridgeChipsSupply).toLocaleString(),
+            estimatedBridgeChipsValueUSD: currencyReserveBridgeChips.estimatedBridgeChipsValueUSD,
+            estimatedBridgeChipsValueVRSC: currencyReserveBridgeChips.estimatedBridgeChipsValueVRSC,
+            estimatedBridgeChipsReserveValueUSDBridgeChips: currencyReserveBridgeChips.estimatedBridgeChipsValueUSDBridgeChips,
+            estimatedBridgeChipsReserveValueUSDVRSC: currencyReserveBridgeChips.estimatedBridgeChipsValueUSDVRSC,
         };
 
         // check fetching error
@@ -538,21 +549,21 @@ export async function getBlockchainData() {
     let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
 
     let btcReserve = 0;
-    priceArray.filter(item => item.currencyId === 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU').map( (item) =>{ return btcReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0);})
+    priceArray.filter(item => item.currencyId === 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU').map((item) => { return btcReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
     btcReserve = Math.round(btcReserve)
-    let btcReserveValue = (Math.round(btcReserve*bitcoinPriceItem?.price)).toLocaleString() || "0";
+    let btcReserveValue = (Math.round(btcReserve * bitcoinPriceItem?.price)).toLocaleString() || "0";
     btcReserve = btcReserve.toLocaleString();
-   
+
     let ethReserve = 0;
-    priceArray.filter(item => item.currencyId === 'i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X').map( (item) =>{ return ethReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0);})
+    priceArray.filter(item => item.currencyId === 'i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X').map((item) => { return ethReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
     ethReserve = Math.round(ethReserve)
-    let ethReserveValue = (Math.round(ethReserve*ethereumPriceItem?.price)).toLocaleString() || "0";
+    let ethReserveValue = (Math.round(ethReserve * ethereumPriceItem?.price)).toLocaleString() || "0";
     ethReserve = ethReserve.toLocaleString();
 
     let vrscReserve = 0;
-    priceArray.filter(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV').map( (item) =>{ return vrscReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0);})
+    priceArray.filter(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV').map((item) => { return vrscReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
     vrscReserve = Math.round(vrscReserve)
-    let vrscReserveValue = (Math.round(vrscReserve*vrscPrice)).toLocaleString() || "0";
+    let vrscReserveValue = (Math.round(vrscReserve * vrscPrice)).toLocaleString() || "0";
     vrscReserve = vrscReserve.toLocaleString();
 
     // check fetching error
@@ -574,23 +585,25 @@ export async function getBlockchainData() {
         vrsc24HVolumeTotal = vrsc24HVolumeTotal.toLocaleString();
     }
 
-    mainRenderData = { ...mainRenderData, ...{ 
-        btcPriceArray, 
-        ethereumPriceArray,
-        makerPriceArray, 
-        vrscPriceArray, 
-        arrrPriceArray,
-        btcReserve,
-        btcReserveValue,
-        ethReserve,
-        ethReserveValue, 
-        vrscReserveArray, 
-        vrsc24HVolumeArray, 
-        vrscReserveTotal, 
-        vrsc24HVolumeTotal,
-        vrscReserve, 
-        vrscReserveValue
-    } };
+    mainRenderData = {
+        ...mainRenderData, ...{
+            btcPriceArray,
+            ethereumPriceArray,
+            makerPriceArray,
+            vrscPriceArray,
+            arrrPriceArray,
+            btcReserve,
+            btcReserveValue,
+            ethReserve,
+            ethReserveValue,
+            vrscReserveArray,
+            vrsc24HVolumeArray,
+            vrscReserveTotal,
+            vrsc24HVolumeTotal,
+            vrscReserve,
+            vrscReserveValue
+        }
+    };
 
 
     // ThreeFold //
