@@ -125,7 +125,7 @@ export async function getBlockchainData() {
 
         /* Get temp Bridge.CHIPS volume and reserve info */
         const currencyReserveBridgeChips = await getCurrencyReserve("bridge.chips", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
-        console.log("currencyReserveBridgeChips", currencyReserveBridgeChips);
+       // console.log("currencyReserveBridgeChips", currencyReserveBridgeChips);
 
         //  console.log("currencyReserveKekFrog", currencyReserveKekFrog );
         //  console.log("currencyReserveVyield", currencyReserveVyield )
