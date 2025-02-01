@@ -173,10 +173,20 @@ app.get('/', async (req, res) => {
   }
 
 })
+app.get('/:param', async (req, res) => {
+
+  // let detailRenderData = {};
+  // let result = getDetailData(param);
+  //  res.render('detail', { vrscOnline: false, varrrOnline: false, vdexOnline: false });
+
+  const param = req.params.param;
+  res.send(`You requested the path: ${param}`);
+});
 
 /* hbs */
 import hbs from 'hbs';
 import path from 'path';
+import { get } from 'http';
 const __dirname = path.resolve();
 
 app.set('views', './views')
