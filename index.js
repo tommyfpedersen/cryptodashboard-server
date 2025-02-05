@@ -20,6 +20,7 @@ import { writeToCache, readFromCache, isCacheReady } from './components/cache/ca
 import { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats } from './components/verus/verus.js';
 import { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve } from './components/varrr/varrr.js';
 import { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance, calculateVdexStakingRewards, calculateVdexMiningRewards, getVdexCurrencyVolume, getVdexCurrencyReserve } from './components/vdex/vdex.js';
+import { calculateChipsMiningRewards, calculateChipsStakingRewards, getChipsAddressBalance, getChipsBlockAndFeePoolRewards, getChipsCurrencyReserve, getChipsNodeStatus } from './components/chips/chips.js';
 import { getCoingeckoPrice } from './components/coingecko/coingecko.js';
 import { getThreeFoldNodeArray } from './components/threefold/threefold.js';
 
@@ -46,10 +47,11 @@ app.get('/', async (req, res) => {
 
     // user request
     /*  if user input - no cache  */
-    if (req.query.address || req.query.vrscstakingamount || req.query.vrscmininghash || req.query.varrraddress || req.query.varrrstakingamount || req.query.varrrmininghash || req.query.vdexstakingamount || req.query.vdexmininghash || req.query.tfnodes) {
+    if (req.query.address || req.query.vrscstakingamount || req.query.vrscmininghash || req.query.varrraddress || req.query.varrrstakingamount || req.query.varrrmininghash || req.query.vdexstakingamount || req.query.vdexmininghash || req.query.chipsaddress || req.query.chipsstakingamount || req.query.chipsmininghash || req.query.tfnodes) {
       const vrscNodeStatus = await getNodeStatus();
       const varrrNodeStatus = await getVarrrNodeStatus();
       const vdexNodeStatus = await getVdexNodeStatus();
+      const chipsNodeStatus = await getChipsNodeStatus();
       /* Get price from coingecko */
       let coingeckoPriceArray = await getCoingeckoPrice();
       let currencyReserveBridge = await getCurrencyReserve("bridge.veth", coingeckoPriceArray);
@@ -81,6 +83,40 @@ app.get('/', async (req, res) => {
           miningRewardsArray: miningRewards.miningArray,
         }
       }
+
+
+       /* chips */
+       if (chipsNodeStatus.online === true) {
+
+        /* Get address balance */
+        const chipsAddressBalance = await getChipsAddressBalance(req.query.chipsaddress);
+
+        /* Get block and fee pool rewards */
+        const chipsblockandfeepoolrewards = await getChipsBlockAndFeePoolRewards();
+        const currentBlock = chipsblockandfeepoolrewards.block;
+
+        /* Get bridge.Chips volume and reserve info */
+        const currencyReserveChipsBridge = await getChipsCurrencyReserve("bridge.chips", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
+
+        const chipsBridgePrice = currencyReserveChipsBridge.currencyBridgeChipsArray.find(item => item.currencyName === 'CHIPS').price;
+
+        /* Calculate chips staking rewards */
+        const chipsStakingRewards = await calculateChipsStakingRewards(chipsblockandfeepoolrewards.stakingsupply, req.query.chipsstakingamount, chipsBridgePrice);
+
+        /* Calculate chips mining rewards */
+        const chipsMiningRewards = await calculateChipsMiningRewards(chipsblockandfeepoolrewards.networkhashps, req.query.chipsmininghash, chipsBridgePrice);
+
+        userData = {
+          ...userData,
+          getChipsAddressBalanceArray: chipsAddressBalance.getAddressBalanceArray,
+          getChipsAddress: chipsAddressBalance.verusAddress === "none" ? "" : chipsAddressBalance.verusAddress,
+          chipsStakingAmount: chipsStakingRewards.stakingAmount,
+          chipsStakingRewardsArray: chipsStakingRewards.stakingArray,
+          chipsMiningHash: chipsMiningRewards.chipsMiningHash,
+          chipsMiningRewardsArray: chipsMiningRewards.miningArray,
+        }
+      }
+
 
       /* varrr */
       if (varrrNodeStatus.online === true) {
