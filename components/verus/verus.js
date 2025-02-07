@@ -89,7 +89,7 @@ export async function getVerusPriceList(vrscPrice) {
     priceList.push({ label: "Addr <-> Addr", nativePrice: "VRSC 0.0001", price: "$ " +Number.parseFloat(Math.round(vrscPrice * 0.0001)).toFixed(2) })
     priceList.push({ label: "Basket <-> Reserve", nativePrice: "", price: "0.025%" })
     priceList.push({ label: "Reserve <-> Reserve", nativePrice: "", price: "0.050%" })
-    priceList.push({ label: "Storage fee (1k)", nativePrice: "VRSC 0.01", price: "$ " + Math.round(vrscPrice * 0.01*100)/100 })
+    priceList.push({ label: "Storage (1k)", nativePrice: "VRSC 0.01", price: "$ " + Math.round(vrscPrice * 0.01*100)/100 })
     priceList.push({ label: "ID no ref", nativePrice: "VRSC 100", price:  "$ " +Math.round(vrscPrice * 100) })
     priceList.push({ label: "ID 1.ref, not yours", nativePrice: "VRSC 80", price:  "$ " +Math.round(vrscPrice * 80) })
     priceList.push({ label: "ID 1.ref, yours", nativePrice: "VRSC 60", price:  "$ " +Math.round(vrscPrice * 60) })

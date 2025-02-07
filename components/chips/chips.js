@@ -2,22 +2,22 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState } from "./api/api.js";
-import { currencyReserveVdexBridge } from "./vdexbridge/vdexbridge.js";
+import { currencyReserveChipsBridge } from "./chipsbridge/chipsbridge.js";
 import { convertToAxisString } from '../../utils/stringUtil.js';
 
-export async function getVdexNodeStatus() {
+export async function getChipsNodeStatus() {
     let result = {};
     const mininginfo = await getMiningInfo();
     result.online = false;
-    result.statusMessage = "Updating and syncing vDEX PBaaS...";
+    result.statusMessage = "Updating and syncing CHIPS PBaaS...";
     if (mininginfo) {
         result.online = true;
-        result.statusMessage = "vDEX PBaaS Running";
+        result.statusMessage = "CHIPS PBaaS Running";
     }
     return result;
 }
 
-export async function getVdexBlockAndFeePoolRewards() {
+export async function getChipsBlockAndFeePoolRewards() {
     let result = {};
     result.blockLastSend = "";
     result.block = 0;
@@ -44,7 +44,7 @@ export async function getVdexBlockAndFeePoolRewards() {
     return result;
 }
 
-export async function getVdexAddressBalance(address) {
+export async function getChipsAddressBalance(address) {
     let result = {};
     let getAddressBalanceArray = [];
     let getAddressBalance = {};
@@ -55,14 +55,14 @@ export async function getVdexAddressBalance(address) {
         verusAddress = "none";//"RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7";
     }
 
-    // vdex
+    // chips
     try {
-        const getVdexAddressBalanceResponse = await fetch(process.env.VERUS_REST_API_VDEX + "addressindex/getaddressbalance/" + verusAddress);
-        const getVdexAddressBalanceResult = await getVdexAddressBalanceResponse.json();
-        const getVdexAddressBalance = getVdexAddressBalanceResult.result;
-        getAddressBalance = getVdexAddressBalanceResult.result;
+        const getChipsAddressBalanceResponse = await fetch(process.env.VERUS_REST_API_CHIPS + "addressindex/getaddressbalance/" + verusAddress);
+        const getChipsAddressBalanceResult = await getChipsAddressBalanceResponse.json();
+        const getChipsAddressBalance = getChipsAddressBalanceResult.result;
+        getAddressBalance = getChipsAddressBalanceResult.result;
     } catch (error) {
-        console.log("no Vdex api connected")
+        console.log("no CHIPS api connected")
     }
 
 
@@ -107,6 +107,12 @@ export async function getVdexAddressBalance(address) {
             if ("iHog9UCTrn95qpUBFCZ7kKz7qWdMA8MQ6N" === item) {
                 getAddressBalanceArray.push({ currencyName: "vDEX", amount: getAddressBalance.currencybalance.iHog9UCTrn95qpUBFCZ7kKz7qWdMA8MQ6N })
             }
+            if ("i3nokiCTVevZMLpR3VmZ7YDfCqA5juUqqH" === item) {
+                getAddressBalanceArray.push({ currencyName: "Bridge.CHIPS", amount: getAddressBalance.currencybalance.i3nokiCTVevZMLpR3VmZ7YDfCqA5juUqqH })
+            }
+            if ("iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP" === item) {
+                getAddressBalanceArray.push({ currencyName: "CHIPS", amount: getAddressBalance.currencybalance.iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP })
+            }
         })
     }
     result.verusAddress = verusAddress;
@@ -114,24 +120,25 @@ export async function getVdexAddressBalance(address) {
     return result;
 }
 
-export async function getVdexPriceList(vDexPrice) {
+export async function getChipsPriceList(chipsPrice) {
     let result = {}
     let priceList = [];
 
-    priceList.push({ label: "Addr <-> Addr", nativePrice: "vDEX 0.0001", price: "$ " + Number.parseFloat(Math.round(vDexPrice * 0.0001)).toFixed(2) })
+    priceList.push({ label: "Addr <-> Addr", nativePrice: "CHIPS 0.0001", price: "$ " + Number.parseFloat(Math.round(chipsPrice * 0.0001)).toFixed(2) })
     priceList.push({ label: "Basket <-> Reserve", nativePrice: "", price: "0.025%" })
     priceList.push({ label: "Reserve <-> Reserve", nativePrice: "", price: "0.050%" })
-    priceList.push({ label: "Storage (1k)", nativePrice: "vDEX 0.01", price: "$ " + Math.round(vDexPrice * 0.01 * 100) / 100 })
-    priceList.push({ label: "ID", nativePrice: "vDEX 1", price: "$ " + Math.round(vDexPrice * 1) })
-    priceList.push({ label: "SubID *", nativePrice: "vDEX >0.01", price: "$ >" + Math.round(vDexPrice * 0.01 * 100) / 100 })
-    priceList.push({ label: "Currency", nativePrice: "vDEX 10", price: "$ " + Math.round(vDexPrice * 10) })
+    priceList.push({ label: "Storage (1k)", nativePrice: "CHIPS 0.01", price: "$ " + Math.round(chipsPrice * 0.01 * 100) / 100 })
+    priceList.push({ label: "ID", nativePrice: "CHIPS 77.7", price: "$ " + Math.round(chipsPrice * 77.7) })
+    priceList.push({ label: "SubID *", nativePrice: "CHIPS >0.01", price: "$ >" + Math.round(chipsPrice * 0.01 * 100) / 100 })
+    priceList.push({ label: "Currency", nativePrice: "CHIPS 77.7", price: "$ " + Math.round(chipsPrice * 77.7) })
+    // priceList.push({ label: "PBaaS", nativePrice: "CHIPS 7777", price:  "$ " +Math.round(chipsPrice * 7777).toLocaleString() })
 
     result.priceList = priceList;
     result.note = "* SubId needs a ID and a currency";
     return result;
 }
 
-export async function calculateVdexStakingRewards(stakingsupply, stakingAmountUnencoded, vrscPrice) {
+export async function calculateChipsStakingRewards(stakingsupply, stakingAmountUnencoded, vrscPrice) {
     let result = {};
     let stakingArray = [];
     let stakingAmount = 100;
@@ -140,7 +147,7 @@ export async function calculateVdexStakingRewards(stakingsupply, stakingAmountUn
     }
 
     result.stakingAmount = stakingAmount;
-    let apy = 720 * 0.00777 * 365 / stakingsupply;
+    let apy = 720* 6 * 0.03968 * 365 / stakingsupply;
     result.apy = apy;
 
     let stakingRewardsDaily = {
@@ -165,31 +172,31 @@ export async function calculateVdexStakingRewards(stakingsupply, stakingAmountUn
 
     return result;
 }
-export async function calculateVdexMiningRewards(networkHashPerSecond, vdexMiningHashUnencoded, vdexPrice) {
+export async function calculateChipsMiningRewards(networkHashPerSecond, chipsMiningHashUnencoded, chipsPrice) {
     let result = {};
     let miningArray = [];
-    let vdexMiningHash = 1;
-    if (vdexMiningHashUnencoded) {
-        vdexMiningHash = decodeURIComponent(vdexMiningHashUnencoded);
+    let chipsMiningHash = 1;
+    if (chipsMiningHashUnencoded) {
+        chipsMiningHash = decodeURIComponent(chipsMiningHashUnencoded);
     }
 
-    result.vdexMiningHash = vdexMiningHash;
-    let apy = 720 * 0.00777 * 365 / networkHashPerSecond * 1000000;
+    result.chipsMiningHash = chipsMiningHash;
+    let apy = 720 * 6 * 0.03968 * 365 / networkHashPerSecond * 1000000;
 
     let miningRewardsDaily = {
         label: "Daily",
-        rewards: Math.round(apy * vdexMiningHash / 365 * 10000) / 10000,
-        dollars: Math.round(apy * vdexMiningHash / 365 * vdexPrice * 100) / 100
+        rewards: Math.round(apy * chipsMiningHash / 365 * 10000) / 10000,
+        dollars: Math.round(apy * chipsMiningHash / 365 * chipsPrice * 100) / 100
     }
     let miningRewardsMonthly = {
         label: "Monthly",
-        rewards: Math.round(apy * vdexMiningHash / 12 * 10000) / 10000,
-        dollars: Math.round(apy * vdexMiningHash / 12 * vdexPrice * 100) / 100
+        rewards: Math.round(apy * chipsMiningHash / 12 * 10000) / 10000,
+        dollars: Math.round(apy * chipsMiningHash / 12 * chipsPrice * 100) / 100
     }
     let miningRewardsYearly = {
         label: "Yearly",
-        rewards: Math.round(apy * vdexMiningHash * 10000) / 10000,
-        dollars: Math.round(apy * vdexMiningHash * vdexPrice * 100) / 100
+        rewards: Math.round(apy * chipsMiningHash * 10000) / 10000,
+        dollars: Math.round(apy * chipsMiningHash * chipsPrice * 100) / 100
     }
 
     miningArray.push(miningRewardsDaily);
@@ -199,7 +206,7 @@ export async function calculateVdexMiningRewards(networkHashPerSecond, vdexMinin
 
     return result;
 }
-export async function getVdexCurrencyVolume(currencyName, fromBlock, toBlock, interval, converttocurrency) {
+export async function getChipsCurrencyVolume(currencyName, fromBlock, toBlock, interval, converttocurrency) {
     let result = {};
     let totalVolume = 0;
     let volumeArray = [];
@@ -233,8 +240,8 @@ export async function getVdexCurrencyVolume(currencyName, fromBlock, toBlock, in
     return result;
 }
 
-export async function getVdexCurrencyReserve(currencyName, priceArray, vrscBridgePrice, estimatedBridgeValueUSD) {
-    if (currencyName === "bridge.vdex") {
-        return currencyReserveVdexBridge(priceArray, vrscBridgePrice, estimatedBridgeValueUSD);
+export async function getChipsCurrencyReserve(currencyName, priceArray, vrscBridgePrice, estimatedBridgeValueUSD) {
+    if (currencyName === "bridge.chips") {
+        return currencyReserveChipsBridge(priceArray, vrscBridgePrice, estimatedBridgeValueUSD);
     }
 }

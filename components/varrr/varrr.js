@@ -51,7 +51,7 @@ export async function getVarrrPriceList(varrrPrice) {
     priceList.push({ label: "Addr <-> Addr", nativePrice: "vARRR 0.0001", price: "$ " +Number.parseFloat(Math.round(varrrPrice * 0.0001)).toFixed(2) })
     priceList.push({ label: "Basket <-> Reserve", nativePrice: "", price: "0.025%" })
     priceList.push({ label: "Reserve <-> Reserve", nativePrice: "", price: "0.050%" })
-    priceList.push({ label: "Storage fee (1k)", nativePrice: "vARRR 0.01", price: "$ " + Math.round(varrrPrice * 0.01*100)/100 })
+    priceList.push({ label: "Storage (1k)", nativePrice: "vARRR 0.01", price: "$ " + Math.round(varrrPrice * 0.01*100)/100 })
     priceList.push({ label: "ID no ref", nativePrice: "vARRR 100", price:  "$ " +Math.round(varrrPrice * 100) })
     priceList.push({ label: "ID 1.ref, not yours", nativePrice: "vARRR 80", price:  "$ " +Math.round(varrrPrice * 80) })
     priceList.push({ label: "ID 1.ref, yours", nativePrice: "vARRR 60", price:  "$ " +Math.round(varrrPrice * 60) })

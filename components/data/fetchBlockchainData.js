@@ -4,6 +4,7 @@ import { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance
 import { getCoingeckoPrice } from '../coingecko/coingecko.js';
 import { getThreeFoldNodeArray } from '../threefold/threefold.js';
 import client from '../../redisClient.js';
+import { calculateChipsMiningRewards, calculateChipsStakingRewards, getChipsAddressBalance, getChipsBlockAndFeePoolRewards, getChipsCurrencyReserve, getChipsCurrencyVolume, getChipsNodeStatus, getChipsPriceList } from '../chips/chips.js';
 
 
 
@@ -379,6 +380,88 @@ export async function getBlockchainData() {
     }
     mainRenderData = vrscRenderData;
 
+
+     /* Verus CHIPS */
+     let chipsRenderData = {};
+     const chipsNodeStatus = await getChipsNodeStatus();
+ 
+     if (chipsNodeStatus.online === true) {
+ 
+         /* Get address balance */
+         const chipsAddressBalance = await getChipsAddressBalance("");
+ 
+         /* Get block and fee pool rewards */
+         const chipsblockandfeepoolrewards = await getChipsBlockAndFeePoolRewards();
+         const currentBlock = chipsblockandfeepoolrewards.block;
+ 
+         /* Get bridge.chips volume and reserve info */
+         const currencyReserveChipsBridge = await getChipsCurrencyReserve("bridge.chips", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
+         const chipsVolume24Hours = await getChipsCurrencyVolume("bridge.chips", currentBlock - 1440, currentBlock, 60, "vrsc");
+         const chipsVolume7Days = await getChipsCurrencyVolume("bridge.chips", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
+         const chipsVolume30Days = await getChipsCurrencyVolume("bridge.chips", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
+
+
+         const chipsBridgePrice = currencyReserveChipsBridge.currencyBridgeChipsArray.find(item => item.currencyName === 'CHIPS').price;
+ 
+         /* Get CHIPS price list*/
+        const chipsPriceList = await getChipsPriceList(chipsBridgePrice);
+ 
+         /* Calculate chips staking rewards */
+         const chipsStakingRewards = await calculateChipsStakingRewards(chipsblockandfeepoolrewards.stakingsupply, 100, chipsBridgePrice);
+ 
+         /* Calculate chips mining rewards */
+         const chipsMiningRewards = await calculateChipsMiningRewards(chipsblockandfeepoolrewards.networkhashps, 1, chipsBridgePrice);
+ 
+         chipsRenderData = {
+             //chips
+             chipsOnline: chipsNodeStatus.online,
+             getChipsAddressBalanceArray: chipsAddressBalance.getAddressBalanceArray,
+             getChipsAddress: chipsAddressBalance.verusAddress === "none" ? "" : chipsAddressBalance.verusAddress,
+             chipsblocks: chipsblockandfeepoolrewards.block.toLocaleString(),
+             chipsblockLastSend: chipsblockandfeepoolrewards.blockLastSend,
+             chipsblockReward: chipsblockandfeepoolrewards.blockReward,
+             chipsfeeReward: chipsblockandfeepoolrewards.feeReward,
+             chipsaverageblockfees: chipsblockandfeepoolrewards.averageblockfees,
+             chipsPriceList: chipsPriceList.priceList,
+             chipsStakingAmount: chipsStakingRewards.stakingAmount,
+             chipsStakingRewardsArray: chipsStakingRewards.stakingArray,
+             chipsStakingSupply: Math.round(chipsblockandfeepoolrewards.stakingsupply).toLocaleString(),
+             chipsStakingAPY: (Math.round(chipsStakingRewards.apy * 10000) / 100).toLocaleString(),
+             chipsMiningHash: chipsMiningRewards.chipsMiningHash,
+             chipsMiningRewardsArray: chipsMiningRewards.miningArray,
+             chipsNetworkHash: (Math.round(chipsblockandfeepoolrewards.networkhashps) / 1000000000).toLocaleString(),
+             //chips bridge
+             chipsBridgeVolumeInDollars24Hours: chipsVolume24Hours.totalVolume,
+             chipsBridgeVolumeInDollars24HoursArray: chipsVolume24Hours.volumeArray,
+             chipsBridgeVolumeInDollars24HoursArrayYAxis: chipsVolume24Hours.yAxisArray,
+             chipsBridgeVolumeInDollars7Days: chipsVolume7Days.totalVolume,
+             chipsBridgeVolumeInDollars7DaysArray: chipsVolume7Days.volumeArray,
+             chipsBridgeVolumeInDollars7DaysArrayYAxis: chipsVolume7Days.yAxisArray,
+             chipsBridgeVolumeInDollars30Days: chipsVolume30Days.totalVolume,
+             chipsBridgeVolumeInDollars30DaysArray: chipsVolume30Days.volumeArray,
+             chipsBridgeVolumeInDollars30DaysArrayYAxis: chipsVolume30Days.yAxisArray,
+             currencyBridgeChipsArray: currencyReserveChipsBridge.currencyBridgeChipsArray,
+             estimatedBridgeChipsSupply: Math.round(currencyReserveChipsBridge.estimatedBridgeChipsSupply).toLocaleString(),
+             estimatedBridgeChipsValueUSD: currencyReserveChipsBridge.estimatedBridgeChipsValueUSD,
+             estimatedBridgeChipsValueVRSC: currencyReserveChipsBridge.estimatedBridgeChipsValueVRSC,
+             estimatedBridgeChipsReserveValueUSDBridgeChips: currencyReserveChipsBridge.estimatedChipsBridgeValueUSDBridgeChips,
+             estimatedBridgeChipsReserveValueUSDVRSC: currencyReserveChipsBridge.estimatedBridgeChipsValueUSDVRSC,
+         }
+         // check fetching error
+         let fetchingError = await client.get("fetchingerror");
+         if (fetchingError === "false") {
+             priceArray = [...priceArray, ...chipsRenderData.currencyBridgeChipsArray];
+             vrscReserveArray = [...vrscReserveArray, { basket: "Bridge.CHIPS", reserve: currencyReserveChipsBridge.estimatedBridgeChipsValueUSDVRSC, via: "via VRSC" }];
+             vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.CHIPS", volume: ((Math.round(parseFloat((chipsVolume24Hours.totalVolume === 0 ? "0" : chipsVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }]
+         }
+     } else {
+        chipsRenderData = {
+            chipsOnline: chipsNodeStatus.online,
+            chipsStatusMessage: chipsNodeStatus.statusMessage
+         }
+     }
+     mainRenderData = { ...mainRenderData, ...chipsRenderData };
+ 
 
 
 

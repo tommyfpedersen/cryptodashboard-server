@@ -69,6 +69,46 @@ function init() {
         })
     }
 
+     /* verus chips */
+     let getChipsAddressBalanceElm = document.querySelector("#get-chips-address-balance");
+     if (getChipsAddressBalanceElm) {
+         getChipsAddressBalanceElm.addEventListener('keydown', (evt) => {
+             if (evt.key === 'Enter') {
+                 let string = encodeURIComponent(getChipsAddressBalanceElm.value)
+                 var href = new URL(location.href);
+                 href.searchParams.set('chipsaddress', string);
+                 window.history.replaceState(null, null, href.toString());
+                 location.reload();
+             }
+         })
+     }
+ 
+     let chipsStakingElm = document.querySelector("#chips-staking-amount");
+     if (chipsStakingElm) {
+         chipsStakingElm.addEventListener('keydown', (evt) => {
+             if (evt.key === 'Enter') {
+                 let string = encodeURIComponent(chipsStakingElm.value)
+                 var href = new URL(location.href);
+                 href.searchParams.set('chipsstakingamount', string);
+                 window.history.replaceState(null, null, href.toString());
+                 location.reload();
+             }
+         })
+     }
+ 
+     let chipsMiningElm = document.querySelector("#chips-mining-hash");
+     if (chipsMiningElm) {
+         chipsMiningElm.addEventListener('keydown', (evt) => {
+             if (evt.key === 'Enter') {
+                 let string = encodeURIComponent(chipsMiningElm.value)
+                 var href = new URL(location.href);
+                 href.searchParams.set('chipsmininghash', string);
+                 window.history.replaceState(null, null, href.toString());
+                 location.reload();
+             }
+         })
+     }
+
     /* verus varrr */
     let getVarrrAddressBalanceElm = document.querySelector("#get-varrr-address-balance");
     if (getVarrrAddressBalanceElm) {
@@ -109,7 +149,7 @@ function init() {
         })
     }
 
-    /* verus varrr */
+    /* verus vdex */
     let getVdexAddressBalanceElm = document.querySelector("#get-vdex-address-balance");
     if (getVdexAddressBalanceElm) {
         getVdexAddressBalanceElm.addEventListener('keydown', (evt) => {
