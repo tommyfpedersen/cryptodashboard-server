@@ -69,120 +69,32 @@ body {
     fill: #ccc;
 }
 
-.side-menu-icon {
-    display: none;
-    position: relative;
-    border: 1px solid lightgray;
-    width: 28px;
-    font-size: 12px;
-    line-height: 12px;
-    background-color: #fff;
-    border-color: lightgray;
-    padding: 6px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    text-align: center;
-    cursor: pointer;
-}
 
-.side-menu-icon-closed {
-    left: 0px;
-}
-
-.side-menu-icon-open {
-    left: 310px;
-}
-
-.side-menu {
-    position: absolute;
-    /* overflow: hidden; */
-    width: 320px;
-    bottom: 0;
-    /* top: 93px; */
-    top: 58px;
-    z-index: 100;
-    background-color: rgb(246, 246, 246);
-    border: 1px solid lightgray;
-    height: 100%;
-}
-
-.side-menu-open {
-    position: absolute;
-    overflow: hidden;
-    width: 100%;
-    bottom: 0;
-    top: 108px;
-    z-index: 100;
-    background-color: rgb(246, 246, 246);
-    border: 1px solid lightgray;
-    height: 100%;
-}
-
-.side-menu-closed {
-    left: -310px;
-}
-
-.side-menu-open {
-    left: 0px;
-}
-
-.lock-side-menu-icon {
-    position: fixed;
-}
-
-.unlock-side-menu-icon {
-    position: relative;
-}
-
-.side-menu-group {
-    padding: 20px 10px 10px 10px;
-}
-
-.side-menu-title{
-    padding-bottom: 5px;
-}
-
-.side-menu-item {
-    position: relative;
-    border: 1px solid lightgray;
-    border-radius: 3px;
-    padding: 5px;
-    cursor: pointer;
-    margin-bottom: 3px;
-}
-
-.side-menu-item-title {
-    max-width: 248px;
-    /* border-right: 1px solid lightgray; */
-}
-
-.side-menu-item-icon {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    padding: 7px 5px 2.5px 5px;
-    border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
-  fill: #ccc;
-}
-
-.side-menu-item-selected{
-    /* background-color: white; */
-    color:white;
-    fill: orange;
-}
-
-
-.section {
+.content {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
     padding: 10px;
-    margin-left: 320px;
-    /* display: flex;
-    flex-direction: row; */
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .section-header {
-    padding: 20px 0 10px 0;
+    padding: 10px 10px 20px 10px;
+    display: flex;
+    flex-direction: row;
+    align-self: center;
 }
+.currency-card {
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    border: 1px solid lightgray;
+    padding: 10px 10px 20px 10px;
+    margin-bottom: 10px;
+    animation: fadeIn 2s;
+}
+
 .project{
     display: none;
 }
@@ -265,6 +177,9 @@ right: 100px;
     margin-bottom: 20px;
     /* height: 20px; */
 }
+
+
+
 
 .bottom {
     padding: 10px;

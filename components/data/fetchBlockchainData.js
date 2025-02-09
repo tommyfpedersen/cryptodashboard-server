@@ -446,6 +446,7 @@ export async function getBlockchainData() {
              estimatedBridgeChipsValueVRSC: currencyReserveChipsBridge.estimatedBridgeChipsValueVRSC,
              estimatedBridgeChipsReserveValueUSDBridgeChips: currencyReserveChipsBridge.estimatedChipsBridgeValueUSDBridgeChips,
              estimatedBridgeChipsReserveValueUSDVRSC: currencyReserveChipsBridge.estimatedBridgeChipsValueUSDVRSC,
+
          }
          // check fetching error
          let fetchingError = await client.get("fetchingerror");
@@ -670,6 +671,7 @@ export async function getBlockchainData() {
 
     mainRenderData = {
         ...mainRenderData, ...{
+            priceArray,
             btcPriceArray,
             ethereumPriceArray,
             makerPriceArray,

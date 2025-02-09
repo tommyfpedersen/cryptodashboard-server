@@ -204,10 +204,10 @@ function init() {
     }
 
     /** common */
-    initCardHideButtons();
+     initCardHideButtons();
     initGraphButtons();
     initResetLocalStorage();
-    initSideMenu();
+     initSideMenu();
     initGraphBarHints();
     initDarkmodeButton();
 }

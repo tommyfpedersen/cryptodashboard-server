@@ -29,6 +29,7 @@ import { getThreeFoldNodeArray } from './components/threefold/threefold.js';
 app.get('/', async (req, res) => {
 
 
+
   /* page loads */
   pageLoads++;
   console.log("page loads: ", new Date().toLocaleString(), pageLoads);
@@ -85,8 +86,8 @@ app.get('/', async (req, res) => {
       }
 
 
-       /* chips */
-       if (chipsNodeStatus.online === true) {
+      /* chips */
+      if (chipsNodeStatus.online === true) {
 
         /* Get address balance */
         const chipsAddressBalance = await getChipsAddressBalance(req.query.chipsaddress);
@@ -197,27 +198,54 @@ app.get('/', async (req, res) => {
         threefoldNodeString: threefoldNodeString === "none" ? "" : threefoldNodeString
       }
 
+      console.log("her I")
       // add userData to renderData
       mainRenderData = { ...mainRenderData, ...userData, ...threeFoldRenderData };
     }
+    console.log("her 1")
+    let currencyArray = [];
+    let priceArray = [
+      {
+        currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
+        price: 0,
+        totalVolume: 0,
+        name: "bitcoin",
+      }]
 
-    res.render('main', mainRenderData);
+    currencyArray.push({priceArray});
+
+    priceArray = [
+      {
+        currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
+        price: 0,
+        totalVolume: 0,
+        name: "vrscoin",
+      }]
+
+    currencyArray.push({priceArray});
+    console.log("currencyArray",{currencyArray})
+
+    res.render('main', {currencyArray});
     return;
   } else {
-    res.render('main', { vrscOnline: false, varrrOnline: false, vdexOnline: false });
+    
+
+    console.log("her II")
+
+    res.render('main', { vrscOnline: false, varrrOnline: false, vdexOnline: false, currencyArray: currencyArray });
     return;
   }
 
 })
-app.get('/:param', async (req, res) => {
+// app.get('/:param', async (req, res) => {
 
-  // let detailRenderData = {};
-  // let result = getDetailData(param);
-  //  res.render('detail', { vrscOnline: false, varrrOnline: false, vdexOnline: false });
+//   // let detailRenderData = {};
+//   // let result = getDetailData(param);
+//   //  res.render('detail', { vrscOnline: false, varrrOnline: false, vdexOnline: false });
 
-  const param = req.params.param;
-  res.send(`You requested the path: ${param}`);
-});
+//   const param = req.params.param;
+//   res.send(`You requested the path: ${param}`);
+// });
 
 /* hbs */
 import hbs from 'hbs';
