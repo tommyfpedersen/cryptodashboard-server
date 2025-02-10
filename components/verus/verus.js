@@ -13,6 +13,7 @@ import { currencyReserveSuperVRSC } from './supervrsc/supervrsc.js';
 import { currencyReserveVyield } from './vyield/vyield.js';
 import { currencyReserveKekFrog } from './kekfrog/kekfrog.js';
 import { currencyReserveBridgeChips } from './chipsbridge/chipsbridge.js';
+import { currencyReserveSuperBasket } from './superbasket/superbasket.js';
 
 export async function getNodeStatus() {
     let result = {};
@@ -348,6 +349,9 @@ export async function getCurrencyReserve(currencyName, priceArray, vrscBridgePri
     }
     if (currencyName === "bridge.chips") {
         return currencyReserveBridgeChips(priceArray, vrscBridgePrice);
+    }
+    if (currencyName === "SUPER🛒") {
+        return currencyReserveSuperBasket(priceArray, vrscBridgePrice);
     }
 }
 

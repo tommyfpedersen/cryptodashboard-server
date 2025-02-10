@@ -123,9 +123,17 @@ export async function getBlockchainData() {
         const kekFrogVolume7Days = await getCurrencyVolume("Kek🐸", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
         const kekFrogVolume30Days = await getCurrencyVolume("Kek🐸", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
 
+        /* Get SUPER🛒 volume and reserve info */
+        const currencyReserveSuperBasket = await getCurrencyReserve("SUPER🛒", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
+        // const superBasketVolume24Hours = await getCurrencyVolume("SUPER🛒", currentBlock - 1440, currentBlock, 60, "vrsc");
+        // const superBasketVolume7Days = await getCurrencyVolume("SUPER🛒", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
+        // const superBasketVolume30Days = await getCurrencyVolume("SUPER🛒", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
+
+
+
 
         /* Get temp Bridge.CHIPS volume and reserve info */
-        const currencyReserveBridgeChips = await getCurrencyReserve("bridge.chips", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
+        //const currencyReserveBridgeChips = await getCurrencyReserve("bridge.chips", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
        // console.log("currencyReserveBridgeChips", currencyReserveBridgeChips);
 
         //  console.log("currencyReserveKekFrog", currencyReserveKekFrog );
@@ -321,13 +329,32 @@ export async function getBlockchainData() {
             estimatedKekFrogReserveValue: currencyReserveKekFrog.estimatedKekFrogReserveValue,
             estimatedKekFrogValue: currencyReserveKekFrog.estimatedKekFrogValue,
             estimatedKekFrogValueUSDVRSC: currencyReserveKekFrog.estimatedKekFrogValueUSDVRSC,
+            // SUPER🛒
+            // currencyVolumeSuperBasket24Hours: superBasketVolume24Hours.totalVolume,
+            // currencyVolumeSuperBasket24HoursArray: superBasketVolume24Hours.volumeArray,
+            // currencyVolumeSuperBasket24HoursArrayYAxis: superBasketVolume24Hours.yAxisArray,
+            // currencyVolumeSuperBasket7Days: superBasketVolume7Days.totalVolume,
+            // currencyVolumeSuperBasket7DaysArray: superBasketVolume7Days.volumeArray,
+            // currencyVolumeSuperBasket7DaysArrayYAxis: superBasketVolume7Days.yAxisArray,
+            // currencyVolumeSuperBasket30Days: superBasketVolume30Days.totalVolume,
+            // currencyVolumeSuperBasket30DaysArray: superBasketVolume30Days.volumeArray,
+            // currencyVolumeSuperBasket30DaysArrayYAxis: superBasketVolume30Days.yAxisArray,
+            currencySuperBasketArray: currencyReserveSuperBasket.currencySuperBasketArray,
+            estimatedSuperBasketSupply: Math.round(currencyReserveSuperBasket.estimatedSuperBasketSupply).toLocaleString(),
+            estimatedSuperBasketValueUSD: currencyReserveSuperBasket.estimatedSuperBasketValueUSD,
+            estimatedSuperBasketValueVRSC: currencyReserveSuperBasket.estimatedSuperBasketValueVRSC,
+            estimatedSuperBasketReserveValue: currencyReserveSuperBasket.estimatedSuperBasketReserveValue,
+            estimatedSuperBasketValue: currencyReserveSuperBasket.estimatedSuperBasketValue,
+            estimatedSuperBasketValueUSDVRSC: currencyReserveSuperBasket.estimatedSuperBasketValueUSDVRSC,
+            estimatedSuperBasketReserveValueUSDtBTC: currencyReserveSuperBasket.estimatedSuperBasketValueUSDtBTC,
+
             // Bridge.CHIPS
-            currencyBridgeChipsArray: currencyReserveBridgeChips.currencyBridgeChipsArray,
-            estimatedBridgeChipsSupply: Math.round(currencyReserveBridgeChips.estimatedBridgeChipsSupply).toLocaleString(),
-            estimatedBridgeChipsValueUSD: currencyReserveBridgeChips.estimatedBridgeChipsValueUSD,
-            estimatedBridgeChipsValueVRSC: currencyReserveBridgeChips.estimatedBridgeChipsValueVRSC,
-            estimatedBridgeChipsReserveValueUSDBridgeChips: currencyReserveBridgeChips.estimatedBridgeChipsValueUSDBridgeChips,
-            estimatedBridgeChipsReserveValueUSDVRSC: currencyReserveBridgeChips.estimatedBridgeChipsValueUSDVRSC,
+            // currencyBridgeChipsArray: currencyReserveBridgeChips.currencyBridgeChipsArray,
+            // estimatedBridgeChipsSupply: Math.round(currencyReserveBridgeChips.estimatedBridgeChipsSupply).toLocaleString(),
+            // estimatedBridgeChipsValueUSD: currencyReserveBridgeChips.estimatedBridgeChipsValueUSD,
+            // estimatedBridgeChipsValueVRSC: currencyReserveBridgeChips.estimatedBridgeChipsValueVRSC,
+            // estimatedBridgeChipsReserveValueUSDBridgeChips: currencyReserveBridgeChips.estimatedBridgeChipsValueUSDBridgeChips,
+            // estimatedBridgeChipsReserveValueUSDVRSC: currencyReserveBridgeChips.estimatedBridgeChipsValueUSDVRSC,
         };
 
         // check fetching error
