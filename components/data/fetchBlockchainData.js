@@ -129,7 +129,7 @@ export async function getBlockchainData() {
         // const superBasketVolume7Days = await getCurrencyVolume("SUPER🛒", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
         // const superBasketVolume30Days = await getCurrencyVolume("SUPER🛒", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
 
-
+     //   console.log("currencyReserveSuperBasket", currencyReserveSuperBasket)
 
 
         /* Get temp Bridge.CHIPS volume and reserve info */
@@ -345,9 +345,8 @@ export async function getBlockchainData() {
             estimatedSuperBasketValueVRSC: currencyReserveSuperBasket.estimatedSuperBasketValueVRSC,
             estimatedSuperBasketReserveValue: currencyReserveSuperBasket.estimatedSuperBasketReserveValue,
             estimatedSuperBasketValue: currencyReserveSuperBasket.estimatedSuperBasketValue,
-            estimatedSuperBasketValueUSDVRSC: currencyReserveSuperBasket.estimatedSuperBasketValueUSDVRSC,
-            estimatedSuperBasketReserveValueUSDtBTC: currencyReserveSuperBasket.estimatedSuperBasketValueUSDtBTC,
-
+            estimatedSuperBasketValueUSDVRSC: Math.round(currencyReserveSuperBasket.estimatedSuperBasketReserveValueUSDVRSC).toLocaleString(),
+            estimatedSuperBasketReserveValueUSDtBTC: currencyReserveSuperBasket.estimatedSuperBasketValueUSDtBTC
             // Bridge.CHIPS
             // currencyBridgeChipsArray: currencyReserveBridgeChips.currencyBridgeChipsArray,
             // estimatedBridgeChipsSupply: Math.round(currencyReserveBridgeChips.estimatedBridgeChipsSupply).toLocaleString(),

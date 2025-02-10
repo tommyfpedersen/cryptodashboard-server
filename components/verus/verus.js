@@ -206,6 +206,9 @@ export async function getAddressBalance(address) {
             if ("iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP" === item) {
                 getAddressBalanceArray.push({ currencyName: "CHIPS", amount: getAddressBalance.currencybalance.iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP })
             }
+            if ("iFPazWbwUnTHQYUiH5upZMqBtcEhfRdE4v" === item) {
+                getAddressBalanceArray.push({ currencyName: "SUPER🛒", amount: getAddressBalance.currencybalance.iFPazWbwUnTHQYUiH5upZMqBtcEhfRdE4v })
+            }
         })
     }
     result.verusAddress = verusAddress;

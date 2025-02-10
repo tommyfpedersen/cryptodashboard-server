@@ -16,20 +16,26 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
     let tBTCvETHBridgePrice = 0;
     let ethereumCoingeckoPrice = 0;
     let ethereumBridgePrice = 0;
-    let SuperBasketvETHCoingeckoPrice = 0;
-    let NATIvETHCoingeckoPrice = 0;
+    let SuperBasketvETHCoingeckoPrice = 0
+    let supernetCoingeckoPrice = 0;
+    let varrrCoingeckoPrice = 0;
+    let vdexCoingeckoPrice = 0;
+    let chipsCoingeckoPrice = 0;
+    let scrvusdCoingeckoPrice = 0;
+
     let vrscBasketPrice =0;
 
     let vrscReserve = 0;
     let tBTCvETHReserve = 0;
-    let natiReserve = 0;
+
     let SuperBasketvETHReserve = 0;
-    let NATIvETHReserve = 0;
+
     let estimatedSuperBasketValueUSDtBTC = 0;
     let estimatedSuperBasketValueUSDVRSC = 0;
     let estimatedSuperBasketValueVRSC = 0;
     let estimatedSuperBasketSupply = getcurrency.bestcurrencystate.supply;
     let estimatedSuperBasketValueUSD = 0;
+    let estimatedSuperBasketReserveValueUSDVRSC = 0;
 
     priceArray.forEach((priceElm) => {
         if (priceElm.currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
@@ -41,8 +47,20 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
         if (priceElm.currencyId === "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X") {
             ethereumCoingeckoPrice = priceElm.price;
         }
-        if (priceElm.currencyId === "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx") {
-            NATIvETHCoingeckoPrice = priceElm.price;
+        if (priceElm.currencyId === "i6SapneNdvpkrLPgqPhDVim7Ljek3h2UQZ") {
+            supernetCoingeckoPrice = priceElm.price;
+        }
+        if (priceElm.currencyId === "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2") {
+            varrrCoingeckoPrice = priceElm.price;
+        }
+        if (priceElm.currencyId === "iHog9UCTrn95qpUBFCZ7kKz7qWdMA8MQ6N") {
+            vdexCoingeckoPrice = priceElm.price;
+        }
+        if (priceElm.currencyId === "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP") {
+            chipsCoingeckoPrice = priceElm.price;
+        }
+        if (priceElm.currencyId === "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj") {
+            scrvusdCoingeckoPrice = priceElm.price;
         }
     })
 
@@ -51,7 +69,7 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
         let currencyIdArray = Object.values(getcurrency.currencies);
         let currencyNames = Object.entries(getcurrency.currencynames);
 
-        /* find vrsc value*/
+
         currencyIdArray.forEach((currencyId) => {
             currencyNames.forEach((item) => {
                 let currency = {}
@@ -59,6 +77,12 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
                     getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
                         if (reservesCurrency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                             vrscReserve = reservesCurrency.reserves;
+                            let priceNative =  Math.round(tBTCvETHReserve / reservesCurrency.reserves * 100000000) / 100000000;
+
+                            if(priceNative > 0){
+                                vrscBasketPrice = Math.round(tBTCvETHCoingeckoPrice * priceNative * 100) / 100;
+                            }
+                          
                         }
                         if (reservesCurrency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
                             tBTCvETHReserve = reservesCurrency.reserves;
@@ -86,6 +110,14 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
                                 currency.pricelabel = "tBTCvETH";
                                 currency.price = vrscBasketPrice = Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 100) / 100;
                             }
+                            if (currencyId === "i6SapneNdvpkrLPgqPhDVim7Ljek3h2UQZ") {
+                                currency.priceNative = Math.round(vrscReserve / currency.reserves * 100) / 100;
+                                currency.pricelabel = "VRSC";
+                                currency.price = Math.round(vrscBasketPrice * currency.priceNative * 100) / 100;
+                                // currency.priceNative = Math.round(tBTCvETHReserve / currency.reserves * 100000000) / 100000000;
+                                // currency.pricelabel = "tBTCvETH";
+                                // currency.price = Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 100) / 100;
+                            }
                             if (currencyId === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
                                 currency.priceNative = Math.round(vrscReserve / currency.reserves * 100) / 100;
                                 currency.pricelabel = "VRSC";
@@ -96,10 +128,25 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
                                 currency.pricelabel = "VRSC";
                                 currency.price = Math.round(vrscBasketPrice * currency.priceNative * 100) / 100 ;
                             }
-                            if (currencyId === "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx") {
-                                currency.priceNative = (Math.round(vrscReserve / currency.reserves * 100000000) / 100000000 ).toFixed(5);
+                            if (currencyId === "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2") {
+                                currency.priceNative = Math.round(vrscReserve / currency.reserves * 10000) / 10000;
                                 currency.pricelabel = "VRSC";
-                                currency.price = (vrscBasketPrice * currency.priceNative).toFixed(5);
+                                currency.price = Math.round(vrscBasketPrice * currency.priceNative * 100) / 100;
+                            }
+                            if (currencyId === "iHog9UCTrn95qpUBFCZ7kKz7qWdMA8MQ6N") {
+                                currency.priceNative = Math.round(vrscReserve / currency.reserves * 10000) / 10000;
+                                currency.pricelabel = "VRSC";
+                                currency.price = Math.round(vrscBasketPrice * currency.priceNative * 100) / 100;
+                            }
+                            if (currencyId === "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP") {
+                                currency.priceNative = Math.round(vrscReserve / currency.reserves * 10000) / 10000;
+                                currency.pricelabel = "VRSC";
+                                currency.price = Math.round(vrscBasketPrice * currency.priceNative * 100) / 100;
+                            }
+                            if (currencyId === "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj") {
+                                currency.priceNative = Math.round(vrscReserve / currency.reserves * 10000) / 10000;
+                                currency.pricelabel = "VRSC";
+                                currency.price = Math.round(vrscBasketPrice * currency.priceNative * 100) / 100;
                             }
                         }
 
@@ -118,8 +165,24 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
                                         currency.coingeckoprice = Math.round(price.price * 100) / 100;
                                         currency.coingeckoLabel = "Coingecko";
                                     } 
-                                    if (currencyId === "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx") {
-                                        currency.coingeckoprice = (Math.round(price.price * 100000000) / 100000000).toFixed(8);
+                                    if (currencyId === "i6SapneNdvpkrLPgqPhDVim7Ljek3h2UQZ") {
+                                        currency.coingeckoprice = Math.round(price.price * 100000) / 100000;
+                                        currency.coingeckoLabel = "Coingecko";
+                                    }
+                                    if (currencyId === "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2") {
+                                        currency.coingeckoprice = Math.round(price.price * 100) / 100;
+                                        currency.coingeckoLabel = "Coingecko";
+                                    }
+                                    if (currencyId === "iHog9UCTrn95qpUBFCZ7kKz7qWdMA8MQ6N") {
+                                        currency.coingeckoprice = Math.round(price.price * 100) / 100;
+                                        currency.coingeckoLabel = "Coingecko";
+                                    }
+                                    if (currencyId === "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP") {
+                                        currency.coingeckoprice = Math.round(price.price * 100) / 100;
+                                        currency.coingeckoLabel = "Coingecko";
+                                    }
+                                    if (currencyId === "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj") {
+                                        currency.coingeckoprice = Math.round(price.price * 100) / 100;
                                         currency.coingeckoLabel = "Coingecko";
                                     }
                                 }
@@ -131,6 +194,7 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
                             estimatedSuperBasketValueUSDVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 4)).toLocaleString();
                             estimatedSuperBasketValueUSD = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 4 / estimatedSuperBasketSupply * 100) / 100).toLocaleString();
                             estimatedSuperBasketValueVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 4 / estimatedSuperBasketSupply / vrscBridgePrice * 100000000) / 100000000).toLocaleString();
+                            estimatedSuperBasketReserveValueUSDVRSC = (Math.round(vrscBridgePrice * reservesCurrency.reserves * 4));
                         }
                         if (reservesCurrency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
                             estimatedSuperBasketValueUSDtBTC = (Math.round(tBTCvETHCoingeckoPrice * reservesCurrency.reserves * 5 ) ).toLocaleString();
@@ -155,5 +219,6 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
     result.estimatedSuperBasketValueUSDVRSC = estimatedSuperBasketValueUSDVRSC;
     result.estimatedSuperBasketValueUSD = estimatedSuperBasketValueUSD;
     result.estimatedSuperBasketValueVRSC = estimatedSuperBasketValueVRSC;
+    result.estimatedSuperBasketReserveValueUSDVRSC = estimatedSuperBasketReserveValueUSDVRSC;
     return result;
 }
