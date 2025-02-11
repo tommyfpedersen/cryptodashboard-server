@@ -27,6 +27,7 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
 
     let vrscReserve = 0;
     let tBTCvETHReserve = 0;
+    let ethereumReserve = 0;
 
     let SuperBasketvETHReserve = 0;
 
@@ -87,6 +88,9 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
                         if (reservesCurrency.currencyid === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
                             tBTCvETHReserve = reservesCurrency.reserves;
                         }
+                        if (reservesCurrency.currencyid === "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X") {
+                            ethereumReserve = reservesCurrency.reserves;
+                        }
                     })
                 }
             })
@@ -116,9 +120,9 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
                                 currency.price = Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 100) / 100;
                             }
                             if (currencyId === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
-                                currency.priceNative = Math.round( (vrscReserve * 0.25) / (currency.reserves * 0.20 ) * 100) / 100;
-                                currency.pricelabel = "VRSC";
-                                currency.price = Math.round(vrscBasketPrice * currency.priceNative * 100) / 100;
+                                currency.priceNative = Math.round( (ethereumReserve * 0.10) / (currency.reserves * 0.20 ) * 100) / 100;
+                                currency.pricelabel = "vETH";
+                                currency.price = Math.round(ethereumCoingeckoPrice * currency.priceNative * 100) / 100;
                             }
                             if (currencyId === "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X") {
                                 currency.priceNative = Math.round( (tBTCvETHReserve*1 / 0.20) / (currency.reserves *1 / 0.10 )  *100000000) / 100000000;
