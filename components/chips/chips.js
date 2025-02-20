@@ -212,6 +212,10 @@ export async function getChipsCurrencyVolume(currencyName, fromBlock, toBlock, i
     let volumeArray = [];
     let yAxisArray = [];
 
+    if(fromBlock < 0){
+        fromBlock = 0;
+    }
+
     const currencyState = await getCurrencyState(currencyName, fromBlock, toBlock, interval, converttocurrency);
 
     currencyState.map((item) => {

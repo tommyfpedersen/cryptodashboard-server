@@ -455,10 +455,9 @@ export async function getBlockchainData() {
  
          /* Get bridge.chips volume and reserve info */
          const currencyReserveChipsBridge = await getChipsCurrencyReserve("bridge.chips", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
-         const chipsVolume24Hours = await getChipsCurrencyVolume("bridge.chips", currentBlock - 1440, currentBlock, 60, "vrsc");
-         const chipsVolume7Days = await getChipsCurrencyVolume("bridge.chips", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
-         const chipsVolume30Days = await getChipsCurrencyVolume("bridge.chips", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
-
+         const chipsVolume24Hours = await getChipsCurrencyVolume("bridge.chips", currentBlock - 1440*6, currentBlock, 60*6, "vrsc");
+         const chipsVolume7Days = await getChipsCurrencyVolume("bridge.chips", currentBlock - 1440 *6* 7, currentBlock, 1440*6, "vrsc");
+         const chipsVolume30Days = await getChipsCurrencyVolume("bridge.chips", currentBlock - 1440 *6* 30, currentBlock, 1440*6, "vrsc");
 
          const chipsBridgePrice = currencyReserveChipsBridge.currencyBridgeChipsArray.find(item => item.currencyName === 'CHIPS').price;
  
@@ -514,7 +513,7 @@ export async function getBlockchainData() {
              vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.CHIPS", volume: ((Math.round(parseFloat((chipsVolume24Hours.totalVolume === 0 ? "0" : chipsVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }]
              vrsc7DVolumeArray = [...vrsc7DVolumeArray, { basket: "Bridge.CHIPS", volume: ((Math.round(parseFloat((chipsVolume7Days.totalVolume === 0 ? "0" : chipsVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }]
              vrsc30DVolumeArray = [...vrsc30DVolumeArray, { basket: "Bridge.CHIPS", volume: ((Math.round(parseFloat((chipsVolume30Days.totalVolume === 0 ? "0" : chipsVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }]
-         }
+            }
      } else {
         chipsRenderData = {
             chipsOnline: chipsNodeStatus.online,
