@@ -24,11 +24,60 @@ import { calculateChipsMiningRewards, calculateChipsStakingRewards, getChipsAddr
 import { getCoingeckoPrice } from './components/coingecko/coingecko.js';
 import { getThreeFoldNodeArray } from './components/threefold/threefold.js';
 
+/* currencies */
+app.get('/currencies', async (req, res) => {
 
-/* dashboard */
+  /* page loads */
+  pageLoads++;
+  console.log("page loads: ", new Date().toLocaleString(), pageLoads);
+
+  /* cache */
+  let cacheReady = await isCacheReady();
+
+  if (cacheReady) {
+    let mainRenderData = {};
+
+    // cache data
+    const cacheData = await readFromCache('cache.json');
+    mainRenderData = cacheData;
+  }
+
+  let currencyArray = [];
+  let priceArray = [
+    {
+      currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
+      price: 0,
+      totalVolume: 0,
+      name: "bitcoin",
+    }]
+
+  currencyArray.push({ priceArray });
+
+  priceArray = [
+    {
+      currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
+      price: 0,
+      totalVolume: 0,
+      name: "vrscoin",
+    }]
+
+  currencyArray.push({ priceArray });
+  console.log("currencyArray", { currencyArray })
+
+  res.render('currencies', { currencyArray });
+
+//  res.render('currencies', { vrscOnline: false, varrrOnline: false, vdexOnline: false, currencyArray: currencyArray });
+  return;
+});
+
+/* main */
 app.get('/', async (req, res) => {
+  res.redirect('/stats')
+})
 
 
+/* stats */
+app.get('/stats', async (req, res) => {
 
   /* page loads */
   pageLoads++;
@@ -212,7 +261,7 @@ app.get('/', async (req, res) => {
         name: "bitcoin",
       }]
 
-    currencyArray.push({priceArray});
+    currencyArray.push({ priceArray });
 
     priceArray = [
       {
@@ -222,13 +271,13 @@ app.get('/', async (req, res) => {
         name: "vrscoin",
       }]
 
-    currencyArray.push({priceArray});
-    console.log("currencyArray",{currencyArray})
+    currencyArray.push({ priceArray });
+    console.log("currencyArray", { currencyArray })
 
-    res.render('main', {currencyArray});
+    res.render('main', { currencyArray });
     return;
   } else {
-    
+
 
     console.log("her II")
 
