@@ -1,4 +1,4 @@
-<div class="card" id="verus-basket-volume-24h">
+<div class="card" id="verus-basket-volume-7d">
     <svg fill="#3165d4" width="55" height="16" viewBox="0 0 4950 1417" xmlns="http://www.w3.org/2000/svg"
         fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
         <path
@@ -10,9 +10,9 @@
     </svg>
     <button class="hide-button">x</button>
     <div class="card-content">
-        <div class="card-title">Basket Volume 24H</div>
+        <div class="card-title">Basket Volume 7D</div>
         {{#if vrscOnline}}
-        {{#each vrsc24HVolumeArray}}
+        {{#each vrsc7DVolumeArray}}
         <div class="card-row-wrapper">
             <div class="card-row-item">{{{basket}}}</div>
             <div class="card-row-item-network">{{{via}}}</div>
@@ -25,11 +25,11 @@
         <div class="card-row-wrapper">
             <div class="card-row-item"> Total volume</div>
             <div class="card-row-item">
-                $ {{vrsc24HVolumeTotal}}
+                $ {{vrsc7DVolumeTotal}}
             </div>
         </div>
         {{!-- <div class="card-row-wrapper">
-            <div class="card-row-item"> VRSC CEX volume (Coingecko)</div>
+            <div class="card-row-item"> CEX volume (Coingecko)</div>
             <div class="card-row-item">
                 $ {{vrscCoingeckoVolume}}
             </div>
