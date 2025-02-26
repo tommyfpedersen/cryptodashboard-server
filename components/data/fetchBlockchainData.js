@@ -393,7 +393,7 @@ export async function getBlockchainData() {
 
             // adding to 24H volume array
             vrsc24HVolumeArray = [...vrsc24HVolumeArray, { basket: "Bridge.vETH", volume: vrscVolume24Hours.totalVolume, via: "" },
-            { basket: "Kaiju", volume: kaijuVolume24Hours.totalVolume, via: "" },
+        //    { basket: "Kaiju", volume: kaijuVolume24Hours.totalVolume, via: "" },
             { basket: "Pure", volume: ((Math.round(parseFloat((pureVolume24Hours.totalVolume === 0 ? "0" : pureVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             { basket: "Switch", volume: switchVolume24Hours.totalVolume, via: "" },
             { basket: "NATI", volume: ((Math.round(parseFloat((natiVolume24Hours.totalVolume === 0 ? "0" : natiVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
@@ -406,7 +406,7 @@ export async function getBlockchainData() {
 
             // adding to 7D volume array
             vrsc7DVolumeArray = [...vrsc7DVolumeArray, { basket: "Bridge.vETH", volume: vrscVolume7Days.totalVolume, via: "" },
-            { basket: "Kaiju", volume: kaijuVolume7Days.totalVolume, via: "" },
+        //    { basket: "Kaiju", volume: kaijuVolume7Days.totalVolume, via: "" },
             { basket: "Pure", volume: ((Math.round(parseFloat((pureVolume7Days.totalVolume === 0 ? "0" : pureVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             { basket: "Switch", volume: switchVolume7Days.totalVolume, via: "" },
             { basket: "NATI", volume: ((Math.round(parseFloat((natiVolume7Days.totalVolume === 0 ? "0" : natiVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
@@ -419,7 +419,7 @@ export async function getBlockchainData() {
 
             // adding to 30D volume array
             vrsc30DVolumeArray = [...vrsc30DVolumeArray, { basket: "Bridge.vETH", volume: vrscVolume30Days.totalVolume, via: "" },
-            { basket: "Kaiju", volume: kaijuVolume30Days.totalVolume, via: "" },
+       //     { basket: "Kaiju", volume: kaijuVolume30Days.totalVolume, via: "" },
             { basket: "Pure", volume: ((Math.round(parseFloat((pureVolume30Days.totalVolume === 0 ? "0" : pureVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             { basket: "Switch", volume: switchVolume30Days.totalVolume, via: "" },
             { basket: "NATI", volume: ((Math.round(parseFloat((natiVolume30Days.totalVolume === 0 ? "0" : natiVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },

@@ -85,8 +85,8 @@ app.get('/', async (req, res) => {
       }
 
 
-       /* chips */
-       if (chipsNodeStatus.online === true) {
+      /* chips */
+      if (chipsNodeStatus.online === true) {
 
         /* Get address balance */
         const chipsAddressBalance = await getChipsAddressBalance(req.query.chipsaddress);
@@ -209,6 +209,34 @@ app.get('/', async (req, res) => {
   }
 
 })
+
+/* dashboard */
+app.get('/api/totalvolume', async (req, res) => {
+
+  /* cache */
+  let cacheReady = await isCacheReady();
+  let result = {};
+  let vrscVolumeArray = [];
+  let usdVolumeArray = [];
+
+
+  if (cacheReady) {
+    // cache data
+    const cacheData = await readFromCache('cache.json');
+
+    //merging vrscVolumeArrays
+    vrscVolumeArray = [
+      ...cacheData.chipsBridgeVolumeInDollars30DaysArray,
+      ...cacheData.varrrBridgeVolumeInDollars30DaysArray,
+      ...cacheData.vdexBridgeVolumeInDollars30DaysArray
+    ]
+    console.log(vrscVolumeArray)
+  //  mainRenderData = cacheData;
+  }
+
+  res.json(result);
+})
+
 
 /* hbs */
 import hbs from 'hbs';
