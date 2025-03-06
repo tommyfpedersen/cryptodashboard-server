@@ -8,6 +8,7 @@ import { calculateChipsMiningRewards, calculateChipsStakingRewards, getChipsAddr
 
 
 
+
 export async function getBlockchainData() {
 
     /* Clear fetch status */
@@ -48,6 +49,7 @@ export async function getBlockchainData() {
     let currencyReserveBridge = {};
     const vrscNodeStatus = await getNodeStatus();
     let vrscPrice = 0;
+  
 
     if (vrscNodeStatus.online === true) {
         /* Get address balance */

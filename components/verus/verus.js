@@ -295,15 +295,23 @@ export async function getCurrencyVolume(currencyName, fromBlock, toBlock, interv
 
     if (currencyState.length > 0) {
         currencyState.map((item) => {
+        //    console.log(currencyName, item)
             if (item.conversiondata) {
                 let volume = Math.round(item.conversiondata.volumethisinterval);
-                volumeArray.push({ volume: volume });
+                volumeArray.push({
+                    height: item.height,
+                    blocktime: item.blocktime,
+                    volume: volume,
+                    volumecurrency: converttocurrency
+                });
             }
             if (item.totalvolume) {
                 totalVolume = Math.round(item.totalvolume).toLocaleString();
             }
         })
     }
+
+    //console.log(currencyName, "volumeArray", volumeArray)
 
 
     let volumeArrayMax = Math.max(...volumeArray.map(o => o.volume));
