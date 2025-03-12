@@ -24,12 +24,16 @@ import { calculateChipsMiningRewards, calculateChipsStakingRewards, getChipsAddr
 import { getCoingeckoPrice } from './components/coingecko/coingecko.js';
 import { getThreeFoldNodeArray } from './components/threefold/threefold.js';
 
+import { getAllCurrenciesFromBaskets } from './components/verus/currencies/currencies.js';
+
 /* currencies */
 app.get('/currencies', async (req, res) => {
 
   /* page loads */
   pageLoads++;
   console.log("page loads: ", new Date().toLocaleString(), pageLoads);
+
+
 
   /* cache */
   let cacheReady = await isCacheReady();
@@ -55,18 +59,23 @@ app.get('/currencies', async (req, res) => {
 
   priceArray = [
     {
-      currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
-      price: 0,
+      currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+      price: 5,
       totalVolume: 0,
       name: "vrscoin",
     }]
 
   currencyArray.push({ priceArray });
-  console.log("currencyArray", { currencyArray })
+  //console.log("currencyArray", { currencyArray })
+
+  //let priceArray = getCoingeckoPrice();
+
+  // testing
+  getAllCurrenciesFromBaskets(priceArray);
 
   res.render('currencies', { currencyArray });
 
-//  res.render('currencies', { vrscOnline: false, varrrOnline: false, vdexOnline: false, currencyArray: currencyArray });
+  //  res.render('currencies', { vrscOnline: false, varrrOnline: false, vdexOnline: false, currencyArray: currencyArray });
   return;
 });
 
