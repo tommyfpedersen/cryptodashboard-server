@@ -92,6 +92,12 @@ export async function getCurrencyReserves(currencyConfig, priceArray, vrscBasePr
     let mainAnchorBasketValueInUSD = 0;
     let mainAnchorCurrencyName = "";
 
+    let secondaryAnchorReserve = 0;
+    let secondaryAnchorWeight = 0;
+    let secondaryAnchorPriceFromPriceArray = 1; // find price from priceArray using anchorPriceId
+    let secondaryAnchorBasketValueInUSD = 0;
+    let secondaryAnchorCurrencyName = "";
+
     let currencyValue = 0;
     let currencySupply = getcurrency.bestcurrencystate.supply;
     let estimatedBridgeValueUSD = 0;
@@ -114,6 +120,10 @@ export async function getCurrencyReserves(currencyConfig, priceArray, vrscBasePr
                         if (reservesCurrency.currencyid === mainAnchorPriceId) {
                             mainAnchorReserve = reservesCurrency.reserves;
                             mainAnchorWeight = reservesCurrency.weight;
+                        }
+                        if (reservesCurrency.currencyid === secondaryAnchorPriceId) {
+                            secondaryAnchorReserve = reservesCurrency.reserves;
+                            secondaryAnchorWeight = reservesCurrency.weight;
                         }
                     })
                 }
@@ -146,19 +156,20 @@ export async function getCurrencyReserves(currencyConfig, priceArray, vrscBasePr
                         if (reservesCurrency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
 
                             vrscBasketPrice = Math.round((mainAnchorReserve * 1 / vrscWeight) / (vrscReserve * 1 / vrscWeight) * 100) / 100;
-                     //       console.log("vrscBasketPrice", vrscBasketPrice, mainAnchorReserve, vrscReserve, vrscWeight);
+                           
+                            if(reservesCurrency.currencyid !== secondaryAnchorPriceId){
+                                vrscBasketPrice =  currency.price = Math.round((secondaryAnchorReserve * 1 / vrscWeight) / (vrscReserve * 1 / vrscWeight) * 100) / 100;
+                            }
+                            
                         }
 
-
-                        // if (reservesCurrency.currencyid === "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM") {
-                        //     estimatedBridgeValue = (Math.round(reservesCurrency.reserves * 4)).toLocaleString();
-                        //     estimatedBridgeValueUSD = (Math.round(reservesCurrency.reserves * 4 / estimatedBridgeSupply * 100) / 100).toLocaleString();
-                        //     estimatedBridgeValueVRSC = (Math.round(reservesCurrency.reserves * 4 / estimatedBridgeSupply / vrscBridgePrice * 100000000) / 100000000).toLocaleString();
-                        // }
                     })
 
                     if (currencyId === mainAnchorPriceId) {
                         mainAnchorCurrencyName = item[1];
+                    }
+                    if (currencyId === secondaryAnchorPriceId) {
+                        secondaryAnchorCurrencyName = item[1];
                     }
 
                     currency.currencyId = currencyId;
@@ -176,6 +187,7 @@ export async function getCurrencyReserves(currencyConfig, priceArray, vrscBasePr
     // result.basketReserveValueUSD = 2;
     result.basketValueAnchorPriceUSD = mainAnchorReserve * (1 / mainAnchorWeight) * mainAnchorPriceFromPriceArray;
     result.mainAnchorCurrencyName = mainAnchorCurrencyName;
+    result.secondaryAnchorCurrencyName = secondaryAnchorCurrencyName;
     result.currencyName = currencyName;
     result.currencySupply = currencySupply;
     result.currencyPriceUSD = (vrscReserve * (1 / vrscWeight) * vrscBasketPrice) / currencySupply;
