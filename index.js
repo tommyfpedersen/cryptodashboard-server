@@ -50,22 +50,27 @@ app.get('/currencies', async (req, res) => {
   let priceArray = [
     {
       currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
-      price: 0,
+      price: 84000,
       totalVolume: 0,
       name: "bitcoin",
-    }]
-
-  currencyArray.push({ priceArray });
-
-  priceArray = [
+    },
     {
       currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
-      price: 5,
+      price: 4,
       totalVolume: 0,
       name: "vrscoin",
-    }]
+    },
+    {
+      currencyId: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
+      price: 1,
+      totalVolume: 0,
+      name: "dai",
+    }
+
+  ]
 
   currencyArray.push({ priceArray });
+
   //console.log("currencyArray", { currencyArray })
 
   //let priceArray = getCoingeckoPrice();
