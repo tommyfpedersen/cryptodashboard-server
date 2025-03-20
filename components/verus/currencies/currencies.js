@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { getCurrenciesConfig } from './currenciesConfig.js';
+import { getMiningInfo, getCurrencyState } from "../api/api.js";
+import { convertToAxisString } from '../../../utils/stringUtil.js';
 
 
 export async function getCurrencyReserve(currencyName, priceArray, vrscBridgePrice) {
@@ -55,9 +57,18 @@ export async function getAllCurrenciesFromBaskets(priceArray) {
     const vrscBasePrice = await getVRSCBasePrice(priceArray);
     console.log("vrscBasePrice", vrscBasePrice);
 
+    /* Get block */
+    const miningInfo = await getMiningInfo();
+    const currentBlock = miningInfo.block;
+
+
+    //TODO AWAIT LOOP
     //remember await for loop if needed
     currenciesConfig.forEach((currencyConfig) => {
-        const currency = getCurrencyReserves(currencyConfig, priceArray, vrscBasePrice);
+        const currencyReserve = getCurrencyReserves(currencyConfig, priceArray, vrscBasePrice);
+        const currencyVolume24Hours = getCurrencyVolume(currencyConfig.currencyName, currentBlock - 1440, currentBlock, 60, "VRSC");
+      //  const currencyVolume7Days = getCurrencyVolume(currencyConfig.currencyName, currentBlock - 1440 * 7, currentBlock, 60, "VRSC");
+      //  const currencyVolume30Days = getCurrencyVolume(currencyConfig.currencyName, currentBlock - 1440 * 30, currentBlock, 60, "VRSC");
 
     })
 }
@@ -166,6 +177,46 @@ export async function getCurrencyReserves(currencyConfig, priceArray, vrscBasePr
     result.currencyIcon = currencyIcon;
 
     console.log("result", result);
+
+    return result;
+}
+
+//TODO ADD BLOCKCHAIN SUPPORT IN API CALL
+export async function getCurrencyVolume(currencyName, fromBlock, toBlock, interval, converttocurrency) {
+    let result = {};
+    let totalVolume = 0;
+    let volumeArray = [];
+    let yAxisArray = [];
+
+    const currencyState = await getCurrencyState(currencyName, fromBlock, toBlock, interval, converttocurrency);
+
+    if (currencyState.length > 0) {
+        currencyState.map((item) => {
+            if (item.conversiondata) {
+                let volume = Math.round(item.conversiondata.volumethisinterval);
+                volumeArray.push({ volume: volume });
+            }
+            if (item.totalvolume) {
+                totalVolume = Math.round(item.totalvolume).toLocaleString();
+            }
+        })
+    }
+
+
+    let volumeArrayMax = Math.max(...volumeArray.map(o => o.volume));
+    yAxisArray.push({ value: convertToAxisString(volumeArrayMax) });
+    yAxisArray.push({ value: convertToAxisString(volumeArrayMax / 2) });
+    yAxisArray.push({ value: 0 });
+
+    volumeArray.forEach((item) => {
+        item.barPCT = Math.round((item.volume / volumeArrayMax) * 100);
+        item.volume = convertToAxisString(item.volume);
+    })
+    result.totalVolume = totalVolume;
+    result.volumeArray = volumeArray;
+    result.yAxisArray = yAxisArray;
+
+    console.log("volume24H", result)
 
     return result;
 }
