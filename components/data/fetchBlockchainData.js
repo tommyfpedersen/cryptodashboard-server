@@ -473,7 +473,7 @@ export async function getBlockchainData() {
 
         /* Get Highroller.CHIPS volume and reserve info */
         const currencyReserveHighroller = await getChipsCurrencyReserve("highroller.chips", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD, chipsBridgePrice);
-        console.log("currencyReserveHighroller", currencyReserveHighroller)
+      //  console.log("currencyReserveHighroller", currencyReserveHighroller)
         // const chipsVolume24Hours = await getChipsCurrencyVolume("bridge.chips", currentBlock - 1440 * 6, currentBlock, 60 * 6, "vrsc");
         // const chipsVolume7Days = await getChipsCurrencyVolume("bridge.chips", currentBlock - 1440 * 6 * 7, currentBlock, 1440 * 6, "vrsc");
         // const chipsVolume30Days = await getChipsCurrencyVolume("bridge.chips", currentBlock - 1440 * 6 * 30, currentBlock, 1440 * 6, "vrsc");
