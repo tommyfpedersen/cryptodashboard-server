@@ -64,13 +64,23 @@ export async function getAllCurrenciesFromBaskets(priceArray) {
 
     //TODO AWAIT LOOP
     //remember await for loop if needed
-    currenciesConfig.forEach((currencyConfig) => {
-        const currencyReserve = getCurrencyReserves(currencyConfig, priceArray, vrscBasePrice);
-        const currencyVolume24Hours = getCurrencyVolume(currencyConfig.currencyName, currentBlock - 1440, currentBlock, 60, "VRSC");
-      //  const currencyVolume7Days = getCurrencyVolume(currencyConfig.currencyName, currentBlock - 1440 * 7, currentBlock, 60, "VRSC");
-      //  const currencyVolume30Days = getCurrencyVolume(currencyConfig.currencyName, currentBlock - 1440 * 30, currentBlock, 60, "VRSC");
+    let currencyReserve ={};
+    let currencyVolume24Hours ={};
 
-    })
+    for (let i = 0; i < currenciesConfig.length; i++) {
+        currencyReserve =  await getCurrencyReserves(currenciesConfig[i], priceArray, vrscBasePrice);
+        currencyVolume24Hours = await getCurrencyVolume(currenciesConfig[i].currencyName, currentBlock - 1440, currentBlock, 60, "VRSC");
+    }
+
+    console.log("currencyVolume24Hours", currencyVolume24Hours);
+
+    // currenciesConfig.forEach((currencyConfig) => {
+    //     const currencyReserve = getCurrencyReserves(currencyConfig, priceArray, vrscBasePrice);
+    //     const currencyVolume24Hours = getCurrencyVolume(currencyConfig.currencyName, currentBlock - 1440, currentBlock, 60, "VRSC");
+    //   //  const currencyVolume7Days = getCurrencyVolume(currencyConfig.currencyName, currentBlock - 1440 * 7, currentBlock, 60, "VRSC");
+    //   //  const currencyVolume30Days = getCurrencyVolume(currencyConfig.currencyName, currentBlock - 1440 * 30, currentBlock, 60, "VRSC");
+
+    // })
 }
 
 export async function getCurrencyReserves(currencyConfig, priceArray, vrscBasePrice) {
@@ -189,10 +199,14 @@ export async function getCurrencyVolume(currencyName, fromBlock, toBlock, interv
     let yAxisArray = [];
 
     const currencyState = await getCurrencyState(currencyName, fromBlock, toBlock, interval, converttocurrency);
+    //console.log("currencyState",currencyState)
+    //console.log("conversiondata",currencyState.conversiondata)
 
     if (currencyState.length > 0) {
         currencyState.map((item) => {
+            console.log("item",item)
             if (item.conversiondata) {
+                console.log("item.conversiondata.volumethisinterval",item.conversiondata.volumethisinterval)
                 let volume = Math.round(item.conversiondata.volumethisinterval);
                 volumeArray.push({ volume: volume });
             }
