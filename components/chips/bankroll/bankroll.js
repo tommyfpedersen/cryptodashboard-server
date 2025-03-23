@@ -9,8 +9,6 @@ export async function currencyReserveBankroll(priceArray, vrscBasePrice, chipsBa
     const getcurrencyResult = await getcurrencyResponse.json();
     const getcurrency = getcurrencyResult.result;
 
-    console.log("getcurrency", getcurrency)
-
     let currencyBankrollArray = [];
 
     let chipsCoingeckoPrice = 0;

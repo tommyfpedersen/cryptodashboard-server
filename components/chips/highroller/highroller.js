@@ -9,8 +9,6 @@ export async function currencyReserveHighroller(priceArray, vrscBasePrice, chips
     const getcurrencyResult = await getcurrencyResponse.json();
     const getcurrency = getcurrencyResult.result;
 
-    //console.log("getcurrency", getcurrency)
-
     let currencyHighrollerArray = [];
 
     let chipsCoingeckoPrice = 0;
