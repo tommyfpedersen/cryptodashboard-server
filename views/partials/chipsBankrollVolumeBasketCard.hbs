@@ -1,0 +1,120 @@
+<div class="card" id="verus-chips-bankroll-volume-basket-card">
+    CHIPS
+    <button class="hide-button">x</button>
+    <div class="card-content">
+        <div class="card-title">Bankroll.CHIPS Basket</div>
+        {{#if chipsOnline}}
+
+        <div style="font-size: 30px; text-align:center; padding:30px 15px 15px 15px;">PRECONVERSION</div>
+        <div style="font-size: 15px; text-align:center; padding:0px  15px 15px 15px;">Ends March 30</div>
+        {{!-- <div class="graph-container">
+            <div class="graph-group hide">
+                <div class="card-sub-title">24 hours Volume</div>
+                <div class="card-sub-title-main-value"> {{{chipsBridgeVolumeInDollars24Hours}}} <span
+                        class="card-sub-title-value-prefix">VRSC</span></div>
+                <br>
+                <div class="graph-y-axis">
+                    {{#each chipsBridgeVolumeInDollars24HoursArrayYAxis}}<div class="graph-y-axis-item">
+                        {{value}}
+                    </div>{{/each}}
+                </div>
+
+                <div class="graph-bar-container">
+                    {{#each chipsBridgeVolumeInDollars24HoursArray}}<div style="height:{{barPCT}}px;"
+                        class="graph-bar graph-bar-large" data-volume="{{volume}}" data-label="">
+                    </div>{{/each}}
+                    <div class="graph-x-axis"></div>
+                </div>
+            </div>
+
+
+            <div class="graph-group hide">
+                <div class="card-sub-title">7 days Volume</div>
+                <div class="card-sub-title-main-value"> {{{chipsBridgeVolumeInDollars7Days}}} <span
+                        class="card-sub-title-value-prefix">VRSC</span></div>
+                <br>
+                <div class="graph-y-axis">
+                    {{#each chipsBridgeVolumeInDollars7DaysArrayYAxis}}<div class="graph-y-axis-item">
+                        {{value}}
+                    </div>{{/each}}
+                </div>
+
+                <div class="graph-bar-container">
+                    {{#each chipsBridgeVolumeInDollars7DaysArray}}<div style="height:{{barPCT}}px;"
+                        class="graph-bar graph-bar-xlarge" data-volume="{{volume}}" data-label="">
+                    </div>{{/each}}
+                    <div class="graph-x-axis"></div>
+                </div>
+            </div>
+
+
+            <div class="graph-group">
+                <div class="card-sub-title">30 days Volume</div>
+                <div class="card-sub-title-main-value"> {{{chipsBridgeVolumeInDollars30Days}}} <span
+                        class="card-sub-title-value-prefix">VRSC</span></div>
+                <br>
+                <div class="graph-y-axis">
+                    {{#each chipsBridgeVolumeInDollars30DaysArrayYAxis}}<div class="graph-y-axis-item">
+                        {{value}}
+                    </div>{{/each}}
+                </div>
+
+                <div class="graph-bar-container">
+                    {{#each chipsBridgeVolumeInDollars30DaysArray}}<div style="height:{{barPCT}}px;"
+                        class="graph-bar graph-bar-small" data-volume="{{volume}}" data-label="">
+                    </div>{{/each}}
+                    <div class="graph-x-axis"></div>
+                </div>
+            </div>
+
+            <div class="graph-button-group">
+                <button class="graph-button button-deselected">24H</button><button
+                    class="graph-button button-deselected">7D</button><button
+                    class="graph-button button-selected">30D</button>
+            </div>
+        </div> --}}
+
+        <br>
+        {{!-- <div class="card-row-wrapper">
+            <div class="card-row-item">Reserves Value</div>
+            <div class="card-row-item-network">via CHIPS</div>
+            <div class="card-row-item"> $ {{{estimatedBridgeChipsValueUSDCHIPS}}}</div>
+        </div> --}}
+        <div class="card-row-wrapper">
+            <div class="card-row-item">Reserves Value</div>
+            <div class="card-row-item"> $ {{{estimatedBankrollReserveValueUSD}}}</div>
+        </div>
+         <br>
+        <div class="card-row-wrapper">
+            <div class="card-row-item">Bankroll.CHIPS price</div>
+            <div class="card-row-item-network">CHIPS {{estimatedBankrollValueCHIPS}}</div>
+            <div class="card-row-item"> $ {{{estimatedBankrollValueUSD}}}</div>
+        </div>
+        <div class="card-row-wrapper">
+            <div class="card-row-item">Bankroll.CHIPS supply</div>
+            <div class="card-row-item"> {{{estimatedBankrollSupply}}}</div>
+        </div>
+
+        {{#each currencyBankrollArray}}
+        <div style="text-transform:none;" class="card-sub-title">{{currencyName}} ({{weight}}%)</div>
+        <div class="card-row-wrapper">
+            <div class="card-row-item">Reserve</div>
+            <div class="card-row-item"> {{reserves}}</div>
+        </div>
+        <div class="card-row-wrapper">
+            <div class="card-row-item">Basket Price</div>
+            <div class="card-row-item"> $ {{priceNative}}</div>
+        </div>
+        <div class="card-row-wrapper">
+            <div class="card-row-item">{{priceLabel}} Price</div>
+            <div class="card-row-item">  $ {{price}}</div>
+        </div>
+        
+
+        {{/each}}
+
+        {{else}}
+        {{{chipsStatusMessage}}}
+        {{/if}}
+    </div>
+</div>
