@@ -4,6 +4,8 @@ dotenv.config();
 import { getMiningInfo, getPeerInfo, getBlock, getBlockSubsidy, getCurrencyState } from "./api/api.js";
 import { currencyReserveChipsBridge } from "./chipsbridge/chipsbridge.js";
 import { convertToAxisString } from '../../utils/stringUtil.js';
+import { currencyReserveBankroll } from './bankroll/bankroll.js';
+import { currencyReserveHighroller } from './highroller/highroller.js';
 
 export async function getChipsNodeStatus() {
     let result = {};
@@ -212,6 +214,10 @@ export async function getChipsCurrencyVolume(currencyName, fromBlock, toBlock, i
     let volumeArray = [];
     let yAxisArray = [];
 
+    if(fromBlock < 0){
+        fromBlock = 0;
+    }
+
     const currencyState = await getCurrencyState(currencyName, fromBlock, toBlock, interval, converttocurrency);
 
     currencyState.map((item) => {
@@ -240,8 +246,14 @@ export async function getChipsCurrencyVolume(currencyName, fromBlock, toBlock, i
     return result;
 }
 
-export async function getChipsCurrencyReserve(currencyName, priceArray, vrscBridgePrice, estimatedBridgeValueUSD) {
+export async function getChipsCurrencyReserve(currencyName, priceArray, vrscBasePrice, estimatedBridgeValueUSD, chipsBasePrice) {
     if (currencyName === "bridge.chips") {
-        return currencyReserveChipsBridge(priceArray, vrscBridgePrice, estimatedBridgeValueUSD);
+        return currencyReserveChipsBridge(priceArray, vrscBasePrice, estimatedBridgeValueUSD);
+    }
+    if (currencyName === "bankroll.chips") {
+        return currencyReserveBankroll(priceArray, vrscBasePrice, chipsBasePrice);
+    }
+    if (currencyName === "highroller.chips") {
+        return currencyReserveHighroller(priceArray, vrscBasePrice, chipsBasePrice);
     }
 }

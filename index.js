@@ -310,6 +310,34 @@ app.get('/stats', async (req, res) => {
 //   res.send(`You requested the path: ${param}`);
 // });
 
+/* dashboard */
+app.get('/api/totalvolume', async (req, res) => {
+
+  /* cache */
+  let cacheReady = await isCacheReady();
+  let result = {};
+  let vrscVolumeArray = [];
+  let usdVolumeArray = [];
+
+
+  if (cacheReady) {
+    // cache data
+    const cacheData = await readFromCache('cache.json');
+
+    //merging vrscVolumeArrays
+    vrscVolumeArray = [
+      ...cacheData.chipsBridgeVolumeInDollars30DaysArray,
+      ...cacheData.varrrBridgeVolumeInDollars30DaysArray,
+      ...cacheData.vdexBridgeVolumeInDollars30DaysArray
+    ]
+    console.log(vrscVolumeArray)
+  //  mainRenderData = cacheData;
+  }
+
+  res.json(result);
+})
+
+
 /* hbs */
 import hbs from 'hbs';
 import path from 'path';
