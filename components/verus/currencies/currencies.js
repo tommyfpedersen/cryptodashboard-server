@@ -4,88 +4,50 @@ dotenv.config();
 
 import { getCurrenciesConfig } from './currenciesConfig.js';
 import { getMiningInfo, getCurrencyState } from "../api/api.js";
-import { convertToAxisString } from '../../../utils/stringUtil.js';
 
 
-export async function getCurrencyReserve(currencyName, priceArray, vrscBridgePrice) {
-    if (currencyName === "bridge.veth") {
-        return currencyReserveEthBridge(priceArray);
-    }
-    if (currencyName === "kaiju") {
-        return currencyReserveKaiju(priceArray, vrscBridgePrice);
-    }
-    if (currencyName === "pure") {
-        return currencyReservePure(priceArray, vrscBridgePrice);
-    }
-    if (currencyName === "switch") {
-        return currencyReserveSwitch(priceArray, vrscBridgePrice);
-    }
-    if (currencyName === "nati") {
-        return currencyReserveNati(priceArray, vrscBridgePrice);
-    }
-    if (currencyName === "nati🦉") {
-        return currencyReserveNatiOwl(priceArray, vrscBridgePrice);
-    }
-    if (currencyName === "supervrsc") {
-        return currencyReserveSuperVRSC(priceArray, vrscBridgePrice);
-    }
-    if (currencyName === "vyield") {
-        return currencyReserveVyield(priceArray, vrscBridgePrice);
-    }
-    if (currencyName === "Kek🐸") {
-        return currencyReserveKekFrog(priceArray, vrscBridgePrice);
-    }
-    if (currencyName === "bridge.chips") {
-        return currencyReserveBridgeChips(priceArray, vrscBridgePrice);
-    }
-    if (currencyName === "SUPER🛒") {
-        return currencyReserveSuperBasket(priceArray, vrscBridgePrice);
-    }
-}
 
-export async function getVRSCBasePrice(priceArray) {
-    // based on bridge.vETH at the moment
-    const currenciesConfig = getCurrenciesConfig();
-    let bridgeEthCurrencyReserves = await getCurrencyReserves(currenciesConfig[0], priceArray, "5");
-    let vrscBasePrice = bridgeEthCurrencyReserves.vrscBasketPrice;
-    return vrscBasePrice;
-}
 
 export async function getAllCurrenciesFromBaskets(priceArray) {
-    // console.log("priceArray", priceArray);
     const currenciesConfig = getCurrenciesConfig();
-    const vrscBasePrice = await getVRSCBasePrice(priceArray);
-    console.log("vrscBasePrice", vrscBasePrice);
+    const nativeCurrencyBasePrice = await getNativeCurrencyBasePrice(priceArray, "bridge.veth");
 
-    /* Get block */
-    const miningInfo = await getMiningInfo();
-    const currentBlock = miningInfo.block;
+    console.log("nativeCurrencyBasePrice", nativeCurrencyBasePrice);
 
-
-    //TODO AWAIT LOOP
-    //remember await for loop if needed
-    let currencyReserve ={};
-    let currencyVolume24Hours ={};
+    let currencyArray = [];
+    let currencyReserve = {};
+    let currencyVolume24Hours = {};
 
     for (let i = 0; i < currenciesConfig.length; i++) {
-        currencyReserve =  await getCurrencyReserves(currenciesConfig[i], priceArray, vrscBasePrice);
-        currencyVolume24Hours = await getCurrencyVolume(currenciesConfig[i].currencyName, currentBlock - 1440, currentBlock, 60, "VRSC");
+        let currency = {};
+        /* Get latest block */
+        const miningInfo = await getMiningInfo(currenciesConfig[i].rpcBaseUrl);
+        const currentBlock = miningInfo.blocks;
+
+        currencyReserve = await getCurrencyReserves(currenciesConfig[i], priceArray, nativeCurrencyBasePrice);
+        currencyVolume24Hours = await getCurrencyVolume(currenciesConfig[i], currentBlock - 1440, currentBlock, 60);
+    
+        currency.name = currenciesConfig[i].currencyName;
+        currency.currencyReserve = currencyReserve;
+        currency.currencyVolume24Hours = currencyVolume24Hours;
+        currencyArray.push(currency);
     }
 
-    console.log("currencyVolume24Hours", currencyVolume24Hours);
-
-    // currenciesConfig.forEach((currencyConfig) => {
-    //     const currencyReserve = getCurrencyReserves(currencyConfig, priceArray, vrscBasePrice);
-    //     const currencyVolume24Hours = getCurrencyVolume(currencyConfig.currencyName, currentBlock - 1440, currentBlock, 60, "VRSC");
-    //   //  const currencyVolume7Days = getCurrencyVolume(currencyConfig.currencyName, currentBlock - 1440 * 7, currentBlock, 60, "VRSC");
-    //   //  const currencyVolume30Days = getCurrencyVolume(currencyConfig.currencyName, currentBlock - 1440 * 30, currentBlock, 60, "VRSC");
-
-    // })
+    console.log("currencyArray", currencyArray);
 }
 
-export async function getCurrencyReserves(currencyConfig, priceArray, vrscBasePrice) {
+export async function getNativeCurrencyBasePrice(priceArray, baseCurrencyName) {
+    const currenciesConfig = getCurrenciesConfig();
+    let currencyConfig = currenciesConfig.find(item => item.currencyName === baseCurrencyName);
+    let currencyReserves = await getCurrencyReserves(currencyConfig, priceArray, "5");
+    let nativeCurrencyBasketPrice = currencyReserves.nativeCurrencyBasketPrice;
+    return nativeCurrencyBasketPrice;
+}
+
+export async function getCurrencyReserves(currencyConfig, priceArray, nativeCurrencyBasePrice) {
 
     let blockchain = currencyConfig.blockchain;
+    let nativeCurrencyId = currencyConfig.nativeCurrencyId;
     let currencyName = currencyConfig.currencyName;
     let anchorCurrencyId = currencyConfig.anchorCurrencyId;
     let anchorCurrencyName = currencyConfig.anchorCurrencyName;
@@ -100,9 +62,9 @@ export async function getCurrencyReserves(currencyConfig, priceArray, vrscBasePr
 
     let basketCurrencyArray = [];
 
-    let vrscReserve = 0;
-    let vrscWeight = 0;
-    let vrscBasketPrice = 0;
+    let nativeCurrencyReserve = 0;
+    let nativeCurrencyWeight = 0;
+    let nativeCurrencyBasketPrice = 0;
 
     let anchorReserve = 0;
     let anchorWeight = 0;
@@ -120,9 +82,9 @@ export async function getCurrencyReserves(currencyConfig, priceArray, vrscBasePr
 
                 if (item[0] === currencyId) {
                     getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
-                        if (reservesCurrency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                            vrscReserve = reservesCurrency.reserves;
-                            vrscWeight = reservesCurrency.weight;
+                        if (reservesCurrency.currencyid === nativeCurrencyId) {
+                            nativeCurrencyReserve = reservesCurrency.reserves;
+                            nativeCurrencyWeight = reservesCurrency.weight;
                         }
                         if (reservesCurrency.currencyid === anchorCurrencyId) {
                             anchorReserve = reservesCurrency.reserves;
@@ -150,7 +112,7 @@ export async function getCurrencyReserves(currencyConfig, priceArray, vrscBasePr
                             currency.price = Math.round((anchorReserve * 1 / anchorWeight / 100) / (currency.reserves * 1 / currency.weight) * 1000000) / 1000000;
                             currency.pricePrefix = anchorCurrencyName;
                             currency.priceUSD = currency.price * anchorCurrencyFromPriceArray;
-                            currency.priceVRSC = Math.round((vrscReserve * 1 / currency.weight) / (currency.reserves * 1 / currency.weight) * 1000000) / 1000000;
+                            currency.priceNativeCurrency = Math.round((nativeCurrencyReserve * 1 / currency.weight) / (currency.reserves * 1 / currency.weight) * 1000000) / 1000000;
                         }
 
                         if (priceArray.length > 0) {
@@ -161,8 +123,8 @@ export async function getCurrencyReserves(currencyConfig, priceArray, vrscBasePr
                             })
                         }
 
-                        if (reservesCurrency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                            vrscBasketPrice = Math.round((anchorReserve * 1 / anchorWeight) / (vrscReserve * 1 / vrscWeight) * 1000000) / 1000000 * anchorCurrencyFromPriceArray;
+                        if (reservesCurrency.currencyid === nativeCurrencyId) {
+                            nativeCurrencyBasketPrice = Math.round((anchorReserve * 1 / anchorWeight) / (nativeCurrencyReserve * 1 / nativeCurrencyWeight) * 1000000) / 1000000 * anchorCurrencyFromPriceArray;
                         }
                     })
 
@@ -174,63 +136,53 @@ export async function getCurrencyReserves(currencyConfig, priceArray, vrscBasePr
         })
     }
     result.basketCurrencyArray = basketCurrencyArray;
-    result.vrscBasketPrice = vrscBasketPrice;
-    result.vrscBasePrice = vrscBasePrice;
-    result.basketReserveValueVRSC = vrscReserve * (1 / vrscWeight);
-    result.basketReserveValueVRSCUSD = vrscReserve * (1 / vrscWeight) * vrscBasketPrice;
+    result.nativeCurrencyBasketPrice = nativeCurrencyBasketPrice;
+    result.nativeCurrencyBasePrice = nativeCurrencyBasePrice;
+    result.nativeCurrencyName = blockchain;
+    result.basketReserveValueNativeCurrency = nativeCurrencyReserve * (1 / nativeCurrencyWeight);
+    result.basketReserveValueNativeCurrencyUSD = nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasketPrice;
     result.basketValueAnchorCurrencyUSD = anchorReserve * (1 / anchorWeight) * anchorCurrencyFromPriceArray;
     result.anchorCurrencyName = anchorCurrencyName;
     result.currencyName = currencyName;
     result.currencySupply = currencySupply;
-    result.currencyPriceUSD = (vrscReserve * (1 / vrscWeight) * vrscBasketPrice) / currencySupply;
-    result.currencyPriceVRSC = (vrscReserve * (1 / vrscWeight) * vrscBasketPrice) / currencySupply / vrscBasketPrice;
+    result.currencyPriceUSD = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasketPrice) / currencySupply;
+    result.currencyPriceNative = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasketPrice) / currencySupply / nativeCurrencyBasketPrice;
     result.currencyIcon = currencyIcon;
-
-    console.log("result", result);
 
     return result;
 }
 
-//TODO ADD BLOCKCHAIN SUPPORT IN API CALL
-export async function getCurrencyVolume(currencyName, fromBlock, toBlock, interval, converttocurrency) {
+export async function getCurrencyVolume(currencyConfig, fromBlock, toBlock, interval) {
     let result = {};
     let totalVolume = 0;
     let volumeArray = [];
-    let yAxisArray = [];
+    
+    let rpcBaseUrl = currencyConfig.rpcBaseUrl;
+    let currencyName = currencyConfig.currencyName;
+    let converttocurrency = currencyConfig.blockchain;
 
-    const currencyState = await getCurrencyState(currencyName, fromBlock, toBlock, interval, converttocurrency);
-    //console.log("currencyState",currencyState)
-    //console.log("conversiondata",currencyState.conversiondata)
+    const currencyState = await getCurrencyState(rpcBaseUrl, currencyName, fromBlock, toBlock, interval, converttocurrency);
 
     if (currencyState.length > 0) {
         currencyState.map((item) => {
-            console.log("item",item)
+
             if (item.conversiondata) {
-                console.log("item.conversiondata.volumethisinterval",item.conversiondata.volumethisinterval)
-                let volume = Math.round(item.conversiondata.volumethisinterval);
-                volumeArray.push({ volume: volume });
+                let volume = item.conversiondata.volumethisinterval;
+                volumeArray.push({
+                    height: item.height,
+                    blocktime: item.blocktime,
+                    volume: volume
+                });
             }
             if (item.totalvolume) {
-                totalVolume = Math.round(item.totalvolume).toLocaleString();
+                totalVolume = item.totalvolume;
             }
         })
     }
 
-
-    let volumeArrayMax = Math.max(...volumeArray.map(o => o.volume));
-    yAxisArray.push({ value: convertToAxisString(volumeArrayMax) });
-    yAxisArray.push({ value: convertToAxisString(volumeArrayMax / 2) });
-    yAxisArray.push({ value: 0 });
-
-    volumeArray.forEach((item) => {
-        item.barPCT = Math.round((item.volume / volumeArrayMax) * 100);
-        item.volume = convertToAxisString(item.volume);
-    })
     result.totalVolume = totalVolume;
+    result.volumeCurrency = converttocurrency;
     result.volumeArray = volumeArray;
-    result.yAxisArray = yAxisArray;
-
-    console.log("volume24H", result)
 
     return result;
 }

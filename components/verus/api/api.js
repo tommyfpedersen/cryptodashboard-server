@@ -1,9 +1,9 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-export async function getMiningInfo() {
+export async function getMiningInfo(rpcBaseUrl) {
     try {
-        const getmininginfoResponse = await fetch(process.env.VERUS_REST_API+ "mining/getmininginfo")
+        const getmininginfoResponse = await fetch(rpcBaseUrl + "mining/getmininginfo")
         const getmininginfoResult = await getmininginfoResponse.json();
         const getmininginfo = getmininginfoResult.result;
         return getmininginfo;
@@ -65,10 +65,10 @@ export async function getPeerInfo() {
         return null;
     }
 }
-export async function getCurrencyState(chainname, blockstart, blockend, blockintervals, converttocurrency) {
+export async function getCurrencyState(rpcBaseUrl, currencyName, blockstart, blockend, blockintervals, converttocurrency) {
 
     try {
-        const getcurrencystateResponse = await fetch(process.env.VERUS_REST_API+ "multichain/getcurrencystate/"+chainname+"/"+blockstart+"/"+blockend+"/"+blockintervals+"/"+converttocurrency+"/");
+        const getcurrencystateResponse = await fetch(rpcBaseUrl+ "multichain/getcurrencystate/"+currencyName+"/"+blockstart+"/"+blockend+"/"+blockintervals+"/"+converttocurrency+"/");
         const getcurrencystateResult = await getcurrencystateResponse.json();
         const getcurrencystate = getcurrencystateResult.result;
         return getcurrencystate;
