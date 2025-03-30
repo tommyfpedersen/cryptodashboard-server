@@ -10,9 +10,31 @@ import { getMiningInfo, getCurrencyState } from "../api/api.js";
 
 export async function getAllCurrenciesFromBaskets(priceArray) {
     const currenciesConfig = getCurrenciesConfig();
-    const nativeCurrencyBasePrice = await getNativeCurrencyBasePrice(priceArray, "bridge.veth");
 
-    console.log("nativeCurrencyBasePrice", nativeCurrencyBasePrice);
+    // calculate native currency price for each blockchain
+    const nativeCurrencyArray = [
+        {
+            currencyName: "vrsc",
+            nativeCurrencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+            price: await getNativeCurrencyBasePrice(priceArray, "bridge.veth")
+        },
+        {
+            currencyName: "varrr",
+            nativeCurrencyId: "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2",
+            price: await getNativeCurrencyBasePrice(priceArray, "bridge.varrr")
+        },
+        {
+            currencyName: "vdex",
+            nativeCurrencyId: "iHog9UCTrn95qpUBFCZ7kKz7qWdMA8MQ6N",
+            price: await getNativeCurrencyBasePrice(priceArray, "bridge.vdex")
+        },
+        {
+            currencyName: "chips",
+            nativeCurrencyId: "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP",
+            price: await getNativeCurrencyBasePrice(priceArray, "bridge.chips")
+        },
+
+    ];
 
     let currencyArray = [];
     let currencyReserve = {};
@@ -20,13 +42,21 @@ export async function getAllCurrenciesFromBaskets(priceArray) {
 
     for (let i = 0; i < currenciesConfig.length; i++) {
         let currency = {};
+        let nativeCurrencyBasePrice = 0;
+        nativeCurrencyArray.map((item) => {
+            if (item.nativeCurrencyId === currenciesConfig[i].nativeCurrencyId) {
+                nativeCurrencyBasePrice = item.price;
+            }
+        })
+
         /* Get latest block */
         const miningInfo = await getMiningInfo(currenciesConfig[i].rpcBaseUrl);
         const currentBlock = miningInfo.blocks;
 
         currencyReserve = await getCurrencyReserves(currenciesConfig[i], priceArray, nativeCurrencyBasePrice);
         currencyVolume24Hours = await getCurrencyVolume(currenciesConfig[i], currentBlock - 1440, currentBlock, 60);
-    
+
+        currency.blockchain = currenciesConfig[i].blockchain;
         currency.name = currenciesConfig[i].currencyName;
         currency.currencyReserve = currencyReserve;
         currency.currencyVolume24Hours = currencyVolume24Hours;
@@ -34,17 +64,24 @@ export async function getAllCurrenciesFromBaskets(priceArray) {
     }
 
     console.log("currencyArray", currencyArray);
+    return currencyArray;
 }
 
 export async function getNativeCurrencyBasePrice(priceArray, baseCurrencyName) {
     const currenciesConfig = getCurrenciesConfig();
     let currencyConfig = currenciesConfig.find(item => item.currencyName === baseCurrencyName);
-    let currencyReserves = await getCurrencyReserves(currencyConfig, priceArray, "5");
-    let nativeCurrencyBasketPrice = currencyReserves.nativeCurrencyBasketPrice;
+    // console.log("currencyConfig", currencyConfig)
+    let nativeCurrencyBasketPrice = 0;
+    if (currencyConfig) {
+        let currencyReserves = await getCurrencyReserves(currencyConfig, priceArray, "5");
+        nativeCurrencyBasketPrice = currencyReserves.nativeCurrencyBasketPrice;
+    }
+
     return nativeCurrencyBasketPrice;
 }
 
 export async function getCurrencyReserves(currencyConfig, priceArray, nativeCurrencyBasePrice) {
+  //  console.log("conf", currencyConfig)
 
     let blockchain = currencyConfig.blockchain;
     let nativeCurrencyId = currencyConfig.nativeCurrencyId;
@@ -53,6 +90,9 @@ export async function getCurrencyReserves(currencyConfig, priceArray, nativeCurr
     let anchorCurrencyName = currencyConfig.anchorCurrencyName;
     let rpcBaseUrl = currencyConfig.rpcBaseUrl;
     let currencyIcon = currencyConfig.currencyIcon;
+    let currencyNote = currencyConfig.note === undefined ? "": currencyConfig.note;
+    
+    //let currencyScaleArray = currencyConfig.currencyScale === undefined ? [] : currencyConfig.currencyScale;
 
     let result = {};
 
@@ -69,7 +109,7 @@ export async function getCurrencyReserves(currencyConfig, priceArray, nativeCurr
     let anchorReserve = 0;
     let anchorWeight = 0;
 
-    let anchorCurrencyFromPriceArray = priceArray.find(item => item.currencyId === anchorCurrencyId).price || 0;
+    let anchorCurrencyFromPriceArray = priceArray.find(item => item.currencyId === anchorCurrencyId)?.price || 0;
     let currencySupply = getcurrency.bestcurrencystate.supply;
 
     if (getcurrency) {
@@ -126,8 +166,15 @@ export async function getCurrencyReserves(currencyConfig, priceArray, nativeCurr
                         if (reservesCurrency.currencyid === nativeCurrencyId) {
                             nativeCurrencyBasketPrice = Math.round((anchorReserve * 1 / anchorWeight) / (nativeCurrencyReserve * 1 / nativeCurrencyWeight) * 1000000) / 1000000 * anchorCurrencyFromPriceArray;
                         }
-                    })
 
+                        // currencyScaleArray.forEach((element)=>{
+                        //     if(currencyId === element.currencyId){
+                        //         if(element.currencyId){
+                        //             currency.price = currency.price * 1// element.scale;
+                        //         }
+                        //     }
+                        // })
+                    })
                     currency.currencyId = currencyId;
                     currency.currencyName = item[1];
                     basketCurrencyArray.push(currency);
@@ -148,6 +195,7 @@ export async function getCurrencyReserves(currencyConfig, priceArray, nativeCurr
     result.currencyPriceUSD = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasketPrice) / currencySupply;
     result.currencyPriceNative = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasketPrice) / currencySupply / nativeCurrencyBasketPrice;
     result.currencyIcon = currencyIcon;
+    result.currencyNote = currencyNote;
 
     return result;
 }
@@ -156,7 +204,7 @@ export async function getCurrencyVolume(currencyConfig, fromBlock, toBlock, inte
     let result = {};
     let totalVolume = 0;
     let volumeArray = [];
-    
+
     let rpcBaseUrl = currencyConfig.rpcBaseUrl;
     let currencyName = currencyConfig.currencyName;
     let converttocurrency = currencyConfig.blockchain;

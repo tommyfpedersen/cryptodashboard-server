@@ -65,7 +65,19 @@ app.get('/currencies', async (req, res) => {
       price: 1,
       totalVolume: 0,
       name: "dai",
-    }
+    },
+    {
+      currencyId: "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY",
+      price: 1,
+      totalVolume: 0,
+      name: "usdt",
+    },
+    {
+      currencyId: "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2",
+      price: 2,
+      totalVolume: 0,
+      name: "varrr",
+    },
 
   ]
 
