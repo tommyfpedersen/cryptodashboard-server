@@ -88,7 +88,47 @@ app.get('/currencies', async (req, res) => {
   //let priceArray = getCoingeckoPrice();
 
   // testing
-  getAllCurrenciesFromBaskets(priceArray);
+  let allCurrenciesFromBaskets = await getAllCurrenciesFromBaskets(priceArray);
+  let currencyNameListRaw = [];
+  let currencyNameList = [];
+  let currencies = {};
+
+  // Find a list of currencies
+  allCurrenciesFromBaskets.forEach((item) => {
+    console.log("currencyReserve", item.currencyReserve);
+    if (item.currencyReserve) {
+      currencyNameList.push({
+        currencyName: item.currencyReserve.currencyName,
+        currencyPriceUSD: item.currencyReserve.currencyPriceUSD,
+        currencySupply: item.currencyReserve.currencySupply,
+        currencySupplyPriceUSD: item.currencyReserve.basketValueAnchorCurrencyUSD,
+        currencyNetwork: item.currencyReserve.nativeCurrencyName
+      })
+      item.currencyReserve.basketCurrencyArray.forEach((basketItem) => {
+        // currencyNameList.push({
+        //   currencyNetwork: basketItem.network,
+        //   currencyName: basketItem.currencyName,
+        //   currencyPriceUSD: basketItem.currencyPriceUSD,
+        //   currencySupply: basketItem.currencySupply,
+        //   currencySupplyPriceUSD: basketItem.basketValueAnchorCurrencyUSD
+        // })
+      })
+    }
+  })
+  // Remove duplicates
+  //let currencyNameList = [...new Set(currencyNameListRaw)];
+
+  // currencyNameList.forEach((currencyName)=>{
+  //   if(currencyName === )
+  // })
+
+
+  //console.log("currencyNameListRaw", currencyNameListRaw)
+  console.log("currencyNameList", currencyNameList)
+
+  //console.log("her", allCurrenciesFromBaskets)
+
+  //
 
   res.render('currencies', { currencyArray });
 
@@ -343,7 +383,7 @@ app.get('/api/totalvolume', async (req, res) => {
       ...cacheData.vdexBridgeVolumeInDollars30DaysArray
     ]
     console.log(vrscVolumeArray)
-  //  mainRenderData = cacheData;
+    //  mainRenderData = cacheData;
   }
 
   res.json(result);

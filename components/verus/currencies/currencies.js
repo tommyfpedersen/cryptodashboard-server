@@ -39,6 +39,8 @@ export async function getAllCurrenciesFromBaskets(priceArray) {
     let currencyArray = [];
     let currencyReserve = {};
     let currencyVolume24Hours = {};
+    let currencyVolume7Days = {};
+    let currencyVolume30Days = {};
 
     for (let i = 0; i < currenciesConfig.length; i++) {
         let currency = {};
@@ -55,15 +57,19 @@ export async function getAllCurrenciesFromBaskets(priceArray) {
 
         currencyReserve = await getCurrencyReserves(currenciesConfig[i], priceArray, nativeCurrencyBasePrice);
         currencyVolume24Hours = await getCurrencyVolume(currenciesConfig[i], currentBlock - 1440, currentBlock, 60);
+        currencyVolume7Days = await getCurrencyVolume(currenciesConfig[i], currentBlock - 1440 *7, currentBlock, 1440);
+        currencyVolume30Days = await getCurrencyVolume(currenciesConfig[i], currentBlock - 1440*30, currentBlock, 1440);
 
         currency.blockchain = currenciesConfig[i].blockchain;
         currency.name = currenciesConfig[i].currencyName;
         currency.currencyReserve = currencyReserve;
         currency.currencyVolume24Hours = currencyVolume24Hours;
+        currency.currencyVolume7Days = currencyVolume7Days;
+        currency.currencyVolume30Days = currencyVolume30Days;
         currencyArray.push(currency);
     }
 
-    console.log("currencyArray", currencyArray);
+  //  console.log("currencyArray", currencyArray);
     return currencyArray;
 }
 
