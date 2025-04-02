@@ -84,7 +84,7 @@ export async function currencyReserveBankroll(priceArray, vrscBasePrice, chipsBa
                             currency.reserves = reservesCurrency.reserves;
                             currency.weight = reservesCurrency.weight * 100;
                             currency.priceinreserve = reservesCurrency.priceinreserve;
-                            currency.origin = "Bankroll";
+                            currency.origin = "Bankroll.CHIPS";
                             currency.network = "CHIPS";
 
                             if (currencyId === "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP") {
