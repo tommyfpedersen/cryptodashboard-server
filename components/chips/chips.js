@@ -115,6 +115,15 @@ export async function getChipsAddressBalance(address) {
             if ("iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP" === item) {
                 getAddressBalanceArray.push({ currencyName: "CHIPS", amount: getAddressBalance.currencybalance.iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP })
             }
+            if ("i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj" === item) {
+                getAddressBalanceArray.push({ currencyName: "scrvUSD.vETH", amount: getAddressBalance.currencybalance.i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj })
+            }
+            if ("iDetLA1snrDVhCCk42rdWfqmJcYCMcEFry" === item) {
+                getAddressBalanceArray.push({ currencyName: "Bankroll.CHIPS", amount: getAddressBalance.currencybalance.iDetLA1snrDVhCCk42rdWfqmJcYCMcEFry })
+            }
+            if ("iNLBYPcNM3c5mzRdtfjd9Hk86WPijQfZhW" === item) {
+                getAddressBalanceArray.push({ currencyName: "Highroller.CHIPS", amount: getAddressBalance.currencybalance.iNLBYPcNM3c5mzRdtfjd9Hk86WPijQfZhW })
+            }
         })
     }
     result.verusAddress = verusAddress;
