@@ -58,7 +58,7 @@ export async function currencyReserveVyield(priceArray, vrscBridgePrice) {
                             estimatedVyieldValue = (Math.round(estimatedVyieldReserveValue / estimatedVyieldSupply * 100) / 100).toLocaleString();
                             estimatedVyieldValueUSDVRSC = (Math.round(estimatedVyieldValue / vrscBridgePrice * 100) / 100).toLocaleString();
                             estimatedVyieldReserveValue = (Math.round(estimatedVyieldReserveValue)).toLocaleString();
-                           // estimatedVyieldValueVRSC = (Math.round(estimatedVyieldValueUSDVRSC / vrscBridgePrice * 1000) / 1000).toLocaleString();
+                            // estimatedVyieldValueVRSC = (Math.round(estimatedVyieldValueUSDVRSC / vrscBridgePrice * 1000) / 1000).toLocaleString();
                         }
                     })
                 }
@@ -78,12 +78,17 @@ export async function currencyReserveVyield(priceArray, vrscBridgePrice) {
                             currency.network = "vrsc";
 
                             if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                                // vrscPrice = (scrvUSDReserve * 1 / 0.5) / (currency.reserves * 1 / 0.5);
-                                // currency.price = Math.round(vrscPrice * 100) / 100;
+                                //vrscPrice = (scrvUSDReserve * 1 / 0.5) / (currency.reserves * 1 / 0.5);
+                                //vrscPrice = scrvUSDReserve  / currency.reserves ;
+                                //let vyeildBasketPrice = Math.round(vrscReserve / scrvUSDReserve * 100) / 100;
+                                // currency.price =  Math.round(scrvUSDReserve * vyeildBasketPrice*100) / 100;
+                                currency.price = Math.round(scrvUSDReserve * (vrscBridgePrice * (vrscReserve / scrvUSDReserve)) / vrscReserve * 10000) / 10000;
+                                // currency.price =  Math.round(vrscPrice * 100) / 100;
 
-                                currency.priceNative = Math.round(scrvUSDReserve / currency.reserves * 1000) / 1000;
+                                //  currency.price = Math.round(scrvUSDReserve / currency.reserves * 1000) / 1000;
+                                // currency.priceNative = Math.round(scrvUSDReserve / currency.reserves * 1000) / 1000;
                                 currency.pricelabel = "scrvUSD";
-                                currency.price = Math.round(crvUSDCoingeckoPrice * currency.priceNative * 100) / 100;
+                                // currency.price = Math.round(crvUSDCoingeckoPrice * currency.priceNative * 100) / 100;
                             }
                             if (currencyId === "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj") {
                                 // scrvUSDPrice = (vrscReserve * 1 / 0.5) / (currency.reserves * 1 / 0.5);
