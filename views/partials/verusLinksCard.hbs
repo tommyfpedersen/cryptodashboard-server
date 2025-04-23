@@ -1,4 +1,4 @@
-<div class="card" id="verus-basket-volume-7d">
+<div class="card" id="verus-links-card">
     <svg fill="#3165d4" width="55" height="16" viewBox="0 0 4950 1417" xmlns="http://www.w3.org/2000/svg"
         fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
         <path
@@ -10,33 +10,21 @@
     </svg>
     <button class="hide-button">x</button>
     <div class="card-content">
-        <div class="card-title">Basket Volume 7D</div>
-        {{#if vrscOnline}}
-        {{#each vrsc7DVolumeArray}}
-        <div class="card-row-wrapper">
-            <div class="card-row-item">{{{basket}}}</div>
-            <div class="card-row-item-network">{{{via}}}</div>
-            <div class="card-row-item">
-                $ {{{volume}}}
-            </div>
-        </div>
-        {{/each}}
+        <div class="card-title">Useful Links</div>
         <br>
-        <div class="card-row-wrapper">
-            <div class="card-row-item"> Total volume</div>
-            <div class="card-row-item" id="total-volume-7d">
-                $ {{vrsc7DVolumeTotal}}
-            </div>
-        </div>
-        {{!-- <div class="card-row-wrapper">
-            <div class="card-row-item"> CEX volume (Coingecko)</div>
-            <div class="card-row-item">
-                $ {{vrscCoingeckoVolume}}
-            </div>
-        </div> --}}
-
-        {{else}}
-        {{{vrscStatusMessage}}}
-        {{/if}}
+        <div class="card-sub-details">Website</div>
+        <a href="https://verus.io" target="_blank">https://verus.io</a>
+        <br>  <br>
+        <div class="card-sub-details">Verus Explorer</div>
+        <a href="https://insight.verus.io" target="_blank">https://insight.verus.io</a>
+        <br>  <br>
+        <div class="card-sub-details">Verus Discord</div>
+        <a href="https://verus.io/discord" target="_blank">https://verus.io/discord</a>
+        <br>  <br>
+        <div class="card-sub-details">Verus Raw Trading</div>
+        <a href="https://raw.verus.trading" target="_blank">https://raw.verus.trading</a>
+        <br>  <br>
+        <div class="card-sub-details">Verus Wisdom</div>
+        <a href="https://veruswisdom.com" target="_blank">https://veruswisdom.com</a>
     </div>
 </div>

@@ -80,7 +80,7 @@ export async function currencyReserveHighroller(priceArray, vrscBasePrice, chips
                             currency.reserves = reservesCurrency.reserves;
                             currency.weight = reservesCurrency.weight * 100;
                             currency.priceinreserve = reservesCurrency.priceinreserve;
-                            currency.origin = "Highroller";
+                            currency.origin = "Highroller.CHIPS";
                             currency.network = "CHIPS";
 
                             if (currencyId === "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP") {
