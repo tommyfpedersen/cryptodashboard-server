@@ -1,17 +1,15 @@
-{{#each currencyArray}}
+{{#each currencyGroupList}}
 <div class="currency-card">
-    <img width="16px" src="/img/tbtc.png" /> tBTC (Bitcoin)
+    <img width="16px" src="/img/tbtc.png" /> {{currencyName}}
 
     <div class="card-content">
-        <div class="card-title">Bitcoin</div>
+        <div class="card-title">{{currencyName}}</div>
 
-        {{#each this.priceArray}}
+        {{#each this.currencyList}}
         <div class="card-row-wrapper">
-            <div class="card-row-item"> {{this.name}}</div>
-            <div class="card-row-item-network">vrsc</div>
-            <div class="card-row-item">
-                $ 2
-            </div>
+            <div class="card-row-item"> {{this.basketName}}</div>
+            <div class="card-row-item-network">{{this.currencyNetwork}}</div>
+            <div class="card-row-item"> $ {{this.currencyPriceUSD}} </div>
         </div>
 
 

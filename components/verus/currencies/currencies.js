@@ -159,6 +159,7 @@ export async function getCurrencyReserves(currencyConfig, priceArray, nativeCurr
                             currency.pricePrefix = anchorCurrencyName;
                             currency.priceUSD = currency.price * anchorCurrencyFromPriceArray;
                             currency.priceNativeCurrency = Math.round((nativeCurrencyReserve * 1 / currency.weight) / (currency.reserves * 1 / currency.weight) * 1000000) / 1000000;
+                            currency.reservePriceUSD =  currency.priceUSD *  currency.reserves;
                         }
 
                         if (priceArray.length > 0) {

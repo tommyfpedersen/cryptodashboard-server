@@ -56,7 +56,7 @@ app.get('/currencies', async (req, res) => {
     },
     {
       currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
-      price: 4,
+      price: 2.94,
       totalVolume: 0,
       name: "vrscoin",
     },
@@ -90,31 +90,77 @@ app.get('/currencies', async (req, res) => {
   // testing
   let allCurrenciesFromBaskets = await getAllCurrenciesFromBaskets(priceArray);
   let currencyNameListRaw = [];
-  let currencyNameList = [];
+  //let currencyNameList = [];
+  let currencyList = [];
+  let currencyGroupList = [];
   let currencies = {};
+
+  const currencyNameList = new Set();
 
   // Find a list of currencies
   allCurrenciesFromBaskets.forEach((item) => {
     console.log("currencyReserve", item.currencyReserve);
     if (item.currencyReserve) {
-      currencyNameList.push({
-        currencyName: item.currencyReserve.currencyName,
-        currencyPriceUSD: item.currencyReserve.currencyPriceUSD,
-        currencySupply: item.currencyReserve.currencySupply,
-        currencySupplyPriceUSD: item.currencyReserve.basketValueAnchorCurrencyUSD,
-        currencyNetwork: item.currencyReserve.nativeCurrencyName
-      })
+      currencyNameList.add(item.currencyReserve.currencyName);
       item.currencyReserve.basketCurrencyArray.forEach((basketItem) => {
-        // currencyNameList.push({
-        //   currencyNetwork: basketItem.network,
-        //   currencyName: basketItem.currencyName,
-        //   currencyPriceUSD: basketItem.currencyPriceUSD,
-        //   currencySupply: basketItem.currencySupply,
-        //   currencySupplyPriceUSD: basketItem.basketValueAnchorCurrencyUSD
-        // })
+        currencyNameList.add(basketItem.currencyName);
       })
     }
   })
+
+  // Group currencies by currencies names
+  currencyNameList.forEach((currencyName) => {
+
+
+    let currencyList = [];
+    let currencyItem = {};
+    let currencySupply = 0;
+    let currencySupplyPriceUSD = 0;
+
+    currencyItem.currencyName = currencyName;
+    currencyItem.currencyList = currencyList;
+   
+
+    allCurrenciesFromBaskets.forEach((item) => {
+      console.log("currencyReserve", item.currencyReserve);
+
+      if (item.currencyReserve) {
+        if (item.currencyReserve.currencyName === currencyName) {
+          currencyList.push({
+            basketName: item.currencyReserve.currencyName,
+            currencyName: item.currencyReserve.currencyName,
+            currencyPriceUSD: item.currencyReserve.currencyPriceUSD,
+            currencySupply: item.currencyReserve.currencySupply,
+            currencySupplyPriceUSD: item.currencyReserve.basketValueAnchorCurrencyUSD,
+            currencyNetwork: item.currencyReserve.nativeCurrencyName
+          })
+          currencySupply = currencySupply + item.currencyReserve.currencySupply;
+          currencySupplyPriceUSD = currencySupplyPriceUSD + item.currencyReserve.basketValueAnchorCurrencyUSD;
+        }
+
+        item.currencyReserve.basketCurrencyArray.forEach((basketItem) => {
+          if (basketItem.currencyName === currencyName) {
+            currencyList.push({
+              basketName: item.currencyReserve.currencyName,
+              currencyName: basketItem.currencyName,
+              currencyNetwork: basketItem.network,
+              currencyPriceUSD: basketItem.priceUSD,
+              currencySupply: basketItem.reserves,
+              currencySupplyPriceUSD: basketItem.reservePriceUSD
+            })
+            currencySupply = currencySupply +  basketItem.reserves;
+            currencySupplyPriceUSD = currencySupplyPriceUSD + basketItem.reservePriceUSD;
+          }
+
+        })
+      }
+    })
+    currencyItem.currencySupply = currencySupply;
+    currencyItem.currencySupplyPriceUSD = currencySupplyPriceUSD;
+    currencyGroupList.push(currencyItem);
+  })
+
+
   // Remove duplicates
   //let currencyNameList = [...new Set(currencyNameListRaw)];
 
@@ -125,12 +171,14 @@ app.get('/currencies', async (req, res) => {
 
   //console.log("currencyNameListRaw", currencyNameListRaw)
   console.log("currencyNameList", currencyNameList)
+  console.log("currencyGroupList", currencyGroupList.sort((a,b)=>{return b.currencySupplyPriceUSD - a.currencySupplyPriceUSD}))
+  console.log("currencyGroupList - VRSC", currencyGroupList[0].currencyList)
 
   //console.log("her", allCurrenciesFromBaskets)
 
   //
 
-  res.render('currencies', { currencyArray });
+  res.render('currencies', { currencyGroupList });
 
   //  res.render('currencies', { vrscOnline: false, varrrOnline: false, vdexOnline: false, currencyArray: currencyArray });
   return;
