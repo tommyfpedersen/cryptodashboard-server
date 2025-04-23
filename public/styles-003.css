@@ -87,12 +87,30 @@ body {
 }
 .currency-card {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     background-color: white;
     border: 1px solid lightgray;
-    padding: 10px 10px 20px 10px;
+    padding: 10px 10px 10px 10px;
     margin-bottom: 10px;
     animation: fadeIn 2s;
+}
+.currency-card-header {
+    display: flex;
+    flex-direction: row;
+}
+.currency-card-content {
+    display: flex;
+    flex-direction: column;
+}
+.currency-card-content-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.currency-card-footer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 }
 
 .project{

@@ -1,15 +1,23 @@
 {{#each currencyGroupList}}
 <div class="currency-card">
-    <img width="16px" src="/img/tbtc.png" /> {{currencyName}}
+    <div class="currency-card-header ">
+        {{!-- <img width="16px" src="/img/tbtc.png" /> --}}
+        <div class="card-title"> {{currencyName}}</div>
+    </div>
 
-    <div class="card-content">
-        <div class="card-title">{{currencyName}}</div>
 
+    <div class="currency-card-content">
+
+        <div class="currency-card-content-item">
+            <div> Basket</div>
+            <div>Blockchain</div>
+            <div> Price </div>
+        </div>
         {{#each this.currencyList}}
-        <div class="card-row-wrapper">
-            <div class="card-row-item"> {{this.basketName}}</div>
-            <div class="card-row-item-network">{{this.currencyNetwork}}</div>
-            <div class="card-row-item"> $ {{this.currencyPriceUSD}} </div>
+        <div class="currency-card-content-item">
+            <div> {{this.basketName}}</div>
+            <div>{{this.currencyNetwork}}</div>
+            <div> $ {{this.currencyPriceUSD}} </div>
         </div>
 
 
@@ -43,6 +51,11 @@
         {{else}}
         {{{vrscStatusMessage}}}
         {{/if}} --}}
+    </div>
+
+    <div class="currency-card-footer">
+        <div> {{currencyName}} in baskets {{currencySupply}}</div>
+        <div> {{currencyName}} value in baskets ${{currencySupply}}</div>
     </div>
 
 </div>
