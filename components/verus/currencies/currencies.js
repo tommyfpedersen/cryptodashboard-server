@@ -16,22 +16,22 @@ export async function getAllCurrenciesFromBaskets(priceArray) {
         {
             currencyName: "vrsc",
             nativeCurrencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
-            price: await getNativeCurrencyBasePrice(priceArray, "bridge.veth")
+            price: await getNativeCurrencyBasePrice(priceArray, "Bridge.vETH")
         },
         {
             currencyName: "varrr",
             nativeCurrencyId: "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2",
-            price: await getNativeCurrencyBasePrice(priceArray, "bridge.varrr")
+            price: await getNativeCurrencyBasePrice(priceArray, "Bridge.vARRR")
         },
         {
             currencyName: "vdex",
             nativeCurrencyId: "iHog9UCTrn95qpUBFCZ7kKz7qWdMA8MQ6N",
-            price: await getNativeCurrencyBasePrice(priceArray, "bridge.vdex")
+            price: await getNativeCurrencyBasePrice(priceArray, "Bridge.vDEX")
         },
         {
             currencyName: "chips",
             nativeCurrencyId: "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP",
-            price: await getNativeCurrencyBasePrice(priceArray, "bridge.chips")
+            price: await getNativeCurrencyBasePrice(priceArray, "Bridge.CHIPS")
         },
 
     ];
@@ -56,9 +56,9 @@ export async function getAllCurrenciesFromBaskets(priceArray) {
         const currentBlock = miningInfo.blocks;
 
         currencyReserve = await getCurrencyReserves(currenciesConfig[i], priceArray, nativeCurrencyBasePrice);
-        currencyVolume24Hours = await getCurrencyVolume(currenciesConfig[i], currentBlock - 1440, currentBlock, 60);
-        currencyVolume7Days = await getCurrencyVolume(currenciesConfig[i], currentBlock - 1440 *7, currentBlock, 1440);
-        currencyVolume30Days = await getCurrencyVolume(currenciesConfig[i], currentBlock - 1440*30, currentBlock, 1440);
+        currencyVolume24Hours = await getCurrencyVolume(currenciesConfig[i], currentBlock - 1440, currentBlock, 60, nativeCurrencyBasePrice);
+        currencyVolume7Days = await getCurrencyVolume(currenciesConfig[i], currentBlock - 1440 *7, currentBlock, 1440, nativeCurrencyBasePrice);
+        currencyVolume30Days = await getCurrencyVolume(currenciesConfig[i], currentBlock - 1440*30, currentBlock, 1440, nativeCurrencyBasePrice);
 
         currency.blockchain = currenciesConfig[i].blockchain;
         currency.name = currenciesConfig[i].currencyName;
@@ -207,7 +207,7 @@ export async function getCurrencyReserves(currencyConfig, priceArray, nativeCurr
     return result;
 }
 
-export async function getCurrencyVolume(currencyConfig, fromBlock, toBlock, interval) {
+export async function getCurrencyVolume(currencyConfig, fromBlock, toBlock, interval, nativeCurrencyBasePrice) {
     let result = {};
     let totalVolume = 0;
     let volumeArray = [];
@@ -236,6 +236,7 @@ export async function getCurrencyVolume(currencyConfig, fromBlock, toBlock, inte
     }
 
     result.totalVolume = totalVolume;
+    result.totalVolumeUSD = totalVolume * nativeCurrencyBasePrice;
     result.volumeCurrency = converttocurrency;
     result.volumeArray = volumeArray;
 

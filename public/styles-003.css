@@ -97,20 +97,36 @@ body {
 .currency-card-header {
     display: flex;
     flex-direction: row;
+    padding-bottom: 10px;
 }
 .currency-card-content {
     display: flex;
     flex-direction: column;
 }
-.currency-card-content-item {
+.currency-card-content-row {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+}
+.currency-card-content-item {
+    min-width: 145px;
+}
+.currency-card-content-item-label {
+    text-transform: uppercase;
+    font-size: 12px;
+    min-width: 145px;
+}
+.go-center{
+    text-align: center;
+}
+.go-right{
+    text-align: right;
 }
 .currency-card-footer {
     display: flex;
     flex-direction: row;
     gap: 20px;
+    padding-top: 20px;
+    font-size: 12px;
 }
 
 .project{

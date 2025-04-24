@@ -50,7 +50,7 @@ app.get('/currencies', async (req, res) => {
   let priceArray = [
     {
       currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
-      price: 84000,
+      price: 92500,
       totalVolume: 0,
       name: "bitcoin",
     },
@@ -99,7 +99,7 @@ app.get('/currencies', async (req, res) => {
 
   // Find a list of currencies
   allCurrenciesFromBaskets.forEach((item) => {
-    console.log("currencyReserve", item.currencyReserve);
+   // console.log("currencyReserve", item.currencyReserve);
     if (item.currencyReserve) {
       currencyNameList.add(item.currencyReserve.currencyName);
       item.currencyReserve.basketCurrencyArray.forEach((basketItem) => {
@@ -122,17 +122,21 @@ app.get('/currencies', async (req, res) => {
    
 
     allCurrenciesFromBaskets.forEach((item) => {
-      console.log("currencyReserve", item.currencyReserve);
+    //  console.log("currencyReserve", item.currencyReserve);
 
       if (item.currencyReserve) {
         if (item.currencyReserve.currencyName === currencyName) {
+          console.log(item.currencyVolume24Hours)
           currencyList.push({
             basketName: item.currencyReserve.currencyName,
             currencyName: item.currencyReserve.currencyName,
-            currencyPriceUSD: item.currencyReserve.currencyPriceUSD,
-            currencySupply: item.currencyReserve.currencySupply,
-            currencySupplyPriceUSD: item.currencyReserve.basketValueAnchorCurrencyUSD,
-            currencyNetwork: item.currencyReserve.nativeCurrencyName
+            currencyPriceUSD: item.currencyReserve.currencyPriceUSD < 1 ? Number(item.currencyReserve.currencyPriceUSD.toFixed(4)).toLocaleString(): Number(item.currencyReserve.currencyPriceUSD.toFixed(2)).toLocaleString(),
+            currencySupply: item.currencyReserve.currencySupply < 1 ? Number(item.currencyReserve.currencySupply.toFixed(4)).toLocaleString() : Number(item.currencyReserve.currencySupply.toFixed(0)).toLocaleString(),
+            currencySupplyPriceUSD: Number(item.currencyReserve.basketValueAnchorCurrencyUSD.toFixed(0)).toLocaleString(),
+            currencyNetwork: item.currencyReserve.nativeCurrencyName,
+            basketVolume24Hours: Number(item.currencyVolume24Hours.totalVolumeUSD.toFixed(0)).toLocaleString(),
+            basketVolume7Days: Number(item.currencyVolume7Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
+            basketVolume30Days: Number(item.currencyVolume30Days.totalVolumeUSD.toFixed(0)).toLocaleString()
           })
           currencySupply = currencySupply + item.currencyReserve.currencySupply;
           currencySupplyPriceUSD = currencySupplyPriceUSD + item.currencyReserve.basketValueAnchorCurrencyUSD;
@@ -144,9 +148,12 @@ app.get('/currencies', async (req, res) => {
               basketName: item.currencyReserve.currencyName,
               currencyName: basketItem.currencyName,
               currencyNetwork: basketItem.network,
-              currencyPriceUSD: basketItem.priceUSD,
-              currencySupply: basketItem.reserves,
-              currencySupplyPriceUSD: basketItem.reservePriceUSD
+              currencyPriceUSD: basketItem.priceUSD < 1 ? Number(basketItem.priceUSD.toFixed(4)).toLocaleString() : Number(basketItem.priceUSD.toFixed(2)).toLocaleString(),
+              currencySupply: basketItem.reserves < 1 ? Number(basketItem.reserves.toFixed(4)).toLocaleString() :Number(basketItem.reserves.toFixed(0)).toLocaleString(),
+              currencySupplyPriceUSD: Number(basketItem.reservePriceUSD.toFixed(0)).toLocaleString(),
+              basketVolume24Hours: Number(item.currencyVolume24Hours.totalVolumeUSD.toFixed(0)).toLocaleString(),
+              basketVolume7Days: Number(item.currencyVolume7Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
+              basketVolume30Days: Number(item.currencyVolume30Days.totalVolumeUSD.toFixed(0)).toLocaleString()
             })
             currencySupply = currencySupply +  basketItem.reserves;
             currencySupplyPriceUSD = currencySupplyPriceUSD + basketItem.reservePriceUSD;
@@ -155,8 +162,10 @@ app.get('/currencies', async (req, res) => {
         })
       }
     })
-    currencyItem.currencySupply = currencySupply;
-    currencyItem.currencySupplyPriceUSD = currencySupplyPriceUSD;
+    currencyItem.currencySupply = currencySupply < 1 ? Number(currencySupply.toFixed(4)).toLocaleString() : Number(currencySupply.toFixed(0)).toLocaleString();
+    currencyItem.currencySupplyPriceUSD = Number(currencySupplyPriceUSD.toFixed(0)).toLocaleString();
+    // sort currency list by price
+    currencyItem.currencyList.sort((a,b)=> parseFloat(b.currencyPriceUSD.replace(/,/g, '')) - parseFloat(a.currencyPriceUSD.replace(/,/g, '')));
     currencyGroupList.push(currencyItem);
   })
 
@@ -167,12 +176,14 @@ app.get('/currencies', async (req, res) => {
   // currencyNameList.forEach((currencyName)=>{
   //   if(currencyName === )
   // })
-
-
-  //console.log("currencyNameListRaw", currencyNameListRaw)
-  console.log("currencyNameList", currencyNameList)
-  console.log("currencyGroupList", currencyGroupList.sort((a,b)=>{return b.currencySupplyPriceUSD - a.currencySupplyPriceUSD}))
-  console.log("currencyGroupList - VRSC", currencyGroupList[0].currencyList)
+  //vrscReserveArray.sort((a, b) => parseFloat(b.reserve.replace(/,/g, '')) - parseFloat(a.reserve.replace(/,/g, '')));
+  currencyGroupList.sort((a,b)=> parseFloat(b.currencySupplyPriceUSD.replace(/,/g, '')) - parseFloat(a.currencySupplyPriceUSD.replace(/,/g, '')));
+  //currencyGroupList.currencyList.sort((a,b)=> parseFloat(b.currencyPriceUSD.replace(/,/g, '')) - parseFloat(a.currencyPriceUSD.replace(/,/g, '')));
+  //console.log("currencyGroupList", currencyGroupList)
+  
+  // console.log("currencyNameList", currencyNameList)
+  // console.log("currencyGroupList", currencyGroupList.sort((a,b)=>{return b.currencySupplyPriceUSD - a.currencySupplyPriceUSD}))
+  // console.log("currencyGroupList - VRSC", currencyGroupList[0].currencyList)
 
   //console.log("her", allCurrenciesFromBaskets)
 
