@@ -106,6 +106,7 @@ body {
 .currency-card-content-row {
     display: flex;
     flex-direction: row;
+    padding: 2px 0px;
 }
 .currency-card-content-item {
     min-width: 145px;

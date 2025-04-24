@@ -30,6 +30,8 @@ export function getCurrenciesConfig() {
         
         // CHIPS
         { blockchain: "CHIPS", nativeCurrencyId: "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP", currencyName: "Bridge.CHIPS", anchorCurrencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV", anchorCurrencyName: "VRSC", currencyIcon: "", rpcBaseUrl: process.env.VERUS_REST_API_CHIPS },
+        { blockchain: "CHIPS", nativeCurrencyId: "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP", currencyName: "Bankroll.CHIPS", anchorCurrencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV", anchorCurrencyName: "VRSC", currencyIcon: "", rpcBaseUrl: process.env.VERUS_REST_API_CHIPS },
+        { blockchain: "CHIPS", nativeCurrencyId: "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP", currencyName: "Highroller.CHIPS", anchorCurrencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU", anchorCurrencyName: "tBTC.vETH", currencyIcon: "", rpcBaseUrl: process.env.VERUS_REST_API_CHIPS },
         
     ]
 }
