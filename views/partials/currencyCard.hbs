@@ -21,7 +21,8 @@
         {{#each this.currencyList}}
         <div class="currency-card-content-row">
             <div class="currency-card-content-item"> {{this.basketName}}</div>
-            <div class="currency-card-content-item go-center currency-card-content-item-label">{{this.currencyNetwork}}</div>
+            <div class="currency-card-content-item go-center currency-card-content-item-label">{{this.currencyNetwork}}
+            </div>
             <div class="currency-card-content-item go-right"> $ {{this.currencyPriceUSD}} </div>
             <div class="currency-card-content-item go-right">{{this.currencySupply}}</div>
             <div class="currency-card-content-item go-right"> $ {{this.currencySupplyPriceUSD}}</div>
@@ -64,11 +65,24 @@
     </div>
 
     <div class="currency-card-footer">
-        <div > {{currencyName}} in baskets {{currencySupply}}</div>
-        <div > {{currencyName}} value in baskets $ {{currencySupplyPriceUSD}}</div>
-        <div > Total 24H Basket volume $ {{totalVolume24Hours}}</div>
-        <div > Total 7D Basket volume $ {{totalVolume7Days}}</div>
-        <div > Total 30D Basket volume $ {{totalVolume30Days}}</div>
+
+        <div class="currency-card-content-item"> Summarized</div>
+        <div class="currency-card-content-item">  </div>
+        <div class="currency-card-content-item go-right">  </div>
+        <div class="currency-card-content-item go-right">{{currencySupply}}</div>
+        <div class="currency-card-content-item go-right"> $ {{currencySupplyPriceUSD}}</div>
+        <div class="currency-card-content-item go-right"> $ {{totalVolume24Hours}}</div>
+        <div class="currency-card-content-item go-right"> $ {{totalVolume7Days}}</div>
+        <div class="currency-card-content-item go-right"> $ {{totalVolume30Days}}</div>
+
+
+        {{!-- <div class="currency-card-content-item"> Summarized </div>
+        <div class="currency-card-content-item"> </div>
+        <div class="currency-card-content-item"> {{currencyName}} in baskets {{currencySupply}}</div>
+        <div> {{currencyName}} value in baskets $ {{currencySupplyPriceUSD}}</div>
+        <div> Total 24H Basket volume $ {{totalVolume24Hours}}</div>
+        <div> Total 7D Basket volume $ {{totalVolume7Days}}</div>
+        <div> Total 30D Basket volume $ {{totalVolume30Days}}</div> --}}
     </div>
 
 </div>

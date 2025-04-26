@@ -50,7 +50,7 @@ app.get('/currencies', async (req, res) => {
   let priceArray = [
     {
       currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
-      price: 92500,
+      price: 94700,
       totalVolume: 0,
       name: "bitcoin",
     },

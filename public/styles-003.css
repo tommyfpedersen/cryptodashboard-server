@@ -125,9 +125,7 @@ body {
 .currency-card-footer {
     display: flex;
     flex-direction: row;
-    gap: 20px;
     padding-top: 20px;
-    font-size: 12px;
 }
 
 .project{
