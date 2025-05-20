@@ -50,13 +50,13 @@ app.get('/currencies', async (req, res) => {
   let priceArray = [
     {
       currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
-      price: 94700,
+      price: 99000,
       totalVolume: 0,
       name: "bitcoin",
     },
     {
       currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
-      price: 2.94,
+      price: 3.50,
       totalVolume: 0,
       name: "vrscoin",
     },
@@ -129,7 +129,7 @@ app.get('/currencies', async (req, res) => {
 
       if (item.currencyReserve) {
         if (item.currencyReserve.currencyName === currencyName) {
-          console.log(item.currencyVolume24Hours)
+          // console.log(item.currencyVolume24Hours)
           currencyList.push({
             basketName: item.currencyReserve.currencyName,
             currencyName: item.currencyReserve.currencyName,
@@ -150,11 +150,13 @@ app.get('/currencies', async (req, res) => {
 
         item.currencyReserve.basketCurrencyArray.forEach((basketItem) => {
           if (basketItem.currencyName === currencyName) {
+            console.log("basketItem", basketItem )
             currencyList.push({
               basketName: item.currencyReserve.currencyName,
               currencyName: basketItem.currencyName,
               currencyNetwork: basketItem.network,
               currencyPriceUSD: basketItem.priceUSD < 1 ? Number(basketItem.priceUSD.toFixed(4)).toLocaleString() : Number(basketItem.priceUSD.toFixed(2)).toLocaleString(),
+             // currencyPriceUSD: basketItem.price < 1 ? Number(basketItem.price.toFixed(4)).toLocaleString() : Number(basketItem.price.toFixed(2)).toLocaleString(),
               currencySupply: basketItem.reserves < 1 ? Number(basketItem.reserves.toFixed(4)).toLocaleString() : Number(basketItem.reserves.toFixed(0)).toLocaleString(),
               currencySupplyPriceUSD: Number(basketItem.reservePriceUSD.toFixed(0)).toLocaleString(),
               basketVolume24Hours: Number(item.currencyVolume24Hours.totalVolumeUSD.toFixed(0)).toLocaleString(),
