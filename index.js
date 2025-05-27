@@ -50,15 +50,21 @@ app.get('/currencies', async (req, res) => {
   let priceArray = [
     {
       currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
-      price: 99000,
+      price: 109657,
       totalVolume: 0,
       name: "bitcoin",
     },
     {
-      currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
-      price: 3.50,
+      currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
+      price: 2644,
       totalVolume: 0,
-      name: "vrscoin",
+      name: "ethereum",
+    },
+    {
+      currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+      price: 13.20,
+      totalVolume: 0,
+      name: "vrsccoin",
     },
     {
       currencyId: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
@@ -74,7 +80,7 @@ app.get('/currencies', async (req, res) => {
     },
     {
       currencyId: "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2",
-      price: 2,
+      price:  0.155,
       totalVolume: 0,
       name: "varrr",
     },
@@ -150,8 +156,10 @@ app.get('/currencies', async (req, res) => {
 
         item.currencyReserve.basketCurrencyArray.forEach((basketItem) => {
           if (basketItem.currencyName === currencyName) {
-            console.log("basketItem", basketItem )
+         //   console.log("basketItem", basketItem )
+       //  console.log(item.currencyReserve.currencyName, basketItem.network, basketItem.currencyName, basketItem.priceUSD)
             currencyList.push({
+              
               basketName: item.currencyReserve.currencyName,
               currencyName: basketItem.currencyName,
               currencyNetwork: basketItem.network,
