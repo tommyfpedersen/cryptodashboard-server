@@ -15,7 +15,7 @@ export async function getAllCurrenciesFromBaskets(priceArray) {
     // const varrrBasePrice = await getNativeCurrencyBasePrice(priceArray, "Bridge.vARRR", vrscBasePrice);
     // const vdexBasePrice = await getNativeCurrencyBasePrice(priceArray, "Bridge.vDEX", vrscBasePrice);
     // const chipsBasePrice = await getNativeCurrencyBasePrice(priceArray, "Bridge.CHIPS", vrscBasePrice);
-    console.log("vrscBasePrice", vrscBasePrice)
+    // console.log("vrscBasePrice", vrscBasePrice)
 
     // calculate native currency price for each blockchain
     const nativeCurrencyArray = [
@@ -94,7 +94,7 @@ export async function getNativeCurrencyBasePrice(priceArray, baseCurrencyName, v
         nativeCurrencyBasketPrice = currencyReserves.nativeCurrencyBasketPrice;
     }
 
-    console.log(baseCurrencyName, "nativeCurrencyBasketPrice", nativeCurrencyBasketPrice)
+    // console.log(baseCurrencyName, "nativeCurrencyBasketPrice", nativeCurrencyBasketPrice)
     return nativeCurrencyBasketPrice;
 }
 
@@ -213,6 +213,8 @@ export async function getCurrencyReserves(currencyConfig, priceArray, nativeCurr
                                 currency.pricePrefix = secondaryAnchorCurrencyName;
                                 currency.priceUSD = currency.price * secondaryAnchorCurrencyFromPriceArray;
                             }
+
+
                             // if (currencyId === anchorCurrencyId) {
                             //     currency.price = Math.round((nativeCurrencyReserve * 1 / nativeCurrencyWeight) / (anchorReserve * 1 / anchorWeight) * 100000000) / 100000000;
                             //     currency.pricePrefix = blockchain;
@@ -235,6 +237,12 @@ export async function getCurrencyReserves(currencyConfig, priceArray, nativeCurr
                                 // console.log(currency.origin, "vrscBasePrice",vrscBasePrice, "anchorCurrencyFromPriceArray", currency.pricePrefix, anchorCurrencyFromPriceArray, "currency.price", currency.price , "currency.priceUSD",  currency.priceUSD)
                             }
 
+                            // if (anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && secondaryAnchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && currency.price !== "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
+                            //     console.log(currency.origin, currency.pricePrefix, vrscBasePrice, currency.price)
+                            //     console.log(reservesCurrency)
+                            //     currency.priceUSD = vrscBasePrice * currency.price;
+                            //     console.log(currency.priceUSD)
+                            // }
 
 
 
@@ -302,6 +310,14 @@ export async function getCurrencyReserves(currencyConfig, priceArray, nativeCurr
     result.currencyPriceNative = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasketPrice) / currencySupply / nativeCurrencyBasketPrice;
     result.currencyIcon = currencyIcon;
     result.currencyNote = currencyNote;
+
+    // if (anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && secondaryAnchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && currency.price !== "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
+    //     console.log(currency.origin, currency.pricePrefix, vrscBasePrice, currency.price)
+    //     console.log(reservesCurrency)
+    //     currency.priceUSD = vrscBasePrice * currency.price;
+    //     console.log(currency.priceUSD)
+    // }
+
 
     return result;
 }
