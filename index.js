@@ -47,7 +47,7 @@ app.get('/currencies', async (req, res) => {
   }
 
   let currencyArray = [];
-  let priceArray = [
+  let coingeckoPriceArray = [
     {
       currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
       price: 109657,
@@ -84,17 +84,23 @@ app.get('/currencies', async (req, res) => {
       totalVolume: 0,
       name: "varrr",
     },
+    {
+      currencyId: "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx",
+      price:  0.0059,
+      totalVolume: 0,
+      name: "nati",
+    },
 
   ]
 
-  currencyArray.push({ priceArray });
+  currencyArray.push({ coingeckoPriceArray });
 
   //console.log("currencyArray", { currencyArray })
 
   //let priceArray = getCoingeckoPrice();
 
   // testing
-  let allCurrenciesFromBaskets = await getAllCurrenciesFromBaskets(priceArray);
+  let allCurrenciesFromBaskets = await getAllCurrenciesFromBaskets(coingeckoPriceArray);
   let currencyNameListRaw = [];
   //let currencyNameList = [];
   let currencyList = [];
@@ -159,7 +165,7 @@ app.get('/currencies', async (req, res) => {
          //   console.log("basketItem", basketItem )
        //  console.log(item.currencyReserve.currencyName, basketItem.network, basketItem.currencyName, basketItem.priceUSD)
             currencyList.push({
-              
+
               basketName: item.currencyReserve.currencyName,
               currencyName: basketItem.currencyName,
               currencyNetwork: basketItem.network,
@@ -185,7 +191,7 @@ app.get('/currencies', async (req, res) => {
     currencyItem.currencySupplyPriceUSD = Number(currencySupplyPriceUSD.toFixed(0)).toLocaleString();
     // sort currency list by price
     currencyItem.currencyList.sort((a, b) => parseFloat(b.currencyPriceUSD.replace(/,/g, '')) - parseFloat(a.currencyPriceUSD.replace(/,/g, '')));
-    
+
     // total basket volume usd
     currencyItem.totalVolume24Hours = Number(totalVolume24Hours.toFixed(0)).toLocaleString();
     currencyItem.totalVolume7Days = Number(totalVolume7Days.toFixed(0)).toLocaleString();
@@ -401,28 +407,28 @@ app.get('/stats', async (req, res) => {
       // add userData to renderData
       mainRenderData = { ...mainRenderData, ...userData, ...threeFoldRenderData };
     }
-    console.log("her 1")
-    let currencyArray = [];
-    let priceArray = [
-      {
-        currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
-        price: 0,
-        totalVolume: 0,
-        name: "bitcoin",
-      }]
+    // console.log("her 1")
+    // let currencyArray = [];
+    // let priceArray = [
+    //   {
+    //     currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
+    //     price: 0,
+    //     totalVolume: 0,
+    //     name: "bitcoin",
+    //   }]
 
-    currencyArray.push({ priceArray });
+    // currencyArray.push({ priceArray });
 
-    priceArray = [
-      {
-        currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
-        price: 0,
-        totalVolume: 0,
-        name: "vrscoin",
-      }]
+    // priceArray = [
+    //   {
+    //     currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
+    //     price: 0,
+    //     totalVolume: 0,
+    //     name: "vrscoin",
+    //   }]
 
-    currencyArray.push({ priceArray });
-    console.log("currencyArray", { currencyArray })
+    // currencyArray.push({ priceArray });
+    // console.log("currencyArray", { currencyArray })
 
     res.render('main', { currencyArray });
     return;
