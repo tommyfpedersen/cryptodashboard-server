@@ -90,6 +90,12 @@ app.get('/currencies', async (req, res) => {
       totalVolume: 0,
       name: "nati",
     },
+    {
+      currencyId: "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj",
+      price:  1.0484,
+      totalVolume: 0,
+      name: "scrvUSD",
+    },
 
   ]
 

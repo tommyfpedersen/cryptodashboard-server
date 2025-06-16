@@ -52,7 +52,7 @@ export async function getAllCurrenciesFromBaskets(coingeckoPriceArray) {
             if (item.nativeCurrencyId === currenciesConfig[i].nativeCurrencyId) {
                 nativeCurrencyBasePrice = item.price;
 
-                //  console.log("item.price", item.price)
+                  console.log("item.price", item.price)
             }
         })
 
@@ -199,19 +199,37 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                             currency.price = Math.round((anchorReserve * 1 / anchorWeight / 100) / (currency.reserves * 1 / currency.weight) * 100000000) / 100000000;
                             currency.pricePrefix = anchorCurrencyName;
                             currency.priceNativeCurrency = Math.round((nativeCurrencyReserve * 1 / currency.weight) / (currency.reserves * 1 / currency.weight) * 100000000) / 100000000;
-                            currency.priceUSD = Math.round(currency.price * 100) / 100;
+                            currency.priceUSD = Math.round(currency.price * 10000) / 10000;
 
-                           
+                            
+                            
+                             if(anchorPriceDominance === "coingecko"){
+                                 currency.priceUSD = Math.round(currency.price * anchorCurrencyFromCoingeckoPriceArray * 100000) / 100000;
+                               //  console.log(currency.origin, currencyId, anchorReserve,  anchorWeight, currency.reserves, currency.weight, anchorCurrencyFromCoingeckoPriceArray, currency.price, currency.priceUSD )
+                             }
 
                             if (currencyId === anchorCurrencyId) {
                                 currency.price = Math.round((secondaryAnchorReserve * 1 / secondaryAnchorWeight) / (anchorReserve * 1 / anchorWeight) * 100000000) / 100000000;
-                                currency.pricePrefix = anchorCurrencyName ;
+                                currency.pricePrefix = anchorCurrencyName;
+                            // console.log("anchor", currency.origin, currency.pricePrefix, currency.price)
 
-                                if(secondaryAnchorCurrencyId === nativeCurrencyId && secondaryPriceDominance === "native"){
+                          //  console.log("HER" ,currency.origin, currency.pricePrefix,  currency.price, nativeCurrencyBasePrice )
+
+                                if (secondaryAnchorCurrencyId === nativeCurrencyId && secondaryPriceDominance === "native") {
                                     currency.price = currency.price * nativeCurrencyBasePrice;
                                 }
-                                currency.priceUSD =  Math.round(currency.price * 100) / 100;
-                                console.log("anchor", currency.pricePrefix,  currency.price)
+
+                                if (anchorCurrencyId === nativeCurrencyId && secondaryPriceDominance === "native") {
+                                  
+                                    currency.price = nativeCurrencyBasePrice;
+                                }
+
+                                if (secondaryPriceDominance === "coingecko") {
+                                    currency.price = secondaryAnchorCurrencyFromCoingeckoPriceArray * currency.price;
+                                }
+
+                                currency.priceUSD = Math.round(currency.price * 10000) / 10000;
+
                             }
 
                             if (currencyId === secondaryAnchorCurrencyId) {
@@ -221,14 +239,36 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                                 if (anchorPriceDominance === "coingecko") {
                                     currency.price = anchorCurrencyFromCoingeckoPriceArray * currency.price;
                                 }
-                                currency.priceUSD =  Math.round(currency.price * 100) / 100;
-                                console.log("secondary", currency.pricePrefix,  currency.price)
+
+                                if (anchorCurrencyId === nativeCurrencyId){// && secondaryPriceDominance === "native") {
+                                    currency.price = currency.price * nativeCurrencyBasePrice;
+
+                                  //  console.log("...nativeCurrencyId area", currency.origin, currency.pricePrefix,  currency.price, nativeCurrencyBasePrice)
+                                   
+                                }
+
+                                currency.priceUSD = Math.round(currency.price * 10000) / 10000;
+                             //   console.log("secondary", currency.origin, currency.pricePrefix,  currency.price , anchorReserve, nativeCurrencyReserve)
                             }
 
                             currency.reservePriceUSD = currency.priceUSD * currency.reserves;
 
                             if (reservesCurrency.currencyid === nativeCurrencyId) {
                                 nativeCurrencyBasketPrice = Math.round((anchorReserve * 1 / anchorWeight) / (nativeCurrencyReserve * 1 / nativeCurrencyWeight) * 100000000) / 100000000;
+                                
+                                if (anchorPriceDominance === "coingecko") {
+                                    nativeCurrencyBasketPrice = nativeCurrencyBasketPrice * anchorCurrencyFromCoingeckoPriceArray;
+                                }
+
+                                if(anchorPriceDominance === "native" && secondaryPriceDominance === "native" && nativeCurrencyId !== "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
+                                    nativeCurrencyBasketPrice = nativeCurrencyBasketPrice * vrscBasePrice;
+                                    currency.price = nativeCurrencyBasketPrice;
+                                    currency.priceUSD = Math.round(currency.price * 10000) / 10000;
+                                  //  console.log("...native area", currency.origin, currency.pricePrefix,  currency.price, nativeCurrencyBasketPrice,    currency.priceUSD )
+                                }
+
+
+                             //   console.log("reservesCurrency", currency.origin, currency.pricePrefix, nativeCurrencyBasketPrice, anchorReserve, nativeCurrencyReserve)
                             }
 
 
@@ -316,7 +356,7 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                         if (coingeckoPriceArray.length > 0) {
                             coingeckoPriceArray.forEach((price) => {
                                 if (price.currencyId === currencyId) {
-                                    currency.coingeckoprice = Math.round(price.price * 100) / 100;
+                                    currency.coingeckoprice = Math.round(price.price * 10000) / 10000;
                                 }
                             })
                         }
@@ -345,15 +385,23 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
     result.basketReserveValueNativeCurrency = nativeCurrencyReserve * (1 / nativeCurrencyWeight);
     result.basketReserveValueNativeCurrencyUSD = nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasketPrice;
     result.basketValueAnchorCurrencyUSD = anchorReserve * (1 / anchorWeight) * anchorCurrencyFromCoingeckoPriceArray;
+   
+    if(anchorPriceDominance === "native"){
+        result.basketValueAnchorCurrencyUSD = anchorReserve * (1 / anchorWeight) * nativeCurrencyBasePrice;
+    }
+
     result.anchorCurrencyName = anchorCurrencyName;
     result.currencyName = currencyName;
     result.currencySupply = currencySupply;
-    result.currencyPriceUSD = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasketPrice) / currencySupply;
-    result.currencyPriceNative = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasketPrice) / currencySupply / nativeCurrencyBasketPrice;
+
+    // console.log("nativeCurrencyReserve", nativeCurrencyReserve, nativeCurrencyWeight, nativeCurrencyBasketPrice, currencySupply, nativeCurrencyBasePrice)
+
+    result.currencyPriceUSD = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasePrice) / currencySupply;
+    result.currencyPriceNative = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasePrice) / currencySupply / nativeCurrencyBasePrice;
     result.currencyIcon = currencyIcon;
     result.currencyNote = currencyNote;
 
-     console.log(result)
+     //console.log(result)
 
     // if (anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && secondaryAnchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
     //     result.basketValueAnchorCurrencyUSD = anchorReserve * (1 / anchorWeight) * nativeCurrencyBasePrice;
