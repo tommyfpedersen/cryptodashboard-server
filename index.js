@@ -80,25 +80,25 @@ app.get('/currencies', async (req, res) => {
     },
     {
       currencyId: "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2",
-      price:  0.155,
+      price: 0.155,
       totalVolume: 0,
       name: "varrr",
     },
     {
       currencyId: "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx",
-      price:  0.0059,
+      price: 0.0059,
       totalVolume: 0,
       name: "nati",
     },
     {
       currencyId: "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj",
-      price:  1.0484,
+      price: 1.0484,
       totalVolume: 0,
       name: "scrvUSD",
     },
     {
       currencyId: "i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR",
-      price:  0.38,
+      price: 0.38,
       totalVolume: 0,
       name: "pepecoinvETH",
     },
@@ -106,10 +106,6 @@ app.get('/currencies', async (req, res) => {
   ]
 
   currencyArray.push({ coingeckoPriceArray });
-
-  //console.log("currencyArray", { currencyArray })
-
-  //let priceArray = getCoingeckoPrice();
 
   // testing
   let allCurrenciesFromBaskets = await getAllCurrenciesFromBaskets(coingeckoPriceArray);
@@ -123,7 +119,6 @@ app.get('/currencies', async (req, res) => {
 
   // Find a list of currencies
   allCurrenciesFromBaskets.forEach((item) => {
-    // console.log("currencyReserve", item.currencyReserve);
     if (item.currencyReserve) {
       currencyNameList.add(item.currencyReserve.currencyName);
       item.currencyReserve.basketCurrencyArray.forEach((basketItem) => {
@@ -148,12 +143,13 @@ app.get('/currencies', async (req, res) => {
     currencyItem.currencyList = currencyList;
 
 
+    let coingeckoPriceAdded = [];
+
     allCurrenciesFromBaskets.forEach((item) => {
-      //  console.log("currencyReserve", item.currencyReserve);
 
       if (item.currencyReserve) {
         if (item.currencyReserve.currencyName === currencyName) {
-          // console.log(item.currencyVolume24Hours)
+
           currencyList.push({
             basketName: item.currencyReserve.currencyName,
             currencyName: item.currencyReserve.currencyName,
@@ -163,8 +159,10 @@ app.get('/currencies', async (req, res) => {
             currencyNetwork: item.currencyReserve.nativeCurrencyName,
             basketVolume24Hours: Number(item.currencyVolume24Hours.totalVolumeUSD.toFixed(0)).toLocaleString(),
             basketVolume7Days: Number(item.currencyVolume7Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
-            basketVolume30Days: Number(item.currencyVolume30Days.totalVolumeUSD.toFixed(0)).toLocaleString()
+            basketVolume30Days: Number(item.currencyVolume30Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
+            coingeckoprice: item.currencyReserve.coingeckoprice
           })
+
           totalVolume24Hours = totalVolume24Hours + item.currencyVolume24Hours.totalVolumeUSD;
           totalVolume7Days = totalVolume7Days + item.currencyVolume7Days.totalVolumeUSD;
           totalVolume30Days = totalVolume30Days + item.currencyVolume30Days.totalVolumeUSD;
@@ -172,33 +170,51 @@ app.get('/currencies', async (req, res) => {
           currencySupplyPriceUSD = currencySupplyPriceUSD + item.currencyReserve.basketValueAnchorCurrencyUSD;
         }
 
+        
         item.currencyReserve.basketCurrencyArray.forEach((basketItem) => {
-          if (basketItem.currencyName === currencyName) {
-         //   console.log("basketItem", basketItem )
-       //  console.log(item.currencyReserve.currencyName, basketItem.network, basketItem.currencyName, basketItem.priceUSD)
-            currencyList.push({
 
+          if (basketItem.currencyName === currencyName) {
+
+            currencyList.push({
               basketName: item.currencyReserve.currencyName,
               currencyName: basketItem.currencyName,
               currencyNetwork: basketItem.network,
               currencyPriceUSD: basketItem.priceUSD < 1 ? Number(basketItem.priceUSD.toFixed(4)).toLocaleString() : Number(basketItem.priceUSD.toFixed(2)).toLocaleString(),
-             // currencyPriceUSD: basketItem.price < 1 ? Number(basketItem.price.toFixed(4)).toLocaleString() : Number(basketItem.price.toFixed(2)).toLocaleString(),
+              // currencyPriceUSD: basketItem.price < 1 ? Number(basketItem.price.toFixed(4)).toLocaleString() : Number(basketItem.price.toFixed(2)).toLocaleString(),
               currencySupply: basketItem.reserves < 1 ? Number(basketItem.reserves.toFixed(4)).toLocaleString() : Number(basketItem.reserves.toFixed(0)).toLocaleString(),
               currencySupplyPriceUSD: Number(basketItem.reservePriceUSD.toFixed(0)).toLocaleString(),
               basketVolume24Hours: Number(item.currencyVolume24Hours.totalVolumeUSD.toFixed(0)).toLocaleString(),
               basketVolume7Days: Number(item.currencyVolume7Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
               basketVolume30Days: Number(item.currencyVolume30Days.totalVolumeUSD.toFixed(0)).toLocaleString()
             })
+
+            //add coingecko price if exist
+            if (basketItem.coingeckoprice && !coingeckoPriceAdded.includes(currencyName)) {
+
+            
+              currencyList.push({
+                basketName: "Coingecko",
+                currencyNetwork: "CEX/DEX",
+                currencyPriceUSD: basketItem.coingeckoprice < 1 ? Number(basketItem.coingeckoprice.toFixed(4)).toLocaleString() : Number(basketItem.coingeckoprice.toFixed(2)).toLocaleString(),
+                currencySupply: "-",
+                currencySupplyPriceUSD: "",
+                basketVolume24Hours: "",
+                basketVolume7Days: "",
+                basketVolume30Days: ""
+              })
+              coingeckoPriceAdded.push(currencyName);
+            }
+
             totalVolume24Hours = totalVolume24Hours + item.currencyVolume24Hours.totalVolumeUSD;
             totalVolume7Days = totalVolume7Days + item.currencyVolume7Days.totalVolumeUSD;
             totalVolume30Days = totalVolume30Days + item.currencyVolume30Days.totalVolumeUSD;
             currencySupply = currencySupply + basketItem.reserves;
             currencySupplyPriceUSD = currencySupplyPriceUSD + basketItem.reservePriceUSD;
           }
-
         })
       }
     })
+
     currencyItem.currencySupply = currencySupply < 1 ? Number(currencySupply.toFixed(4)).toLocaleString() : Number(currencySupply.toFixed(0)).toLocaleString();
     currencyItem.currencySupplyPriceUSD = Number(currencySupplyPriceUSD.toFixed(0)).toLocaleString();
     // sort currency list by price
