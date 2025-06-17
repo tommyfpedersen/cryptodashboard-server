@@ -52,13 +52,9 @@ export async function getAllCurrenciesFromBaskets(coingeckoPriceArray) {
             if (item.nativeCurrencyId === currenciesConfig[i].nativeCurrencyId) {
                 nativeCurrencyBasePrice = item.price;
 
-                  console.log("item.price", item.price)
+                // console.log("item.price", item.price)
             }
         })
-
-        // vrscBasePrice = nativeCurrencyArray[0].price;
-
-        // console.log("vrscBasePrice",vrscBasePrice)
 
         /* Get latest block */
         const miningInfo = await getMiningInfo(currenciesConfig[i].rpcBaseUrl);
@@ -78,7 +74,6 @@ export async function getAllCurrenciesFromBaskets(coingeckoPriceArray) {
         currencyArray.push(currency);
     }
 
-    //  console.log("currencyArray", currencyArray);
     return currencyArray;
 }
 
@@ -92,14 +87,11 @@ export async function getNativeCurrencyBasePrice(coingeckoPriceArray, baseCurren
         nativeCurrencyBasketPrice = currencyReserves.nativeCurrencyBasketPrice;
     }
 
-    // console.log( "nativeCurrencyBasketPrice get", nativeCurrencyBasketPrice)
     return nativeCurrencyBasketPrice;
 }
 
 export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, nativeCurrencyBasePrice, vrscBasePrice) {
-    // console.log("beginning nativeCurrencyBasePrice", nativeCurrencyBasePrice)
 
-    //console.log("getCurrencyReserves", vrscBasePrice)
     let blockchain = currencyConfig.blockchain;
     let nativeCurrencyId = currencyConfig.nativeCurrencyId;
     let currencyName = currencyConfig.currencyName;
@@ -112,8 +104,6 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
     let rpcBaseUrl = currencyConfig.rpcBaseUrl;
     let currencyIcon = currencyConfig.currencyIcon;
     let currencyNote = currencyConfig.note === undefined ? "" : currencyConfig.note;
-
-    //let currencyScaleArray = currencyConfig.currencyScale === undefined ? [] : currencyConfig.currencyScale;
 
     let result = {};
 
@@ -134,27 +124,6 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
 
     let anchorCurrencyFromCoingeckoPriceArray = coingeckoPriceArray.find(item => item.currencyId === anchorCurrencyId)?.price || 0;
     let secondaryAnchorCurrencyFromCoingeckoPriceArray = coingeckoPriceArray.find(item => item.currencyId === secondaryAnchorCurrencyId)?.price || 0;
-
-    // if (blockchain !== "VRSC" && secondaryAnchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-    //     console.log("blockchain", blockchain, "secondaryAnchorCurrencyId", secondaryAnchorCurrencyId, "vrscBasePrice", vrscBasePrice)
-    //     if (vrscBasePrice !== undefined) {
-    //          console.log("...",vrscBasePrice);
-    //          secondaryAnchorCurrencyFromPriceArray = vrscBasePrice;
-
-    //     }
-    // }
-
-    //  console.log("...anchorCurrencyFromPriceArray",anchorCurrencyFromPriceArray);
-
-    //     if( currencyId === anchorCurrencyId && currency.network !== "VRSC" && anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
-    //         // currency.price = Math.round((nativeCurrencyReserve * 1 / nativeCurrencyWeight) / (anchorReserve * 1 / anchorWeight) * 1000000) / 1000000;
-    //         // currency.pricePrefix = "VRSC";
-    //         // currency.priceUSD = currency.price * vrscBasePrice;
-    //         console.log(currency.origin, "currency.priceUSD",currency.price, currency.priceUSD, currencyId, anchorCurrencyId, vrscBasePrice)
-
-    //         //  currency.priceUSD = currency.price * vrscBasePrice;
-    //    }
-
 
     let currencySupply = getcurrency.bestcurrencystate.supply;
 
@@ -201,26 +170,20 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                             currency.priceNativeCurrency = Math.round((nativeCurrencyReserve * 1 / currency.weight) / (currency.reserves * 1 / currency.weight) * 100000000) / 100000000;
                             currency.priceUSD = Math.round(currency.price * 10000) / 10000;
 
-                            
-                            
-                             if(anchorPriceDominance === "coingecko"){
-                                 currency.priceUSD = Math.round(currency.price * anchorCurrencyFromCoingeckoPriceArray * 100000) / 100000;
-                               //  console.log(currency.origin, currencyId, anchorReserve,  anchorWeight, currency.reserves, currency.weight, anchorCurrencyFromCoingeckoPriceArray, currency.price, currency.priceUSD )
-                             }
+                            if (anchorPriceDominance === "coingecko") {
+                                currency.priceUSD = Math.round(currency.price * anchorCurrencyFromCoingeckoPriceArray * 100000) / 100000;
+                            }
 
                             if (currencyId === anchorCurrencyId) {
                                 currency.price = Math.round((secondaryAnchorReserve * 1 / secondaryAnchorWeight) / (anchorReserve * 1 / anchorWeight) * 100000000) / 100000000;
                                 currency.pricePrefix = anchorCurrencyName;
-                            // console.log("anchor", currency.origin, currency.pricePrefix, currency.price)
-
-                          //  console.log("HER" ,currency.origin, currency.pricePrefix,  currency.price, nativeCurrencyBasePrice )
 
                                 if (secondaryAnchorCurrencyId === nativeCurrencyId && secondaryPriceDominance === "native") {
                                     currency.price = currency.price * nativeCurrencyBasePrice;
                                 }
 
                                 if (anchorCurrencyId === nativeCurrencyId && secondaryPriceDominance === "native") {
-                                  
+
                                     currency.price = nativeCurrencyBasePrice;
                                 }
 
@@ -229,7 +192,6 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                                 }
 
                                 currency.priceUSD = Math.round(currency.price * 10000) / 10000;
-
                             }
 
                             if (currencyId === secondaryAnchorCurrencyId) {
@@ -240,116 +202,28 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                                     currency.price = anchorCurrencyFromCoingeckoPriceArray * currency.price;
                                 }
 
-                                if (anchorCurrencyId === nativeCurrencyId){// && secondaryPriceDominance === "native") {
+                                if (anchorCurrencyId === nativeCurrencyId) {
                                     currency.price = currency.price * nativeCurrencyBasePrice;
-
-                                  //  console.log("...nativeCurrencyId area", currency.origin, currency.pricePrefix,  currency.price, nativeCurrencyBasePrice)
-                                   
                                 }
 
                                 currency.priceUSD = Math.round(currency.price * 10000) / 10000;
-                             //   console.log("secondary", currency.origin, currency.pricePrefix,  currency.price , anchorReserve, nativeCurrencyReserve)
                             }
 
                             currency.reservePriceUSD = currency.priceUSD * currency.reserves;
 
                             if (reservesCurrency.currencyid === nativeCurrencyId) {
                                 nativeCurrencyBasketPrice = Math.round((anchorReserve * 1 / anchorWeight) / (nativeCurrencyReserve * 1 / nativeCurrencyWeight) * 100000000) / 100000000;
-                                
+
                                 if (anchorPriceDominance === "coingecko") {
                                     nativeCurrencyBasketPrice = nativeCurrencyBasketPrice * anchorCurrencyFromCoingeckoPriceArray;
                                 }
 
-                                if(anchorPriceDominance === "native" && secondaryPriceDominance === "native" && nativeCurrencyId !== "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
+                                if (anchorPriceDominance === "native" && secondaryPriceDominance === "native" && nativeCurrencyId !== "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                                     nativeCurrencyBasketPrice = nativeCurrencyBasketPrice * vrscBasePrice;
                                     currency.price = nativeCurrencyBasketPrice;
                                     currency.priceUSD = Math.round(currency.price * 10000) / 10000;
-                                  //  console.log("...native area", currency.origin, currency.pricePrefix,  currency.price, nativeCurrencyBasketPrice,    currency.priceUSD )
                                 }
-
-
-                             //   console.log("reservesCurrency", currency.origin, currency.pricePrefix, nativeCurrencyBasketPrice, anchorReserve, nativeCurrencyReserve)
                             }
-
-
-                            // if (blockchain !== "VRSC" && anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                            //     currency.priceUSD = currency.price * vrscBasePrice;
-                            // }
-                            // if (secondaryAnchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                            //     currency.priceUSD = currency.price * vrscBasePrice;
-                            // }
-
-                            // if (nativeCurrencyId === "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP" && currencyName === 'Highroller.CHIPS') {
-
-                            //     console.log(currency.price, currency.priceUSD, anchorCurrencyFromCoingeckoPriceArray, anchorReserve, anchorWeight, currency.reserves, currency.weight)
-                            // }
-
-
-                            // if (reservesCurrency.currencyid === nativeCurrencyId) {
-
-                            //     nativeCurrencyBasketPrice = Math.round((anchorReserve * 1 / anchorWeight) / (nativeCurrencyReserve * 1 / nativeCurrencyWeight) * 100000000) / 100000000 * anchorCurrencyFromCoingeckoPriceArray;
-                            //     //  console.log("currencyName",currencyName,"reservesCurrency.currencyid", reservesCurrency.currencyid, "nativeCurrencyBasketPrice", nativeCurrencyBasketPrice)
-
-                            //     if (anchorCurrencyId === secondaryAnchorCurrencyId && anchorCurrencyId === nativeCurrencyId) {
-                            //         //                    console.log("HIT", currencyName)
-                            //         nativeCurrencyBasketPrice = Math.round((anchorReserve * 1 / anchorWeight) / (nativeCurrencyReserve * 1 / nativeCurrencyWeight) * 100000000) / 100000000 * nativeCurrencyBasePrice;
-                            //     }
-
-                            // }
-
-                            // if (currencyId === anchorCurrencyId) {
-                            //     currency.price = Math.round((nativeCurrencyReserve * 1 / nativeCurrencyWeight) / (anchorReserve * 1 / anchorWeight) * 100000000) / 100000000;
-                            //     currency.pricePrefix = blockchain;
-                            //     currency.priceUSD = currency.price * nativeCurrencyBasePrice;
-                            // }
-                            // if (reservesCurrency.currencyid === nativeCurrencyId && anchorCurrencyId === secondaryAnchorCurrencyId) {
-                            //     nativeCurrencyBasketPrice = Math.round((anchorReserve * 1 / anchorWeight) / (nativeCurrencyReserve * 1 / nativeCurrencyWeight) * 100000000) / 100000000 * vrscBasePrice;
-                            //     console.log("anchor + secondary - if nativeCurrencyBasketPrice", nativeCurrencyBasketPrice)
-                            //     //   console.log(currency.origin, "vrscBasePrice",vrscBasePrice, "anchorCurrencyFromPriceArray",  anchorCurrencyFromPriceArray, currency.pricePrefix, "currency.price", currency.price , "currency.priceUSD",  currency.priceUSD)
-                            // }
-
-                            // if (currency.network !== "VRSC" && anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && currency.pricePrefix === "VRSC") {
-                            //     currency.priceUSD = currency.price * vrscBasePrice;
-                            //     // console.log(" currency.price", currency.price, "currency.priceUSD",  currency.priceUSD)
-                            //     //    console.log(currency.origin, "vrscBasePrice",vrscBasePrice, "anchorCurrencyFromPriceArray", currency.pricePrefix, anchorCurrencyFromPriceArray, "currency.price", currency.price , "currency.priceUSD",  currency.priceUSD)
-                            // }
-                            // if (currency.network !== "VRSC" && anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && currency.pricePrefix !== "VRSC") {
-                            //     currency.priceUSD = vrscBasePrice;
-                            //     // console.log(" currency.price", currency.price, "currency.priceUSD",  currency.priceUSD)
-                            //     // console.log(currency.origin, "vrscBasePrice",vrscBasePrice, "anchorCurrencyFromPriceArray", currency.pricePrefix, anchorCurrencyFromPriceArray, "currency.price", currency.price , "currency.priceUSD",  currency.priceUSD)
-                            // }
-
-                            // if (anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && secondaryAnchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && currency.price !== "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV"){
-                            //     console.log(currency.origin, currency.pricePrefix, vrscBasePrice, currency.price)
-                            //     console.log(reservesCurrency)
-                            //     currency.priceUSD = vrscBasePrice * currency.price;
-                            //     console.log(currency.priceUSD)
-                            // }
-
-
-
-                            // if(reservesCurrency.currencyid === "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP"){
-                            //     // console.log(currency.origin, "vrscBasePrice",vrscBasePrice, "anchorCurrencyFromPriceArray",  anchorCurrencyFromPriceArray, currency.pricePrefix, "currency.price", currency.price , "currency.priceUSD",  currency.priceUSD)
-                            // }
-
-
-                            // if (currencyId === anchorCurrencyId && currency.network !== "VRSC" && anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-                            //     // currency.price = Math.round((nativeCurrencyReserve * 1 / nativeCurrencyWeight) / (anchorReserve * 1 / anchorWeight) * 1000000) / 1000000;
-                            //     // currency.pricePrefix = "VRSC";
-                            //     // currency.priceUSD = currency.price * vrscBasePrice;
-                            //     // console.log(currency.origin, "currency.priceUSD", currency.price, currency.priceUSD, currencyId, anchorCurrencyId, vrscBasePrice)
-
-                            //     //  currency.priceUSD = currency.price * vrscBasePrice;
-                            // }
-
-
-
-                            // if(reservesCurrency.currencyid === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV")
-
-                            // if (reservesCurrency.currencyid === nativeCurrencyId && reservesCurrency.currencyid === anchorCurrencyId) {
-                            //     console.log("currency.origin", currency.origin)
-                            //     nativeCurrencyBasketPrice = Math.round((anchorReserve * 1 / anchorWeight) / (nativeCurrencyReserve * 1 / nativeCurrencyWeight) * 100000000) / 100000000 * anchorCurrencyFromPriceArray;
-                            // }
                         }
 
 
@@ -360,16 +234,6 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                                 }
                             })
                         }
-
-
-
-                        // currencyScaleArray.forEach((element)=>{
-                        //     if(currencyId === element.currencyId){
-                        //         if(element.currencyId){
-                        //             currency.price = currency.price * 1// element.scale;
-                        //         }
-                        //     }
-                        // })
                     })
                     currency.currencyId = currencyId;
                     currency.currencyName = item[1];
@@ -385,29 +249,24 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
     result.basketReserveValueNativeCurrency = nativeCurrencyReserve * (1 / nativeCurrencyWeight);
     result.basketReserveValueNativeCurrencyUSD = nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasketPrice;
     result.basketValueAnchorCurrencyUSD = anchorReserve * (1 / anchorWeight) * anchorCurrencyFromCoingeckoPriceArray;
-   
-    if(anchorPriceDominance === "native"){
+
+    if (anchorCurrencyId === nativeCurrencyId && anchorPriceDominance === "native") {
         result.basketValueAnchorCurrencyUSD = anchorReserve * (1 / anchorWeight) * nativeCurrencyBasePrice;
+    }
+
+    if (anchorPriceDominance === "native" && secondaryPriceDominance === "native" && nativeCurrencyId !== "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
+        result.basketValueAnchorCurrencyUSD = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasePrice);
     }
 
     result.anchorCurrencyName = anchorCurrencyName;
     result.currencyName = currencyName;
     result.currencySupply = currencySupply;
-
-    // console.log("nativeCurrencyReserve", nativeCurrencyReserve, nativeCurrencyWeight, nativeCurrencyBasketPrice, currencySupply, nativeCurrencyBasePrice)
-
     result.currencyPriceUSD = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasePrice) / currencySupply;
     result.currencyPriceNative = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasePrice) / currencySupply / nativeCurrencyBasePrice;
     result.currencyIcon = currencyIcon;
     result.currencyNote = currencyNote;
 
-     //console.log(result)
-
-    // if (anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && secondaryAnchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
-    //     result.basketValueAnchorCurrencyUSD = anchorReserve * (1 / anchorWeight) * nativeCurrencyBasePrice;
-    // }
-
-
+    //console.log(result)
 
     return result;
 }

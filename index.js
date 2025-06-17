@@ -96,6 +96,12 @@ app.get('/currencies', async (req, res) => {
       totalVolume: 0,
       name: "scrvUSD",
     },
+    {
+      currencyId: "i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR",
+      price:  0.38,
+      totalVolume: 0,
+      name: "pepecoinvETH",
+    },
 
   ]
 
