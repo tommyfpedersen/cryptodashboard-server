@@ -46,7 +46,7 @@ app.get('/currencies', async (req, res) => {
     mainRenderData = cacheData;
   }
 
-  let currencyArray = [];
+
   let coingeckoPriceArray = [
     {
       currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
@@ -105,15 +105,8 @@ app.get('/currencies', async (req, res) => {
 
   ]
 
-  currencyArray.push({ coingeckoPriceArray });
-
-  // testing
   let allCurrenciesFromBaskets = await getAllCurrenciesFromBaskets(coingeckoPriceArray);
-  let currencyNameListRaw = [];
-  //let currencyNameList = [];
-  let currencyList = [];
   let currencyGroupList = [];
-  let currencies = {};
 
   const currencyNameList = new Set();
 
@@ -180,7 +173,6 @@ app.get('/currencies', async (req, res) => {
               currencyName: basketItem.currencyName,
               currencyNetwork: basketItem.network,
               currencyPriceUSD: basketItem.priceUSD < 1 ? Number(basketItem.priceUSD.toFixed(4)).toLocaleString() : Number(basketItem.priceUSD.toFixed(2)).toLocaleString(),
-              // currencyPriceUSD: basketItem.price < 1 ? Number(basketItem.price.toFixed(4)).toLocaleString() : Number(basketItem.price.toFixed(2)).toLocaleString(),
               currencySupply: basketItem.reserves < 1 ? Number(basketItem.reserves.toFixed(4)).toLocaleString() : Number(basketItem.reserves.toFixed(0)).toLocaleString(),
               currencySupplyPriceUSD: Number(basketItem.reservePriceUSD.toFixed(0)).toLocaleString(),
               basketVolume24Hours: Number(item.currencyVolume24Hours.totalVolumeUSD.toFixed(0)).toLocaleString(),
@@ -228,29 +220,45 @@ app.get('/currencies', async (req, res) => {
     currencyGroupList.push(currencyItem);
   })
 
-
-  // Remove duplicates
-  //let currencyNameList = [...new Set(currencyNameListRaw)];
-
-  // currencyNameList.forEach((currencyName)=>{
-  //   if(currencyName === )
-  // })
-  //vrscReserveArray.sort((a, b) => parseFloat(b.reserve.replace(/,/g, '')) - parseFloat(a.reserve.replace(/,/g, '')));
   currencyGroupList.sort((a, b) => parseFloat(b.currencySupplyPriceUSD.replace(/,/g, '')) - parseFloat(a.currencySupplyPriceUSD.replace(/,/g, '')));
-  //currencyGroupList.currencyList.sort((a,b)=> parseFloat(b.currencyPriceUSD.replace(/,/g, '')) - parseFloat(a.currencyPriceUSD.replace(/,/g, '')));
-  //console.log("currencyGroupList", currencyGroupList)
-
-  // console.log("currencyNameList", currencyNameList)
-  // console.log("currencyGroupList", currencyGroupList.sort((a,b)=>{return b.currencySupplyPriceUSD - a.currencySupplyPriceUSD}))
-  // console.log("currencyGroupList - VRSC", currencyGroupList[0].currencyList)
-
-  //console.log("her", allCurrenciesFromBaskets)
-
-  //
 
   res.render('currencies', { currencyGroupList });
 
-  //  res.render('currencies', { vrscOnline: false, varrrOnline: false, vdexOnline: false, currencyArray: currencyArray });
+  return;
+});
+
+/* pbaas */
+app.get('/pbaas', async (req, res) => {
+
+  /* page loads */
+  pageLoads++;
+  console.log("pbaas loads: ", new Date().toLocaleString(), pageLoads);
+
+
+
+  // /* cache */
+  // let cacheReady = await isCacheReady();
+
+  // if (cacheReady) {
+  //   let mainRenderData = {};
+
+  //   // cache data
+  //   const cacheData = await readFromCache('cache.json');
+  //   mainRenderData = cacheData;
+  // }
+  
+
+  // testing
+  let pbaasList = await getAllPbaas();
+  // let currencyNameListRaw = [];
+  // //let currencyNameList = [];
+  // let currencyList = [];
+  // let currencyGroupList = [];
+
+
+  
+ // currencyGroupList.sort((a, b) => parseFloat(b.currencySupplyPriceUSD.replace(/,/g, '')) - parseFloat(a.currencySupplyPriceUSD.replace(/,/g, '')));
+  res.render('pbaas', { pbaasList });
   return;
 });
 
@@ -512,6 +520,7 @@ app.get('/api/totalvolume', async (req, res) => {
 import hbs from 'hbs';
 import path from 'path';
 import { get } from 'http';
+import { getAllPbaas } from './components/verus/pbaas/pbaas.js';
 const __dirname = path.resolve();
 
 app.set('views', './views')

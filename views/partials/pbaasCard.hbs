@@ -1,0 +1,40 @@
+{{#each pbaasList}}
+<div class="currency-card">
+    <div class="currency-card-header ">
+        {{!-- <img width="16px" src="/img/tbtc.png" /> --}}
+        <div class="card-title"> {{blockchain}}</div>
+    </div>
+
+
+    <div class="currency-card-content">
+
+        <div class="currency-card-content-row">
+            {{!-- <div class="currency-card-content-item-label"> Block Height</div> --}}
+            <div class="currency-card-content-item-label">Network Hashrate</div>
+            <div class="currency-card-content-item-label go-center"> Currencies </div>
+            <div class="currency-card-content-item-label go-right">Market Cap</div>
+            <div class="currency-card-content-item-label go-right">Total Market Cap</div>
+            <div class="currency-card-content-item-label go-right">Cir. Supply. Pct.</div>
+            <div class="currency-card-content-item-label go-center">Cir. Supply</div>
+            <div class="currency-card-content-item-label go-right">Max. Supply</div>
+            <div class="currency-card-content-item-label go-right">Block Time</div>
+        </div>
+        {{!-- {{#each this.currencyList}} --}}
+        <div class="currency-card-content-row">
+            {{!-- <div class="currency-card-content-item"> {{blockheight}}</div> --}}
+            <div class="currency-card-content-item ">{{hashrate}}</div>
+            <div class="currency-card-content-item go-center"> {{currenciesCount}} </div>
+            <div class="currency-card-content-item go-right">{{blocktime}} </div>
+            <div class="currency-card-content-item go-right">{{blocktime}}</div>
+            <div class="currency-card-content-item go-right"> {{blocktime}}</div>
+            <div class="currency-card-content-item go-right"> {{blocktime}}</div>
+            <div class="currency-card-content-item go-right"> {{blocktime}}</div>
+            <div class="currency-card-content-item go-center">{{blocktime}} SEC</div>
+        </div>
+
+
+    </div>
+
+
+</div>
+{{/each}}

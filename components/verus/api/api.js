@@ -78,3 +78,16 @@ export async function getCurrencyState(rpcBaseUrl, currencyName, blockstart, blo
         return null;
     }
 }
+export async function getCurrency(rpcBaseUrl, currencyName) {
+
+    try {
+        const getcurrencyResponse = await fetch(rpcBaseUrl+ "multichain/getcurrency/"+currencyName);
+        const getcurrencyResult = await getcurrencyResponse.json();
+        const getcurrency = getcurrencyResult.result;
+        return getcurrency;
+    } catch (error) {
+        // Handle the error here
+        // console.log("Error fetching mining info:", error);
+        return null;
+    }
+}
