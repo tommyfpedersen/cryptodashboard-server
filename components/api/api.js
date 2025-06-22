@@ -53,3 +53,16 @@ export async function getCurrencyState(baseUrlPath, chainname, blockstart, block
         return null;
     }
 }
+
+export async function getCoinSupply(baseUrlPath, block) {
+    try {
+        const getcoinsupplyResponse = await fetch(baseUrlPath+  "blockchain/coinsupply/" + block);
+        const getcoinsupplyResult = await getcoinsupplyResponse.json();
+        const getcoinsupply = getcoinsupplyResult.result;
+        return getcoinsupply;
+    } catch (error) {
+        // Handle the error here
+        // console.log("Error fetching mining info:", error);
+        return null;
+    }
+}

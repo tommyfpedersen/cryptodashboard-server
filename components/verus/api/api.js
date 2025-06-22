@@ -14,9 +14,9 @@ export async function getMiningInfo(rpcBaseUrl) {
     }
 }
 
-export async function getCoinSupply(block) {
+export async function getCoinSupply(rpcBaseUrl, block) {
     try {
-        const getcoinsupplyResponse = await fetch(process.env.VERUS_REST_API+ "blockchain/coinsupply/" + block);
+        const getcoinsupplyResponse = await fetch(rpcBaseUrl+  "blockchain/coinsupply/" + block);
         const getcoinsupplyResult = await getcoinsupplyResponse.json();
         const getcoinsupply = getcoinsupplyResult.result;
         return getcoinsupply;

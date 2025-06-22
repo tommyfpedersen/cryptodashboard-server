@@ -10,28 +10,65 @@
 
         <div class="currency-card-content-row">
             {{!-- <div class="currency-card-content-item-label"> Block Height</div> --}}
-            <div class="currency-card-content-item-label">Network Hashrate</div>
-            <div class="currency-card-content-item-label go-center"> Currencies </div>
-            <div class="currency-card-content-item-label go-right">Market Cap</div>
+            <div class="currency-card-content-item-label">Market Cap</div>
             <div class="currency-card-content-item-label go-right">Total Market Cap</div>
             <div class="currency-card-content-item-label go-right">Cir. Supply. Pct.</div>
-            <div class="currency-card-content-item-label go-center">Cir. Supply</div>
+            <div class="currency-card-content-item-label go-right">Cir. Supply</div>
             <div class="currency-card-content-item-label go-right">Max. Supply</div>
-            <div class="currency-card-content-item-label go-right">Block Time</div>
+            <div class="currency-card-content-item-label go-center">Currencies </div>
+            <div class="currency-card-content-item-label go-center">Block Time</div>
+            <div class="currency-card-content-item-label go-right">Network Hashrate</div>
         </div>
         {{!-- {{#each this.currencyList}} --}}
         <div class="currency-card-content-row">
             {{!-- <div class="currency-card-content-item"> {{blockheight}}</div> --}}
-            <div class="currency-card-content-item ">{{hashrate}}</div>
+            <div class="currency-card-content-item">$ {{marketCap}} </div>
+            <div class="currency-card-content-item go-right">$ {{fullyDilutedMarketCap}}</div>
+            <div class="currency-card-content-item go-right"> {{circulatingSupplyPercentage}} %</div>
+            <div class="currency-card-content-item go-right"> {{circulatingSupply}}</div>
+            <div class="currency-card-content-item go-right"> {{maxSupply}}</div>
             <div class="currency-card-content-item go-center"> {{currenciesCount}} </div>
-            <div class="currency-card-content-item go-right">{{blocktime}} </div>
-            <div class="currency-card-content-item go-right">{{blocktime}}</div>
-            <div class="currency-card-content-item go-right"> {{blocktime}}</div>
-            <div class="currency-card-content-item go-right"> {{blocktime}}</div>
-            <div class="currency-card-content-item go-right"> {{blocktime}}</div>
             <div class="currency-card-content-item go-center">{{blocktime}} SEC</div>
+            <div class="currency-card-content-item go-right">{{networkHashrate}} GH/s</div>
         </div>
 
+    </div>
+    <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;">Price List</div>
+    <div class="currency-card-content">
+
+        <div class="currency-card-content-row">
+            {{!-- <div class="currency-card-content-item-label"> Block Height</div> --}}
+            <div class="currency-card-content-item-label">ID 1.ref, not yours</div>
+            <div class="currency-card-content-item-label go-right">ID 1.ref, yours</div>
+            <div class="currency-card-content-item-label go-right">ID 2.ref, all yours</div>
+            <div class="currency-card-content-item-label go-right">ID 3.ref, all yours</div>
+            <div class="currency-card-content-item-label go-right">SubID *</div>
+            <div class="currency-card-content-item-label go-center">Currency </div>
+            <div class="currency-card-content-item-label go-center">Storage (1k)</div>
+            <div class="currency-card-content-item-label go-right">PBaaS</div>
+        </div>
+        {{!-- {{#each this.currencyList}} --}}
+        <div class="currency-card-content-row">
+            {{!-- <div class="currency-card-content-item"> {{blockheight}}</div> --}}
+            <div class="currency-card-content-item">$ 180 (80)</div>
+            <div class="currency-card-content-item go-right">$ 135 (60)</div>
+            <div class="currency-card-content-item go-right">$ 90 (40)</div>
+            <div class="currency-card-content-item go-right"> {{circulatingSupply}}</div>
+            <div class="currency-card-content-item go-right"> {{maxSupply}}</div>
+            <div class="currency-card-content-item go-center"> $ 450 (200) </div>
+            <div class="currency-card-content-item go-center">$ 0.02 (0.01)</div>
+            <div class="currency-card-content-item go-right">$ 28,000 (10,000)</div>
+        </div>
+        {{!-- <div class="currency-card-content-row">
+            <div class="currency-card-content-item">$ 180 </div>
+            <div class="currency-card-content-item go-right">$ 135</div>
+            <div class="currency-card-content-item go-right">$ 90</div>
+            <div class="currency-card-content-item go-right"> {{circulatingSupply}}</div>
+            <div class="currency-card-content-item go-right"> {{maxSupply}}</div>
+            <div class="currency-card-content-item go-center"> {{currenciesCount}} </div>
+            <div class="currency-card-content-item go-center">{{blocktime}} SEC</div>
+            <div class="currency-card-content-item go-right">{{networkHashrate}} GH/s</div>
+        </div> --}}
 
     </div>
 

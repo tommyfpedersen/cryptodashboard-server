@@ -4,7 +4,7 @@ dotenv.config();
 import { getPbaasConfig } from './pbaasConfig.js';
 import { getCurrenciesConfig } from './../currencies/currenciesConfig.js';
 
-import { getMiningInfo, getCurrencyState, getCurrency, } from "../api/api.js";
+import { getMiningInfo, getCoinSupply, getCurrency, } from "../api/api.js";
 
 
 export async function getAllPbaas() {
@@ -19,27 +19,60 @@ export async function getAllPbaas() {
         console.log(pbaasConfig[i].name)
         const miningInfo = await getMiningInfo(pbaasConfig[i].rpcBaseUrl);
         const currencyInfo = await getCurrency(pbaasConfig[i].rpcBaseUrl, pbaasConfig[i].name)
+        const marketCapStats = await getMarketCapStats(miningInfo.blocks, pbaasConfig[i] )
+
+        // console.log(pbaasConfig[i].name);
+        // console.log(marketCapStats);
 
         let currenciesOnBlockchain = currenciesConfig.filter((currency) => {
             return currency.blockchain === pbaasConfig[i].name
         })
 
+        // vrscNetworkHash: (Math.round(blockandfeepoolrewards.networkhashps) / 1000000000).toLocaleString(),
+
         pbaasArray.push({
             blockchain: pbaasConfig[i].name,
             blockheight: miningInfo.blocks,
             blocktime: currencyInfo.blocktime,
-            currenciesCount: currenciesOnBlockchain.length 
+            networkHashrate: (Math.round(miningInfo.networkhashps) / 1000000000).toLocaleString(),
+            currenciesCount: currenciesOnBlockchain.length,
+            marketCap: Math.round(marketCapStats.marketCap).toLocaleString(),
+            fullyDilutedMarketCap: Math.round(marketCapStats.fullyDilutedMarketCap).toLocaleString(),
+            circulatingSupplyPercentage: Math.round(marketCapStats.circulatingSupplyPercentage),
+            circulatingSupply: Math.round(marketCapStats.circulatingSupply).toLocaleString(),
+            maxSupply: Math.round(marketCapStats.maxSupply).toLocaleString()
         })
 
     }
 
-    // pbaasConfig.map((blockchain)=>  {
-
-
-    //     
-
-    // })
-
 
     return pbaasArray;
+}
+
+export async function getMarketCapStats(block, config) {
+    let result = {};
+    let totalSupply = null;
+   // let maxSupply = 83540184;
+
+    const coinSupply = await getCoinSupply(config.rpcBaseUrl, block);
+
+    if (coinSupply) {
+        totalSupply = coinSupply.total;
+        result.totalSupply = totalSupply;
+        result.circulatingSupply = totalSupply;
+        result.circulatingSupplyPercentage = totalSupply / config.maxSupply * 100;
+        result.marketCap = totalSupply * config.nativeBasePrice;
+        result.maxSupply = config.maxSupply;
+        result.fullyDilutedMarketCap = config.maxSupply * config.nativeBasePrice;
+    } else {
+        result.totalSupply = "syncing";
+        result.circulatingSupply = "syncing";
+        result.circulatingSupplyPercentage = "syncing";
+        result.marketCap = "syncing";
+        result.maxSupply = "syncing";
+        result.fullyDilutedMarketCap = "syncing";
+    }
+
+
+    return result;
 }
