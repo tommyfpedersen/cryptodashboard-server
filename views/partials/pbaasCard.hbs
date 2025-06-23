@@ -9,7 +9,6 @@
     <div class="currency-card-content">
 
         <div class="currency-card-content-row">
-            {{!-- <div class="currency-card-content-item-label"> Block Height</div> --}}
             <div class="currency-card-content-item-label">Market Cap</div>
             <div class="currency-card-content-item-label go-right">Total Market Cap</div>
             <div class="currency-card-content-item-label go-right">Cir. Supply. Pct.</div>
@@ -19,9 +18,7 @@
             <div class="currency-card-content-item-label go-center">Block Time</div>
             <div class="currency-card-content-item-label go-right">Network Hashrate</div>
         </div>
-        {{!-- {{#each this.currencyList}} --}}
         <div class="currency-card-content-row">
-            {{!-- <div class="currency-card-content-item"> {{blockheight}}</div> --}}
             <div class="currency-card-content-item">$ {{marketCap}} </div>
             <div class="currency-card-content-item go-right">$ {{fullyDilutedMarketCap}}</div>
             <div class="currency-card-content-item go-right"> {{circulatingSupplyPercentage}} %</div>
@@ -35,41 +32,70 @@
     </div>
     <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;">Price List</div>
     <div class="currency-card-content">
-
         <div class="currency-card-content-row">
-            {{!-- <div class="currency-card-content-item-label"> Block Height</div> --}}
-            <div class="currency-card-content-item-label">ID 1.ref, not yours</div>
+            <div class="currency-card-content-item-label">Addr <-> Addr</div>
+            <div class="currency-card-content-item-label go-center">Basket <-> Reserve</div>
+            <div class="currency-card-content-item-label go-center">Reserve <-> Reserve</div>
+            <div class="currency-card-content-item-label go-right">ID 1.ref, not yours</div>
             <div class="currency-card-content-item-label go-right">ID 1.ref, yours</div>
             <div class="currency-card-content-item-label go-right">ID 2.ref, all yours</div>
             <div class="currency-card-content-item-label go-right">ID 3.ref, all yours</div>
-            <div class="currency-card-content-item-label go-right">SubID *</div>
-            <div class="currency-card-content-item-label go-center">Currency </div>
-            <div class="currency-card-content-item-label go-center">Storage (1k)</div>
-            <div class="currency-card-content-item-label go-right">PBaaS</div>
+            <div class="currency-card-content-item-label go-right">SubID (ID + Currency)</div>
         </div>
-        {{!-- {{#each this.currencyList}} --}}
         <div class="currency-card-content-row">
-            {{!-- <div class="currency-card-content-item"> {{blockheight}}</div> --}}
-            <div class="currency-card-content-item">$ 180 (80)</div>
-            <div class="currency-card-content-item go-right">$ 135 (60)</div>
-            <div class="currency-card-content-item go-right">$ 90 (40)</div>
-            <div class="currency-card-content-item go-right"> {{circulatingSupply}}</div>
-            <div class="currency-card-content-item go-right"> {{maxSupply}}</div>
-            <div class="currency-card-content-item go-center"> $ 450 (200) </div>
-            <div class="currency-card-content-item go-center">$ 0.02 (0.01)</div>
-            <div class="currency-card-content-item go-right">$ 28,000 (10,000)</div>
+            <div class="currency-card-content-item">0.0001</div>
+            <div class="currency-card-content-item go-center">0.025%</div>
+            <div class="currency-card-content-item go-center">0.050%</div>
+            <div class="currency-card-content-item go-right">80</div>
+            <div class="currency-card-content-item go-right">60</div>
+            <div class="currency-card-content-item go-right">40</div>
+            <div class="currency-card-content-item go-right"> 20</div>
+            <div class="currency-card-content-item go-right"> >0.01</div>
         </div>
-        {{!-- <div class="currency-card-content-row">
-            <div class="currency-card-content-item">$ 180 </div>
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item">$ 0.00</div>
+            <div class="currency-card-content-item go-center"></div>
+            <div class="currency-card-content-item go-center"></div>
+            <div class="currency-card-content-item go-right">$ 180</div>
             <div class="currency-card-content-item go-right">$ 135</div>
             <div class="currency-card-content-item go-right">$ 90</div>
-            <div class="currency-card-content-item go-right"> {{circulatingSupply}}</div>
-            <div class="currency-card-content-item go-right"> {{maxSupply}}</div>
-            <div class="currency-card-content-item go-center"> {{currenciesCount}} </div>
-            <div class="currency-card-content-item go-center">{{blocktime}} SEC</div>
-            <div class="currency-card-content-item go-right">{{networkHashrate}} GH/s</div>
-        </div> --}}
-
+            <div class="currency-card-content-item go-right"> $ 45</div>
+            <div class="currency-card-content-item go-right"> $ >0.02</div>
+        </div>
+    </div>
+    <div style="padding: 16px 0 8px 0;"></div>
+    <div class="currency-card-content">
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item-label">Storage (1k)</div>
+            <div class="currency-card-content-item-label go-center">Currency </div>
+            <div class="currency-card-content-item-label go-center">PBaaS</div>
+            <div class="currency-card-content-item-label go-right"></div>
+            <div class="currency-card-content-item-label go-right"></div>
+            <div class="currency-card-content-item-label go-center"></div>
+            <div class="currency-card-content-item-label go-center"></div>
+            <div class="currency-card-content-item-label go-right"></div>
+        </div>
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item">0.01</div>
+            <div class="currency-card-content-item go-center"> 200 </div>
+            <div class="currency-card-content-item  go-center">10,000</div>
+            <div class="currency-card-content-item go-right"></div>
+            <div class="currency-card-content-item go-right"></div>
+            <div class="currency-card-content-item go-center"> </div>
+            <div class="currency-card-content-item go-center"></div>
+            <div class="currency-card-content-item go-right"></div>
+        </div>
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item">$ 0.02</div>
+            <div class="currency-card-content-item go-center"> $ 450 </div>
+            <div class="currency-card-content-item  go-center">$ 28,000</div>
+            <div class="currency-card-content-item"></div>
+            <div class="currency-card-content-item"></div>
+            <div class="currency-card-content-item go-right"></div>
+            <div class="currency-card-content-item go-right"></div>
+            <div class="currency-card-content-item go-right"> </div>
+            <div class="currency-card-content-item go-right"></div>
+        </div>
     </div>
 
 
