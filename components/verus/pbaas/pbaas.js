@@ -37,7 +37,7 @@ export async function getAllPbaas() {
                 let halvingCounter = era.halving;
 
                 while (halvingIsBiggerThanBlocks) {
-//todo
+                    //todo
                     if (halving < miningInfo.blocks) {
 
                     } else {
@@ -46,6 +46,31 @@ export async function getAllPbaas() {
                 }
             }
         });
+
+
+        /*
+ "eras": [
+    {
+      "reward": 0,
+      "decay": 100000000,
+      "halving": 1,
+      "eraend": 10080
+    },
+    {
+      "reward": 38400000000,
+      "decay": 0,
+      "halving": 43200,
+      "eraend": 226080
+    },
+    {
+      "reward": 2400000000,
+      "decay": 0,
+      "halving": 1051920,
+      "eraend": 0
+    }
+  ],
+        */
+
         // console.log("circulatingSupply", circulatingSupply)
         // console.log("circulatingSupply", circulatingSupply / 100000000)
 
