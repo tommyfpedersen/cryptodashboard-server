@@ -19,8 +19,39 @@ export async function getAllPbaas() {
         console.log(pbaasConfig[i].name)
         const miningInfo = await getMiningInfo(pbaasConfig[i].rpcBaseUrl);
         const currencyInfo = await getCurrency(pbaasConfig[i].rpcBaseUrl, pbaasConfig[i].name)
-        const marketCapStats = await getMarketCapStats(miningInfo.blocks, pbaasConfig[i] )
+        const marketCapStats = await getMarketCapStats(miningInfo.blocks, pbaasConfig[i])
 
+        let circulatingSupply = 0;
+        let halving = 0;
+        currencyInfo.eras.forEach(era => {
+
+            if (era.eraend < miningInfo.blocks) {
+                circulatingSupply = circulatingSupply + (era.reward * miningInfo.blocks);
+                halving = era.halving;
+                console.log(era.reward, circulatingSupply, era.halving, miningInfo.blocks);
+            }
+
+            if (era.eraend === 0) {
+                let halvingIsBiggerThanBlocks = false;
+                let reward = era.reward;
+                let halvingCounter = era.halving;
+
+                while (halvingIsBiggerThanBlocks) {
+//todo
+                    if (halving < miningInfo.blocks) {
+
+                    } else {
+                        halvingIsBiggerThanBlocks = true;
+                    }
+                }
+            }
+        });
+        // console.log("circulatingSupply", circulatingSupply)
+        // console.log("circulatingSupply", circulatingSupply / 100000000)
+
+        const eras = currencyInfo.eras;
+
+        console
         // console.log(pbaasConfig[i].name);
         // console.log(marketCapStats);
 
@@ -52,7 +83,7 @@ export async function getAllPbaas() {
 export async function getMarketCapStats(block, config) {
     let result = {};
     let totalSupply = null;
-   // let maxSupply = 83540184;
+    // let maxSupply = 83540184;
 
     const coinSupply = await getCoinSupply(config.rpcBaseUrl, block);
 
