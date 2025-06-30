@@ -22,26 +22,68 @@ export async function getAllPbaas() {
         const marketCapStats = await getMarketCapStats(miningInfo.blocks, pbaasConfig[i])
 
         let circulatingSupply = 0;
-        let halving = 0;
+        let halvingCounter = 0;
         currencyInfo.eras.forEach(era => {
 
-            if (era.eraend < miningInfo.blocks) {
-                circulatingSupply = circulatingSupply + (era.reward * miningInfo.blocks);
-                halving = era.halving;
-                console.log(era.reward, circulatingSupply, era.halving, miningInfo.blocks);
+            if (era.reward === 0) {
+                halvingCounter = halvingCounter + era.eraend;
+            }
+
+
+            if (era.eraend < miningInfo.blocks && era.reward !== 0) {
+
+                halvingCounter = halvingCounter + era.halving;//(era.halving > 1 ? era.halving : 0);
+
+                circulatingSupply = circulatingSupply + era.reward / 100000000 * era.halving + ((era.eraend - era.halving) * (era.reward / 100000000 / 2))
+                console.log("halvingCounter", halvingCounter, "circulatingSupply", circulatingSupply)
+                // VRSC 16,588,800
+                // VRSC 35,112,960
+
+                //  console.log(era.reward/100000000, circulatingSupply, era.halving, miningInfo.blocks);
+
+
+                let eraHalvingCounter = halvingCounter;
+                let eraHalvingCounterIsBiggerThanEraEnd = true;
+
+                while (eraHalvingCounterIsBiggerThanEraEnd) {
+                    if (eraHalvingCounter < era.eraend) {
+                        eraHalvingCounter = eraHalvingCounter + era.halving;
+                        console.log("eraHalvingCounter", eraHalvingCounter);
+                    } else {
+                        eraHalvingCounterIsBiggerThanEraEnd = false;
+                    }
+                }
+
+
+
             }
 
             if (era.eraend === 0) {
-                let halvingIsBiggerThanBlocks = false;
-                let reward = era.reward;
-                let halvingCounter = era.halving;
+                let halvingIsBiggerThanBlocks = true;
+                let rewardCounter = era.reward;
+                let halving = era.halving// + halvingCounter;
 
                 while (halvingIsBiggerThanBlocks) {
-                    //todo
-                    if (halving < miningInfo.blocks) {
 
+                    if (halving < miningInfo.blocks) {
+                        halvingCounter = halvingCounter + era.halving;
+
+                        halving = halving + era.halving;
+                        rewardCounter = rewardCounter / 2;
+
+                        circulatingSupply = circulatingSupply + rewardCounter / 100000000 * halving;
+                        console.log("halving", halving, "rewardCounter", rewardCounter, "halvingCounter", halvingCounter)
                     } else {
-                        halvingIsBiggerThanBlocks = true;
+                        let deltaHeight = halvingCounter - miningInfo.blocks;
+
+                        console.log("halvingCounter", halvingCounter, "miningInfo.blocks", miningInfo.blocks, "deltaHeight", deltaHeight, circulatingSupply + rewardCounter / 100000000 * deltaHeight)
+                        ///       console.log("halvingCounter", halving, "rewardCounter" , rewardCounter, "true")
+
+                        //coins = delta blockheight and halving
+
+                        // VRSC height 3,381,840 
+
+                        halvingIsBiggerThanBlocks = false;
                     }
                 }
             }
