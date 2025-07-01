@@ -33,9 +33,12 @@ export async function getAllPbaas() {
             if (era.eraend < miningInfo.blocks && era.reward !== 0) {
 
                 halvingCounter = halvingCounter + era.halving;//(era.halving > 1 ? era.halving : 0);
+                let rewardCounter = era.reward;
 
-                circulatingSupply = circulatingSupply + era.reward / 100000000 * era.halving + ((era.eraend - era.halving) * (era.reward / 100000000 / 2))
-                console.log("halvingCounter", halvingCounter, "circulatingSupply", circulatingSupply)
+                circulatingSupply = circulatingSupply + halvingCounter * era.reward / 100000000;
+
+               /// circulatingSupply = circulatingSupply + era.reward / 100000000 * era.halving + ((era.eraend - era.halving) * (era.reward / 100000000 / 2))
+                console.log("halvingCounter", halvingCounter, "circulatingSupply", circulatingSupply, "era.reward", era.reward)
                 // VRSC 16,588,800
                 // VRSC 35,112,960
 
@@ -47,8 +50,14 @@ export async function getAllPbaas() {
 
                 while (eraHalvingCounterIsBiggerThanEraEnd) {
                     if (eraHalvingCounter < era.eraend) {
+
+                        let deltaBlocks = eraHalvingCounter - halvingCounter;
                         eraHalvingCounter = eraHalvingCounter + era.halving;
-                        console.log("eraHalvingCounter", eraHalvingCounter);
+                        rewardCounter = rewardCounter / 2;
+
+                 //       circulatingSupply = circulatingSupply + halvingCounter * rewardCounter / 100000000;
+
+                        console.log("deltaBlocks", deltaBlocks,"eraHalvingCounter", eraHalvingCounter, "circulatingSupply", circulatingSupply, "rewardCounter", rewardCounter);
                     } else {
                         eraHalvingCounterIsBiggerThanEraEnd = false;
                     }

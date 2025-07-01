@@ -116,6 +116,12 @@ body {
     font-size: 12px;
     min-width: 145px;
 }
+
+.small-label{
+    font-size: 12px;
+    color: grey;
+}
+
 .go-center{
     text-align: center;
 }
