@@ -23,14 +23,14 @@ export async function getAllPbaas() {
 
         let circulatingSupply = 0;
         let halvingCounter = 0;
-        currencyInfo.eras.forEach(era => {
+        currencyInfo.eras.forEach((era,index) => {
 
             if (era.reward === 0) {
                 halvingCounter = halvingCounter + era.eraend;
             }
 
 
-            if (era.eraend < miningInfo.blocks && era.reward !== 0) {
+            if (era.eraend < miningInfo.blocks && era.reward !== 0 && era.eraend !== 0) {
 
                 halvingCounter = halvingCounter + era.halving;//(era.halving > 1 ? era.halving : 0);
                 let rewardCounter = era.reward;
@@ -38,7 +38,7 @@ export async function getAllPbaas() {
                 circulatingSupply = circulatingSupply + halvingCounter * era.reward / 100000000;
 
                /// circulatingSupply = circulatingSupply + era.reward / 100000000 * era.halving + ((era.eraend - era.halving) * (era.reward / 100000000 / 2))
-                console.log("halvingCounter", halvingCounter, "circulatingSupply", circulatingSupply, "era.reward", era.reward)
+                console.log(index, "halvingCounter first", halvingCounter, "circulatingSupply", circulatingSupply, "era.reward", era.reward)
                 // VRSC 16,588,800
                 // VRSC 35,112,960
 
@@ -51,13 +51,13 @@ export async function getAllPbaas() {
                 while (eraHalvingCounterIsBiggerThanEraEnd) {
                     if (eraHalvingCounter < era.eraend) {
 
-                        let deltaBlocks = eraHalvingCounter - halvingCounter;
+                        
                         eraHalvingCounter = eraHalvingCounter + era.halving;
                         rewardCounter = rewardCounter / 2;
 
-                 //       circulatingSupply = circulatingSupply + halvingCounter * rewardCounter / 100000000;
+                        circulatingSupply = circulatingSupply + era.halving * rewardCounter / 100000000;
 
-                        console.log("deltaBlocks", deltaBlocks,"eraHalvingCounter", eraHalvingCounter, "circulatingSupply", circulatingSupply, "rewardCounter", rewardCounter);
+                        console.log(index, "era.halving", era.halving, "eraHalvingCounter", eraHalvingCounter, "circulatingSupply", circulatingSupply, "rewardCounter", rewardCounter);
                     } else {
                         eraHalvingCounterIsBiggerThanEraEnd = false;
                     }
@@ -72,20 +72,24 @@ export async function getAllPbaas() {
                 let rewardCounter = era.reward;
                 let halving = era.halving// + halvingCounter;
 
+                let eraHalvingCounter = halvingCounter;
+
                 while (halvingIsBiggerThanBlocks) {
 
                     if (halving < miningInfo.blocks) {
-                        halvingCounter = halvingCounter + era.halving;
+                        //halvingCounter = halvingCounter + era.halving;
+                        eraHalvingCounter = eraHalvingCounter + era.halving;
+                        rewardCounter = rewardCounter / 2;
+                        circulatingSupply = circulatingSupply + era.halving * rewardCounter / 100000000;
+                        console.log(index, "era.halving", era.halving, "eraHalvingCounter", eraHalvingCounter, "circulatingSupply", circulatingSupply, "rewardCounter", rewardCounter);
 
                         halving = halving + era.halving;
-                        rewardCounter = rewardCounter / 2;
 
-                        circulatingSupply = circulatingSupply + rewardCounter / 100000000 * halving;
-                        console.log("halving", halving, "rewardCounter", rewardCounter, "halvingCounter", halvingCounter)
+                        //circulatingSupply = circulatingSupply + rewardCounter / 100000000 * era.halving;
                     } else {
                         let deltaHeight = halvingCounter - miningInfo.blocks;
 
-                        console.log("halvingCounter", halvingCounter, "miningInfo.blocks", miningInfo.blocks, "deltaHeight", deltaHeight, circulatingSupply + rewardCounter / 100000000 * deltaHeight)
+                        console.log(index, "halvingCounter last", halvingCounter, "miningInfo.blocks", miningInfo.blocks, "deltaHeight", deltaHeight, circulatingSupply + rewardCounter / 100000000 * deltaHeight)
                         ///       console.log("halvingCounter", halving, "rewardCounter" , rewardCounter, "true")
 
                         //coins = delta blockheight and halving
