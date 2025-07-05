@@ -60,6 +60,9 @@ export async function getAllPbaas() {
 
     }
 
+     // sort currency list by price
+     pbaasArray.sort((a, b) => parseFloat(b.fullyDilutedMarketCap.replace(/,/g, '')) - parseFloat(a.fullyDilutedMarketCap.replace(/,/g, '')));
+
     return pbaasArray;
 }
 
