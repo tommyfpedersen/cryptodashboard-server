@@ -24,8 +24,6 @@ export async function getAllPbaas() {
             return currency.blockchain === pbaasConfig[i].name
         })
 
-        console.log(pbaasConfig[i].priceAddrToAddr, pbaasConfig[i].nativeBasePrice, pbaasConfig[i].priceAddrToAddr *  pbaasConfig[i].nativeBasePrice )
-
         pbaasArray.push({
             blockchain: pbaasConfig[i].name,
             blockheight: miningInfo.blocks,
@@ -43,21 +41,21 @@ export async function getAllPbaas() {
             priceId1RefNotYours: pbaasConfig[i].priceId1RefNotYours,
             priceId1RefYours: pbaasConfig[i].priceId1RefYours,
             priceId2RefAllYours: pbaasConfig[i].priceId2RefAllYours,
-            priceId3RefAllYours: pbaasConfig[i].priceId3RefAllYours,
+            priceId3RefAllYours: pbaasConfig[i].priceId3RefAllYours == null ? "" : pbaasConfig[i].priceId3RefAllYours,
             priceSubId: pbaasConfig[i].priceSubId,
             priceStorage: pbaasConfig[i].priceStorage,
             priceCurrency: pbaasConfig[i].priceCurrency,
-            pricePbaas: Math.round(pbaasConfig[i].pricePbaas).toLocaleString(),
+            pricePbaas: pbaasConfig[i].pricePbaas == null ? "" : Math.round(pbaasConfig[i].pricePbaas).toLocaleString(),
 
             priceAddrToAddrUSD: Math.round(pbaasConfig[i].priceAddrToAddr * pbaasConfig[i].nativeBasePrice).toLocaleString(),
             priceId1RefNotYoursUSD: Math.round(pbaasConfig[i].priceId1RefNotYours * pbaasConfig[i].nativeBasePrice).toLocaleString(),
             priceId1RefYoursUSD: Math.round(pbaasConfig[i].priceId1RefYours * pbaasConfig[i].nativeBasePrice).toLocaleString(),
             priceId2RefAllYoursUSD: Math.round(pbaasConfig[i].priceId2RefAllYours * pbaasConfig[i].nativeBasePrice).toLocaleString(),
-            priceId3RefAllYoursUSD: Math.round(pbaasConfig[i].priceId3RefAllYours * pbaasConfig[i].nativeBasePrice).toLocaleString(),
+            priceId3RefAllYoursUSD: pbaasConfig[i].priceId3RefAllYours == null ? "" : "$ " + Math.round(pbaasConfig[i].priceId3RefAllYours * pbaasConfig[i].nativeBasePrice).toLocaleString(),
             priceSubIdUSD: Math.round(pbaasConfig[i].priceSubId * pbaasConfig[i].nativeBasePrice).toLocaleString(),
             priceStorageUSD: Math.round(pbaasConfig[i].priceStorage * pbaasConfig[i].nativeBasePrice).toLocaleString(),
             priceCurrencyUSD: Math.round(pbaasConfig[i].priceCurrency * pbaasConfig[i].nativeBasePrice).toLocaleString(),
-            pricePbaasUSD: Math.round(pbaasConfig[i].pricePbaas).toLocaleString()
+            pricePbaasUSD: pbaasConfig[i].pricePbaas == null ? "" : "$ " + Math.round(pbaasConfig[i].pricePbaas).toLocaleString()
         })
 
     }
@@ -178,7 +176,6 @@ export async function getMarketCapStats(miningInfo, currencyInfo, pbaasConfig) {
             result.fullyDilutedMarketCap = "syncing";
         }
     }
-    console.log("circulatingSupply", circulatingSupply);
 
     return result;
 }
