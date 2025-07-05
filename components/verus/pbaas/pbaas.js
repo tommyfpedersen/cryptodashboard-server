@@ -4,7 +4,7 @@ dotenv.config();
 import { getPbaasConfig } from './pbaasConfig.js';
 import { getCurrenciesConfig } from './../currencies/currenciesConfig.js';
 
-import { getMiningInfo, getCoinSupply, getCurrency, } from "../api/api.js";
+import { getMiningInfo, getCoinSupply, getCurrency } from "../api/api.js";
 
 
 export async function getAllPbaas() {
@@ -13,133 +13,18 @@ export async function getAllPbaas() {
 
     let pbaasArray = [];
 
-
-
     for (let i = 0; i < pbaasConfig.length; i++) {
         console.log(pbaasConfig[i].name)
         const miningInfo = await getMiningInfo(pbaasConfig[i].rpcBaseUrl);
         const currencyInfo = await getCurrency(pbaasConfig[i].rpcBaseUrl, pbaasConfig[i].name)
-        const marketCapStats = await getMarketCapStats(miningInfo.blocks, pbaasConfig[i])
+        const marketCapStats = await getMarketCapStats(miningInfo, currencyInfo, pbaasConfig[i])
 
-        let circulatingSupply = 0;
-        let halvingCounter = 0;
-        currencyInfo.eras.forEach((era,index) => {
-
-            if (era.reward === 0) {
-                halvingCounter = halvingCounter + era.eraend;
-            }
-
-
-            if (era.eraend < miningInfo.blocks && era.reward !== 0 && era.eraend !== 0) {
-
-                halvingCounter = halvingCounter + era.halving;//(era.halving > 1 ? era.halving : 0);
-                let rewardCounter = era.reward;
-
-                circulatingSupply = circulatingSupply + halvingCounter * era.reward / 100000000;
-
-               /// circulatingSupply = circulatingSupply + era.reward / 100000000 * era.halving + ((era.eraend - era.halving) * (era.reward / 100000000 / 2))
-                console.log(index, "halvingCounter first", halvingCounter, "circulatingSupply", circulatingSupply, "era.reward", era.reward)
-                // VRSC 16,588,800
-                // VRSC 35,112,960
-
-                //  console.log(era.reward/100000000, circulatingSupply, era.halving, miningInfo.blocks);
-
-
-                let eraHalvingCounter = halvingCounter;
-                let eraHalvingCounterIsBiggerThanEraEnd = true;
-
-                while (eraHalvingCounterIsBiggerThanEraEnd) {
-                    if (eraHalvingCounter < era.eraend) {
-
-                        
-                        eraHalvingCounter = eraHalvingCounter + era.halving;
-                        rewardCounter = rewardCounter / 2;
-
-                        circulatingSupply = circulatingSupply + era.halving * rewardCounter / 100000000;
-
-                        console.log(index, "era.halving", era.halving, "eraHalvingCounter", eraHalvingCounter, "circulatingSupply", circulatingSupply, "rewardCounter", rewardCounter);
-                    } else {
-                        eraHalvingCounterIsBiggerThanEraEnd = false;
-                    }
-                }
-
-
-
-            }
-
-            if (era.eraend === 0) {
-                let halvingIsBiggerThanBlocks = true;
-                let rewardCounter = era.reward;
-                let halving = era.halving// + halvingCounter;
-
-                let eraHalvingCounter = halvingCounter;
-
-                while (halvingIsBiggerThanBlocks) {
-
-                    if (halving < miningInfo.blocks) {
-                        //halvingCounter = halvingCounter + era.halving;
-                        eraHalvingCounter = eraHalvingCounter + era.halving;
-                        rewardCounter = rewardCounter / 2;
-                        circulatingSupply = circulatingSupply + era.halving * rewardCounter / 100000000;
-                        console.log(index, "era.halving", era.halving, "eraHalvingCounter", eraHalvingCounter, "circulatingSupply", circulatingSupply, "rewardCounter", rewardCounter);
-
-                        halving = halving + era.halving;
-
-                        //circulatingSupply = circulatingSupply + rewardCounter / 100000000 * era.halving;
-                    } else {
-                        let deltaHeight = halvingCounter - miningInfo.blocks;
-
-                        console.log(index, "halvingCounter last", halvingCounter, "miningInfo.blocks", miningInfo.blocks, "deltaHeight", deltaHeight, circulatingSupply + rewardCounter / 100000000 * deltaHeight)
-                        ///       console.log("halvingCounter", halving, "rewardCounter" , rewardCounter, "true")
-
-                        //coins = delta blockheight and halving
-
-                        // VRSC height 3,381,840 
-
-                        halvingIsBiggerThanBlocks = false;
-                    }
-                }
-            }
-        });
-
-
-        /*
- "eras": [
-    {
-      "reward": 0,
-      "decay": 100000000,
-      "halving": 1,
-      "eraend": 10080
-    },
-    {
-      "reward": 38400000000,
-      "decay": 0,
-      "halving": 43200,
-      "eraend": 226080
-    },
-    {
-      "reward": 2400000000,
-      "decay": 0,
-      "halving": 1051920,
-      "eraend": 0
-    }
-  ],
-        */
-
-        // console.log("circulatingSupply", circulatingSupply)
-        // console.log("circulatingSupply", circulatingSupply / 100000000)
-
-        const eras = currencyInfo.eras;
-
-        console
-        // console.log(pbaasConfig[i].name);
-        // console.log(marketCapStats);
 
         let currenciesOnBlockchain = currenciesConfig.filter((currency) => {
             return currency.blockchain === pbaasConfig[i].name
         })
 
-        // vrscNetworkHash: (Math.round(blockandfeepoolrewards.networkhashps) / 1000000000).toLocaleString(),
+        console.log(pbaasConfig[i].priceAddrToAddr, pbaasConfig[i].nativeBasePrice, pbaasConfig[i].priceAddrToAddr *  pbaasConfig[i].nativeBasePrice )
 
         pbaasArray.push({
             blockchain: pbaasConfig[i].name,
@@ -151,39 +36,149 @@ export async function getAllPbaas() {
             fullyDilutedMarketCap: Math.round(marketCapStats.fullyDilutedMarketCap).toLocaleString(),
             circulatingSupplyPercentage: Math.round(marketCapStats.circulatingSupplyPercentage),
             circulatingSupply: Math.round(marketCapStats.circulatingSupply).toLocaleString(),
-            maxSupply: Math.round(marketCapStats.maxSupply).toLocaleString()
+            maxSupply: Math.round(marketCapStats.maxSupply).toLocaleString(),
+            priceAddrToAddr: pbaasConfig[i].priceAddrToAddr,
+            priceBasketToReserve: pbaasConfig[i].priceBasketToReserve,
+            priceReserveToReserve: pbaasConfig[i].priceReserveToReserve,
+            priceId1RefNotYours: pbaasConfig[i].priceId1RefNotYours,
+            priceId1RefYours: pbaasConfig[i].priceId1RefYours,
+            priceId2RefAllYours: pbaasConfig[i].priceId2RefAllYours,
+            priceId3RefAllYours: pbaasConfig[i].priceId3RefAllYours,
+            priceSubId: pbaasConfig[i].priceSubId,
+            priceStorage: pbaasConfig[i].priceStorage,
+            priceCurrency: pbaasConfig[i].priceCurrency,
+            pricePbaas: Math.round(pbaasConfig[i].pricePbaas).toLocaleString(),
+
+            priceAddrToAddrUSD: Math.round(pbaasConfig[i].priceAddrToAddr * pbaasConfig[i].nativeBasePrice).toLocaleString(),
+            priceId1RefNotYoursUSD: Math.round(pbaasConfig[i].priceId1RefNotYours * pbaasConfig[i].nativeBasePrice).toLocaleString(),
+            priceId1RefYoursUSD: Math.round(pbaasConfig[i].priceId1RefYours * pbaasConfig[i].nativeBasePrice).toLocaleString(),
+            priceId2RefAllYoursUSD: Math.round(pbaasConfig[i].priceId2RefAllYours * pbaasConfig[i].nativeBasePrice).toLocaleString(),
+            priceId3RefAllYoursUSD: Math.round(pbaasConfig[i].priceId3RefAllYours * pbaasConfig[i].nativeBasePrice).toLocaleString(),
+            priceSubIdUSD: Math.round(pbaasConfig[i].priceSubId * pbaasConfig[i].nativeBasePrice).toLocaleString(),
+            priceStorageUSD: Math.round(pbaasConfig[i].priceStorage * pbaasConfig[i].nativeBasePrice).toLocaleString(),
+            priceCurrencyUSD: Math.round(pbaasConfig[i].priceCurrency * pbaasConfig[i].nativeBasePrice).toLocaleString(),
+            pricePbaasUSD: Math.round(pbaasConfig[i].pricePbaas).toLocaleString()
         })
 
     }
 
-
     return pbaasArray;
 }
 
-export async function getMarketCapStats(block, config) {
+export async function getMarketCapStats(miningInfo, currencyInfo, pbaasConfig) {
     let result = {};
-    let totalSupply = null;
-    // let maxSupply = 83540184;
+    let circulatingSupply = 0;
+    let circulatingSupplyPercentage = 0;
+    let halvingCounter = 0;
 
-    const coinSupply = await getCoinSupply(config.rpcBaseUrl, block);
 
-    if (coinSupply) {
-        totalSupply = coinSupply.total;
-        result.totalSupply = totalSupply;
-        result.circulatingSupply = totalSupply;
-        result.circulatingSupplyPercentage = totalSupply / config.maxSupply * 100;
-        result.marketCap = totalSupply * config.nativeBasePrice;
-        result.maxSupply = config.maxSupply;
-        result.fullyDilutedMarketCap = config.maxSupply * config.nativeBasePrice;
+    if (currencyInfo.preallocations) {
+        console.log("preallocations - " + pbaasConfig.name)
+
+        /*    let currentEraFound = false;
+            let blockCounter = 0;
+            let eraBlockCounter = 0;
+            let blockHeight = miningInfo.blocks;
+            let rewardCounter = 0;
+    
+    
+            currencyInfo.eras.forEach((era, index) => {
+    
+                if (currentEraFound === true) {
+                    return;
+                }
+    
+                rewardCounter = era.reward;
+    
+                if (blockHeight < era.eraend && era.eraend !== 0) {
+                    circulatingSupply = circulatingSupply + (blockHeight - eraBlockCounter) * rewardCounter / 100000000;
+                    halvingCounter = halvingCounter + era.halving;
+                    currentEraFound = true;
+                    console.log("low blockheight eraBlockCounter", eraBlockCounter, "circulatingSupply", circulatingSupply, "blockHeight", blockHeight, "rewardCounter", rewardCounter)
+                    return;
+                }
+    
+                if (blockHeight > era.eraend && era.eraend !== 0) {
+                    eraBlockCounter = eraBlockCounter + (era.eraend - eraBlockCounter);
+                    circulatingSupply = circulatingSupply + era.eraend * rewardCounter / 100000000;
+                    halvingCounter = halvingCounter + era.halving;
+                    console.log("high blockheight eraBlockCounter", eraBlockCounter, "circulatingSupply", circulatingSupply, "blockHeight", blockHeight, "rewardCounter", rewardCounter)
+                    return;
+                }
+    
+                if (era.eraend === 0) {
+    
+    
+    
+                    let blockHeightIsBiggerThanHalving = true;
+                    let rewardCounter = era.reward;
+                    let halvingCounter = era.halving;
+    
+                    console.log("blockHeight", blockHeight, "era.reward", era.reward)
+    
+                    if (blockHeight < era.halving) {
+                        circulatingSupply = circulatingSupply + blockHeight * rewardCounter / 100000000;
+                    } 
+                    if(blockHeight > era.halving) {
+                        while (blockHeightIsBiggerThanHalving) {
+    
+                            if (blockHeight > halvingCounter) {
+                                circulatingSupply = circulatingSupply + era.halving * rewardCounter / 100000000;
+                                halvingCounter = halvingCounter + era.halving;
+                                rewardCounter = rewardCounter / 2;
+                             console.log(index, "era.halving", era.halving, "halvingCounter", halvingCounter, "circulatingSupply", circulatingSupply, "rewardCounter", rewardCounter);
+                              //  halving = halving + era.halving;
+    
+                            } else {
+                                let deltaHeight = blockHeight - era.halving;
+                                console.log( "blockHeight",blockHeight,"deltaHeight", deltaHeight, "era.halving", era.halving,  "circulatingSupply", circulatingSupply, "rewardCounter", rewardCounter);
+                                circulatingSupply = circulatingSupply + deltaHeight * rewardCounter / 100000000;
+                                console.log("--> circulatingSupply", circulatingSupply)
+                                blockHeightIsBiggerThanHalving = false;
+                            }
+                        }
+                    }
+    
+    
+                }
+    
+    
+            })*/
+
+        // result.circulatingSupply = circulatingSupply;
+        // result.circulatingSupplyPercentage = circulatingSupply / pbaasConfig.maxSupply * 100;
+        // result.marketCap = circulatingSupply * pbaasConfig.nativeBasePrice;
+        // result.maxSupply = pbaasConfig.maxSupply;
+        // result.fullyDilutedMarketCap = pbaasConfig.maxSupply * pbaasConfig.nativeBasePrice;
+
+        circulatingSupply = pbaasConfig.maxSupply * 0.99
+        result.circulatingSupply = circulatingSupply;
+        result.circulatingSupplyPercentage = circulatingSupply / pbaasConfig.maxSupply * 100;
+        result.marketCap = circulatingSupply * pbaasConfig.nativeBasePrice;
+        result.maxSupply = pbaasConfig.maxSupply;
+        result.fullyDilutedMarketCap = pbaasConfig.maxSupply * pbaasConfig.nativeBasePrice;
+
+
     } else {
-        result.totalSupply = "syncing";
-        result.circulatingSupply = "syncing";
-        result.circulatingSupplyPercentage = "syncing";
-        result.marketCap = "syncing";
-        result.maxSupply = "syncing";
-        result.fullyDilutedMarketCap = "syncing";
+        const coinSupplyInfo = await getCoinSupply(pbaasConfig.rpcBaseUrl, miningInfo.blocks);
+        let circulatingSupply = coinSupplyInfo.total;
+        if (coinSupplyInfo.result === "success") {
+            result.totalSupply = circulatingSupply;
+            result.circulatingSupply = circulatingSupply;
+            result.circulatingSupplyPercentage = circulatingSupply / pbaasConfig.maxSupply * 100;
+            result.marketCap = circulatingSupply * pbaasConfig.nativeBasePrice;
+            result.maxSupply = pbaasConfig.maxSupply;
+            result.fullyDilutedMarketCap = pbaasConfig.maxSupply * pbaasConfig.nativeBasePrice;
+        } else {
+            result.totalSupply = "syncing";
+            result.circulatingSupply = "syncing";
+            result.circulatingSupplyPercentage = "syncing";
+            result.marketCap = "syncing";
+            result.maxSupply = "syncing";
+            result.fullyDilutedMarketCap = "syncing";
+        }
     }
-
+    console.log("circulatingSupply", circulatingSupply);
 
     return result;
 }
