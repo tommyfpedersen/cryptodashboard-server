@@ -68,7 +68,12 @@
         <div class="currency-card-content-row">
             <div class="currency-card-content-item-label">Storage (1k)</div>
             <div class="currency-card-content-item-label go-center">Currency </div>
-            <div class="currency-card-content-item-label go-center">PBaaS</div>
+            <div class="currency-card-content-item-label go-center">
+                {{#if pricePbaas}}PBaaS
+                {{else}}
+
+                {{/if}}
+            </div>
             <div class="currency-card-content-item-label go-right"></div>
             <div class="currency-card-content-item-label go-right"></div>
             <div class="currency-card-content-item-label go-center"></div>

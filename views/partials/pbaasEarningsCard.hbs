@@ -1,0 +1,75 @@
+{{#each pbaasList}}
+<div class="currency-card">
+    <div class="currency-card-header ">
+        {{!-- <img width="16px" src="/img/tbtc.png" /> --}}
+        <div class="card-title"> {{blockchain}}</div>
+    </div>
+
+
+    <div class="currency-card-content">
+
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item-label">Block Reward</div>
+            <div class="currency-card-content-item-label go-right">Fee Pool Reward</div>
+            <div class="currency-card-content-item-label go-right">Avg. Block Fees</div>
+            <div class="currency-card-content-item-label go-right">Staking APY</div>
+            <div class="currency-card-content-item-label go-right">Staking Pct.</div>
+            <div class="currency-card-content-item-label go-center">Staking Supply </div>
+            <div class="currency-card-content-item-label go-center">Blockheight</div>
+            <div class="currency-card-content-item-label go-right">Network Hashrate</div>
+        </div>
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item">{{blockReward}} </div>
+            <div class="currency-card-content-item go-right">{{feeReward}}</div>
+            <div class="currency-card-content-item go-right"> {{averageblockfees}}</div>
+            <div class="currency-card-content-item go-right"> {{stakingApy}}%</div>
+            <div class="currency-card-content-item go-right"> {{stakingPct}}%</div>
+            <div class="currency-card-content-item go-center"> {{stakingSupply}} </div>
+            <div class="currency-card-content-item go-center">{{blockheight}}</div>
+            <div class="currency-card-content-item go-right">{{networkHashrate}} GH/s</div>
+        </div>
+
+    </div>
+    <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;">Staking 100 VRSC</div>
+    <div class="currency-card-content">
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item-label">Daily</div>
+            <div class="currency-card-content-item-label go-center">Monthly</div>
+            <div class="currency-card-content-item-label go-center">Yearly</div>
+        </div>
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item">{{rewardsDaily}}</div>
+            <div class="currency-card-content-item go-center">{{rewardsMonthly}}</div>
+            <div class="currency-card-content-item go-center">{{rewardsYearly}}</div>
+        </div>
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item small-label">$ {{rewardsDailyUSD}}</div>
+            <div class="currency-card-content-item go-center small-label">$ {{rewardsMonthlyUSD}}</div>
+            <div class="currency-card-content-item go-center small-label">$ {{rewardsYearlyUSD}}</div>
+        </div>
+    </div>
+    <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;">Mining with 1 MH/S </div>
+    <div class="currency-card-content">
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item-label">Storage (1k)</div>
+            <div class="currency-card-content-item-label go-center">Currency </div>
+            <div class="currency-card-content-item-label go-center"> PBaaS</div>
+
+        </div>
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item">{{priceStorage}}</div>
+            <div class="currency-card-content-item go-center"> {{priceCurrency}}</div>
+            <div class="currency-card-content-item go-center">{{pricePbaas}}</div>
+   
+        </div>
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item small-label">$ {{priceStorageUSD}}</div>
+            <div class="currency-card-content-item go-center small-label"> $ {{priceCurrencyUSD}}</div>
+            <div class="currency-card-content-item  go-center small-label">{{pricePbaasUSD}}</div>
+        
+        </div>
+    </div>
+
+
+</div>
+{{/each}}

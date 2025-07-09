@@ -234,31 +234,22 @@ app.get('/pbaas', async (req, res) => {
   pageLoads++;
   console.log("pbaas loads: ", new Date().toLocaleString(), pageLoads);
 
-
-
-  // /* cache */
-  // let cacheReady = await isCacheReady();
-
-  // if (cacheReady) {
-  //   let mainRenderData = {};
-
-  //   // cache data
-  //   const cacheData = await readFromCache('cache.json');
-  //   mainRenderData = cacheData;
-  // }
-  
-
-  // testing
   let pbaasList = await getAllPbaas();
-  // let currencyNameListRaw = [];
-  // //let currencyNameList = [];
-  // let currencyList = [];
-  // let currencyGroupList = [];
 
-
-  
- // currencyGroupList.sort((a, b) => parseFloat(b.currencySupplyPriceUSD.replace(/,/g, '')) - parseFloat(a.currencySupplyPriceUSD.replace(/,/g, '')));
   res.render('pbaas', { pbaasList });
+  return;
+});
+
+/* earnings */
+app.get('/earnings', async (req, res) => {
+
+  /* page loads */
+  pageLoads++;
+  console.log("earnings loads: ", new Date().toLocaleString(), pageLoads);
+
+  //let pbaasEarningsList = await getAllPbaasEarnings();
+  let pbaasList = await getAllPbaas();
+  res.render('earnings', { pbaasList });
   return;
 });
 

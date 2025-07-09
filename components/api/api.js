@@ -1,6 +1,6 @@
 export async function getMiningInfo(baseUrlPath) {
     try {
-        const getmininginfoResponse = await fetch(baseUrlPath+"/mining/getmininginfo")
+        const getmininginfoResponse = await fetch(baseUrlPath + "/mining/getmininginfo")
         const getmininginfoResult = await getmininginfoResponse.json();
         const getmininginfo = getmininginfoResult.result;
         return getmininginfo;
@@ -11,7 +11,7 @@ export async function getMiningInfo(baseUrlPath) {
 
 export async function getBlockSubsidy(baseUrlPath, block) {
     try {
-        const getblocksubsidyResponse = await fetch(baseUrlPath+"/mining/getblocksubsidy/" + block);
+        const getblocksubsidyResponse = await fetch(baseUrlPath + "/mining/getblocksubsidy/" + block);
         const getblocksubsidyResult = await getblocksubsidyResponse.json();
         const getblocksubsidy = getblocksubsidyResult.result;
         return getblocksubsidy;
@@ -22,7 +22,7 @@ export async function getBlockSubsidy(baseUrlPath, block) {
 
 export async function getBlock(baseUrlPath, block) {
     try {
-        const getblockResponse = await fetch(baseUrlPath+"/blockchain/getblock/" + block);
+        const getblockResponse = await fetch(baseUrlPath + "/blockchain/getblock/" + block);
         const getblockResult = await getblockResponse.json();
         const getblock = getblockResult.result;
         return getblock;
@@ -33,7 +33,7 @@ export async function getBlock(baseUrlPath, block) {
 
 export async function getPeerInfo(baseUrlPath) {
     try {
-        const getpeerinfoResponse = await fetch(baseUrlPath+"/network/getpeerinfo/");
+        const getpeerinfoResponse = await fetch(baseUrlPath + "/network/getpeerinfo/");
         const getpeerinfoResult = await getpeerinfoResponse.json();
         const getpeerinfo = getpeerinfoResult.result;
         return getpeerinfo;
@@ -45,7 +45,7 @@ export async function getPeerInfo(baseUrlPath) {
 export async function getCurrencyState(baseUrlPath, chainname, blockstart, blockend, blockintervals, converttocurrency) {
 
     try {
-        const getcurrencystateResponse = await fetch(baseUrlPath+ "multichain/getcurrencystate/"+chainname+"/"+blockstart+"/"+blockend+"/"+blockintervals+"/"+converttocurrency+"/");
+        const getcurrencystateResponse = await fetch(baseUrlPath + "multichain/getcurrencystate/" + chainname + "/" + blockstart + "/" + blockend + "/" + blockintervals + "/" + converttocurrency + "/");
         const getcurrencystateResult = await getcurrencystateResponse.json();
         const getcurrencystate = getcurrencystateResult.result;
         return getcurrencystate;
@@ -56,7 +56,7 @@ export async function getCurrencyState(baseUrlPath, chainname, blockstart, block
 
 export async function getCoinSupply(baseUrlPath, block) {
     try {
-        const getcoinsupplyResponse = await fetch(baseUrlPath+  "blockchain/coinsupply/" + block);
+        const getcoinsupplyResponse = await fetch(baseUrlPath + "blockchain/coinsupply/" + block);
         const getcoinsupplyResult = await getcoinsupplyResponse.json();
         const getcoinsupply = getcoinsupplyResult.result;
         return getcoinsupply;

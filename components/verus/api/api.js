@@ -27,9 +27,9 @@ export async function getCoinSupply(rpcBaseUrl, block) {
     }
 }
 
-export async function getBlockSubsidy(block) {
+export async function getBlockSubsidy(rpcBaseUrl, block) {
     try {
-        const getblocksubsidyResponse = await fetch(process.env.VERUS_REST_API+ "mining/getblocksubsidy/" + block);
+        const getblocksubsidyResponse = await fetch(rpcBaseUrl+ "mining/getblocksubsidy/" + block);
         const getblocksubsidyResult = await getblocksubsidyResponse.json();
         const getblocksubsidy = getblocksubsidyResult.result;
         return getblocksubsidy;
@@ -40,9 +40,9 @@ export async function getBlockSubsidy(block) {
     }
 }
 
-export async function getBlock(block) {
+export async function getBlock(rpcBaseUrl, block) {
     try {
-        const getblockResponse = await fetch(process.env.VERUS_REST_API+ "blockchain/getblock/" + block);
+        const getblockResponse = await fetch(rpcBaseUrl+ "blockchain/getblock/" + block);
         const getblockResult = await getblockResponse.json();
         const getblock = getblockResult.result;
         return getblock;
@@ -53,9 +53,9 @@ export async function getBlock(block) {
     }
 }
 
-export async function getPeerInfo() {
+export async function getPeerInfo(rpcBaseUrl) {
     try {
-        const getpeerinfoResponse = await fetch(process.env.VERUS_REST_API+ "network/getpeerinfo/");
+        const getpeerinfoResponse = await fetch(rpcBaseUrl+ "network/getpeerinfo/");
         const getpeerinfoResult = await getpeerinfoResponse.json();
         const getpeerinfo = getpeerinfoResult.result;
         return getpeerinfo;
