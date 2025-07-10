@@ -22,9 +22,9 @@ export async function getAllPbaas() {
         const marketCapStats = await getMarketCapStats(miningInfo, currencyInfo, pbaasConfig[i])
         const blockAndFeePoolRewards = await getBlockAndFeePoolRewards(miningInfo, pbaasConfig[i]);
         const stakingRewards = await calculateStakingRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, marketCapStats.circulatingSupply, miningInfo.stakingsupply, null, nativePrice)
+        const miningRewards = await calculateMiningRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, miningInfo.networkhashps, null, nativePrice)
 
-
-        console.log(stakingRewards);
+      //  console.log(miningReward);
 
 
         let currenciesOnBlockchain = currenciesConfig.filter((currency) => {
@@ -71,12 +71,19 @@ export async function getAllPbaas() {
             stakingApy: (stakingRewards.stakingApy).toLocaleString(),
             stakingPct: Math.round(stakingRewards.stakingPct),
             stakingSupply: Math.round(blockAndFeePoolRewards.stakingSupply).toLocaleString(),
-            rewardsDaily: stakingRewards.rewardsDaily,
-            rewardsDailyUSD: stakingRewards.rewardsDailyUSD,
-            rewardsMonthly: stakingRewards.rewardsMonthly,
-            rewardsMonthlyUSD: stakingRewards.rewardsMonthlyUSD,
-            rewardsYearly: stakingRewards.rewardsYearly,
-            rewardsYearlyUSD: stakingRewards.rewardsYearlyUSD
+            stakingRewardsDaily: stakingRewards.rewardsDaily,
+            stakingRewardsDailyUSD: stakingRewards.rewardsDailyUSD,
+            stakingRewardsMonthly: stakingRewards.rewardsMonthly,
+            stakingRewardsMonthlyUSD: stakingRewards.rewardsMonthlyUSD,
+            stakingRewardsYearly: stakingRewards.rewardsYearly,
+            stakingRewardsYearlyUSD: stakingRewards.rewardsYearlyUSD,
+
+            miningRewardsDaily: miningRewards.rewardsDaily,
+            miningRewardsDailyUSD: miningRewards.rewardsDailyUSD,
+            miningRewardsMonthly: miningRewards.rewardsMonthly,
+            miningRewardsMonthlyUSD: miningRewards.rewardsMonthlyUSD,
+            miningRewardsYearly: miningRewards.rewardsYearly,
+            miningRewardsYearlyUSD: miningRewards.rewardsYearlyUSD,
         })
 
     }
@@ -133,6 +140,26 @@ export async function calculateStakingRewards(blocktime, blockReward, totalSuppl
 
     result.rewardsYearly = Math.round(apy * stakingAmount * 10000) / 10000;
     result.rewardsYearlyUSD = Math.round(apy * stakingAmount * vrscPrice * 100) / 100;
+
+    return result;
+}
+
+export async function calculateMiningRewards(blocktime, blockReward, networkHashPerSecond, vrscMiningHashUnencoded, vrscPrice) {
+    let result = {};
+    let vrscMiningHash = 1;
+    if (vrscMiningHashUnencoded) {
+        vrscMiningHash = decodeURIComponent(vrscMiningHashUnencoded);
+    }
+
+    result.vrscMiningHash = vrscMiningHash;
+    let apy = (24 * (3600 / blocktime) / 2) * blockReward * 365 / networkHashPerSecond * 1000000;
+
+    result.rewardsDaily = Math.round(apy * vrscMiningHash / 365 * 10000) / 10000;
+    result.rewardsDailyUSD = Math.round(apy * vrscMiningHash / 365 * vrscPrice * 100) / 100;
+    result.rewardsMonthly = Math.round(apy * vrscMiningHash / 12 * 10000) / 10000;
+    result.rewardsMonthlyUSD = Math.round(apy * vrscMiningHash / 12 * vrscPrice * 100) / 100;
+    result.rewardsYearly = Math.round(apy * vrscMiningHash * 10000) / 10000;
+    result.rewardsYearlyUSD = Math.round(apy * vrscMiningHash * vrscPrice * 100) / 100;
 
     return result;
 }
