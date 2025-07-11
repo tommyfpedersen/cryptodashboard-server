@@ -30,17 +30,23 @@
         </div>
 
     </div>
-    <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;">Staking 100 VRSC</div>
+    <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;">Staking</div>
     <div class="currency-card-content">
         <div class="currency-card-content-row">
-            <div class="currency-card-content-item-label">Daily</div>
-            <div class="currency-card-content-item-label go-center">Monthly</div>
-            <div class="currency-card-content-item-label go-center">Yearly</div>
+            <div class="currency-card-content-item-label">100 {{blockchain}} Daily</div>
+            <div class="currency-card-content-item-label go-center">100 {{blockchain}} Monthly</div>
+            <div class="currency-card-content-item-label go-center">100 {{blockchain}} Yearly</div>
+             <div class="currency-card-content-item-label go-center">One Daily Reward</div>
+            <div class="currency-card-content-item-label go-center">One Monthly Reward</div>
+            <div class="currency-card-content-item-label go-center">One Yearly Reward</div>
         </div>
         <div class="currency-card-content-row">
             <div class="currency-card-content-item">{{stakingRewardsDaily}}</div>
             <div class="currency-card-content-item go-center">{{stakingRewardsMonthly}}</div>
             <div class="currency-card-content-item go-center">{{stakingRewardsYearly}}</div>
+             <div class="currency-card-content-item go-center">{{stakingRewardsOneDailyStakeAmount}}</div>
+            <div class="currency-card-content-item go-center">{{stakingRewardsOneMonthlyStakeAmount}}</div>
+            <div class="currency-card-content-item go-center">{{stakingRewardsOneYearlyStakeAmount}}</div>
         </div>
         <div class="currency-card-content-row">
             <div class="currency-card-content-item small-label">$ {{stakingRewardsDailyUSD}}</div>

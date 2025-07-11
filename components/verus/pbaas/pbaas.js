@@ -77,6 +77,10 @@ export async function getAllPbaas() {
             stakingRewardsMonthlyUSD: stakingRewards.rewardsMonthlyUSD,
             stakingRewardsYearly: stakingRewards.rewardsYearly,
             stakingRewardsYearlyUSD: stakingRewards.rewardsYearlyUSD,
+            stakingRewardsOneDailyStakeAmount: stakingRewards.oneDailyStakeAmount,
+            stakingRewardsOneMonthlyStakeAmount: stakingRewards.oneMonthlyStakeAmount,
+            stakingRewardsOneYearlyStakeAmount: stakingRewards.oneYearlyStakeAmount,
+
 
             miningRewardsDaily: miningRewards.rewardsDaily,
             miningRewardsDailyUSD: miningRewards.rewardsDailyUSD,
@@ -141,6 +145,10 @@ export async function calculateStakingRewards(blocktime, blockReward, totalSuppl
     result.rewardsYearly = Math.round(apy * stakingAmount * 10000) / 10000;
     result.rewardsYearlyUSD = Math.round(apy * stakingAmount * vrscPrice * 100) / 100;
 
+    result.oneDailyStakeAmount = Math.round(blockReward /  apy * 365 );
+    result.oneMonthlyStakeAmount = Math.round(blockReward /  apy * 12 );
+    result.oneYearlyStakeAmount = Math.round(blockReward /  apy );
+   
     return result;
 }
 
