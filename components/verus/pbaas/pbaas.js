@@ -67,6 +67,9 @@ export async function getAllPbaas() {
             blockReward: blockAndFeePoolRewards.blockReward,
             feeReward: blockAndFeePoolRewards.feeReward,
             averageblockfees: blockAndFeePoolRewards.averageblockfees,
+            blockRewardUSD: (Math.round(blockAndFeePoolRewards.blockReward * nativePrice*10000)/10000).toFixed(4).toLocaleString(),
+            feeRewardUSD: (Math.round(blockAndFeePoolRewards.feeReward * nativePrice*10000)/10000).toFixed(4).toLocaleString(),
+            averageblockfeesUSD: (Math.round(blockAndFeePoolRewards.averageblockfees * nativePrice*10000)/10000).toFixed(4).toLocaleString(),
             blockLastSend: blockAndFeePoolRewards.blockLastSend,
             stakingApy: (stakingRewards.stakingApy).toLocaleString(),
             stakingPct: Math.round(stakingRewards.stakingPct),
@@ -80,6 +83,10 @@ export async function getAllPbaas() {
             stakingRewardsOneDailyStakeAmount: stakingRewards.oneDailyStakeAmount,
             stakingRewardsOneMonthlyStakeAmount: stakingRewards.oneMonthlyStakeAmount,
             stakingRewardsOneYearlyStakeAmount: stakingRewards.oneYearlyStakeAmount,
+            stakingRewardsOneDailyStakeAmountUSD : stakingRewards.oneDailyStakeAmountUSD,
+            stakingRewardsOneMonthlyStakeAmountUSD: stakingRewards.oneMonthlyStakeAmountUSD,
+            stakingRewardsOneYearlyStakeAmountUSD: stakingRewards.oneYearlyStakeAmountUSD,
+            stakingNote: pbaasConfig[i].stakingNote,
 
 
             miningRewardsDaily: miningRewards.rewardsDaily,
@@ -141,17 +148,20 @@ export async function calculateStakingRewards(blocktime, blockReward, totalSuppl
     result.stakingApy = Math.round(apy * 10000) / 100;
 
     result.rewardsDaily = Math.round(apy * stakingAmount / 365 * 10000) / 10000;
-    result.rewardsDailyUSD = Math.round(apy * stakingAmount / 365 * vrscPrice * 100) / 100;
+    result.rewardsDailyUSD = Math.round(apy * stakingAmount / 365 * vrscPrice * 10000) / 10000;
 
     result.rewardsMonthly = Math.round(apy * stakingAmount / 12 * 10000) / 10000;
-    result.rewardsMonthlyUSD = Math.round(apy * stakingAmount / 12 * vrscPrice * 100) / 100;
+    result.rewardsMonthlyUSD = Math.round(apy * stakingAmount / 12 * vrscPrice * 10000) / 10000;
 
     result.rewardsYearly = Math.round(apy * stakingAmount * 10000) / 10000;
-    result.rewardsYearlyUSD = Math.round(apy * stakingAmount * vrscPrice * 100) / 100;
+    result.rewardsYearlyUSD = Math.round(apy * stakingAmount * vrscPrice * 10000) / 10000;
 
     result.oneDailyStakeAmount = Math.round(blockReward /  apy * 365 );
     result.oneMonthlyStakeAmount = Math.round(blockReward /  apy * 12 );
     result.oneYearlyStakeAmount = Math.round(blockReward /  apy );
+    result.oneDailyStakeAmountUSD = Math.round(blockReward /  apy * 365 * vrscPrice);
+    result.oneMonthlyStakeAmountUSD = Math.round(blockReward /  apy * 12 * vrscPrice);
+    result.oneYearlyStakeAmountUSD = Math.round(blockReward /  apy * vrscPrice);
    
     return result;
 }
@@ -167,11 +177,11 @@ export async function calculateMiningRewards(blocktime, blockReward, networkHash
     let apy = (24 * (3600 / blocktime) / 2) * blockReward * 365 / networkHashPerSecond * 1000000;
 
     result.rewardsDaily = Math.round(apy * vrscMiningHash / 365 * 10000) / 10000;
-    result.rewardsDailyUSD = Math.round(apy * vrscMiningHash / 365 * vrscPrice * 100) / 100;
+    result.rewardsDailyUSD = Math.round(apy * vrscMiningHash / 365 * vrscPrice * 10000) / 10000;
     result.rewardsMonthly = Math.round(apy * vrscMiningHash / 12 * 10000) / 10000;
-    result.rewardsMonthlyUSD = Math.round(apy * vrscMiningHash / 12 * vrscPrice * 100) / 100;
+    result.rewardsMonthlyUSD = Math.round(apy * vrscMiningHash / 12 * vrscPrice * 10000) / 10000;
     result.rewardsYearly = Math.round(apy * vrscMiningHash * 10000) / 10000;
-    result.rewardsYearlyUSD = Math.round(apy * vrscMiningHash * vrscPrice * 100) / 100;
+    result.rewardsYearlyUSD = Math.round(apy * vrscMiningHash * vrscPrice * 10000) / 10000;
 
     result.oneDailyMiningHashReward = Math.round(blockReward /  apy * 365 );
     result.oneMonthlyMiningHashReward = Math.round(blockReward /  apy * 12 );
