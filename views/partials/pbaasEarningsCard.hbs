@@ -1,3 +1,46 @@
+<div class="currency-card">
+    <div class="currency-card-header ">
+        <div class="card-title">Staking APY {{blockchain}}</div>
+    </div>
+
+    <div class="currency-card-content">
+
+        {{#each apyArray}}
+         <div class="currency-card-content-row">
+            <div class="currency-card-content-item"> {{blockchain}}</div>
+            <div class="currency-card-content-item go-right"> {{stakingApy}} %</div>
+        </div>
+         {{/each}}
+
+        {{!-- <div class="currency-card-content-row">
+            <div class="currency-card-content-item-label">Block Reward</div>
+            <div class="currency-card-content-item-label go-center">Fee Pool Reward</div>
+            <div class="currency-card-content-item-label go-center">Avg. Block Fees</div>
+            <div class="currency-card-content-item-label go-center">Staking APY</div>
+            <div class="currency-card-content-item-label go-center">Staking Pct.</div>
+            <div class="currency-card-content-item-label go-center">Staking Supply </div>
+            <div class="currency-card-content-item-label go-center">Blockheight</div>
+            <div class="currency-card-content-item-label go-right">Network Hashrate</div>
+        </div>
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item">{{blockReward}} </div>
+            <div class="currency-card-content-item go-center">{{feeReward}}</div>
+            <div class="currency-card-content-item go-center"> {{averageblockfees}}</div>
+            <div class="currency-card-content-item go-center"> {{stakingApy}}%</div>
+            <div class="currency-card-content-item go-center"> {{stakingPct}}%</div>
+            <div class="currency-card-content-item go-center"> {{stakingSupply}} </div>
+            <div class="currency-card-content-item go-center">{{blockheight}}</div>
+            <div class="currency-card-content-item go-right">{{networkHashrate}} GH/s</div>
+        </div>
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item small-label">$ {{blockRewardUSD}}</div>
+            <div class="currency-card-content-item go-center small-label">$ {{feeRewardUSD}}</div>
+            <div class="currency-card-content-item go-center small-label">$ {{averageblockfeesUSD}}</div>
+        </div> --}}
+
+    </div>
+</div>
+
 {{#each pbaasList}}
 <div class="currency-card">
     <div class="currency-card-header ">
@@ -41,7 +84,7 @@
             <div class="currency-card-content-item-label">100 {{blockchain}} Daily</div>
             <div class="currency-card-content-item-label go-center">100 {{blockchain}} Monthly</div>
             <div class="currency-card-content-item-label go-center">100 {{blockchain}} Yearly</div>
-             <div class="currency-card-content-item-label go-center">One Daily Reward</div>
+            <div class="currency-card-content-item-label go-center">One Daily Reward</div>
             <div class="currency-card-content-item-label go-center">One Monthly Reward</div>
             <div class="currency-card-content-item-label go-center">One Yearly Reward</div>
             <div class="currency-card-content-item-label go-center">
@@ -55,28 +98,33 @@
             <div class="currency-card-content-item">{{stakingRewardsDaily}}</div>
             <div class="currency-card-content-item go-center">{{stakingRewardsMonthly}}</div>
             <div class="currency-card-content-item go-center">{{stakingRewardsYearly}}</div>
-             <div class="currency-card-content-item go-center">{{stakingRewardsOneDailyStakeAmount}} {{blockchain}}</div>
-            <div class="currency-card-content-item go-center">{{stakingRewardsOneMonthlyStakeAmount}} {{blockchain}}</div>
-            <div class="currency-card-content-item go-center">{{stakingRewardsOneYearlyStakeAmount}} {{blockchain}}</div>
-             <div class="currency-card-content-item go-center small-label">{{stakingNote}}</div>
+            <div class="currency-card-content-item go-center">{{stakingRewardsOneDailyStakeAmount}} {{blockchain}}</div>
+            <div class="currency-card-content-item go-center">{{stakingRewardsOneMonthlyStakeAmount}} {{blockchain}}
+            </div>
+            <div class="currency-card-content-item go-center">{{stakingRewardsOneYearlyStakeAmount}} {{blockchain}}
+            </div>
+            <div class="currency-card-content-item go-center small-label">{{stakingNote}}</div>
         </div>
         <div class="currency-card-content-row">
             <div class="currency-card-content-item small-label">$ {{stakingRewardsDailyUSD}}</div>
             <div class="currency-card-content-item go-center small-label">$ {{stakingRewardsMonthlyUSD}}</div>
             <div class="currency-card-content-item go-center small-label">$ {{stakingRewardsYearlyUSD}}</div>
-            <div class="currency-card-content-item go-center small-label">$ {{stakingRewardsOneDailyStakeAmountUSD}}</div>
-            <div class="currency-card-content-item go-center small-label">$ {{stakingRewardsOneMonthlyStakeAmountUSD}}</div>
-            <div class="currency-card-content-item go-center small-label">$ {{stakingRewardsOneYearlyStakeAmountUSD}}</div>
-           
+            <div class="currency-card-content-item go-center small-label">$ {{stakingRewardsOneDailyStakeAmountUSD}}
+            </div>
+            <div class="currency-card-content-item go-center small-label">$ {{stakingRewardsOneMonthlyStakeAmountUSD}}
+            </div>
+            <div class="currency-card-content-item go-center small-label">$ {{stakingRewardsOneYearlyStakeAmountUSD}}
+            </div>
+
         </div>
     </div>
     <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;">Mining </div>
-     <div class="currency-card-content">
+    <div class="currency-card-content">
         <div class="currency-card-content-row">
             <div class="currency-card-content-item-label">1 MH/S Daily</div>
             <div class="currency-card-content-item-label go-center">1 MH/S Monthly</div>
             <div class="currency-card-content-item-label go-center">1 MH/S Yearly</div>
-              <div class="currency-card-content-item-label go-center">One Daily Reward</div>
+            <div class="currency-card-content-item-label go-center">One Daily Reward</div>
             <div class="currency-card-content-item-label go-center">One Monthly Reward</div>
             <div class="currency-card-content-item-label go-center">One Yearly Reward</div>
         </div>

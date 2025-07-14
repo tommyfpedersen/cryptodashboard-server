@@ -103,8 +103,13 @@ export async function getAllPbaas() {
 
     }
 
-    // sort currency list by price
-    pbaasArray.sort((a, b) => parseFloat(b.fullyDilutedMarketCap.replace(/,/g, '')) - parseFloat(a.fullyDilutedMarketCap.replace(/,/g, '')));
+   
+
+    // apyArray.sort((a,b)=> b.stakingApy - a.stakingApy);
+    // pbaasArray.push(apyArray);
+
+    // sort pbaas list by market cap
+    pbaasArray.sort((a, b) => parseFloat(b.networkHashrate.replace(/,/g, '')) - parseFloat(a.networkHashrate.replace(/,/g, '')));
 
     return pbaasArray;
 }

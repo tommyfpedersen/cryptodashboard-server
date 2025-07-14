@@ -163,7 +163,7 @@ app.get('/currencies', async (req, res) => {
           currencySupplyPriceUSD = currencySupplyPriceUSD + item.currencyReserve.basketValueAnchorCurrencyUSD;
         }
 
-        
+
         item.currencyReserve.basketCurrencyArray.forEach((basketItem) => {
 
           if (basketItem.currencyName === currencyName) {
@@ -183,7 +183,7 @@ app.get('/currencies', async (req, res) => {
             //add coingecko price if exist
             if (basketItem.coingeckoprice && !coingeckoPriceAdded.includes(currencyName)) {
 
-            
+
               currencyList.push({
                 basketName: "Coingecko",
                 currencyNetwork: "CEX/DEX",
@@ -236,6 +236,8 @@ app.get('/pbaas', async (req, res) => {
 
   let pbaasList = await getAllPbaas();
 
+  console.log(pbaasList)
+
   res.render('pbaas', { pbaasList });
   return;
 });
@@ -246,10 +248,24 @@ app.get('/earnings', async (req, res) => {
   /* page loads */
   pageLoads++;
   console.log("earnings loads: ", new Date().toLocaleString(), pageLoads);
+  const hej = [{ navn: "hej", alder: 22 }]
 
   //let pbaasEarningsList = await getAllPbaasEarnings();
   let pbaasList = await getAllPbaas();
-  res.render('earnings', { pbaasList });
+
+  // top cards
+  const apyArray = [];
+
+  pbaasList.forEach((item) => {
+    let resultApy = {
+      blockchain: item.blockchain,
+      stakingApy: item.stakingApy
+    }
+    apyArray.push(resultApy);
+  })
+
+
+  res.render('earnings', { pbaasList, apyArray });
   return;
 });
 
