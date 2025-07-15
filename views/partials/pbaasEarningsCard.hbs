@@ -1,43 +1,62 @@
-<div class="currency-card">
-    <div class="currency-card-header ">
-        <div class="card-title">Staking APY {{blockchain}}</div>
+<div class="card-container-top">
+    <div class="currency-card">
+        <div class="currency-card-header ">
+            <div class="card-title">Staking APY</div>
+        </div>
+
+        <div class="currency-card-content">
+            <div class="currency-card-content-row">
+                <div class="currency-card-content-item-label">Blockchain</div>
+                <div class="currency-card-content-item-label go-right">Staking APY</div>
+            </div>
+            {{#each apyArray}}
+            <div class="currency-card-content-row">
+                <div class="currency-card-content-item"> {{blockchain}}</div>
+                <div class="currency-card-content-item go-right"> {{stakingApy}} %</div>
+            </div>
+            {{/each}}
+
+        </div>
     </div>
 
-    <div class="currency-card-content">
-
-        {{#each apyArray}}
-         <div class="currency-card-content-row">
-            <div class="currency-card-content-item"> {{blockchain}}</div>
-            <div class="currency-card-content-item go-right"> {{stakingApy}} %</div>
+    <div class="currency-card">
+        <div class="currency-card-header ">
+            <div class="card-title">Daily Earnings / GH</div>
         </div>
-         {{/each}}
 
-        {{!-- <div class="currency-card-content-row">
-            <div class="currency-card-content-item-label">Block Reward</div>
-            <div class="currency-card-content-item-label go-center">Fee Pool Reward</div>
-            <div class="currency-card-content-item-label go-center">Avg. Block Fees</div>
-            <div class="currency-card-content-item-label go-center">Staking APY</div>
-            <div class="currency-card-content-item-label go-center">Staking Pct.</div>
-            <div class="currency-card-content-item-label go-center">Staking Supply </div>
-            <div class="currency-card-content-item-label go-center">Blockheight</div>
-            <div class="currency-card-content-item-label go-right">Network Hashrate</div>
-        </div>
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item">{{blockReward}} </div>
-            <div class="currency-card-content-item go-center">{{feeReward}}</div>
-            <div class="currency-card-content-item go-center"> {{averageblockfees}}</div>
-            <div class="currency-card-content-item go-center"> {{stakingApy}}%</div>
-            <div class="currency-card-content-item go-center"> {{stakingPct}}%</div>
-            <div class="currency-card-content-item go-center"> {{stakingSupply}} </div>
-            <div class="currency-card-content-item go-center">{{blockheight}}</div>
-            <div class="currency-card-content-item go-right">{{networkHashrate}} GH/s</div>
-        </div>
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item small-label">$ {{blockRewardUSD}}</div>
-            <div class="currency-card-content-item go-center small-label">$ {{feeRewardUSD}}</div>
-            <div class="currency-card-content-item go-center small-label">$ {{averageblockfeesUSD}}</div>
-        </div> --}}
+        <div class="currency-card-content">
+            <div class="currency-card-content-row">
+                <div class="currency-card-content-item-label">Blockchain</div>
+                <div class="currency-card-content-item-label go-right">Daily Earnings / GH</div>
+            </div>
+            {{#each dailyEarningsPerGHArray}}
+            <div class="currency-card-content-row">
+                <div class="currency-card-content-item"> {{blockchain}}</div>
+                <div class="currency-card-content-item go-right"> $ {{dailyEarningsPerGH}}</div>
+            </div>
+            {{/each}}
 
+        </div>
+    </div>
+
+    <div class="currency-card">
+        <div class="currency-card-header ">
+            <div class="card-title">Network Hashrate </div>
+        </div>
+
+        <div class="currency-card-content">
+            <div class="currency-card-content-row">
+                <div class="currency-card-content-item-label">Blockchain</div>
+                <div class="currency-card-content-item-label go-right">Network Hashrate</div>
+            </div>
+            {{#each networkHashrateArray}}
+            <div class="currency-card-content-row">
+                <div class="currency-card-content-item"> {{blockchain}}</div>
+                <div class="currency-card-content-item go-right"> {{networkHashrate}} GH/s</div>
+            </div>
+            {{/each}}
+
+        </div>
     </div>
 </div>
 
@@ -57,7 +76,7 @@
             <div class="currency-card-content-item-label go-center">Avg. Block Fees</div>
             <div class="currency-card-content-item-label go-center">Staking APY</div>
             <div class="currency-card-content-item-label go-center">Staking Pct.</div>
-            <div class="currency-card-content-item-label go-center">Staking Supply </div>
+            <div class="currency-card-content-item-label go-center">Market Cap </div>
             <div class="currency-card-content-item-label go-center">Blockheight</div>
             <div class="currency-card-content-item-label go-right">Network Hashrate</div>
         </div>
@@ -67,7 +86,7 @@
             <div class="currency-card-content-item go-center"> {{averageblockfees}}</div>
             <div class="currency-card-content-item go-center"> {{stakingApy}}%</div>
             <div class="currency-card-content-item go-center"> {{stakingPct}}%</div>
-            <div class="currency-card-content-item go-center"> {{stakingSupply}} </div>
+            <div class="currency-card-content-item go-center"> $ {{marketCap}} </div>
             <div class="currency-card-content-item go-center">{{blockheight}}</div>
             <div class="currency-card-content-item go-right">{{networkHashrate}} GH/s</div>
         </div>

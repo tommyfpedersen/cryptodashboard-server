@@ -85,6 +85,13 @@ body {
     flex-direction: row;
     align-self: center;
 }
+.card-container-top{
+    display: flex;
+
+}
+.card-top{
+    max-width: 200px;
+}
 .currency-card {
     display: flex;
     flex-direction: column;

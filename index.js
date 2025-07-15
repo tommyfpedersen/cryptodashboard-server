@@ -254,18 +254,28 @@ app.get('/earnings', async (req, res) => {
   let pbaasList = await getAllPbaas();
 
   // top cards
-  const apyArray = [];
+  let apyArray = getAPYArray(pbaasList);
+  let dailyEarningsPerGHArray = getDailyEarningsPerGHArray(pbaasList)
+  let networkHashrateArray = getNetworkHashrateArray(pbaasList);
 
-  pbaasList.forEach((item) => {
-    let resultApy = {
-      blockchain: item.blockchain,
-      stakingApy: item.stakingApy
-    }
-    apyArray.push(resultApy);
-  })
+  //const apyArray = [];
+  // const dailyEarningPerGHArray = [];
+  // const networkHashrateArray = [];
+
+  // pbaasList.forEach((item) => {
+  //   let resultApy = {
+  //     blockchain: item.blockchain,
+  //     stakingApy: item.stakingApy
+  //   }
+  //   apyArray.push(resultApy);
 
 
-  res.render('earnings', { pbaasList, apyArray });
+  // })
+  // apyArray.sort((a, b) => parseFloat(b.stakingApy.replace(/,/g, '')) - parseFloat(a.stakingApy.replace(/,/g, '')));
+
+
+
+  res.render('earnings', { pbaasList, apyArray, dailyEarningsPerGHArray, networkHashrateArray });
   return;
 });
 
@@ -528,6 +538,7 @@ import hbs from 'hbs';
 import path from 'path';
 import { get } from 'http';
 import { getAllPbaas } from './components/verus/pbaas/pbaas.js';
+import { getAPYArray, getDailyEarningsPerGHArray, getNetworkHashrateArray } from './components/verus/pbaas/pbaasUtils.js';
 const __dirname = path.resolve();
 
 app.set('views', './views')

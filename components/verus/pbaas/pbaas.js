@@ -71,7 +71,7 @@ export async function getAllPbaas() {
             feeRewardUSD: (Math.round(blockAndFeePoolRewards.feeReward * nativePrice*10000)/10000).toFixed(4).toLocaleString(),
             averageblockfeesUSD: (Math.round(blockAndFeePoolRewards.averageblockfees * nativePrice*10000)/10000).toFixed(4).toLocaleString(),
             blockLastSend: blockAndFeePoolRewards.blockLastSend,
-            stakingApy: (stakingRewards.stakingApy).toLocaleString(),
+            stakingApy: (stakingRewards.stakingApy).toFixed(2).toLocaleString(),
             stakingPct: Math.round(stakingRewards.stakingPct),
             stakingSupply: Math.round(blockAndFeePoolRewards.stakingSupply).toLocaleString(),
             stakingRewardsDaily: stakingRewards.rewardsDaily,
@@ -105,7 +105,7 @@ export async function getAllPbaas() {
 
    
 
-    // apyArray.sort((a,b)=> b.stakingApy - a.stakingApy);
+ 
     // pbaasArray.push(apyArray);
 
     // sort pbaas list by market cap
