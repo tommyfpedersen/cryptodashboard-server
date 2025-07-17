@@ -25,6 +25,18 @@ export function getDailyEarningsPerGHArray(pbaasList) {
     resultArray.sort((a, b) => b.dailyEarningsPerGH - a.dailyEarningsPerGH);
     return resultArray;
 }
+export function getFeePoolRewardArray(pbaasList) {
+    const resultArray = [];
+    pbaasList.forEach((item) => {
+        let resultObject = {
+            blockchain: item.blockchain,
+            feeReward: (Math.round(item.feeReward*100000000)/100000000).toFixed(8).toLocaleString()
+        }
+        resultArray.push(resultObject);
+    })
+    resultArray.sort((a, b) => parseFloat(b.feeReward.replace(/,/g, '')) - parseFloat(a.feeReward.replace(/,/g, '')));
+    return resultArray;
+}
 export function getNetworkHashrateArray(pbaasList) {
     const resultArray = [];
     pbaasList.forEach((item) => {
@@ -37,17 +49,3 @@ export function getNetworkHashrateArray(pbaasList) {
     resultArray.sort((a, b) => parseFloat(b.networkHashrate.replace(/,/g, '')) - parseFloat(a.networkHashrate.replace(/,/g, '')));
     return resultArray;
 }
-
-// result.vrscMiningHash = vrscMiningHash;
-// let apy = (24 * (3600 / blocktime) / 2) * blockReward * 365 / networkHashPerSecond * 1000000;
-
-// result.rewardsDaily = Math.round(apy * vrscMiningHash / 365 * 10000) / 10000;
-// result.rewardsDailyUSD = Math.round(apy * vrscMiningHash / 365 * vrscPrice * 10000) / 10000;
-// result.rewardsMonthly = Math.round(apy * vrscMiningHash / 12 * 10000) / 10000;
-// result.rewardsMonthlyUSD = Math.round(apy * vrscMiningHash / 12 * vrscPrice * 10000) / 10000;
-// result.rewardsYearly = Math.round(apy * vrscMiningHash * 10000) / 10000;
-// result.rewardsYearlyUSD = Math.round(apy * vrscMiningHash * vrscPrice * 10000) / 10000;
-
-// result.oneDailyMiningHashReward = Math.round(blockReward /  apy * 365 );
-// result.oneMonthlyMiningHashReward = Math.round(blockReward /  apy * 12 );
-// result.oneYearlyMiningHashReward = Math.round(blockReward /  apy );

@@ -35,7 +35,7 @@ export async function getAllPbaas() {
             blockchain: pbaasConfig[i].name,
             blockheight: miningInfo.blocks,
             blocktime: currencyInfo.blocktime,
-            networkHashrate: (Math.round(miningInfo.networkhashps) / 1000000000).toLocaleString(),
+            networkHashrate: (Math.round(miningInfo.networkhashps) / 1000000000).toFixed(0).toLocaleString(),
             currenciesCount: currenciesOnBlockchain.length,
             marketCap: Math.round(marketCapStats.marketCap).toLocaleString(),
             fullyDilutedMarketCap: Math.round(marketCapStats.fullyDilutedMarketCap).toLocaleString(),

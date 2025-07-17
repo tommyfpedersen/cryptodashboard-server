@@ -1,58 +1,78 @@
-<div class="card-container-top">
-    <div class="currency-card">
-        <div class="currency-card-header ">
+<div class="top-card-container">
+    <div class="card">
+        <div class="card-header ">
             <div class="card-title">Staking APY</div>
         </div>
 
-        <div class="currency-card-content">
-            <div class="currency-card-content-row">
-                <div class="currency-card-content-item-label">Blockchain</div>
-                <div class="currency-card-content-item-label go-right">Staking APY</div>
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item-label">Blockchain</div>
+                <div class="card-content-item-label go-right">Staking APY</div>
             </div>
             {{#each apyArray}}
-            <div class="currency-card-content-row">
-                <div class="currency-card-content-item"> {{blockchain}}</div>
-                <div class="currency-card-content-item go-right"> {{stakingApy}} %</div>
+            <div class="card-content-row">
+                <div class="card-content-item"> {{blockchain}}</div>
+                <div class="card-content-item go-right"> {{stakingApy}} %</div>
             </div>
             {{/each}}
 
         </div>
     </div>
 
-    <div class="currency-card">
-        <div class="currency-card-header ">
+    <div class="card">
+        <div class="card-header ">
+            <div class="card-title">Native Fee Pool Rewards </div>
+        </div>
+
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item-label">Blockchain</div>
+                <div class="card-content-item-label go-right">Fee Pool Rewards</div>
+            </div>
+            {{#each feePoolRewardArray}}
+            <div class="card-content-row">
+                <div class="card-content-item"> {{blockchain}}</div>
+                <div class="card-content-item go-right"> {{feeReward}}</div>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+
+    <div class="card ">
+        <div class="card-header ">
             <div class="card-title">Daily Earnings / GH</div>
         </div>
 
-        <div class="currency-card-content">
-            <div class="currency-card-content-row">
-                <div class="currency-card-content-item-label">Blockchain</div>
-                <div class="currency-card-content-item-label go-right">Daily Earnings / GH</div>
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item-label">Blockchain</div>
+                <div class="card-content-item-label go-right">Daily Earnings / GH</div>
             </div>
             {{#each dailyEarningsPerGHArray}}
-            <div class="currency-card-content-row">
-                <div class="currency-card-content-item"> {{blockchain}}</div>
-                <div class="currency-card-content-item go-right"> $ {{dailyEarningsPerGH}}</div>
+            <div class="card-content-row">
+                <div class="card-content-item"> {{blockchain}}</div>
+                <div class="card-content-item go-right"> $ {{dailyEarningsPerGH}}</div>
             </div>
             {{/each}}
 
         </div>
     </div>
 
-    <div class="currency-card">
-        <div class="currency-card-header ">
+    <div class="card">
+        <div class="card-header ">
             <div class="card-title">Network Hashrate </div>
         </div>
 
-        <div class="currency-card-content">
-            <div class="currency-card-content-row">
-                <div class="currency-card-content-item-label">Blockchain</div>
-                <div class="currency-card-content-item-label go-right">Network Hashrate</div>
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item-label">Blockchain</div>
+                <div class="card-content-item-label go-right">Network Hashrate</div>
             </div>
             {{#each networkHashrateArray}}
-            <div class="currency-card-content-row">
-                <div class="currency-card-content-item"> {{blockchain}}</div>
-                <div class="currency-card-content-item go-right"> {{networkHashrate}} GH/s</div>
+            <div class="card-content-row">
+                <div class="card-content-item"> {{blockchain}}</div>
+                <div class="card-content-item go-right"> {{networkHashrate}} GH/s</div>
             </div>
             {{/each}}
 

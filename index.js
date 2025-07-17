@@ -236,7 +236,7 @@ app.get('/pbaas', async (req, res) => {
 
   let pbaasList = await getAllPbaas();
 
-  console.log(pbaasList)
+  pbaasList.sort((a, b) => parseFloat(b.marketCap.replace(/,/g, '')) - parseFloat(a.marketCap.replace(/,/g, '')));
 
   res.render('pbaas', { pbaasList });
   return;
@@ -248,7 +248,6 @@ app.get('/earnings', async (req, res) => {
   /* page loads */
   pageLoads++;
   console.log("earnings loads: ", new Date().toLocaleString(), pageLoads);
-  const hej = [{ navn: "hej", alder: 22 }]
 
   //let pbaasEarningsList = await getAllPbaasEarnings();
   let pbaasList = await getAllPbaas();
@@ -257,25 +256,11 @@ app.get('/earnings', async (req, res) => {
   let apyArray = getAPYArray(pbaasList);
   let dailyEarningsPerGHArray = getDailyEarningsPerGHArray(pbaasList)
   let networkHashrateArray = getNetworkHashrateArray(pbaasList);
+  let feePoolRewardArray = getFeePoolRewardArray(pbaasList)
 
-  //const apyArray = [];
-  // const dailyEarningPerGHArray = [];
-  // const networkHashrateArray = [];
+  pbaasList.sort((a, b) => parseFloat(b.networkHashrate.replace(/,/g, '')) - parseFloat(a.networkHashrate.replace(/,/g, '')));
 
-  // pbaasList.forEach((item) => {
-  //   let resultApy = {
-  //     blockchain: item.blockchain,
-  //     stakingApy: item.stakingApy
-  //   }
-  //   apyArray.push(resultApy);
-
-
-  // })
-  // apyArray.sort((a, b) => parseFloat(b.stakingApy.replace(/,/g, '')) - parseFloat(a.stakingApy.replace(/,/g, '')));
-
-
-
-  res.render('earnings', { pbaasList, apyArray, dailyEarningsPerGHArray, networkHashrateArray });
+  res.render('earnings', { pbaasList, apyArray, dailyEarningsPerGHArray, feePoolRewardArray, networkHashrateArray });
   return;
 });
 
@@ -538,7 +523,7 @@ import hbs from 'hbs';
 import path from 'path';
 import { get } from 'http';
 import { getAllPbaas } from './components/verus/pbaas/pbaas.js';
-import { getAPYArray, getDailyEarningsPerGHArray, getNetworkHashrateArray } from './components/verus/pbaas/pbaasUtils.js';
+import { getAPYArray, getDailyEarningsPerGHArray, getFeePoolRewardArray, getNetworkHashrateArray } from './components/verus/pbaas/pbaasUtils.js';
 const __dirname = path.resolve();
 
 app.set('views', './views')

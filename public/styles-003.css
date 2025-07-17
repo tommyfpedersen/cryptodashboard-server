@@ -30,7 +30,7 @@ body {
     text-transform: none;
 }
 
-#cache-updated{
+#cache-updated {
     font-size: 12px;
     text-transform: none;
     color: #444;
@@ -41,11 +41,13 @@ body {
     display: inline-block;
     vertical-align: top;
 }
-.cache-out-of-sync{
+
+.cache-out-of-sync {
     border: 1px solid orange !important;
     background-color: lightgoldenrodyellow !important;
 }
-.alert-icon{
+
+.alert-icon {
     width: 14px;
     height: 14px;
     display: inline-block;
@@ -55,16 +57,17 @@ body {
     display: inline-block;
     cursor: pointer;
 }
-.light-mode-icon{
-    width: 20px; 
+
+.light-mode-icon {
+    width: 20px;
     padding: 5px;
     border: 1px solid lightgray;
     border-radius: 3px;
     fill: orange;
 }
 
-.dark-mode-icon{
-    width: 20px; 
+.dark-mode-icon {
+    width: 20px;
     padding: 5px;
     fill: #ccc;
 }
@@ -85,65 +88,26 @@ body {
     flex-direction: row;
     align-self: center;
 }
-.card-container-top{
-    display: flex;
 
-}
-.card-top{
-    max-width: 200px;
-}
-.currency-card {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    border: 1px solid lightgray;
-    padding: 10px 10px 10px 10px;
-    margin-bottom: 10px;
-    animation: fadeIn 2s;
-}
-.currency-card-header {
-    display: flex;
-    flex-direction: row;
-    padding-bottom: 10px;
-}
-.currency-card-content {
-    display: flex;
-    flex-direction: column;
-}
-.currency-card-content-row {
-    display: flex;
-    flex-direction: row;
-    padding: 2px 0px;
-}
-.currency-card-content-item {
-    min-width: 145px;
-}
-.currency-card-content-item-label {
-    text-transform: uppercase;
-    font-size: 12px;
-    min-width: 145px;
-}
 
-.small-label{
+
+.small-label {
     font-size: 12px;
     color: grey;
 }
 
-.go-center{
+.go-center {
     text-align: center;
 }
-.go-right{
+
+.go-right {
     text-align: right;
 }
-.currency-card-footer {
-    display: flex;
-    flex-direction: row;
-    padding-top: 20px;
-}
 
-.project{
+.project {
     display: none;
 }
+
 .card {
     z-index: 50;
     position: relative;
@@ -154,45 +118,68 @@ body {
     width: 300px;
     display: inline-block;
     vertical-align: top;
-    min-height: 321px;
+    /* min-height: 321px; */
     animation: fadeIn 2s;
 }
 
-.card-row-wrapper{
+.card-header {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 10px;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-content-row {
+    display: flex;
+    flex-direction: row;
+    padding: 2px 0px;
+    justify-content: space-between;
+}
+
+.card-content-item-label {
+    text-transform: uppercase;
+    font-size: 12px;
+    /* min-width: 100px; */
+}
+
+.card-row-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     position: relative;
 }
-.card-row-item{
+
+.card-row-item {
     font-size: 14px;
     padding: 2px 0;
 }
-.card-row-item-network{
+
+.card-row-item-network {
     position: absolute;
-right: 100px;
+    right: 100px;
     font-size: 10px;
     text-transform: uppercase;
     padding: 2px 0;
 }
-.card-row-image{
+
+.card-row-image {
     width: 14px;
     height: 14px;
 }
-.card-row-item-details{
+
+.card-row-item-details {
     font-size: 10px;
-}
-.card-header {
-    /* padding-bottom: 10px; */
 }
 
 .card-title {
     padding: 10px 0 0px 0;
-    /* text-transform: uppercase; */
     font-size: 16px;
     font-weight: bold;
-    /* text-decoration: underline; */
 }
 
 .card-sub-title {
@@ -201,16 +188,15 @@ right: 100px;
     color: #888;
 }
 
-.card-sub-title-main-value{
+.card-sub-title-main-value {
     font-size: 28px;
 }
 
 .card-sub-title-value {
     font-size: 20px;
-    /* font-weight: bold; */
-    /* padding-bottom: 20px; */
 }
-.card-sub-title-value-prefix{
+
+.card-sub-title-value-prefix {
     font-size: 16px;
 }
 
@@ -221,10 +207,88 @@ right: 100px;
 .card-input {
     width: 270px;
     margin-bottom: 20px;
-    /* height: 20px; */
 }
 
+/* .card {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid lightgray;
+    padding: 10px 10px 10px 10px;
+    margin-bottom: 10px;
+    animation: fadeIn 2s;
+} */
+/* 
+.top-card-content {
+    display: flex;
+    flex-direction: column;
+} */
 
+.top-card-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    gap: 10px;
+}
+
+.top-card-content-row {
+    display: flex;
+    flex-direction: row;
+    padding: 2px 0px;
+}
+
+.top-card-content-item {
+    min-width: 100px;
+}
+
+.top-card-content-item-label {
+    text-transform: uppercase;
+    font-size: 12px;
+    min-width: 100px;
+}
+
+.currency-card {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid lightgray;
+    padding: 10px 10px 10px 10px;
+    margin-bottom: 10px;
+    animation: fadeIn 2s;
+}
+
+.currency-card-header {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 10px;
+}
+
+.currency-card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.currency-card-content-row {
+    display: flex;
+    flex-direction: row;
+    padding: 2px 0px;
+}
+
+.currency-card-content-item {
+    min-width: 145px;
+}
+
+.currency-card-content-item-label {
+    text-transform: uppercase;
+    font-size: 12px;
+    min-width: 145px;
+}
+
+.currency-card-footer {
+    display: flex;
+    flex-direction: row;
+    padding-top: 20px;
+}
 
 
 .bottom {
@@ -310,17 +374,17 @@ right: 100px;
     height: 40px;
 }
 
-.node-online{
+.node-online {
     background-color: green;
-    padding:0 5px;
+    padding: 0 5px;
     color: white;
     display: inline-block;
     border-radius: 3px;
 }
 
-.node-offline{
+.node-offline {
     background-color: red;
-    padding:0 5px;
+    padding: 0 5px;
     color: white;
     display: inline-block;
     border-radius: 3px;
@@ -332,16 +396,20 @@ right: 100px;
     .side-menu-icon {
         display: block;
     }
+
     .side-menu {
-       display: none;
+        display: none;
     }
+
     .section {
         padding: 10px;
         margin-left: 0px;
     }
+
     .card {
         min-height: 0;
     }
+
     .bottom {
         padding: 10px;
         margin-left: 0px;

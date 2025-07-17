@@ -10,20 +10,20 @@
 
         <div class="currency-card-content-row">
             <div class="currency-card-content-item-label">Market Cap</div>
-            <div class="currency-card-content-item-label go-right">Total Market Cap</div>
-            <div class="currency-card-content-item-label go-right">Cir. Supply. Pct.</div>
-            <div class="currency-card-content-item-label go-right">Cir. Supply</div>
-            <div class="currency-card-content-item-label go-right">Max. Supply</div>
+            <div class="currency-card-content-item-label go-center">Total Market Cap</div>
+            <div class="currency-card-content-item-label go-center">Cir. Supply. Pct.</div>
+            <div class="currency-card-content-item-label go-center">Cir. Supply</div>
+            <div class="currency-card-content-item-label go-center">Max. Supply</div>
             <div class="currency-card-content-item-label go-center">Currencies </div>
             <div class="currency-card-content-item-label go-center">Block Time</div>
             <div class="currency-card-content-item-label go-right">Network Hashrate</div>
         </div>
         <div class="currency-card-content-row">
             <div class="currency-card-content-item">$ {{marketCap}} </div>
-            <div class="currency-card-content-item go-right">$ {{fullyDilutedMarketCap}}</div>
-            <div class="currency-card-content-item go-right"> {{circulatingSupplyPercentage}} %</div>
-            <div class="currency-card-content-item go-right"> {{circulatingSupply}}</div>
-            <div class="currency-card-content-item go-right"> {{maxSupply}}</div>
+            <div class="currency-card-content-item go-center">$ {{fullyDilutedMarketCap}}</div>
+            <div class="currency-card-content-item go-center"> {{circulatingSupplyPercentage}} %</div>
+            <div class="currency-card-content-item go-center"> {{circulatingSupply}}</div>
+            <div class="currency-card-content-item go-center"> {{maxSupply}}</div>
             <div class="currency-card-content-item go-center"> {{currenciesCount}} </div>
             <div class="currency-card-content-item go-center">{{blocktime}} SEC</div>
             <div class="currency-card-content-item go-right">{{networkHashrate}} GH/s</div>
@@ -36,30 +36,30 @@
             <div class="currency-card-content-item-label">Addr <-> Addr</div>
             <div class="currency-card-content-item-label go-center">Basket <-> Reserve</div>
             <div class="currency-card-content-item-label go-center">Reserve <-> Reserve</div>
-            <div class="currency-card-content-item-label go-right">ID 1.ref, not yours</div>
-            <div class="currency-card-content-item-label go-right">ID 1.ref, yours</div>
-            <div class="currency-card-content-item-label go-right">ID 2.ref, all yours</div>
-            <div class="currency-card-content-item-label go-right">ID 3.ref, all yours</div>
+            <div class="currency-card-content-item-label go-center">ID 1.ref, not yours</div>
+            <div class="currency-card-content-item-label go-center">ID 1.ref, yours</div>
+            <div class="currency-card-content-item-label go-center">ID 2.ref, all yours</div>
+            <div class="currency-card-content-item-label go-center">ID 3.ref, all yours</div>
             <div class="currency-card-content-item-label go-right">SubID (ID + Currency)</div>
         </div>
         <div class="currency-card-content-row">
             <div class="currency-card-content-item">{{priceAddrToAddr}}</div>
             <div class="currency-card-content-item go-center">{{priceBasketToReserve}}%</div>
             <div class="currency-card-content-item go-center">{{priceReserveToReserve}}%</div>
-            <div class="currency-card-content-item go-right">{{priceId1RefNotYours}}</div>
-            <div class="currency-card-content-item go-right">{{priceId1RefYours}}</div>
-            <div class="currency-card-content-item go-right">{{priceId2RefAllYours}}</div>
-            <div class="currency-card-content-item go-right"> {{priceId3RefAllYours}}</div>
+            <div class="currency-card-content-item go-center">{{priceId1RefNotYours}}</div>
+            <div class="currency-card-content-item go-center">{{priceId1RefYours}}</div>
+            <div class="currency-card-content-item go-center">{{priceId2RefAllYours}}</div>
+            <div class="currency-card-content-item go-center"> {{priceId3RefAllYours}}</div>
             <div class="currency-card-content-item go-right"> >{{priceSubId}}</div>
         </div>
         <div class="currency-card-content-row">
             <div class="currency-card-content-item small-label">$ {{priceAddrToAddrUSD}}</div>
             <div class="currency-card-content-item go-center"></div>
             <div class="currency-card-content-item go-center"></div>
-            <div class="currency-card-content-item go-right small-label">$ {{priceId1RefNotYoursUSD}}</div>
-            <div class="currency-card-content-item go-right small-label">$ {{priceId1RefYoursUSD}}</div>
-            <div class="currency-card-content-item go-right small-label">$ {{priceId2RefAllYoursUSD}}</div>
-            <div class="currency-card-content-item go-right small-label"> {{priceId3RefAllYoursUSD}}</div>
+            <div class="currency-card-content-item go-center small-label">$ {{priceId1RefNotYoursUSD}}</div>
+            <div class="currency-card-content-item go-center small-label">$ {{priceId1RefYoursUSD}}</div>
+            <div class="currency-card-content-item go-center small-label">$ {{priceId2RefAllYoursUSD}}</div>
+            <div class="currency-card-content-item go-center small-label"> {{priceId3RefAllYoursUSD}}</div>
             <div class="currency-card-content-item go-right small-label"> $ > {{priceSubIdUSD}}</div>
         </div>
     </div>
@@ -74,8 +74,8 @@
 
                 {{/if}}
             </div>
-            <div class="currency-card-content-item-label go-right"></div>
-            <div class="currency-card-content-item-label go-right"></div>
+            <div class="currency-card-content-item-label go-center"></div>
+            <div class="currency-card-content-item-label go-center"></div>
             <div class="currency-card-content-item-label go-center"></div>
             <div class="currency-card-content-item-label go-center"></div>
             <div class="currency-card-content-item-label go-right"></div>
@@ -84,8 +84,8 @@
             <div class="currency-card-content-item">{{priceStorage}}</div>
             <div class="currency-card-content-item go-center"> {{priceCurrency}}</div>
             <div class="currency-card-content-item go-center">{{pricePbaas}}</div>
-            <div class="currency-card-content-item go-right"></div>
-            <div class="currency-card-content-item go-right"></div>
+            <div class="currency-card-content-item go-center"></div>
+            <div class="currency-card-content-item go-center"></div>
             <div class="currency-card-content-item go-center"> </div>
             <div class="currency-card-content-item go-center"></div>
             <div class="currency-card-content-item go-right"></div>
@@ -96,9 +96,9 @@
             <div class="currency-card-content-item  go-center small-label">{{pricePbaasUSD}}</div>
             <div class="currency-card-content-item"></div>
             <div class="currency-card-content-item"></div>
-            <div class="currency-card-content-item go-right"></div>
-            <div class="currency-card-content-item go-right"></div>
-            <div class="currency-card-content-item go-right"> </div>
+            <div class="currency-card-content-item go-center"></div>
+            <div class="currency-card-content-item go-center"></div>
+            <div class="currency-card-content-item go-center"> </div>
             <div class="currency-card-content-item go-right"></div>
         </div>
     </div>
