@@ -1,3 +1,85 @@
+<div class="top-card-container">
+    <div class="card">
+        <div class="card-header ">
+            <div class="card-title">Market Cap</div>
+        </div>
+
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item-label">Blockchain</div>
+                <div class="card-content-item-label go-right">Market Cap</div>
+            </div>
+            {{#each marketCapArray}}
+            <div class="card-content-row">
+                <div class="card-content-item"> {{blockchain}}</div>
+                <div class="card-content-item go-right"> $ {{marketCap}}</div>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header ">
+            <div class="card-title">ID Price List </div>
+        </div>
+
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item-label">Blockchain</div>
+                <div class="card-content-item-label go-right">ID, 1.ref, not yours</div>
+            </div>
+            {{#each idPriceListArray}}
+            <div class="card-content-row">
+                <div class="card-content-item"> {{blockchain}}</div>
+                <div class="card-content-item go-right">$ {{priceId1RefYoursUSD}}</div>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+
+    <div class="card ">
+        <div class="card-header ">
+            <div class="card-title">Currency Price List</div>
+        </div>
+
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item-label">Blockchain</div>
+                <div class="card-content-item-label go-right">Currency Price</div>
+            </div>
+            {{#each currencyPriceListArray}}
+            <div class="card-content-row">
+                <div class="card-content-item"> {{blockchain}}</div>
+                <div class="card-content-item go-right"> $ {{priceCurrencyUSD}}</div>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header ">
+            <div class="card-title">Network Hashrate </div>
+        </div>
+
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item-label">Blockchain</div>
+                <div class="card-content-item-label go-right">Network Hashrate</div>
+            </div>
+            {{#each networkHashrateArray}}
+            <div class="card-content-row">
+                <div class="card-content-item"> {{blockchain}}</div>
+                <div class="card-content-item go-right"> {{networkHashrate}} GH/s</div>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+</div>
+
 {{#each pbaasList}}
 <div class="currency-card">
     <div class="currency-card-header ">

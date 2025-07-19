@@ -1,3 +1,39 @@
+export function getMarketCapArray(pbaasList) {
+    const resultArray = [];
+    pbaasList.forEach((item) => {
+        let resultObject = {
+            blockchain: item.blockchain,
+            marketCap: item.marketCap
+        }
+        resultArray.push(resultObject);
+    })
+    resultArray.sort((a, b) => parseFloat(b.marketCap.replace(/,/g, '')) - parseFloat(a.marketCap.replace(/,/g, '')));
+    return resultArray;
+}
+export function getIDPriceListArray(pbaasList) {
+    const resultArray = [];
+    pbaasList.forEach((item) => {
+        let resultObject = {
+            blockchain: item.blockchain,
+            priceId1RefYoursUSD: item.priceId1RefYoursUSD
+        }
+        resultArray.push(resultObject);
+    })
+    resultArray.sort((a, b) => parseFloat(b.priceId1RefYoursUSD.replace(/,/g, '')) - parseFloat(a.priceId1RefYoursUSD.replace(/,/g, '')));
+    return resultArray;
+}
+export function getCurrencyPriceListArray(pbaasList) {
+    const resultArray = [];
+    pbaasList.forEach((item) => {
+        let resultObject = {
+            blockchain: item.blockchain,
+            priceCurrencyUSD: item.priceCurrencyUSD
+        }
+        resultArray.push(resultObject);
+    })
+    resultArray.sort((a, b) => parseFloat(b.priceCurrencyUSD.replace(/,/g, '')) - parseFloat(a.priceCurrencyUSD.replace(/,/g, '')));
+    return resultArray;
+}
 export function getAPYArray(pbaasList) {
     const resultArray = [];
     pbaasList.forEach((item) => {
