@@ -1,3 +1,116 @@
+<div class="top-card-container">
+   
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue">Bitcoins in Baskets</div>
+        </div>
+
+        <div class="card-content">
+            {{#each basketsInfo}}
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label"> {{bitcoinInReserve}}</div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue">Ethereum in Baskets</div>
+        </div>
+
+        <div class="card-content">
+            {{#each basketsInfo}}
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label"> {{ethereumInReserve}}</div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue">VRSC in Baskets</div>
+        </div>
+
+        <div class="card-content">
+            {{#each basketsInfo}}
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label"> {{vrscInReserve}}</div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue">Stable Coins in Baskets</div>
+        </div>
+
+        <div class="card-content">
+            {{#each basketsInfo}}
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label"> {{stableCoinsInReserve}}</div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+     <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue">Baskets Reserve</div>
+        </div>
+
+        <div class="card-content">
+            {{#each basketsInfo}}
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label">$ {{currencySupplyPriceUSD}}</div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue">24 Hours Volume</div>
+        </div>
+
+        <div class="card-content">
+            {{#each totalBasketsVolume}}
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label">$ {{totalVolume24HoursUSD}}</div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue ">7 Days Volume</div>
+        </div>
+
+        <div class="card-content">
+            {{#each totalBasketsVolume}}
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label">$ {{totalVolume7DaysUSD}}</div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue">30 Days Volume</div>
+        </div>
+
+        <div class="card-content">
+            {{#each totalBasketsVolume}}
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label">$ {{totalVolume30DaysUSD}}</div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+
+
+
+</div>
+
+
 {{#each currencyGroupList}}
 <div class="currency-card">
     <div class="currency-card-header ">
@@ -67,8 +180,8 @@
     <div class="currency-card-footer">
 
         <div class="currency-card-content-item"> </div>
-        <div class="currency-card-content-item">  </div>
-        <div class="currency-card-content-item go-right">  </div>
+        <div class="currency-card-content-item"> </div>
+        <div class="currency-card-content-item go-right"> </div>
         <div class="currency-card-content-item go-right">{{currencySupply}}</div>
         <div class="currency-card-content-item go-right"> $ {{currencySupplyPriceUSD}}</div>
         <div class="currency-card-content-item go-right"> $ {{totalVolume24Hours}}</div>

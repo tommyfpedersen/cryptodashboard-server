@@ -89,13 +89,28 @@ body {
     align-self: center;
 }
 
-
-
 .small-label {
     font-size: 12px;
     color: grey;
 }
+.big-label {
+    font-size: 26px;
+}
 
+.color-grey{
+    color: grey;
+}
+.color-blue{
+    /* color: #2563eb; */
+    color: grey;
+}
+
+.go-center-flex {
+    justify-content: center;
+}
+.go-center-margin {
+   margin: 0 auto;
+}
 .go-center {
     text-align: center;
 }
@@ -114,10 +129,11 @@ body {
     background-color: white;
     border: 1px solid lightgray;
     padding: 10px 10px 20px 10px;
-    margin-bottom: 10px;
-    width: 300px;
+    /* margin-bottom: 10px; */
+    /* width: 300px; */
     display: inline-block;
     vertical-align: top;
+    min-width: 271px;
     /* min-height: 321px; */
     animation: fadeIn 2s;
 }
@@ -143,6 +159,8 @@ body {
 .card-content-item-label {
     text-transform: uppercase;
     font-size: 12px;
+    color: #2563eb;
+    font-weight: bold;
     /* min-width: 100px; */
 }
 
@@ -180,6 +198,7 @@ body {
     padding: 10px 0 0px 0;
     font-size: 16px;
     font-weight: bold;
+    /* color: #2563eb; */
 }
 
 .card-sub-title {
@@ -226,9 +245,10 @@ body {
 
 .top-card-container {
     display: flex;
-    justify-content: space-between;
     max-width: 1200px;
     gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 
 .top-card-content-row {

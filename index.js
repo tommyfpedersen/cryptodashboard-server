@@ -107,10 +107,24 @@ app.get('/currencies', async (req, res) => {
 
   let allCurrenciesFromBaskets = await getAllCurrenciesFromBaskets(coingeckoPriceArray);
   let currencyGroupList = getCurrencyGroupList(allCurrenciesFromBaskets);
+  let totalBasketsVolume = getTotalBasketsVolume(allCurrenciesFromBaskets)
+  let basketsInfo = getBasketsInfo(allCurrenciesFromBaskets)
+
+  console.log(basketsInfo)
   
-  res.render('currencies', { currencyGroupList });
+  res.render('currencies', { currencyGroupList, totalBasketsVolume, basketsInfo });
 
   return;
+});
+
+app.get('/currencies/:param', async (req, res) => {
+
+  // let detailRenderData = {};
+  // let result = getDetailData(param);
+  //  res.render('detail', { vrscOnline: false, varrrOnline: false, vdexOnline: false });
+
+  const param = req.params.param;
+  res.send(`You requested the path: ${param}`);
 });
 
 /* pbaas */
@@ -358,27 +372,19 @@ app.get('/stats', async (req, res) => {
     // currencyArray.push({ priceArray });
     // console.log("currencyArray", { currencyArray })
 
-    res.render('main', { currencyArray });
+    res.render('main', { mainRenderData });
     return;
   } else {
 
 
     console.log("her II")
 
-    res.render('main', { vrscOnline: false, varrrOnline: false, vdexOnline: false, currencyArray: currencyArray });
+    res.render('main', { vrscOnline: false, varrrOnline: false, vdexOnline: false, mainRenderData: mainRenderData });
     return;
   }
 
 })
-// app.get('/:param', async (req, res) => {
 
-//   // let detailRenderData = {};
-//   // let result = getDetailData(param);
-//   //  res.render('detail', { vrscOnline: false, varrrOnline: false, vdexOnline: false });
-
-//   const param = req.params.param;
-//   res.send(`You requested the path: ${param}`);
-// });
 
 /* dashboard */
 app.get('/api/totalvolume', async (req, res) => {
@@ -414,7 +420,7 @@ import path from 'path';
 import { get } from 'http';
 import { getAllPbaas } from './components/verus/pbaas/pbaas.js';
 import { getAPYArray, getCurrencyPriceListArray, getDailyEarningsPerGHArray, getFeePoolRewardArray, getIDPriceListArray, getMarketCapArray, getNetworkHashrateArray } from './components/verus/pbaas/pbaasUtils.js';
-import { getCurrencyGroupList } from './components/verus/currencies/currenciesUtils.js';
+import { getBasketsInfo, getCurrencyGroupList, getTotalBasketsVolume } from './components/verus/currencies/currenciesUtils.js';
 const __dirname = path.resolve();
 
 app.set('views', './views')

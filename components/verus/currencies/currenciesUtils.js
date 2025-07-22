@@ -1,3 +1,104 @@
+import { getCurrenciesConfig } from './currenciesConfig.js';
+
+
+export function getBasketsInfo(allCurrenciesFromBaskets) {
+    const resultArray = [];
+
+    let basketReserve = 0
+    let bitcoinInReserve = 0;
+    let bitcoinInReserveUSD = 0;
+    let ethereumInReserve = 0;
+    let ethereumInReserveUSD = 0;
+    let vrscInReserve = 0;
+    let vrscInReserveUSD = 0;
+    let stableCoinsInReserve = 0;
+    let stableCoinsInReserveUSD = 0;
+
+    let stableCoinArray = ["DAI.vETH", "scrvUSD.vETH","EURC.vETH", "vUSDT.vETH", "vUSDC.vETH"]
+
+
+    allCurrenciesFromBaskets.forEach((item) => {
+        // console.log(item)
+        basketReserve = basketReserve + item.currencyReserve.basketValueAnchorCurrencyUSD;
+
+        item.currencyReserve.basketCurrencyArray.forEach((basketCurrency) => {
+
+            if (basketCurrency.currencyName === 'tBTC.vETH') {
+                bitcoinInReserve = bitcoinInReserve + basketCurrency.reserves
+                bitcoinInReserveUSD = bitcoinInReserveUSD + basketCurrency.reservePriceUSD;
+                console.log(basketCurrency.reserves)
+            }
+
+            if (basketCurrency.currencyName === 'vETH') {
+                ethereumInReserve = ethereumInReserve + basketCurrency.reserves
+                ethereumInReserveUSD = ethereumInReserveUSD + basketCurrency.reservePriceUSD;
+                console.log(basketCurrency.reserves)
+            }
+
+            if (basketCurrency.currencyName === 'VRSC') {
+                vrscInReserve = vrscInReserve + basketCurrency.reserves
+                vrscInReserveUSD = vrscInReserveUSD + basketCurrency.reservePriceUSD;
+                console.log(basketCurrency.reserves)
+            }
+            if (stableCoinArray.includes(basketCurrency.currencyName) ) {
+                stableCoinsInReserve = stableCoinsInReserve + basketCurrency.reserves
+                stableCoinsInReserveUSD = stableCoinsInReserveUSD + basketCurrency.reserves
+
+               console.log(basketCurrency.currencyName, basketCurrency.reserves)
+            }
+            //console.log(basketCurrency)
+        })
+    })
+
+    let resultObject = {
+        currencySupplyPriceUSD: Number(basketReserve.toFixed(0)).toLocaleString(),
+        bitcoinInReserve: Math.round(bitcoinInReserve).toLocaleString(),
+        bitcoinInReserveUSD: Math.round(bitcoinInReserveUSD).toLocaleString(),
+        ethereumInReserve: Math.round(ethereumInReserve).toLocaleString(),
+        ethereumInReserveUSD: Math.round(ethereumInReserveUSD).toLocaleString(),
+        vrscInReserve: Math.round(vrscInReserve).toLocaleString(),
+        vrscInReserveUSD: Math.round(vrscInReserveUSD).toLocaleString(),
+        stableCoinsInReserve: Math.round(stableCoinsInReserve).toLocaleString(),
+        stableCoinsInReserveUSD: Math.round(stableCoinsInReserveUSD).toLocaleString()
+    }
+    resultArray.push(resultObject)
+
+    return resultArray
+}
+
+export function getTotalBasketsVolume(allCurrenciesFromBaskets) {
+    const resultArray = [];
+    let totalVolume24HoursUSD = 0;
+    let totalVolume7DaysUSD = 0;
+    let totalVolume30DaysUSD = 0;
+
+    allCurrenciesFromBaskets.forEach((item) => {
+
+        if (item.currencyVolume24Hours.totalVolumeUSD) {
+            totalVolume24HoursUSD = totalVolume24HoursUSD + item.currencyVolume24Hours.totalVolumeUSD
+        }
+        if (item.currencyVolume7Days.totalVolumeUSD) {
+            totalVolume7DaysUSD = totalVolume7DaysUSD + item.currencyVolume7Days.totalVolumeUSD
+        }
+        if (item.currencyVolume30Days.totalVolumeUSD) {
+            totalVolume30DaysUSD = totalVolume30DaysUSD + item.currencyVolume30Days.totalVolumeUSD
+        }
+    })
+
+    let resultObject = {
+        totalVolume24HoursUSD: Math.round(totalVolume24HoursUSD).toLocaleString(),
+        totalVolume7DaysUSD: Math.round(totalVolume7DaysUSD).toLocaleString(),
+        totalVolume30DaysUSD: Math.round(totalVolume30DaysUSD).toLocaleString()
+    }
+    resultArray.push(resultObject)
+
+    return resultArray
+}
+
+
+
+
+
 export function getCurrencyGroupList(allCurrenciesFromBaskets) {
     let currencyGroupList = [];
 
