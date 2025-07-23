@@ -14,7 +14,7 @@ export function getBasketsInfo(allCurrenciesFromBaskets) {
     let stableCoinsInReserve = 0;
     let stableCoinsInReserveUSD = 0;
 
-    let stableCoinArray = ["DAI.vETH", "scrvUSD.vETH","EURC.vETH", "vUSDT.vETH", "vUSDC.vETH"]
+    let stableCoinArray = ["DAI.vETH", "scrvUSD.vETH", "EURC.vETH", "vUSDT.vETH", "vUSDC.vETH"]
 
 
     allCurrenciesFromBaskets.forEach((item) => {
@@ -26,25 +26,20 @@ export function getBasketsInfo(allCurrenciesFromBaskets) {
             if (basketCurrency.currencyName === 'tBTC.vETH') {
                 bitcoinInReserve = bitcoinInReserve + basketCurrency.reserves
                 bitcoinInReserveUSD = bitcoinInReserveUSD + basketCurrency.reservePriceUSD;
-                console.log(basketCurrency.reserves)
             }
 
             if (basketCurrency.currencyName === 'vETH') {
                 ethereumInReserve = ethereumInReserve + basketCurrency.reserves
                 ethereumInReserveUSD = ethereumInReserveUSD + basketCurrency.reservePriceUSD;
-                console.log(basketCurrency.reserves)
             }
 
             if (basketCurrency.currencyName === 'VRSC') {
                 vrscInReserve = vrscInReserve + basketCurrency.reserves
                 vrscInReserveUSD = vrscInReserveUSD + basketCurrency.reservePriceUSD;
-                console.log(basketCurrency.reserves)
             }
-            if (stableCoinArray.includes(basketCurrency.currencyName) ) {
+            if (stableCoinArray.includes(basketCurrency.currencyName)) {
                 stableCoinsInReserve = stableCoinsInReserve + basketCurrency.reserves
-                stableCoinsInReserveUSD = stableCoinsInReserveUSD + basketCurrency.reserves
-
-               console.log(basketCurrency.currencyName, basketCurrency.reserves)
+                stableCoinsInReserveUSD = stableCoinsInReserveUSD + basketCurrency.reservePriceUSD
             }
             //console.log(basketCurrency)
         })
@@ -147,7 +142,8 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
                         basketVolume24Hours: Number(item.currencyVolume24Hours.totalVolumeUSD.toFixed(0)).toLocaleString(),
                         basketVolume7Days: Number(item.currencyVolume7Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
                         basketVolume30Days: Number(item.currencyVolume30Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
-                        coingeckoprice: item.currencyReserve.coingeckoprice
+                        coingeckoprice: item.currencyReserve.coingeckoprice,
+                        currencyType: "Basket"
                     })
 
                     totalVolume24Hours = totalVolume24Hours + item.currencyVolume24Hours.totalVolumeUSD;
@@ -171,7 +167,8 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
                             currencySupplyPriceUSD: Number(basketItem.reservePriceUSD.toFixed(0)).toLocaleString(),
                             basketVolume24Hours: Number(item.currencyVolume24Hours.totalVolumeUSD.toFixed(0)).toLocaleString(),
                             basketVolume7Days: Number(item.currencyVolume7Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
-                            basketVolume30Days: Number(item.currencyVolume30Days.totalVolumeUSD.toFixed(0)).toLocaleString()
+                            basketVolume30Days: Number(item.currencyVolume30Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
+                            currencyType: "Token"
                         })
 
                         //add coingecko price if exist

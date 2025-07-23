@@ -1,8 +1,8 @@
 <div class="top-card-container">
-   
+
     <div class="card">
         <div class="card-header go-center-flex">
-            <div class="card-title color-blue">Bitcoins in Baskets</div>
+            <div class="card-title color-blue">Bitcoin in Baskets</div>
         </div>
 
         <div class="card-content">
@@ -47,12 +47,12 @@
         <div class="card-content">
             {{#each basketsInfo}}
             <div class="card-content-row">
-                <div class="card-content-item go-center-margin big-label"> {{stableCoinsInReserve}}</div>
+                <div class="card-content-item go-center-margin big-label">$ {{stableCoinsInReserveUSD}}</div>
             </div>
             {{/each}}
         </div>
     </div>
-     <div class="card">
+    <div class="card">
         <div class="card-header go-center-flex">
             <div class="card-title color-blue">Baskets Reserve</div>
         </div>
@@ -115,7 +115,7 @@
 <div class="currency-card">
     <div class="currency-card-header ">
         {{!-- <img width="16px" src="/img/tbtc.png" /> --}}
-        <div class="card-title"> {{currencyName}}</div>
+        <div class="card-title"> {{currencyName}} </div>
     </div>
 
 

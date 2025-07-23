@@ -26,95 +26,38 @@ import { getThreeFoldNodeArray } from './components/threefold/threefold.js';
 
 import { getAllCurrenciesFromBaskets } from './components/verus/currencies/currencies.js';
 
-/* currencies */
-app.get('/currencies', async (req, res) => {
+/* currencies - main */
+app.get('/', async (req, res) => {
 
   /* page loads */
   pageLoads++;
   console.log("page loads: ", new Date().toLocaleString(), pageLoads);
 
-
-
   /* cache */
   let cacheReady = await isCacheReady();
+  let mainRenderData = {};
 
   if (cacheReady) {
-    let mainRenderData = {};
 
     // cache data
     const cacheData = await readFromCache('cache.json');
     mainRenderData = cacheData;
+
+    console.log(mainRenderData.basketsInfo)
+
+    res.render('currencies', {
+      timeAgo: mainRenderData.timeAgo,
+      currencyGroupList: mainRenderData.currencyGroupList,
+      totalBasketsVolume: mainRenderData.totalBasketsVolume,
+      basketsInfo: mainRenderData.basketsInfo
+    });
+    return;
+  } else {
+
+    res.render('currencies', { vrscOnline: false, varrrOnline: false, vdexOnline: false, mainRenderData: mainRenderData });
+    return;
   }
 
-
-  let coingeckoPriceArray = [
-    {
-      currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
-      price: 109657,
-      totalVolume: 0,
-      name: "bitcoin",
-    },
-    {
-      currencyId: "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X",
-      price: 2644,
-      totalVolume: 0,
-      name: "ethereum",
-    },
-    {
-      currencyId: "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
-      price: 13.20,
-      totalVolume: 0,
-      name: "vrsccoin",
-    },
-    {
-      currencyId: "iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM",
-      price: 1,
-      totalVolume: 0,
-      name: "dai",
-    },
-    {
-      currencyId: "i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY",
-      price: 1,
-      totalVolume: 0,
-      name: "usdt",
-    },
-    {
-      currencyId: "iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2",
-      price: 0.155,
-      totalVolume: 0,
-      name: "varrr",
-    },
-    {
-      currencyId: "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx",
-      price: 0.0059,
-      totalVolume: 0,
-      name: "nati",
-    },
-    {
-      currencyId: "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj",
-      price: 1.0484,
-      totalVolume: 0,
-      name: "scrvUSD",
-    },
-    {
-      currencyId: "i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR",
-      price: 0.38,
-      totalVolume: 0,
-      name: "pepecoinvETH",
-    },
-
-  ]
-
-  let allCurrenciesFromBaskets = await getAllCurrenciesFromBaskets(coingeckoPriceArray);
-  let currencyGroupList = getCurrencyGroupList(allCurrenciesFromBaskets);
-  let totalBasketsVolume = getTotalBasketsVolume(allCurrenciesFromBaskets)
-  let basketsInfo = getBasketsInfo(allCurrenciesFromBaskets)
-
-  console.log(basketsInfo)
-  
-  res.render('currencies', { currencyGroupList, totalBasketsVolume, basketsInfo });
-
-  return;
 });
 
 app.get('/currencies/:param', async (req, res) => {
@@ -134,16 +77,31 @@ app.get('/pbaas', async (req, res) => {
   pageLoads++;
   console.log("pbaas loads: ", new Date().toLocaleString(), pageLoads);
 
-  let pbaasList = await getAllPbaas();
-  let marketCapArray = getMarketCapArray(pbaasList);
-  let idPriceListArray = getIDPriceListArray(pbaasList)
-  let currencyPriceListArray = getCurrencyPriceListArray(pbaasList)
-  let networkHashrateArray = getNetworkHashrateArray(pbaasList);
+  /* cache */
+  let cacheReady = await isCacheReady();
+  let mainRenderData = {};
 
-  pbaasList.sort((a, b) => parseFloat(b.marketCap.replace(/,/g, '')) - parseFloat(a.marketCap.replace(/,/g, '')));
+  if (cacheReady) {
 
-  res.render('pbaas', { pbaasList, marketCapArray, idPriceListArray, currencyPriceListArray, networkHashrateArray });
-  return;
+    // cache data
+    const cacheData = await readFromCache('cache.json');
+    mainRenderData = cacheData;
+
+    res.render('pbaas', {
+      timeAgo: mainRenderData.timeAgo,
+      pbaasList: mainRenderData.pbaasList.sort((a, b) => parseFloat(b.marketCap.replace(/,/g, '')) - parseFloat(a.marketCap.replace(/,/g, ''))),
+      marketCapArray: mainRenderData.marketCapArray,
+      idPriceListArray: mainRenderData.idPriceListArray,
+      currencyPriceListArray: mainRenderData.currencyPriceListArray,
+      networkHashrateArray: mainRenderData.networkHashrateArray
+    });
+    return;
+  } else {
+
+    res.render('pbaas', { vrscOnline: false, varrrOnline: false, vdexOnline: false, mainRenderData: mainRenderData });
+    return;
+  }
+
 });
 
 /* earnings */
@@ -151,27 +109,33 @@ app.get('/earnings', async (req, res) => {
 
   /* page loads */
   pageLoads++;
-  console.log("earnings loads: ", new Date().toLocaleString(), pageLoads);
 
-  //let pbaasEarningsList = await getAllPbaasEarnings();
-  let pbaasList = await getAllPbaas();
 
-  // top cards
-  let apyArray = getAPYArray(pbaasList);
-  let dailyEarningsPerGHArray = getDailyEarningsPerGHArray(pbaasList)
-  let feePoolRewardArray = getFeePoolRewardArray(pbaasList)
-  let networkHashrateArray = getNetworkHashrateArray(pbaasList);
-
-  pbaasList.sort((a, b) => parseFloat(b.networkHashrate.replace(/,/g, '')) - parseFloat(a.networkHashrate.replace(/,/g, '')));
-
-  res.render('earnings', { pbaasList, apyArray, dailyEarningsPerGHArray, feePoolRewardArray, networkHashrateArray });
-  return;
+   /* cache */
+   let cacheReady = await isCacheReady();
+   let mainRenderData = {};
+ 
+   if (cacheReady) {
+ 
+     // cache data
+     const cacheData = await readFromCache('cache.json');
+     mainRenderData = cacheData;
+ 
+     res.render('earnings', {
+       timeAgo: mainRenderData.timeAgo,
+       pbaasList: mainRenderData.pbaasList.sort((a, b) => parseFloat(b.networkHashrate.replace(/,/g, '')) - parseFloat(a.networkHashrate.replace(/,/g, ''))),
+       apyArray: mainRenderData.apyArray,
+       dailyEarningsPerGHArray: mainRenderData.dailyEarningsPerGHArray,
+       feePoolRewardArray: mainRenderData.feePoolRewardArray,
+       networkHashrateArray: mainRenderData.networkHashrateArray
+     });
+     return;
+   } else {
+ 
+     res.render('earnings', { vrscOnline: false, varrrOnline: false, vdexOnline: false, mainRenderData: mainRenderData });
+     return;
+   }
 });
-
-/* main */
-app.get('/', async (req, res) => {
-  res.redirect('/stats')
-})
 
 
 /* stats */
