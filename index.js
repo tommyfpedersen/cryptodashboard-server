@@ -43,9 +43,7 @@ app.get('/', async (req, res) => {
     const cacheData = await readFromCache('cache.json');
     mainRenderData = cacheData;
 
-    console.log(mainRenderData.basketsInfo)
-
-    res.render('currencies', {
+    res.render('currencyList', {
       timeAgo: mainRenderData.timeAgo,
       currencyGroupList: mainRenderData.currencyGroupList,
       totalBasketsVolume: mainRenderData.totalBasketsVolume,
@@ -54,28 +52,59 @@ app.get('/', async (req, res) => {
     return;
   } else {
 
-    res.render('currencies', { vrscOnline: false, varrrOnline: false, vdexOnline: false, mainRenderData: mainRenderData });
+    res.render('currencyList', { vrscOnline: false, varrrOnline: false, vdexOnline: false, mainRenderData: mainRenderData });
     return;
   }
 
 });
 
-app.get('/currencies/:param', async (req, res) => {
+app.get('/currency/', async (req, res) => {
+  res.redirect('/')
+})
 
-  // let detailRenderData = {};
-  // let result = getDetailData(param);
-  //  res.render('detail', { vrscOnline: false, varrrOnline: false, vdexOnline: false });
-
-  const param = req.params.param;
-  res.send(`You requested the path: ${param}`);
-});
-
-/* pbaas */
-app.get('/pbaas', async (req, res) => {
+app.get('/currency/:param', async (req, res) => {
 
   /* page loads */
   pageLoads++;
-  console.log("pbaas loads: ", new Date().toLocaleString(), pageLoads);
+  console.log("page loads with param: ", new Date().toLocaleString(), pageLoads);
+
+  /* cache */
+  let cacheReady = await isCacheReady();
+  let mainRenderData = {};
+  const param = req.params.param;
+
+  if (cacheReady) {
+
+    // cache data
+    const cacheData = await readFromCache('cache.json');
+    mainRenderData = cacheData;
+
+    const currencyGroupList = mainRenderData.currencyGroupList.filter((item)=>{return item.currencyName.toLowerCase() === param.toLowerCase() });
+    //const currencyReserveValue = console.log(mainRenderData.currencyGroupList.filter((item)=>{return item.currencyName.toLowerCase() === param.toLowerCase() })[0].currencySupplyPriceUSD)
+
+    res.render('currency', {
+      timeAgo: mainRenderData.timeAgo,
+      currencyGroupList: mainRenderData.currencyGroupList.filter((item)=>{return item.currencyName.toLowerCase() === param.toLowerCase() }),
+      totalBasketsVolume: mainRenderData.totalBasketsVolume,
+      basketsInfo: mainRenderData.basketsInfo
+    });
+    return;
+  } else {
+
+    res.render('currency', { vrscOnline: false, varrrOnline: false, vdexOnline: false, mainRenderData: mainRenderData });
+    return;
+  }
+
+  // const param = req.params.param;
+  // res.send(`You requested the path: ${param}`);
+});
+
+/* pbaas */
+app.get('/blockchain', async (req, res) => {
+
+  /* page loads */
+  pageLoads++;
+  console.log("blockchain loads: ", new Date().toLocaleString(), pageLoads);
 
   /* cache */
   let cacheReady = await isCacheReady();
@@ -87,7 +116,7 @@ app.get('/pbaas', async (req, res) => {
     const cacheData = await readFromCache('cache.json');
     mainRenderData = cacheData;
 
-    res.render('pbaas', {
+    res.render('blockchainList', {
       timeAgo: mainRenderData.timeAgo,
       pbaasList: mainRenderData.pbaasList.sort((a, b) => parseFloat(b.marketCap.replace(/,/g, '')) - parseFloat(a.marketCap.replace(/,/g, ''))),
       marketCapArray: mainRenderData.marketCapArray,
@@ -98,7 +127,7 @@ app.get('/pbaas', async (req, res) => {
     return;
   } else {
 
-    res.render('pbaas', { vrscOnline: false, varrrOnline: false, vdexOnline: false, mainRenderData: mainRenderData });
+    res.render('blockchainList', { vrscOnline: false, varrrOnline: false, vdexOnline: false, mainRenderData: mainRenderData });
     return;
   }
 
@@ -111,30 +140,30 @@ app.get('/earnings', async (req, res) => {
   pageLoads++;
 
 
-   /* cache */
-   let cacheReady = await isCacheReady();
-   let mainRenderData = {};
- 
-   if (cacheReady) {
- 
-     // cache data
-     const cacheData = await readFromCache('cache.json');
-     mainRenderData = cacheData;
- 
-     res.render('earnings', {
-       timeAgo: mainRenderData.timeAgo,
-       pbaasList: mainRenderData.pbaasList.sort((a, b) => parseFloat(b.networkHashrate.replace(/,/g, '')) - parseFloat(a.networkHashrate.replace(/,/g, ''))),
-       apyArray: mainRenderData.apyArray,
-       dailyEarningsPerGHArray: mainRenderData.dailyEarningsPerGHArray,
-       feePoolRewardArray: mainRenderData.feePoolRewardArray,
-       networkHashrateArray: mainRenderData.networkHashrateArray
-     });
-     return;
-   } else {
- 
-     res.render('earnings', { vrscOnline: false, varrrOnline: false, vdexOnline: false, mainRenderData: mainRenderData });
-     return;
-   }
+  /* cache */
+  let cacheReady = await isCacheReady();
+  let mainRenderData = {};
+
+  if (cacheReady) {
+
+    // cache data
+    const cacheData = await readFromCache('cache.json');
+    mainRenderData = cacheData;
+
+    res.render('earnings', {
+      timeAgo: mainRenderData.timeAgo,
+      pbaasList: mainRenderData.pbaasList.sort((a, b) => parseFloat(b.networkHashrate.replace(/,/g, '')) - parseFloat(a.networkHashrate.replace(/,/g, ''))),
+      apyArray: mainRenderData.apyArray,
+      dailyEarningsPerGHArray: mainRenderData.dailyEarningsPerGHArray,
+      feePoolRewardArray: mainRenderData.feePoolRewardArray,
+      networkHashrateArray: mainRenderData.networkHashrateArray
+    });
+    return;
+  } else {
+
+    res.render('earnings', { vrscOnline: false, varrrOnline: false, vdexOnline: false, mainRenderData: mainRenderData });
+    return;
+  }
 });
 
 

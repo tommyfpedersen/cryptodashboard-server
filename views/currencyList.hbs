@@ -4,23 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/styles-002.css">
+    <link rel="stylesheet" type="text/css" href="/styles-003.css">
     <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
     <title>Cryptodashboard</title>
 </head>
 
-<body onload="init()">
+<body 
+{{!-- onload="init()" --}}
+>
 
-    {{> header}}
+   
+    <div class="content">
+        {{> header}}
+        {{> currencyList}}
+        {{> footer}}
+    </div>
 
-    <div class="side-menu"></div>
-    <div class="section"></div>
-
-
-    {{> footer}}
+   
     {{{updateScript}}}
     <div id="hint" class="hide">Hej</div>
 </body>
-<script src="main-002.js"></script>
+{{!-- <script src="main-003.js"></script> --}}
 
 </html>
