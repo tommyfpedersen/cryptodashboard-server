@@ -44,6 +44,7 @@ export async function getBlockchainData() {
 
 
     mainRenderData = {
+        allCurrenciesFromBaskets,
         currencyGroupList,
         totalBasketsVolume,
         basketsInfo,

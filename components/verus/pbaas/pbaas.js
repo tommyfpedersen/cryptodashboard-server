@@ -24,7 +24,7 @@ export async function getAllPbaas() {
         const stakingRewards = await calculateStakingRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, marketCapStats.circulatingSupply, miningInfo.stakingsupply, null, nativePrice)
         const miningRewards = await calculateMiningRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, miningInfo.networkhashps, null, nativePrice)
 
-      //  console.log(miningRewards);
+        //  console.log(miningRewards);
 
 
         let currenciesOnBlockchain = currenciesConfig.filter((currency) => {
@@ -67,9 +67,9 @@ export async function getAllPbaas() {
             blockReward: blockAndFeePoolRewards.blockReward,
             feeReward: blockAndFeePoolRewards.feeReward,
             averageblockfees: blockAndFeePoolRewards.averageblockfees,
-            blockRewardUSD: (Math.round(blockAndFeePoolRewards.blockReward * nativePrice*10000)/10000).toFixed(4).toLocaleString(),
-            feeRewardUSD: (Math.round(blockAndFeePoolRewards.feeReward * nativePrice*10000)/10000).toFixed(4).toLocaleString(),
-            averageblockfeesUSD: (Math.round(blockAndFeePoolRewards.averageblockfees * nativePrice*10000)/10000).toFixed(4).toLocaleString(),
+            blockRewardUSD: (Math.round(blockAndFeePoolRewards.blockReward * nativePrice * 10000) / 10000).toFixed(4).toLocaleString(),
+            feeRewardUSD: (Math.round(blockAndFeePoolRewards.feeReward * nativePrice * 10000) / 10000).toFixed(4).toLocaleString(),
+            averageblockfeesUSD: (Math.round(blockAndFeePoolRewards.averageblockfees * nativePrice * 10000) / 10000).toFixed(4).toLocaleString(),
             blockLastSend: blockAndFeePoolRewards.blockLastSend,
             stakingApy: (stakingRewards.stakingApy).toFixed(2).toLocaleString(),
             stakingPct: Math.round(stakingRewards.stakingPct),
@@ -83,7 +83,7 @@ export async function getAllPbaas() {
             stakingRewardsOneDailyStakeAmount: stakingRewards.oneDailyStakeAmount,
             stakingRewardsOneMonthlyStakeAmount: stakingRewards.oneMonthlyStakeAmount,
             stakingRewardsOneYearlyStakeAmount: stakingRewards.oneYearlyStakeAmount,
-            stakingRewardsOneDailyStakeAmountUSD : stakingRewards.oneDailyStakeAmountUSD,
+            stakingRewardsOneDailyStakeAmountUSD: stakingRewards.oneDailyStakeAmountUSD,
             stakingRewardsOneMonthlyStakeAmountUSD: stakingRewards.oneMonthlyStakeAmountUSD,
             stakingRewardsOneYearlyStakeAmountUSD: stakingRewards.oneYearlyStakeAmountUSD,
             stakingNote: pbaasConfig[i].stakingNote,
@@ -103,9 +103,9 @@ export async function getAllPbaas() {
 
     }
 
-   
 
- 
+
+
     // pbaasArray.push(apyArray);
 
     // sort pbaas list by market cap
@@ -161,13 +161,13 @@ export async function calculateStakingRewards(blocktime, blockReward, totalSuppl
     result.rewardsYearly = Math.round(apy * stakingAmount * 10000) / 10000;
     result.rewardsYearlyUSD = Math.round(apy * stakingAmount * vrscPrice * 10000) / 10000;
 
-    result.oneDailyStakeAmount = Math.round(blockReward /  apy * 365 );
-    result.oneMonthlyStakeAmount = Math.round(blockReward /  apy * 12 );
-    result.oneYearlyStakeAmount = Math.round(blockReward /  apy );
-    result.oneDailyStakeAmountUSD = Math.round(blockReward /  apy * 365 * vrscPrice);
-    result.oneMonthlyStakeAmountUSD = Math.round(blockReward /  apy * 12 * vrscPrice);
-    result.oneYearlyStakeAmountUSD = Math.round(blockReward /  apy * vrscPrice);
-   
+    result.oneDailyStakeAmount = Math.round(blockReward / apy * 365);
+    result.oneMonthlyStakeAmount = Math.round(blockReward / apy * 12);
+    result.oneYearlyStakeAmount = Math.round(blockReward / apy);
+    result.oneDailyStakeAmountUSD = Math.round(blockReward / apy * 365 * vrscPrice);
+    result.oneMonthlyStakeAmountUSD = Math.round(blockReward / apy * 12 * vrscPrice);
+    result.oneYearlyStakeAmountUSD = Math.round(blockReward / apy * vrscPrice);
+
     return result;
 }
 
@@ -188,9 +188,9 @@ export async function calculateMiningRewards(blocktime, blockReward, networkHash
     result.rewardsYearly = Math.round(apy * vrscMiningHash * 10000) / 10000;
     result.rewardsYearlyUSD = Math.round(apy * vrscMiningHash * vrscPrice * 10000) / 10000;
 
-    result.oneDailyMiningHashReward = Math.round(blockReward /  apy * 365 );
-    result.oneMonthlyMiningHashReward = Math.round(blockReward /  apy * 12 );
-    result.oneYearlyMiningHashReward = Math.round(blockReward /  apy );
+    result.oneDailyMiningHashReward = Math.round(blockReward / apy * 365);
+    result.oneMonthlyMiningHashReward = Math.round(blockReward / apy * 12);
+    result.oneYearlyMiningHashReward = Math.round(blockReward / apy);
 
     return result;
 }
@@ -292,15 +292,18 @@ export async function getMarketCapStats(miningInfo, currencyInfo, pbaasConfig) {
 
     } else {
         const coinSupplyInfo = await getCoinSupply(pbaasConfig.rpcBaseUrl, miningInfo.blocks);
-        let circulatingSupply = coinSupplyInfo.total;
-        if (coinSupplyInfo.result === "success") {
-            result.totalSupply = circulatingSupply;
-            result.circulatingSupply = circulatingSupply;
-            result.circulatingSupplyPercentage = circulatingSupply / pbaasConfig.maxSupply * 100;
-            result.marketCap = circulatingSupply * pbaasConfig.nativeBasePrice;
-            result.maxSupply = pbaasConfig.maxSupply;
-            result.fullyDilutedMarketCap = pbaasConfig.maxSupply * pbaasConfig.nativeBasePrice;
-        } else {
+        if (coinSupplyInfo) {
+            let circulatingSupply = coinSupplyInfo.total;
+            if (coinSupplyInfo.result === "success") {
+                result.totalSupply = circulatingSupply;
+                result.circulatingSupply = circulatingSupply;
+                result.circulatingSupplyPercentage = circulatingSupply / pbaasConfig.maxSupply * 100;
+                result.marketCap = circulatingSupply * pbaasConfig.nativeBasePrice;
+                result.maxSupply = pbaasConfig.maxSupply;
+                result.fullyDilutedMarketCap = pbaasConfig.maxSupply * pbaasConfig.nativeBasePrice;
+            }
+        }
+        else {
             result.totalSupply = "syncing";
             result.circulatingSupply = "syncing";
             result.circulatingSupplyPercentage = "syncing";

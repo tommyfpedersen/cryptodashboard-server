@@ -2,55 +2,42 @@
 
     <div class="card">
         <div class="card-header go-center-flex">
-            <div class="card-title color-blue">Baskets Reserve</div>
+            <div class="card-title color-blue">Basket Reserve</div>
         </div>
-
         <div class="card-content">
-            {{#each basketsInfo}}
             <div class="card-content-row">
-                <div class="card-content-item go-center-margin big-label">$ {{currencySupplyPriceUSD}}</div>
+                <div class="card-content-item go-center-margin big-label">$ {{currencyReserveValue}}</div>
             </div>
-            {{/each}}
         </div>
     </div>
-
     <div class="card">
         <div class="card-header go-center-flex">
             <div class="card-title color-blue">24 Hours Volume</div>
         </div>
-
         <div class="card-content">
-            {{#each totalBasketsVolume}}
             <div class="card-content-row">
-                <div class="card-content-item go-center-margin big-label">$ {{totalVolume24HoursUSD}}</div>
+                <div class="card-content-item go-center-margin big-label">$ {{totalVolume24Hours}}</div>
             </div>
-            {{/each}}
         </div>
     </div>
     <div class="card">
         <div class="card-header go-center-flex">
             <div class="card-title color-blue ">7 Days Volume</div>
         </div>
-
         <div class="card-content">
-            {{#each totalBasketsVolume}}
             <div class="card-content-row">
-                <div class="card-content-item go-center-margin big-label">$ {{totalVolume7DaysUSD}}</div>
+                <div class="card-content-item go-center-margin big-label">$ {{totalVolume7Days}}</div>
             </div>
-            {{/each}}
         </div>
     </div>
     <div class="card">
         <div class="card-header go-center-flex">
             <div class="card-title color-blue">30 Days Volume</div>
         </div>
-
         <div class="card-content">
-            {{#each totalBasketsVolume}}
             <div class="card-content-row">
-                <div class="card-content-item go-center-margin big-label">$ {{totalVolume30DaysUSD}}</div>
+                <div class="card-content-item go-center-margin big-label">$ {{totalVolume30Days}}</div>
             </div>
-            {{/each}}
         </div>
     </div>
 

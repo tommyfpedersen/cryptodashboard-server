@@ -79,12 +79,39 @@ app.get('/currency/:param', async (req, res) => {
     const cacheData = await readFromCache('cache.json');
     mainRenderData = cacheData;
 
-    const currencyGroupList = mainRenderData.currencyGroupList.filter((item)=>{return item.currencyName.toLowerCase() === param.toLowerCase() });
+    const currencyGroupList = mainRenderData.currencyGroupList.filter((item) => { return item.currencyName.toLowerCase() === param.toLowerCase() });
+
+    let currencyReserveValue = 0;
+    let totalVolume24Hours = 0;
+    let totalVolume7Days = 0;
+    let totalVolume30Days = 0;
+
+
+    if (currencyGroupList.length > 0) {
+      currencyReserveValue = currencyGroupList[0].currencySupplyPriceUSD;
+      totalVolume24Hours = currencyGroupList[0].totalVolume24Hours;
+      totalVolume7Days = currencyGroupList[0].totalVolume7Days;
+      totalVolume30Days = currencyGroupList[0].totalVolume30Days;
+
+      // console.log(currencyReserveValue)
+      console.log(currencyGroupList)
+
+      const currency = mainRenderData.allCurrenciesFromBaskets.filter((item) => { return item.name.toLowerCase() === param.toLowerCase() })[0];
+      if (currency) {
+        const basketCurrencyArray = currency.currencyReserve.basketCurrencyArray;
+        console.log(basketCurrencyArray)
+      }
+
+    }
     //const currencyReserveValue = console.log(mainRenderData.currencyGroupList.filter((item)=>{return item.currencyName.toLowerCase() === param.toLowerCase() })[0].currencySupplyPriceUSD)
 
     res.render('currency', {
       timeAgo: mainRenderData.timeAgo,
-      currencyGroupList: mainRenderData.currencyGroupList.filter((item)=>{return item.currencyName.toLowerCase() === param.toLowerCase() }),
+      currencyGroupList: currencyGroupList,
+      currencyReserveValue: currencyReserveValue,
+      totalVolume24Hours: totalVolume24Hours,
+      totalVolume7Days: totalVolume7Days,
+      totalVolume30Days: totalVolume30Days,
       totalBasketsVolume: mainRenderData.totalBasketsVolume,
       basketsInfo: mainRenderData.basketsInfo
     });
