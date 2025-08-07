@@ -2,7 +2,7 @@
 
     <div class="card">
         <div class="card-header go-center-flex">
-            <div class="card-title color-blue">Basket Reserve</div>
+            <div class="card-title color-blue">Basket Reserve Value</div>
         </div>
         <div class="card-content">
             <div class="card-content-row">
@@ -135,3 +135,53 @@
 
 </div>
 {{/each}}
+
+
+
+
+<div class="currency-card">
+    <div class="currency-card-header ">
+        {{!-- <img width="16px" src="/img/tbtc.png" /> --}}
+        <div class="card-title"> Basket Reserve</div>
+    </div>
+
+
+    {{#each basketReserveCurrencyArray}}
+    <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;">{{currencyName}} ({{weight}}%)</div>
+    <div class="currency-card-content">
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item-label">Reserve</div>
+            <div class="currency-card-content-item-label go-center">Value</div>
+            <div class="currency-card-content-item-label go-center">Reserve <-> Reserve</div>
+            <div class="currency-card-content-item-label go-center">ID 1.ref, not yours</div>
+            <div class="currency-card-content-item-label go-center">ID 1.ref, yours</div>
+            <div class="currency-card-content-item-label go-center">ID 2.ref, all yours</div>
+            <div class="currency-card-content-item-label go-center">ID 3.ref, all yours</div>
+            <div class="currency-card-content-item-label go-right">SubID (ID + Currency)</div>
+        </div>
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item">{{reserves}}</div>
+            <div class="currency-card-content-item go-center">{{reservePriceUSD}}</div>
+            <div class="currency-card-content-item go-center">{{priceReserveToReserve}}%</div>
+            <div class="currency-card-content-item go-center">{{priceId1RefNotYours}}</div>
+            <div class="currency-card-content-item go-center">{{priceId1RefYours}}</div>
+            <div class="currency-card-content-item go-center">{{priceId2RefAllYours}}</div>
+            <div class="currency-card-content-item go-center"> {{priceId3RefAllYours}}</div>
+            <div class="currency-card-content-item go-right"> >{{priceSubId}}</div>
+        </div>
+        <div class="currency-card-content-row">
+            <div class="currency-card-content-item small-label">$ {{priceAddrToAddrUSD}}</div>
+            <div class="currency-card-content-item go-center"></div>
+            <div class="currency-card-content-item go-center"></div>
+            <div class="currency-card-content-item go-center small-label">$ {{priceId1RefNotYoursUSD}}</div>
+            <div class="currency-card-content-item go-center small-label">$ {{priceId1RefYoursUSD}}</div>
+            <div class="currency-card-content-item go-center small-label">$ {{priceId2RefAllYoursUSD}}</div>
+            <div class="currency-card-content-item go-center small-label"> {{priceId3RefAllYoursUSD}}</div>
+            <div class="currency-card-content-item go-right small-label"> $ > {{priceSubIdUSD}}</div>
+        </div>
+    </div>
+    {{/each}}
+    
+
+</div>
+

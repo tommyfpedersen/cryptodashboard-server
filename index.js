@@ -85,7 +85,7 @@ app.get('/currency/:param', async (req, res) => {
     let totalVolume24Hours = 0;
     let totalVolume7Days = 0;
     let totalVolume30Days = 0;
-
+    let basketReserveCurrencyArray = [];
 
     if (currencyGroupList.length > 0) {
       currencyReserveValue = currencyGroupList[0].currencySupplyPriceUSD;
@@ -94,16 +94,21 @@ app.get('/currency/:param', async (req, res) => {
       totalVolume30Days = currencyGroupList[0].totalVolume30Days;
 
       // console.log(currencyReserveValue)
-      console.log(currencyGroupList)
+      //   console.log(currencyGroupList)
 
       const currency = mainRenderData.allCurrenciesFromBaskets.filter((item) => { return item.name.toLowerCase() === param.toLowerCase() })[0];
+      
       if (currency) {
-        const basketCurrencyArray = currency.currencyReserve.basketCurrencyArray;
-        console.log(basketCurrencyArray)
+        if (currency?.type === "Basket") {
+          basketReserveCurrencyArray = currency.currencyReserve.basketCurrencyArray;
+
+        }
+        
       }
 
+      console.log(basketReserveCurrencyArray)
     }
-    //const currencyReserveValue = console.log(mainRenderData.currencyGroupList.filter((item)=>{return item.currencyName.toLowerCase() === param.toLowerCase() })[0].currencySupplyPriceUSD)
+
 
     res.render('currency', {
       timeAgo: mainRenderData.timeAgo,
@@ -113,7 +118,8 @@ app.get('/currency/:param', async (req, res) => {
       totalVolume7Days: totalVolume7Days,
       totalVolume30Days: totalVolume30Days,
       totalBasketsVolume: mainRenderData.totalBasketsVolume,
-      basketsInfo: mainRenderData.basketsInfo
+      basketsInfo: mainRenderData.basketsInfo,
+      basketReserveCurrencyArray: basketReserveCurrencyArray
     });
     return;
   } else {
