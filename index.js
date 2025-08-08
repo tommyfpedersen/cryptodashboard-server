@@ -85,6 +85,12 @@ app.get('/currency/:param', async (req, res) => {
     let totalVolume24Hours = 0;
     let totalVolume7Days = 0;
     let totalVolume30Days = 0;
+    let currencyName = "";
+    let currencySupply = 0;
+    let currencyPriceInNative = 0;
+    let currencyPriceUSD = 0;
+    let blockchain = "";
+
     let basketReserveCurrencyArray = [];
 
     if (currencyGroupList.length > 0) {
@@ -92,27 +98,37 @@ app.get('/currency/:param', async (req, res) => {
       totalVolume24Hours = currencyGroupList[0].totalVolume24Hours;
       totalVolume7Days = currencyGroupList[0].totalVolume7Days;
       totalVolume30Days = currencyGroupList[0].totalVolume30Days;
+      currencyName = currencyGroupList[0].currencyName;
+      currencySupply = currencyGroupList[0].currencySupply;
 
       // console.log(currencyReserveValue)
-      //   console.log(currencyGroupList)
+      // console.log(currencyGroupList)
 
       const currency = mainRenderData.allCurrenciesFromBaskets.filter((item) => { return item.name.toLowerCase() === param.toLowerCase() })[0];
-      
+    //  console.log(currency)
       if (currency) {
         if (currency?.type === "Basket") {
           basketReserveCurrencyArray = currency.currencyReserve.basketCurrencyArray;
+          currencyPriceInNative = currency.currencyReserve.currencyPriceNative.toFixed(4).toLocaleString();
+          currencyPriceUSD = currency.currencyReserve.currencyPriceUSD.toFixed(4).toLocaleString();
+          blockchain = currency.blockchain;
 
         }
-        
+
       }
 
-      console.log(basketReserveCurrencyArray)
+      //   console.log(basketReserveCurrencyArray)
     }
 
 
     res.render('currency', {
       timeAgo: mainRenderData.timeAgo,
       currencyGroupList: currencyGroupList,
+      currencyName: currencyName,
+      currencySupply: currencySupply,
+      blockchain: blockchain,
+      currencyPriceUSD: currencyPriceUSD,
+      currencyPriceInNative: currencyPriceInNative,
       currencyReserveValue: currencyReserveValue,
       totalVolume24Hours: totalVolume24Hours,
       totalVolume7Days: totalVolume7Days,
