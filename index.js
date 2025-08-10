@@ -90,6 +90,7 @@ app.get('/currency/:param', async (req, res) => {
     let currencyPriceInNative = 0;
     let currencyPriceUSD = 0;
     let blockchain = "";
+    let currencyType = "Token";
 
     let basketReserveCurrencyArray = [];
 
@@ -104,11 +105,16 @@ app.get('/currency/:param', async (req, res) => {
       // console.log(currencyReserveValue)
       // console.log(currencyGroupList)
 
+//   currencyPriceUSD: item.currencyReserve.currencyPriceUSD < 1 ? Number(item.currencyReserve.currencyPriceUSD.toFixed(4)).toLocaleString() : Number(item.currencyReserve.currencyPriceUSD.toFixed(2)).toLocaleString(),
+
+
       const currency = mainRenderData.allCurrenciesFromBaskets.filter((item) => { return item.name.toLowerCase() === param.toLowerCase() })[0];
-    //  console.log(currency)
+   
+      console.log(currencyGroupList[0])
       if (currency) {
         if (currency?.type === "Basket") {
-          basketReserveCurrencyArray = currency.currencyReserve.basketCurrencyArray;
+          currencyType = "Basket"
+          basketReserveCurrencyArray = currency.currencyReserve.basketCurrencyArray//.forEach((item)=>{return item.currencyPriceUSD = 5});
           currencyPriceInNative = currency.currencyReserve.currencyPriceNative.toFixed(4).toLocaleString();
           currencyPriceUSD = currency.currencyReserve.currencyPriceUSD.toFixed(4).toLocaleString();
           blockchain = currency.blockchain;
@@ -116,14 +122,26 @@ app.get('/currency/:param', async (req, res) => {
         }
 
       }
+      else{
+        currencyPriceUSD = currencyGroupList[0].currencyList[0].currencyPriceUSD;
+      }
 
-      //   console.log(basketReserveCurrencyArray)
+        console.log(basketReserveCurrencyArray)
     }
+
+    basketReserveCurrencyArray.map((item)=>{
+      let obj = item;
+      obj.reservePriceUSD = item.reservePriceUSD < 1 ? Number(item.reservePriceUSD.toFixed(4)).toLocaleString() : Number(item.reservePriceUSD.toFixed(2)).toLocaleString()
+      obj.priceNativeCurrency = item.priceNativeCurrency < 1 ? Number(item.priceNativeCurrency.toFixed(4)).toLocaleString() : Number(item.priceNativeCurrency.toFixed(4)).toLocaleString()
+      obj.reserves = item.reserves < 1 ? Number(item.reserves.toFixed(4)).toLocaleString() : Number(item.reserves.toFixed(0)).toLocaleString()
+      return obj
+    })
 
 
     res.render('currency', {
       timeAgo: mainRenderData.timeAgo,
       currencyGroupList: currencyGroupList,
+      currencyType:currencyType,
       currencyName: currencyName,
       currencySupply: currencySupply,
       blockchain: blockchain,

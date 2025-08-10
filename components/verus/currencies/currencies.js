@@ -103,8 +103,12 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
     let secondaryAnchorCurrencyName = currencyConfig.secondaryAnchorCurrencyName;
     let secondaryPriceDominance = currencyConfig.secondaryPriceDominance;
     let rpcBaseUrl = currencyConfig.rpcBaseUrl;
+    let currencyStartBlock = currencyConfig.startBlock || 0;
     let currencyIcon = currencyConfig.currencyIcon;
+    let currencyScale = currencyConfig.currencyScale || [];
     let currencyNote = currencyConfig.note === undefined ? "" : currencyConfig.note;
+
+    //console.log(currencyName, currencyScale)
 
     let result = {};
 
@@ -187,12 +191,21 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
 
                                     currency.price = nativeCurrencyBasePrice;
                                 }
+                                currency.priceUSD = Math.round(currency.price * 10000) / 10000;
 
                                 if (secondaryPriceDominance === "coingecko") {
                                     currency.price = secondaryAnchorCurrencyFromCoingeckoPriceArray * currency.price;
-                                }
+                                    currency.priceUSD = currency.price;
 
-                                currency.priceUSD = Math.round(currency.price * 10000) / 10000;
+                                    if (currencyScale.length > 0) {
+                                        currencyScale.forEach((item) => {
+                                            if (item.currencyId === secondaryAnchorCurrencyId) {
+                                                currency.priceUSD = Math.round(currency.priceUSD * item.scale * 10000) / 10000;
+                    
+                                            }
+                                        })
+                                    }
+                                }
                             }
 
                             if (currencyId === secondaryAnchorCurrencyId) {
@@ -210,13 +223,13 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                                 currency.priceUSD = Math.round(currency.price * 10000) / 10000;
                             }
 
-                            currency.reservePriceUSD = currency.priceUSD * currency.reserves;
 
                             if (reservesCurrency.currencyid === nativeCurrencyId) {
                                 nativeCurrencyBasketPrice = Math.round((anchorReserve * 1 / anchorWeight) / (nativeCurrencyReserve * 1 / nativeCurrencyWeight) * 100000000) / 100000000;
 
                                 if (anchorPriceDominance === "coingecko") {
                                     nativeCurrencyBasketPrice = nativeCurrencyBasketPrice * anchorCurrencyFromCoingeckoPriceArray;
+
                                 }
 
                                 if (anchorPriceDominance === "native" && secondaryPriceDominance === "native" && nativeCurrencyId !== "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
@@ -225,6 +238,9 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                                     currency.priceUSD = Math.round(currency.price * 10000) / 10000;
                                 }
                             }
+
+                            currency.reservePriceUSD = currency.priceUSD * currency.reserves;
+                            currency.weight = Math.round(reservesCurrency.weight * 100);
                         }
 
 
@@ -264,6 +280,7 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
     result.currencySupply = currencySupply;
     result.currencyPriceUSD = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasePrice) / currencySupply;
     result.currencyPriceNative = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasePrice) / currencySupply / nativeCurrencyBasePrice;
+    result.currencyStartBlock = currencyStartBlock;
     result.currencyIcon = currencyIcon;
     result.currencyNote = currencyNote;
 

@@ -22,7 +22,7 @@
     </div>
     <div class="card">
         <div class="card-header go-center-flex">
-            <div class="card-title color-blue">Supply</div>
+            <div class="card-title color-blue">Supply in Baskets</div>
         </div>
         <div class="card-content">
             <div class="card-content-row">
@@ -30,6 +30,7 @@
             </div>
         </div>
     </div>
+    {{#ifEquals currencyType "Basket"}}
     <div class="card">
         <div class="card-header go-center-flex">
             <div class="card-title color-blue">Price In {{blockchain}}</div>
@@ -40,6 +41,7 @@
             </div>
         </div>
     </div>
+    {{/ifEquals}}
     <div class="card">
         <div class="card-header go-center-flex">
             <div class="card-title color-blue">Basket Reserve Value</div>
@@ -178,7 +180,7 @@
 
 
 
-
+ {{#ifEquals currencyType "Basket"}}
 <div class="currency-card">
     <div class="currency-card-header ">
         {{!-- <img width="16px" src="/img/tbtc.png" /> --}}
@@ -215,4 +217,5 @@
     
 
 </div>
+  {{/ifEquals}}
 
