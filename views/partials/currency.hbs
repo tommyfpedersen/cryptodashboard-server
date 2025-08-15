@@ -110,7 +110,12 @@
         </div>
         {{#each this.currencyList}}
         <div class="currency-card-content-row">
-            <div class="currency-card-content-item"> {{this.basketName}}</div>
+            <div class="currency-card-content-item"> {{this.basketName}} 
+                {{!-- {{#if currencyInPreconversion}}
+                <span class="currency-card-content-item-label">(Pre)</span>
+                 {{else}}
+                 {{/if}} --}}
+                </div>
             <div class="currency-card-content-item go-center currency-card-content-item-label">{{this.currencyNetwork}}
             </div>
             <div class="currency-card-content-item go-right"> $ {{this.currencyPriceUSD}} </div>

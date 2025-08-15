@@ -91,6 +91,7 @@ app.get('/currency/:param', async (req, res) => {
     let currencyPriceUSD = 0;
     let blockchain = "";
     let currencyType = "Token";
+    let currencyStartBlock = 0;
 
     let basketReserveCurrencyArray = [];
 
@@ -101,6 +102,7 @@ app.get('/currency/:param', async (req, res) => {
       totalVolume30Days = currencyGroupList[0].totalVolume30Days;
       currencyName = currencyGroupList[0].currencyName;
       currencySupply = currencyGroupList[0].currencySupply;
+      currencyStartBlock =  currencyGroupList[0].currencyStartBlock;
 
       // console.log(currencyReserveValue)
       // console.log(currencyGroupList)
@@ -143,6 +145,7 @@ app.get('/currency/:param', async (req, res) => {
       currencyGroupList: currencyGroupList,
       currencyType:currencyType,
       currencyName: currencyName,
+      currencyStartBlock: currencyStartBlock,
       currencySupply: currencySupply,
       blockchain: blockchain,
       currencyPriceUSD: currencyPriceUSD,
@@ -432,45 +435,79 @@ app.get('/stats', async (req, res) => {
     // currencyArray.push({ priceArray });
     // console.log("currencyArray", { currencyArray })
 
-    res.render('main', { mainRenderData });
+    res.render('stats', { mainRenderData });
     return;
   } else {
 
 
     console.log("her II")
 
-    res.render('main', { vrscOnline: false, varrrOnline: false, vdexOnline: false, mainRenderData: mainRenderData });
+    res.render('stats', { vrscOnline: false, varrrOnline: false, vdexOnline: false, mainRenderData: mainRenderData });
     return;
   }
 
 })
 
+app.get('/api/', async (req, res) => {
+  res.redirect('/api/highlights')
+})
 
-/* dashboard */
-app.get('/api/totalvolume', async (req, res) => {
+app.get('/api/highlights', async (req, res) => {
 
   /* cache */
   let cacheReady = await isCacheReady();
-  let result = {};
-  let vrscVolumeArray = [];
-  let usdVolumeArray = [];
-
+  let mainRenderData = {};
 
   if (cacheReady) {
+
     // cache data
     const cacheData = await readFromCache('cache.json');
+    mainRenderData = cacheData;
 
-    //merging vrscVolumeArrays
-    vrscVolumeArray = [
-      ...cacheData.chipsBridgeVolumeInDollars30DaysArray,
-      ...cacheData.varrrBridgeVolumeInDollars30DaysArray,
-      ...cacheData.vdexBridgeVolumeInDollars30DaysArray
-    ]
-    console.log(vrscVolumeArray)
-    //  mainRenderData = cacheData;
+    res.json( {
+      data: mainRenderData,
+      cachetimestamp: mainRenderData.cachetimestamp,
+      timeAgo: mainRenderData.timeAgo,
+      totalBasketReserves: mainRenderData.basketsInfo[0].currencySupplyPriceUSD,
+      totalVolume24h: mainRenderData.totalBasketsVolume[0].totalVolume24HoursUSD,
+      totalVolume7d: mainRenderData.totalBasketsVolume[0].totalVolume7DaysUSD,
+      totalVolume30d: mainRenderData.totalBasketsVolume[0].totalVolume30DaysUSD,
+      vrscInBaskets: mainRenderData.basketsInfo[0].vrscInReserve,
+      vrscInBasketsUSD: mainRenderData.basketsInfo[0].vrscInReserveUSD,
+
+    });
+    return;
+  } else {
+
+    res.json( { errorMessage: "service offline"});
+    return;
   }
 
-  res.json(result);
+
+
+
+  /* cache */
+  // let cacheReady = await isCacheReady();
+  // let result = {};
+  // let vrscVolumeArray = [];
+  // let usdVolumeArray = [];
+
+
+  // if (cacheReady) {
+  //   // cache data
+  //   const cacheData = await readFromCache('cache.json');
+
+  //   //merging vrscVolumeArrays
+  //   vrscVolumeArray = [
+  //     ...cacheData.chipsBridgeVolumeInDollars30DaysArray,
+  //     ...cacheData.varrrBridgeVolumeInDollars30DaysArray,
+  //     ...cacheData.vdexBridgeVolumeInDollars30DaysArray
+  //   ]
+  //   console.log(vrscVolumeArray)
+  //   //  mainRenderData = cacheData;
+  // }
+
+  // res.json(result);
 })
 
 

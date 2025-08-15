@@ -1,0 +1,88 @@
+<div class="top-card-container">
+
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue">Stats</div>
+        </div>
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label"> {{currencyName}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue">Price</div>
+        </div>
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label">$ {{currencyPriceUSD}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue">Supply in Baskets</div>
+        </div>
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label"> {{currencySupply}}</div>
+            </div>
+        </div>
+    </div>
+    {{#ifEquals currencyType "Basket"}}
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue">Price In {{blockchain}}</div>
+        </div>
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label"> {{currencyPriceInNative}}</div>
+            </div>
+        </div>
+    </div>
+    {{/ifEquals}}
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue">Basket Reserve Value</div>
+        </div>
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label">$ {{currencyReserveValue}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue">24 Hours Volume</div>
+        </div>
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label">$ {{totalVolume24Hours}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue ">7 Days Volume</div>
+        </div>
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label">$ {{totalVolume7Days}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header go-center-flex">
+            <div class="card-title color-blue">30 Days Volume</div>
+        </div>
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item go-center-margin big-label">$ {{totalVolume30Days}}</div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

@@ -4,6 +4,7 @@ dotenv.config();
 
 import { getCurrenciesConfig } from './currenciesConfig.js';
 import { getMiningInfo, getCurrencyState } from "../api/api.js";
+import { getPbaasConfig } from '../pbaas/pbaasConfig.js';
 
 
 
@@ -103,7 +104,8 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
     let secondaryAnchorCurrencyName = currencyConfig.secondaryAnchorCurrencyName;
     let secondaryPriceDominance = currencyConfig.secondaryPriceDominance;
     let rpcBaseUrl = currencyConfig.rpcBaseUrl;
-    let currencyStartBlock = currencyConfig.startBlock || 0;
+    let currencyStartBlock = 0;
+    let currencyInPreconversion = false;
     let currencyIcon = currencyConfig.currencyIcon;
     let currencyScale = currencyConfig.currencyScale || [];
     let currencyNote = currencyConfig.note === undefined ? "" : currencyConfig.note;
@@ -112,11 +114,17 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
 
     let result = {};
 
+    const miningInfo = await getMiningInfo(rpcBaseUrl);
+    // console.log(miningInfoResponse)
+    // const miningInfoResult = await miningInfoResponse.json();
+    // const miningInfo = miningInfoResult.result;
+
     const getcurrencyResponse = await fetch(rpcBaseUrl + "multichain/getcurrency/" + currencyName);
     const getcurrencyResult = await getcurrencyResponse.json();
     const getcurrency = getcurrencyResult.result;
 
     let basketCurrencyArray = [];
+
 
     let nativeCurrencyReserve = 0;
     let nativeCurrencyWeight = 0;
@@ -132,9 +140,20 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
 
     let currencySupply = getcurrency.bestcurrencystate.supply;
 
-    if (getcurrency) {
+    if (miningInfo && getcurrency) {
+        currencyStartBlock = getcurrency.startblock;
+        currencyInPreconversion = getcurrency.startblock < miningInfo.blocks ? false : true;
+
+    ///    console.log(currencyInPreconversion, currencyStartBlock, miningInfo.blocks, rpcBaseUrl)
+       
         let currencyIdArray = Object.values(getcurrency.currencies);
         let currencyNames = Object.entries(getcurrency.currencynames);
+
+
+        //estimate preconversion date
+      //  const currencyInfo = await getCurrency(pbaasConfig[i].rpcBaseUrl, pbaasConfig[i].name)
+      // estimatedCurrencyLaunchDate = getcurrency.startblock > miningInfo.blocks ? ( getcurrency.startblock-miningInfo.blocks * getPbaasConfig().filter((elm)=>elm.name === blockchain)[0]?. ) : '';
+
 
         /* find anchor value*/
         currencyIdArray.forEach((currencyId) => {
@@ -162,6 +181,7 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
         currencyIdArray.forEach((currencyId) => {
             currencyNames.forEach((item) => {
                 let currency = {}
+
                 if (item[0] === currencyId) {
                     getcurrency.bestcurrencystate.reservecurrencies.forEach((reservesCurrency) => {
                         if (reservesCurrency.currencyid === currencyId) {
@@ -201,7 +221,7 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                                         currencyScale.forEach((item) => {
                                             if (item.currencyId === secondaryAnchorCurrencyId) {
                                                 currency.priceUSD = Math.round(currency.priceUSD * item.scale * 10000) / 10000;
-                    
+
                                             }
                                         })
                                     }
@@ -281,10 +301,9 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
     result.currencyPriceUSD = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasePrice) / currencySupply;
     result.currencyPriceNative = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasePrice) / currencySupply / nativeCurrencyBasePrice;
     result.currencyStartBlock = currencyStartBlock;
+    result.currencyInPreconversion = currencyInPreconversion;
     result.currencyIcon = currencyIcon;
     result.currencyNote = currencyNote;
-
-    //console.log(result)
 
     return result;
 }

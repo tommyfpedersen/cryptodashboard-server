@@ -72,6 +72,15 @@ body {
     fill: #ccc;
 }
 
+.top-menu {
+    padding: 20px 0;
+}
+
+.top-menu-item {
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
 
 .content {
     display: flex;
@@ -93,14 +102,16 @@ body {
     font-size: 12px;
     color: grey;
 }
+
 .big-label {
     font-size: 26px;
 }
 
-.color-grey{
+.color-grey {
     color: grey;
 }
-.color-blue{
+
+.color-blue {
     /* color: #2563eb; */
     color: grey;
 }
@@ -108,9 +119,11 @@ body {
 .go-center-flex {
     justify-content: center;
 }
+
 .go-center-margin {
-   margin: 0 auto;
+    margin: 0 auto;
 }
+
 .go-center {
     text-align: center;
 }
@@ -159,8 +172,8 @@ body {
 .card-content-item-label {
     text-transform: uppercase;
     font-size: 12px;
-    color: #2563eb;
-    font-weight: bold;
+    /* color: #2563eb; */
+    /* font-weight: bold; */
     /* min-width: 100px; */
 }
 

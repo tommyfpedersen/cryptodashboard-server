@@ -143,7 +143,9 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
                         basketVolume7Days: Number(item.currencyVolume7Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
                         basketVolume30Days: Number(item.currencyVolume30Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
                         coingeckoprice: item.currencyReserve.coingeckoprice,
-                        currencyType: "Basket"
+                        currencyType: "Basket",
+                        currencyStartBlock: item.currencyReserve.currencyStartBlock,
+                        currencyInPreconversion: item.currencyReserve.currencyInPreconversion
                     })
 
                     totalVolume24Hours = totalVolume24Hours + item.currencyVolume24Hours.totalVolumeUSD;
