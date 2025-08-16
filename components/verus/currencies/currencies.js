@@ -97,6 +97,7 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
     let blockchain = currencyConfig.blockchain;
     let nativeCurrencyId = currencyConfig.nativeCurrencyId;
     let currencyName = currencyConfig.currencyName;
+    let currencyId = "";
     let anchorCurrencyId = currencyConfig.anchorCurrencyId;
     let anchorCurrencyName = currencyConfig.anchorCurrencyName;
     let anchorPriceDominance = currencyConfig.anchorPriceDominance;
@@ -144,15 +145,16 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
         currencyStartBlock = getcurrency.startblock;
         currencyInPreconversion = getcurrency.startblock < miningInfo.blocks ? false : true;
 
-    ///    console.log(currencyInPreconversion, currencyStartBlock, miningInfo.blocks, rpcBaseUrl)
-       
+        ///    console.log(currencyInPreconversion, currencyStartBlock, miningInfo.blocks, rpcBaseUrl)
+
         let currencyIdArray = Object.values(getcurrency.currencies);
         let currencyNames = Object.entries(getcurrency.currencynames);
+        currencyId = getcurrency.currencyid;
 
 
         //estimate preconversion date
-      //  const currencyInfo = await getCurrency(pbaasConfig[i].rpcBaseUrl, pbaasConfig[i].name)
-      // estimatedCurrencyLaunchDate = getcurrency.startblock > miningInfo.blocks ? ( getcurrency.startblock-miningInfo.blocks * getPbaasConfig().filter((elm)=>elm.name === blockchain)[0]?. ) : '';
+        //  const currencyInfo = await getCurrency(pbaasConfig[i].rpcBaseUrl, pbaasConfig[i].name)
+        // estimatedCurrencyLaunchDate = getcurrency.startblock > miningInfo.blocks ? ( getcurrency.startblock-miningInfo.blocks * getPbaasConfig().filter((elm)=>elm.name === blockchain)[0]?. ) : '';
 
 
         /* find anchor value*/
@@ -297,6 +299,7 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
 
     result.anchorCurrencyName = anchorCurrencyName;
     result.currencyName = currencyName;
+    result.currencyId = currencyId;
     result.currencySupply = currencySupply;
     result.currencyPriceUSD = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasePrice) / currencySupply;
     result.currencyPriceNative = (nativeCurrencyReserve * (1 / nativeCurrencyWeight) * nativeCurrencyBasePrice) / currencySupply / nativeCurrencyBasePrice;

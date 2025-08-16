@@ -1,6 +1,10 @@
 import { getCurrenciesConfig } from './currenciesConfig.js';
 
-
+export function getCurrenciesAddresses(allCurrenciesFromBaskets) {
+    // TODO
+    const resultArray = [];
+    return result
+}
 export function getBasketsInfo(allCurrenciesFromBaskets) {
     const resultArray = [];
 
@@ -215,4 +219,115 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
 
     currencyGroupList.sort((a, b) => parseFloat(b.currencySupplyPriceUSD.replace(/,/g, '')) - parseFloat(a.currencySupplyPriceUSD.replace(/,/g, '')));
     return currencyGroupList;
+}
+
+export async function getAddressBalance(rpcBaseUrl, address) {
+    let result = {};
+    let getAddressBalanceArray = [];
+    let getAddressBalance = {};
+    let verusAddress = "";
+    if (address) {
+        verusAddress = decodeURIComponent(address);
+    } else {
+        verusAddress = "none";//"RCdXBieidGuXmK8Tw2gBoXWxi16UgqyKc7";
+    }
+
+    // vrsc
+    try {
+        const getAddressBalanceResponse = await fetch(rpcBaseUrl + "addressindex/getaddressbalance/" + verusAddress);
+        const getAddressBalanceResult = await getAddressBalanceResponse.json();
+        getAddressBalance = getAddressBalanceResult.result;
+    } catch (error) {
+        console.log("no verus api connected...")
+    }
+
+
+    if (getAddressBalance?.currencybalance) {
+
+        let currencyIdArray = Object.keys(getAddressBalance.currencybalance);
+
+        currencyIdArray.forEach((item) => {
+
+            if (getAddressBalance.currencybalance < 0.000001) {
+                return;
+            }
+
+            if ("i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" === item) {
+
+                getAddressBalanceArray.push({ currencyName: "VRSC", amount: getAddressBalance.currencybalance.i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV })
+            }
+            if ("iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM" === item) {
+                getAddressBalanceArray.push({ currencyName: "DAI.vETH", amount: getAddressBalance.currencybalance.iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM })
+            }
+            if ("iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4" === item) {
+                getAddressBalanceArray.push({ currencyName: "MKR.vETH", amount: getAddressBalance.currencybalance.iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4 })
+            }
+            if ("i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X" === item) {
+                if (getAddressBalance.currencybalance.i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X < 0.00001) {
+                    return;
+                }
+                getAddressBalanceArray.push({ currencyName: "vETH", amount: getAddressBalance.currencybalance.i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X })
+            }
+            if ("i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx" === item) {
+                getAddressBalanceArray.push({ currencyName: "Bridge.vETH", amount: getAddressBalance.currencybalance.i3f7tSctFkiPpiedY8QR5Tep9p4qDVebDx })
+            }
+            if ("iHax5qYQGbcMGqJKKrPorpzUBX2oFFXGnY" === item) {
+                getAddressBalanceArray.push({ currencyName: "Pure", amount: getAddressBalance.currencybalance.iHax5qYQGbcMGqJKKrPorpzUBX2oFFXGnY })
+            }
+            if ("iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU" === item) {
+                getAddressBalanceArray.push({ currencyName: "tBTC.vETH", amount: getAddressBalance.currencybalance.iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU })
+            }
+            if ("i4Xr5TAMrDTD99H69EemhjDxJ4ktNskUtc" === item) {
+                getAddressBalanceArray.push({ currencyName: "Switch", amount: getAddressBalance.currencybalance.i4Xr5TAMrDTD99H69EemhjDxJ4ktNskUtc })
+            }
+            if ("i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd" === item) {
+                getAddressBalanceArray.push({ currencyName: "vUSDC.vETH", amount: getAddressBalance.currencybalance.i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd })
+            }
+            if ("iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE" === item) {
+                getAddressBalanceArray.push({ currencyName: "EURC.vETH", amount: getAddressBalance.currencybalance.iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE })
+            }
+            if ("iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2" === item) {
+                getAddressBalanceArray.push({ currencyName: "vARRR", amount: getAddressBalance.currencybalance.iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2 })
+            }
+            if ("i9kVWKU2VwARALpbXn4RS9zvrhvNRaUibb" === item) {
+                getAddressBalanceArray.push({ currencyName: "Kaiju", amount: getAddressBalance.currencybalance.i9kVWKU2VwARALpbXn4RS9zvrhvNRaUibb })
+            }
+            if ("iRt7tpLewArQnRddBVFARGKJStK6w5pDmC" === item) {
+                getAddressBalanceArray.push({ currencyName: "NATI", amount: getAddressBalance.currencybalance.iRt7tpLewArQnRddBVFARGKJStK6w5pDmC })
+            }
+            if ("iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx" === item) {
+                getAddressBalanceArray.push({ currencyName: "NATI.vETH", amount: getAddressBalance.currencybalance.iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx })
+            }
+            if ("iHnYAmrS45Hb8GVgyzy7nVQtZ5vttJ9N3X" === item) {
+                getAddressBalanceArray.push({ currencyName: "SUPERVRSC", amount: getAddressBalance.currencybalance.iHnYAmrS45Hb8GVgyzy7nVQtZ5vttJ9N3X })
+            }
+            if ("i6SapneNdvpkrLPgqPhDVim7Ljek3h2UQZ" === item) {
+                getAddressBalanceArray.push({ currencyName: "SUPERNET", amount: getAddressBalance.currencybalance.i6SapneNdvpkrLPgqPhDVim7Ljek3h2UQZ })
+            }
+            if ("iAik7rePReFq2t7LZMZhHCJ52fT5pisJ5C" === item) {
+                getAddressBalanceArray.push({ currencyName: "vYIELD", amount: getAddressBalance.currencybalance.iAik7rePReFq2t7LZMZhHCJ52fT5pisJ5C })
+            }
+            if ("i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj" === item) {
+                getAddressBalanceArray.push({ currencyName: "scrvUSD.vETH", amount: getAddressBalance.currencybalance.i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj })
+            }
+            if ("iCDjBN71SbSppgsNTpwwMBT69399DpV4hA" === item) {
+                getAddressBalanceArray.push({ currencyName: "Kek🐸", amount: getAddressBalance.currencybalance.iCDjBN71SbSppgsNTpwwMBT69399DpV4hA })
+            }
+            if ("i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR" === item) {
+                getAddressBalanceArray.push({ currencyName: "pepecoin.vETH", amount: getAddressBalance.currencybalance.i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR })
+            }
+            if ("i3nokiCTVevZMLpR3VmZ7YDfCqA5juUqqH" === item) {
+                getAddressBalanceArray.push({ currencyName: "Bridge.CHIPS", amount: getAddressBalance.currencybalance.i3nokiCTVevZMLpR3VmZ7YDfCqA5juUqqH })
+            }
+            if ("iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP" === item) {
+                getAddressBalanceArray.push({ currencyName: "CHIPS", amount: getAddressBalance.currencybalance.iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP })
+            }
+            if ("iFPazWbwUnTHQYUiH5upZMqBtcEhfRdE4v" === item) {
+                getAddressBalanceArray.push({ currencyName: "SUPER🛒", amount: getAddressBalance.currencybalance.iFPazWbwUnTHQYUiH5upZMqBtcEhfRdE4v })
+            }
+        })
+    }
+    result.verusAddress = verusAddress;
+    result.getAddressBalanceArray = getAddressBalanceArray;
+    return result;
 }

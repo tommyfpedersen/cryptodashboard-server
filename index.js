@@ -17,7 +17,7 @@ let pageLoads = 0;
 // components
 import { writeToCache, readFromCache, isCacheReady } from './components/cache/cache.js';
 
-import { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats } from './components/verus/verus.js';
+//import { getNodeStatus, getBlockAndFeePoolRewards, getAddressBalance, calculateStakingRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats } from './components/verus/verus.js';
 import { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve } from './components/varrr/varrr.js';
 import { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance, calculateVdexStakingRewards, calculateVdexMiningRewards, getVdexCurrencyVolume, getVdexCurrencyReserve } from './components/vdex/vdex.js';
 import { calculateChipsMiningRewards, calculateChipsStakingRewards, getChipsAddressBalance, getChipsBlockAndFeePoolRewards, getChipsCurrencyReserve, getChipsNodeStatus } from './components/chips/chips.js';
@@ -249,18 +249,19 @@ app.get('/stats', async (req, res) => {
     // user request
     /*  if user input - no cache  */
     if (req.query.address || req.query.varrraddress || req.query.vdexaddress || req.query.chipsaddress || req.query.vrscstakingamount || req.query.vrscmininghash  || req.query.varrrstakingamount || req.query.varrrmininghash || req.query.vdexstakingamount || req.query.vdexmininghash  || req.query.chipsstakingamount || req.query.chipsmininghash || req.query.tfnodes) {
-      const vrscNodeStatus = await getNodeStatus();
-      const varrrNodeStatus = await getVarrrNodeStatus();
-      const vdexNodeStatus = await getVdexNodeStatus();
-      const chipsNodeStatus = await getChipsNodeStatus();
+      // const vrscNodeStatus = await getNodeStatus();
+      // const varrrNodeStatus = await getVarrrNodeStatus();
+      // const vdexNodeStatus = await getVdexNodeStatus();
+      // const chipsNodeStatus = await getChipsNodeStatus();
       /* Get price from coingecko */
       let coingeckoPriceArray = await getCoingeckoPrice();
-      let currencyReserveBridge = await getCurrencyReserve("bridge.veth", coingeckoPriceArray);
+    //  let currencyReserveBridge = await getCurrencyReserve("bridge.veth", coingeckoPriceArray);
 
       /* verus */
       //if (vrscNodeStatus.online === true) {
       /* Get address balance */
-      const verusAddressBalance = await getAddressBalance(req.query.address);
+     // const verusAddressBalance = await getAddressBalance(req.query.address);
+      const verusAddressBalance = await getAddressBalance(process.env.VERUS_REST_API, req.query.address);
 
       /* Get block and fee pool rewards */
       // const blockandfeepoolrewards = await getBlockAndFeePoolRewards();
@@ -290,7 +291,7 @@ app.get('/stats', async (req, res) => {
       // if (chipsNodeStatus.online === true) {
 
       //   /* Get address balance */
-      const chipsAddressBalance = await getChipsAddressBalance(req.query.chipsaddress);
+      const chipsAddressBalance = await getAddressBalance(process.env.VERUS_REST_API_CHIPS, req.query.chipsaddress);
 
       //   /* Get block and fee pool rewards */
       //   const chipsblockandfeepoolrewards = await getChipsBlockAndFeePoolRewards();
@@ -323,7 +324,7 @@ app.get('/stats', async (req, res) => {
       // if (varrrNodeStatus.online === true) {
 
       //   /* Get address balance */
-      const varrrAddressBalance = await getVarrrAddressBalance(req.query.varrraddress);
+      const varrrAddressBalance = await getAddressBalance(process.env.VERUS_REST_API_VARRR, req.query.varrraddress);
 
       //   /* Get block and fee pool rewards */
       //   const varrrblockandfeepoolrewards = await getVarrrBlockAndFeePoolRewards();
@@ -355,7 +356,7 @@ app.get('/stats', async (req, res) => {
       // if (vdexNodeStatus.online === true) {
 
       //   /* Get address balance */
-      const vdexAddressBalance = await getVdexAddressBalance(req.query.vdexaddress);
+      const vdexAddressBalance = await getAddressBalance(process.env.VERUS_REST_API_VDEX, req.query.vdexaddress);
 
       //   /* Get block and fee pool rewards */
       //   const vdexblockandfeepoolrewards = await getVdexBlockAndFeePoolRewards();
@@ -502,7 +503,7 @@ import path from 'path';
 import { get } from 'http';
 import { getAllPbaas } from './components/verus/pbaas/pbaas.js';
 import { getAPYArray, getCurrencyPriceListArray, getDailyEarningsPerGHArray, getFeePoolRewardArray, getIDPriceListArray, getMarketCapArray, getNetworkHashrateArray } from './components/verus/pbaas/pbaasUtils.js';
-import { getBasketsInfo, getCurrencyGroupList, getTotalBasketsVolume } from './components/verus/currencies/currenciesUtils.js';
+import { getBasketsInfo, getCurrencyGroupList, getTotalBasketsVolume, getAddressBalance } from './components/verus/currencies/currenciesUtils.js';
 const __dirname = path.resolve();
 
 app.set('views', './views')
