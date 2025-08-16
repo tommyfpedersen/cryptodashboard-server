@@ -115,7 +115,7 @@
 <div class="currency-card">
     <div class="currency-card-header ">
         {{!-- <img width="16px" src="/img/tbtc.png" /> --}}
-        <div class="card-title"> {{currencyName}} </div>
+        <div class="card-title"> <a href="/currency/{{currencyName}}">{{currencyName}}</a> </div>
     </div>
 
 
@@ -133,7 +133,7 @@
         </div>
         {{#each this.currencyList}}
         <div class="currency-card-content-row">
-            <div class="currency-card-content-item"> {{this.basketName}}
+            <div class="currency-card-content-item"><a href="/currency/{{this.basketName}}">{{this.basketName}}</a> 
                  {{!-- {{#if currencyInPreconversion}}
                 <span class="currency-card-content-item-label">(Pre)</span>
                  {{else}}

@@ -110,7 +110,7 @@
         </div>
         {{#each this.currencyList}}
         <div class="currency-card-content-row">
-            <div class="currency-card-content-item"> {{this.basketName}} 
+            <div class="currency-card-content-item"> <a href="/currency/{{this.basketName}}">{{this.basketName}}</a> 
                 {{!-- {{#if currencyInPreconversion}}
                 <span class="currency-card-content-item-label">(Pre)</span>
                  {{else}}
@@ -194,7 +194,7 @@
 
 
     {{#each basketReserveCurrencyArray}}
-    <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;">{{currencyName}} ({{weight}}%)</div>
+    <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;"><a href="/currency/{{currencyName}}">{{currencyName}}</a> ({{weight}}%)</div>
     <div class="currency-card-content">
         <div class="currency-card-content-row">
             <div class="currency-card-content-item-label">Reserve</div>

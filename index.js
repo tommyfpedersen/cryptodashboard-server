@@ -104,15 +104,8 @@ app.get('/currency/:param', async (req, res) => {
       currencySupply = currencyGroupList[0].currencySupply;
       currencyStartBlock = currencyGroupList[0].currencyStartBlock;
 
-      // console.log(currencyReserveValue)
-      // console.log(currencyGroupList)
-
-      //   currencyPriceUSD: item.currencyReserve.currencyPriceUSD < 1 ? Number(item.currencyReserve.currencyPriceUSD.toFixed(4)).toLocaleString() : Number(item.currencyReserve.currencyPriceUSD.toFixed(2)).toLocaleString(),
-
-
       const currency = mainRenderData.allCurrenciesFromBaskets.filter((item) => { return item.name.toLowerCase() === param.toLowerCase() })[0];
 
-      console.log(currencyGroupList[0])
       if (currency) {
         if (currency?.type === "Basket") {
           currencyType = "Basket"
@@ -127,8 +120,6 @@ app.get('/currency/:param', async (req, res) => {
       else {
         currencyPriceUSD = currencyGroupList[0].currencyList[0].currencyPriceUSD;
       }
-
-      console.log(basketReserveCurrencyArray)
     }
 
     basketReserveCurrencyArray.map((item) => {
@@ -435,8 +426,6 @@ app.get('/stats', async (req, res) => {
     return;
   } else {
 
-
-    console.log("her II")
 
     res.render('stats', { vrscOnline: false, varrrOnline: false, vdexOnline: false, mainRenderData: mainRenderData });
     return;
