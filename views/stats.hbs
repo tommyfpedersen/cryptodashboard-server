@@ -9,11 +9,9 @@
     <title>Cryptodashboard</title>
 </head>
 
-<body 
-{{!-- onload="init()" --}}
->
+<body onload="init()">
 
-    {{> header}}
+    {{!-- {{> header}} --}}
 
     {{!-- <div class="side-menu"></div>
     <div class="section">
@@ -117,17 +115,18 @@
         {{> vdexMiningRewardsCard }}
         {{> vdexBridgeVethVolumeBasketCard }} --}}
 
-   
-    <div class="content">
-        {{!-- {{> header}} --}}
-        {{!-- {{> currencyCard}} --}}
-        {{> footer}}
-    </div>
 
-   
-    {{{updateScript}}}
-    <div id="hint" class="hide">Hej</div>
+        <div class="content">
+            {{> header}}
+            {{> stats}}
+            {{> footer}}
+        </div>
+
+
+        {{{updateScript}}}
+        <div id="hint" class="hide">Hej</div>
 </body>
-{{!-- <script src="main-003.js"></script> --}}
+
+<script src="main-003.js"></script> 
 
 </html>

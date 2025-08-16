@@ -102,16 +102,16 @@ app.get('/currency/:param', async (req, res) => {
       totalVolume30Days = currencyGroupList[0].totalVolume30Days;
       currencyName = currencyGroupList[0].currencyName;
       currencySupply = currencyGroupList[0].currencySupply;
-      currencyStartBlock =  currencyGroupList[0].currencyStartBlock;
+      currencyStartBlock = currencyGroupList[0].currencyStartBlock;
 
       // console.log(currencyReserveValue)
       // console.log(currencyGroupList)
 
-//   currencyPriceUSD: item.currencyReserve.currencyPriceUSD < 1 ? Number(item.currencyReserve.currencyPriceUSD.toFixed(4)).toLocaleString() : Number(item.currencyReserve.currencyPriceUSD.toFixed(2)).toLocaleString(),
+      //   currencyPriceUSD: item.currencyReserve.currencyPriceUSD < 1 ? Number(item.currencyReserve.currencyPriceUSD.toFixed(4)).toLocaleString() : Number(item.currencyReserve.currencyPriceUSD.toFixed(2)).toLocaleString(),
 
 
       const currency = mainRenderData.allCurrenciesFromBaskets.filter((item) => { return item.name.toLowerCase() === param.toLowerCase() })[0];
-   
+
       console.log(currencyGroupList[0])
       if (currency) {
         if (currency?.type === "Basket") {
@@ -124,14 +124,14 @@ app.get('/currency/:param', async (req, res) => {
         }
 
       }
-      else{
+      else {
         currencyPriceUSD = currencyGroupList[0].currencyList[0].currencyPriceUSD;
       }
 
-        console.log(basketReserveCurrencyArray)
+      console.log(basketReserveCurrencyArray)
     }
 
-    basketReserveCurrencyArray.map((item)=>{
+    basketReserveCurrencyArray.map((item) => {
       let obj = item;
       obj.reservePriceUSD = item.reservePriceUSD < 1 ? Number(item.reservePriceUSD.toFixed(4)).toLocaleString() : Number(item.reservePriceUSD.toFixed(2)).toLocaleString()
       obj.priceNativeCurrency = item.priceNativeCurrency < 1 ? Number(item.priceNativeCurrency.toFixed(4)).toLocaleString() : Number(item.priceNativeCurrency.toFixed(4)).toLocaleString()
@@ -143,7 +143,7 @@ app.get('/currency/:param', async (req, res) => {
     res.render('currency', {
       timeAgo: mainRenderData.timeAgo,
       currencyGroupList: currencyGroupList,
-      currencyType:currencyType,
+      currencyType: currencyType,
       currencyName: currencyName,
       currencyStartBlock: currencyStartBlock,
       currencySupply: currencySupply,
@@ -246,11 +246,10 @@ app.get('/stats', async (req, res) => {
 
   /* cache */
   let cacheReady = await isCacheReady();
+  let mainRenderData = {};
   let userData = {};
 
-
   if (cacheReady) {
-    let mainRenderData = {};
 
     // cache data
     const cacheData = await readFromCache('cache.json');
@@ -258,7 +257,7 @@ app.get('/stats', async (req, res) => {
 
     // user request
     /*  if user input - no cache  */
-    if (req.query.address || req.query.vrscstakingamount || req.query.vrscmininghash || req.query.varrraddress || req.query.varrrstakingamount || req.query.varrrmininghash || req.query.vdexstakingamount || req.query.vdexmininghash || req.query.chipsaddress || req.query.chipsstakingamount || req.query.chipsmininghash || req.query.tfnodes) {
+    if (req.query.address || req.query.varrraddress || req.query.vdexaddress || req.query.chipsaddress || req.query.vrscstakingamount || req.query.vrscmininghash  || req.query.varrrstakingamount || req.query.varrrmininghash || req.query.vdexstakingamount || req.query.vdexmininghash  || req.query.chipsstakingamount || req.query.chipsmininghash || req.query.tfnodes) {
       const vrscNodeStatus = await getNodeStatus();
       const varrrNodeStatus = await getVarrrNodeStatus();
       const vdexNodeStatus = await getVdexNodeStatus();
@@ -268,174 +267,171 @@ app.get('/stats', async (req, res) => {
       let currencyReserveBridge = await getCurrencyReserve("bridge.veth", coingeckoPriceArray);
 
       /* verus */
-      if (vrscNodeStatus.online === true) {
-        /* Get address balance */
-        const verusAddressBalance = await getAddressBalance(req.query.address);
+      //if (vrscNodeStatus.online === true) {
+      /* Get address balance */
+      const verusAddressBalance = await getAddressBalance(req.query.address);
 
-        /* Get block and fee pool rewards */
-        const blockandfeepoolrewards = await getBlockAndFeePoolRewards();
-        const currentBlock = blockandfeepoolrewards.block;
+      /* Get block and fee pool rewards */
+      // const blockandfeepoolrewards = await getBlockAndFeePoolRewards();
+      // const currentBlock = blockandfeepoolrewards.block;
 
-        /* Get Coinsupply - marketcap */
-        const coinSupply = await getMarketCapStats(currentBlock, currencyReserveBridge.vrscBridgePrice)
+      // /* Get Coinsupply - marketcap */
+      // const coinSupply = await getMarketCapStats(currentBlock, currencyReserveBridge.vrscBridgePrice)
 
-        /* Calculate staking rewards */
-        const stakingRewards = await calculateStakingRewards(coinSupply.totalSupply, blockandfeepoolrewards.stakingsupply, req.query.vrscstakingamount, currencyReserveBridge.vrscBridgePrice);
+      // /* Calculate staking rewards */
+      // const stakingRewards = await calculateStakingRewards(coinSupply.totalSupply, blockandfeepoolrewards.stakingsupply, req.query.vrscstakingamount, currencyReserveBridge.vrscBridgePrice);
 
-        /* Calculate mining rewards */
-        const miningRewards = await calculateMiningRewards(blockandfeepoolrewards.networkhashps, req.query.vrscmininghash, currencyReserveBridge.vrscBridgePrice);
+      // /* Calculate mining rewards */
+      // const miningRewards = await calculateMiningRewards(blockandfeepoolrewards.networkhashps, req.query.vrscmininghash, currencyReserveBridge.vrscBridgePrice);
 
-        userData = {
-          getAddressBalanceArray: verusAddressBalance.getAddressBalanceArray,
-          getAddress: verusAddressBalance.verusAddress === "none" ? "" : verusAddressBalance.verusAddress,
-          stakingAmount: stakingRewards.stakingAmount,
-          stakingRewardsArray: stakingRewards.stakingArray,
-          vrscMiningHash: miningRewards.vrscMiningHash,
-          miningRewardsArray: miningRewards.miningArray,
-        }
+      userData = {
+        getAddressBalanceArray: verusAddressBalance.getAddressBalanceArray,
+        getAddress: verusAddressBalance.verusAddress === "none" ? "" : verusAddressBalance.verusAddress,
+        // stakingAmount: stakingRewards.stakingAmount,
+        // stakingRewardsArray: stakingRewards.stakingArray,
+        // vrscMiningHash: miningRewards.vrscMiningHash,
+        // miningRewardsArray: miningRewards.miningArray,
+        //  }
       }
 
 
       /* chips */
-      if (chipsNodeStatus.online === true) {
+      // if (chipsNodeStatus.online === true) {
 
-        /* Get address balance */
-        const chipsAddressBalance = await getChipsAddressBalance(req.query.chipsaddress);
+      //   /* Get address balance */
+      const chipsAddressBalance = await getChipsAddressBalance(req.query.chipsaddress);
 
-        /* Get block and fee pool rewards */
-        const chipsblockandfeepoolrewards = await getChipsBlockAndFeePoolRewards();
-        const currentBlock = chipsblockandfeepoolrewards.block;
+      //   /* Get block and fee pool rewards */
+      //   const chipsblockandfeepoolrewards = await getChipsBlockAndFeePoolRewards();
+      //   const currentBlock = chipsblockandfeepoolrewards.block;
 
-        /* Get bridge.Chips volume and reserve info */
-        const currencyReserveChipsBridge = await getChipsCurrencyReserve("bridge.chips", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
+      //   /* Get bridge.Chips volume and reserve info */
+      //   const currencyReserveChipsBridge = await getChipsCurrencyReserve("bridge.chips", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
 
-        const chipsBridgePrice = currencyReserveChipsBridge.currencyBridgeChipsArray.find(item => item.currencyName === 'CHIPS').price;
+      //   const chipsBridgePrice = currencyReserveChipsBridge.currencyBridgeChipsArray.find(item => item.currencyName === 'CHIPS').price;
 
-        /* Calculate chips staking rewards */
-        const chipsStakingRewards = await calculateChipsStakingRewards(chipsblockandfeepoolrewards.stakingsupply, req.query.chipsstakingamount, chipsBridgePrice);
+      //   /* Calculate chips staking rewards */
+      //   const chipsStakingRewards = await calculateChipsStakingRewards(chipsblockandfeepoolrewards.stakingsupply, req.query.chipsstakingamount, chipsBridgePrice);
 
-        /* Calculate chips mining rewards */
-        const chipsMiningRewards = await calculateChipsMiningRewards(chipsblockandfeepoolrewards.networkhashps, req.query.chipsmininghash, chipsBridgePrice);
+      //   /* Calculate chips mining rewards */
+      //   const chipsMiningRewards = await calculateChipsMiningRewards(chipsblockandfeepoolrewards.networkhashps, req.query.chipsmininghash, chipsBridgePrice);
 
-        userData = {
-          ...userData,
-          getChipsAddressBalanceArray: chipsAddressBalance.getAddressBalanceArray,
-          getChipsAddress: chipsAddressBalance.verusAddress === "none" ? "" : chipsAddressBalance.verusAddress,
-          chipsStakingAmount: chipsStakingRewards.stakingAmount,
-          chipsStakingRewardsArray: chipsStakingRewards.stakingArray,
-          chipsMiningHash: chipsMiningRewards.chipsMiningHash,
-          chipsMiningRewardsArray: chipsMiningRewards.miningArray,
-        }
+      userData = {
+        ...userData,
+        getChipsAddressBalanceArray: chipsAddressBalance.getAddressBalanceArray,
+        getChipsAddress: chipsAddressBalance.verusAddress === "none" ? "" : chipsAddressBalance.verusAddress,
+        // chipsStakingAmount: chipsStakingRewards.stakingAmount,
+        // chipsStakingRewardsArray: chipsStakingRewards.stakingArray,
+        // chipsMiningHash: chipsMiningRewards.chipsMiningHash,
+        // chipsMiningRewardsArray: chipsMiningRewards.miningArray,
       }
+      // }
 
 
-      /* varrr */
-      if (varrrNodeStatus.online === true) {
+      // /* varrr */
+      // if (varrrNodeStatus.online === true) {
 
-        /* Get address balance */
-        const varrrAddressBalance = await getVarrrAddressBalance(req.query.varrraddress);
+      //   /* Get address balance */
+      const varrrAddressBalance = await getVarrrAddressBalance(req.query.varrraddress);
 
-        /* Get block and fee pool rewards */
-        const varrrblockandfeepoolrewards = await getVarrrBlockAndFeePoolRewards();
-        const currentBlock = varrrblockandfeepoolrewards.block;
+      //   /* Get block and fee pool rewards */
+      //   const varrrblockandfeepoolrewards = await getVarrrBlockAndFeePoolRewards();
+      //   const currentBlock = varrrblockandfeepoolrewards.block;
 
-        /* Get bridge.varrr volume and reserve info */
-        const currencyReserveVarrrBridge = await getVarrrCurrencyReserve("bridge.varrr", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
+      //   /* Get bridge.varrr volume and reserve info */
+      //   const currencyReserveVarrrBridge = await getVarrrCurrencyReserve("bridge.varrr", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
 
-        const varrrBridgePrice = currencyReserveVarrrBridge.currencyVarrrBridgeArray.find(item => item.currencyName === 'vARRR').price;
+      //   const varrrBridgePrice = currencyReserveVarrrBridge.currencyVarrrBridgeArray.find(item => item.currencyName === 'vARRR').price;
 
-        /* Calculate varrr staking rewards */
-        const varrrStakingRewards = await calculateVarrrStakingRewards(varrrblockandfeepoolrewards.stakingsupply, req.query.varrrstakingamount, varrrBridgePrice);
+      //   /* Calculate varrr staking rewards */
+      //   const varrrStakingRewards = await calculateVarrrStakingRewards(varrrblockandfeepoolrewards.stakingsupply, req.query.varrrstakingamount, varrrBridgePrice);
 
-        /* Calculate varrr mining rewards */
-        const varrrMiningRewards = await calculateVarrrMiningRewards(varrrblockandfeepoolrewards.networkhashps, req.query.varrrmininghash, varrrBridgePrice);
+      //   /* Calculate varrr mining rewards */
+      //   const varrrMiningRewards = await calculateVarrrMiningRewards(varrrblockandfeepoolrewards.networkhashps, req.query.varrrmininghash, varrrBridgePrice);
 
-        userData = {
-          ...userData,
-          getVarrrAddressBalanceArray: varrrAddressBalance.getAddressBalanceArray,
-          getVarrrAddress: varrrAddressBalance.verusAddress === "none" ? "" : varrrAddressBalance.verusAddress,
-          varrrStakingAmount: varrrStakingRewards.stakingAmount,
-          varrrStakingRewardsArray: varrrStakingRewards.stakingArray,
-          varrrMiningHash: varrrMiningRewards.varrrMiningHash,
-          varrrMiningRewardsArray: varrrMiningRewards.miningArray,
-        }
+      userData = {
+        ...userData,
+        getVarrrAddressBalanceArray: varrrAddressBalance.getAddressBalanceArray,
+        getVarrrAddress: varrrAddressBalance.verusAddress === "none" ? "" : varrrAddressBalance.verusAddress,
+        // varrrStakingAmount: varrrStakingRewards.stakingAmount,
+        // varrrStakingRewardsArray: varrrStakingRewards.stakingArray,
+        // varrrMiningHash: varrrMiningRewards.varrrMiningHash,
+        // varrrMiningRewardsArray: varrrMiningRewards.miningArray,
       }
+      //     }
 
-      /* vdex */
-      if (vdexNodeStatus.online === true) {
+      // /* vdex */
+      // if (vdexNodeStatus.online === true) {
 
-        /* Get address balance */
-        const vdexAddressBalance = await getVdexAddressBalance(req.query.vdexaddress);
+      //   /* Get address balance */
+      const vdexAddressBalance = await getVdexAddressBalance(req.query.vdexaddress);
 
-        /* Get block and fee pool rewards */
-        const vdexblockandfeepoolrewards = await getVdexBlockAndFeePoolRewards();
-        const currentBlock = vdexblockandfeepoolrewards.block;
+      //   /* Get block and fee pool rewards */
+      //   const vdexblockandfeepoolrewards = await getVdexBlockAndFeePoolRewards();
+      //   const currentBlock = vdexblockandfeepoolrewards.block;
 
-        /* Get bridge.vdex volume and reserve info */
-        const currencyReserveVdexBridge = await getVdexCurrencyReserve("bridge.vdex", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
-        const vdexBridgePrice = currencyReserveVdexBridge.currencyBridgeArray.find(item => item.currencyName === 'vDEX').price;
+      //   /* Get bridge.vdex volume and reserve info */
+      //   const currencyReserveVdexBridge = await getVdexCurrencyReserve("bridge.vdex", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice, currencyReserveBridge.estimatedBridgeValueUSD);
+      //   const vdexBridgePrice = currencyReserveVdexBridge.currencyBridgeArray.find(item => item.currencyName === 'vDEX').price;
 
-        /* Calculate vdex staking rewards */
-        const vdexStakingRewards = await calculateVdexStakingRewards(vdexblockandfeepoolrewards.stakingsupply, req.query.vdexstakingamount, vdexBridgePrice);
+      //   /* Calculate vdex staking rewards */
+      //   const vdexStakingRewards = await calculateVdexStakingRewards(vdexblockandfeepoolrewards.stakingsupply, req.query.vdexstakingamount, vdexBridgePrice);
 
-        /* Calculate vdex mining rewards */
-        const vdexMiningRewards = await calculateVdexMiningRewards(vdexblockandfeepoolrewards.networkhashps, req.query.vdexmininghash, vdexBridgePrice);
+      //   /* Calculate vdex mining rewards */
+      //   const vdexMiningRewards = await calculateVdexMiningRewards(vdexblockandfeepoolrewards.networkhashps, req.query.vdexmininghash, vdexBridgePrice);
 
-        userData = {
-          ...userData,
-          getVdexAddressBalanceArray: vdexAddressBalance.getAddressBalanceArray,
-          getVdexAddress: vdexAddressBalance.verusAddress === "none" ? "" : vdexAddressBalance.verusAddress,
-          vdexStakingAmount: vdexStakingRewards.stakingAmount,
-          vdexStakingRewardsArray: vdexStakingRewards.stakingArray,
-          vdexMiningHash: vdexMiningRewards.vdexMiningHash,
-          vdexMiningRewardsArray: vdexMiningRewards.miningArray,
-        }
+      userData = {
+        ...userData,
+        getVdexAddressBalanceArray: vdexAddressBalance.getAddressBalanceArray,
+        getVdexAddress: vdexAddressBalance.verusAddress === "none" ? "" : vdexAddressBalance.verusAddress,
+        // vdexStakingAmount: vdexStakingRewards.stakingAmount,
+        // vdexStakingRewardsArray: vdexStakingRewards.stakingArray,
+        // vdexMiningHash: vdexMiningRewards.vdexMiningHash,
+        // vdexMiningRewardsArray: vdexMiningRewards.miningArray,
       }
+      // }
 
-      /* ThreeFold*/
-      let threeFoldNodeArray = []
-      let threefoldNodeString = "";
-      if (req.query.tfnodes) {
-        threefoldNodeString = decodeURIComponent(req.query.tfnodes);
-        threeFoldNodeArray = await getThreeFoldNodeArray(threefoldNodeString);
-      } else {
-        threefoldNodeString = "none";
-      }
+      // /* ThreeFold*/
+      // let threeFoldNodeArray = []
+      // let threefoldNodeString = "";
+      // if (req.query.tfnodes) {
+      //   threefoldNodeString = decodeURIComponent(req.query.tfnodes);
+      //   threeFoldNodeArray = await getThreeFoldNodeArray(threefoldNodeString);
+      // } else {
+      //   threefoldNodeString = "none";
+      // }
 
-      const threeFoldRenderData = {
-        // ThreeFold
-        threeFoldNodeArray: threeFoldNodeArray,
-        threefoldNodeString: threefoldNodeString === "none" ? "" : threefoldNodeString
-      }
+      // const threeFoldRenderData = {
+      //   // ThreeFold
+      //   threeFoldNodeArray: threeFoldNodeArray,
+      //   threefoldNodeString: threefoldNodeString === "none" ? "" : threefoldNodeString
+      // }
 
-      console.log("her I")
+      //console.log(userData)
+
       // add userData to renderData
-      mainRenderData = { ...mainRenderData, ...userData, ...threeFoldRenderData };
+      // mainRenderData = {
+      //   mainRenderData: mainRenderData,
+      //   ...[userData],
+      //   //  ...threeFoldRenderData 
+      // };
     }
-    // console.log("her 1")
-    // let currencyArray = [];
-    // let priceArray = [
-    //   {
-    //     currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
-    //     price: 0,
-    //     totalVolume: 0,
-    //     name: "bitcoin",
-    //   }]
 
-    // currencyArray.push({ priceArray });
 
-    // priceArray = [
-    //   {
-    //     currencyId: "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU",
-    //     price: 0,
-    //     totalVolume: 0,
-    //     name: "vrscoin",
-    //   }]
+    //console.log(mainRenderData)
 
-    // currencyArray.push({ priceArray });
-    // console.log("currencyArray", { currencyArray })
-
-    res.render('stats', { mainRenderData });
+    res.render('stats', {
+      getAddress: userData.getAddress,
+      getAddressBalanceArray: userData.getAddressBalanceArray,
+      getVarrrAddress: userData.getVarrrAddress,
+      getVarrrAddressBalanceArray: userData.getVarrrAddressBalanceArray,
+      getChipsAddress: userData.getChipsAddress,
+      getChipsAddressBalanceArray: userData.getChipsAddressBalanceArray,
+      getVdexAddress: userData.getVdexAddress,
+      getVdexAddressBalanceArray: userData.getVdexAddressBalanceArray
+      // mainRenderData: mainRenderData,
+      // userData: userData
+    });
     return;
   } else {
 
@@ -464,7 +460,7 @@ app.get('/api/highlights', async (req, res) => {
     const cacheData = await readFromCache('cache.json');
     mainRenderData = cacheData;
 
-    res.json( {
+    res.json({
       data: mainRenderData,
       cachetimestamp: mainRenderData.cachetimestamp,
       timeAgo: mainRenderData.timeAgo,
@@ -479,7 +475,7 @@ app.get('/api/highlights', async (req, res) => {
     return;
   } else {
 
-    res.json( { errorMessage: "service offline"});
+    res.json({ errorMessage: "service offline" });
     return;
   }
 

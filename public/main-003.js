@@ -5,6 +5,8 @@ const SVGpower = ` <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16
 
 function init() {
 
+    console.log("init")
+
     /* load settings */
     let settings = JSON.parse(localStorage.getItem("settings"));
     let settingsObject = {
@@ -33,6 +35,7 @@ function init() {
     let getAddressBalanceElm = document.querySelector("#get-address-balance");
     if (getAddressBalanceElm) {
         getAddressBalanceElm.addEventListener('keydown', (evt) => {
+            console.log("value",getAddressBalanceElm.value)
             if (evt.key === 'Enter') {
                 let string = encodeURIComponent(getAddressBalanceElm.value)
                 var href = new URL(location.href);
@@ -207,7 +210,7 @@ function init() {
      initCardHideButtons();
     initGraphButtons();
     initResetLocalStorage();
-     initSideMenu();
+    //  initSideMenu();
     initGraphBarHints();
     initDarkmodeButton();
 }
