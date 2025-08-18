@@ -298,7 +298,7 @@ body {
 
 .currency-card-content {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
 }
 
 .currency-card-content-row {
@@ -307,10 +307,28 @@ body {
     padding: 2px 0px;
 }
 
-.currency-card-content-item {
+.content-left-column {
     min-width: 145px;
 }
+.content-right-column {
+    overflow: auto;
+}
 
+.currency-card-content-left-column-item {
+    line-height: 20px;
+    font-size: 16px;
+}
+
+.currency-card-content-left-column-item-label {
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.currency-card-content-item {
+    min-width: 145px;
+    line-height: 20px;
+    font-size: 16px;
+}
 .currency-card-content-item-label {
     text-transform: uppercase;
     font-size: 12px;
@@ -424,6 +442,32 @@ body {
 
 /*  mobile view */
 @media only screen and (max-width: 680px) {
+    .content-left-column {
+        min-width: 100px;
+    }
+
+    .currency-card-content-item {
+        min-width: 120px;
+        line-height: 16px;
+        font-size: 12px;
+    }
+
+    .currency-card-content-item-label {
+        text-transform: uppercase;
+        font-size: 10px;
+        min-width: 120px;
+    }
+    
+    .currency-card-content-left-column-item {
+        line-height: 16px;
+        font-size: 12px;
+    }
+    .currency-card-content-left-column-item-label {
+        text-transform: uppercase;
+        font-size: 10px;
+    }
+    
+
     .side-menu-icon {
         display: block;
     }
