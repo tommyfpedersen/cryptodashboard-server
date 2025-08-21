@@ -342,6 +342,19 @@ body {
 }
 
 
+.blockchain-card-content-row {
+    display: flex;
+    flex-direction: row;
+    padding: 2px 0px;
+    flex-wrap: wrap;
+    row-gap: 30px;
+}
+.blockchain-card-content-item{
+    min-width: 145px;
+    line-height: 20px;
+    font-size: 16px;
+}
+
 .bottom {
 }
 

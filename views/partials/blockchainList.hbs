@@ -90,100 +90,110 @@
 
     <div class="card-content">
 
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item-label">Market Cap</div>
-            <div class="currency-card-content-item-label go-center">Total Market Cap</div>
-            <div class="currency-card-content-item-label go-center">Cir. Supply. Pct.</div>
-            <div class="currency-card-content-item-label go-center">Cir. Supply</div>
-            <div class="currency-card-content-item-label go-center">Max. Supply</div>
-            <div class="currency-card-content-item-label go-center">Currencies </div>
-            <div class="currency-card-content-item-label go-center">Block Time</div>
-            <div class="currency-card-content-item-label go-right">Network Hashrate</div>
+        <div class="blockchain-card-content-row">
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">Market Cap</div>
+                <div class="currency-card-content-item ">$ {{marketCap}} </div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">Total Market Cap</div>
+                <div class="currency-card-content-item ">$ {{fullyDilutedMarketCap}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label ">Cir. Supply. Pct.</div>
+                <div class="currency-card-content-item "> {{circulatingSupplyPercentage}} %</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">Cir. Supply</div>
+                <div class="currency-card-content-item ">{{circulatingSupply}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label ">Max. Supply</div>
+                <div class="currency-card-content-item ">{{maxSupply}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label ">Currencies </div>
+                <div class="currency-card-content-item">{{currenciesCount}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label ">Block Time</div>
+                <div class="currency-card-content-item ">{{blocktime}} SEC</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label ">Network Hashrate</div>
+                <div class="currency-card-content-item">{{networkHashrate}} GH/s</div>
+            </div>
         </div>
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item">$ {{marketCap}} </div>
-            <div class="currency-card-content-item go-center">$ {{fullyDilutedMarketCap}}</div>
-            <div class="currency-card-content-item go-center"> {{circulatingSupplyPercentage}} %</div>
-            <div class="currency-card-content-item go-center"> {{circulatingSupply}}</div>
-            <div class="currency-card-content-item go-center"> {{maxSupply}}</div>
-            <div class="currency-card-content-item go-center"> {{currenciesCount}} </div>
-            <div class="currency-card-content-item go-center">{{blocktime}} SEC</div>
-            <div class="currency-card-content-item go-right">{{networkHashrate}} GH/s</div>
-        </div>
+
 
     </div>
     <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;">Price List</div>
     <div class="card-content">
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item-label">Addr <-> Addr</div>
-            <div class="currency-card-content-item-label go-center">Basket <-> Reserve</div>
-            <div class="currency-card-content-item-label go-center">Reserve <-> Reserve</div>
-            <div class="currency-card-content-item-label go-center">ID 1.ref, not yours</div>
-            <div class="currency-card-content-item-label go-center">ID 1.ref, yours</div>
-            <div class="currency-card-content-item-label go-center">ID 2.ref, all yours</div>
-            <div class="currency-card-content-item-label go-center">ID 3.ref, all yours</div>
-            <div class="currency-card-content-item-label go-right">SubID (ID + Currency)</div>
-        </div>
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item">{{priceAddrToAddr}}</div>
-            <div class="currency-card-content-item go-center">{{priceBasketToReserve}}%</div>
-            <div class="currency-card-content-item go-center">{{priceReserveToReserve}}%</div>
-            <div class="currency-card-content-item go-center">{{priceId1RefNotYours}}</div>
-            <div class="currency-card-content-item go-center">{{priceId1RefYours}}</div>
-            <div class="currency-card-content-item go-center">{{priceId2RefAllYours}}</div>
-            <div class="currency-card-content-item go-center"> {{priceId3RefAllYours}}</div>
-            <div class="currency-card-content-item go-right"> >{{priceSubId}}</div>
-        </div>
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item small-label">$ {{priceAddrToAddrUSD}}</div>
-            <div class="currency-card-content-item go-center"></div>
-            <div class="currency-card-content-item go-center"></div>
-            <div class="currency-card-content-item go-center small-label">$ {{priceId1RefNotYoursUSD}}</div>
-            <div class="currency-card-content-item go-center small-label">$ {{priceId1RefYoursUSD}}</div>
-            <div class="currency-card-content-item go-center small-label">$ {{priceId2RefAllYoursUSD}}</div>
-            <div class="currency-card-content-item go-center small-label"> {{priceId3RefAllYoursUSD}}</div>
-            <div class="currency-card-content-item go-right small-label"> $ > {{priceSubIdUSD}}</div>
-        </div>
-    </div>
-    <div style="padding: 16px 0 8px 0;"></div>
-    <div class="card-content">
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item-label">Storage (1k)</div>
-            <div class="currency-card-content-item-label go-center">Currency </div>
-            <div class="currency-card-content-item-label go-center">
-                {{#if pricePbaas}}PBaaS
-                {{else}}
-
-                {{/if}}
+        <div class="blockchain-card-content-row">
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">Addr <-> Addr</div>
+                <div class="currency-card-content-item ">{{priceAddrToAddr}} </div>
+                <div class="currency-card-content-item small-label">$ {{priceAddrToAddrUSD}}</div>
             </div>
-            <div class="currency-card-content-item-label go-center"></div>
-            <div class="currency-card-content-item-label go-center"></div>
-            <div class="currency-card-content-item-label go-center"></div>
-            <div class="currency-card-content-item-label go-center"></div>
-            <div class="currency-card-content-item-label go-right"></div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">Basket <-> Reserve</div>
+                <div class="currency-card-content-item ">{{priceBasketToReserve}}%</div>
+                <div class="currency-card-content-item small-label"></div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">Reserve <-> Reserve</div>
+                <div class="currency-card-content-item ">{{priceReserveToReserve}}%</div>
+                <div class="currency-card-content-item small-label"></div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">ID 1.ref, not yours</div>
+                <div class="currency-card-content-item ">{{priceId1RefNotYours}}</div>
+                <div class="currency-card-content-item small-label">$ {{priceId1RefNotYoursUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">ID 1.ref, yours</div>
+                <div class="currency-card-content-item ">{{priceId1RefYours}}</div>
+                <div class="currency-card-content-item small-label">$ {{priceId1RefYoursUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">ID 2.ref, all yours</div>
+                <div class="currency-card-content-item ">{{priceId2RefAllYours}}</div>
+                <div class="currency-card-content-item small-label">$ {{priceId2RefAllYoursUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">ID 3.ref, all yours</div>
+                <div class="currency-card-content-item ">{{priceId3RefAllYours}}</div>
+                <div class="currency-card-content-item small-label">{{priceId3RefAllYoursUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">SubID (ID + Currency)</div>
+                <div class="currency-card-content-item ">>{{priceSubId}}</div>
+                <div class="currency-card-content-item small-label">$ > {{priceSubIdUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">Storage (1k)</div>
+                <div class="currency-card-content-item ">{{priceStorage}}</div>
+                <div class="currency-card-content-item small-label">$ {{priceStorageUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">Currency</div>
+                <div class="currency-card-content-item "> {{priceCurrency}}</div>
+                <div class="currency-card-content-item small-label">$ {{priceCurrencyUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">
+                    {{#if pricePbaas}}PBaaS
+                    {{else}}
+
+                    {{/if}}</div>
+                <div class="currency-card-content-item "> {{pricePbaas}}</div>
+                <div class="currency-card-content-item small-label">{{pricePbaasUSD}}</div>
+            </div>
+
         </div>
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item">{{priceStorage}}</div>
-            <div class="currency-card-content-item go-center"> {{priceCurrency}}</div>
-            <div class="currency-card-content-item go-center">{{pricePbaas}}</div>
-            <div class="currency-card-content-item go-center"></div>
-            <div class="currency-card-content-item go-center"></div>
-            <div class="currency-card-content-item go-center"> </div>
-            <div class="currency-card-content-item go-center"></div>
-            <div class="currency-card-content-item go-right"></div>
-        </div>
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item small-label">$ {{priceStorageUSD}}</div>
-            <div class="currency-card-content-item go-center small-label"> $ {{priceCurrencyUSD}}</div>
-            <div class="currency-card-content-item  go-center small-label">{{pricePbaasUSD}}</div>
-            <div class="currency-card-content-item"></div>
-            <div class="currency-card-content-item"></div>
-            <div class="currency-card-content-item go-center"></div>
-            <div class="currency-card-content-item go-center"></div>
-            <div class="currency-card-content-item go-center"> </div>
-            <div class="currency-card-content-item go-right"></div>
-        </div>
+
     </div>
+   
 
 
 </div>
