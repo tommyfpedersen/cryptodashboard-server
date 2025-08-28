@@ -170,9 +170,9 @@
             </div>
             <div class="blockchain-card-content-item">
                 <div class="currency-card-content-item-label"> {{#if stakingNote}}Requriements
-                {{else}}
+                    {{else}}
 
-                {{/if}}</div>
+                    {{/if}}</div>
                 <div class="currency-card-content-item small-label">{{stakingNote}}</div>
             </div>
 
@@ -182,32 +182,39 @@
     </div>
     <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;">Mining </div>
     <div class="card-content">
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item-label">1 MH/S Daily</div>
-            <div class="currency-card-content-item-label go-center">1 MH/S Monthly</div>
-            <div class="currency-card-content-item-label go-center">1 MH/S Yearly</div>
-            <div class="currency-card-content-item-label go-center">One Daily Reward</div>
-            <div class="currency-card-content-item-label go-center">One Monthly Reward</div>
-            <div class="currency-card-content-item-label go-center">One Yearly Reward</div>
+        <div class="blockchain-card-content-row">
+
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">1 MH/S Daily</div>
+                <div class="currency-card-content-item ">{{miningRewardsDaily}} </div>
+                <div class="currency-card-content-item small-label">$ {{miningRewardsDailyUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">1 MH/S Monthly</div>
+                <div class="currency-card-content-item ">{{miningRewardsMonthly}} </div>
+                <div class="currency-card-content-item small-label">$ {{miningRewardsMonthlyUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">1 MH/S Yearly</div>
+                <div class="currency-card-content-item ">{{miningRewardsYearly}} </div>
+                <div class="currency-card-content-item small-label">$ {{miningRewardsYearlyUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">One Daily Reward</div>
+                <div class="currency-card-content-item ">{{miningRewardsOneDailyMiningHashReward}} MH/S </div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">One Monthly Reward</div>
+                <div class="currency-card-content-item ">{{miningRewardsOneMonthlyMiningHashReward}} MH/S </div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">One Yearly Reward</div>
+                <div class="currency-card-content-item ">{{miningRewardsOneYearlyMiningHashReward}} MH/S </div>
+            </div>
+
+          
         </div>
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item">{{miningRewardsDaily}}</div>
-            <div class="currency-card-content-item go-center">{{miningRewardsMonthly}}</div>
-            <div class="currency-card-content-item go-center">{{miningRewardsYearly}}</div>
-            <div class="currency-card-content-item go-center">{{miningRewardsOneDailyMiningHashReward}} MH/S</div>
-            <div class="currency-card-content-item go-center">{{miningRewardsOneMonthlyMiningHashReward}} MH/S</div>
-            <div class="currency-card-content-item go-center">{{miningRewardsOneYearlyMiningHashReward}} MH/S</div>
-        </div>
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item small-label">$ {{miningRewardsDailyUSD}}</div>
-            <div class="currency-card-content-item go-center small-label">$ {{miningRewardsMonthlyUSD}}</div>
-            <div class="currency-card-content-item go-center small-label">$ {{miningRewardsYearlyUSD}}</div>
-        </div>
-        {{!-- <div class="currency-card-content-row">
-            <div class="currency-card-content-item small-label">$ {{miningRewardsDailyUSD}}</div>
-            <div class="currency-card-content-item go-center small-label">$ {{miningRewardsMonthlyUSD}}</div>
-            <div class="currency-card-content-item go-center small-label">$ {{miningRewardsYearlyUSD}}</div>
-        </div> --}}
+      
     </div>
 
 

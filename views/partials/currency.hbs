@@ -95,97 +95,64 @@
         <div class="card-title"> Basket Prices </div>
     </div>
 
-
     <div class="currency-card-content">
 
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item-label"> Basket</div>
-            <div class="currency-card-content-item-label go-center">Blockchain</div>
-            <div class="currency-card-content-item-label go-right"> Price </div>
-            <div class="currency-card-content-item-label go-right">Reserve</div>
-            <div class="currency-card-content-item-label go-right">Value</div>
-            <div class="currency-card-content-item-label go-right">Basket Volume 24H</div>
-            <div class="currency-card-content-item-label go-right">Basket Volume 7D</div>
-            <div class="currency-card-content-item-label go-right">Basket Volume 30D</div>
-        </div>
-        {{#each this.currencyList}}
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item"> <a href="/currency/{{this.basketName}}">{{this.basketName}}</a> 
-                {{!-- {{#if currencyInPreconversion}}
-                <span class="currency-card-content-item-label">(Pre)</span>
-                 {{else}}
-                 {{/if}} --}}
+        <div class="content-left-column">
+            <div class="currency-card-content-row">
+                <div class="currency-card-content-left-column-item-label"> Basket</div>
+            </div>
+            {{#each this.currencyList}}
+            <div class="currency-card-content-row">
+                <div class="currency-card-content-left-column-item"><a
+                        href="/currency/{{this.basketName}}">{{this.basketName}}</a>
                 </div>
-            <div class="currency-card-content-item go-center currency-card-content-item-label">{{this.currencyNetwork}}
             </div>
-            <div class="currency-card-content-item go-right"> $ {{this.currencyPriceUSD}} </div>
-            <div class="currency-card-content-item go-right">{{this.currencySupply}}</div>
-            <div class="currency-card-content-item go-right"> $ {{this.currencySupplyPriceUSD}}</div>
-            <div class="currency-card-content-item go-right"> $ {{this.basketVolume24Hours}}</div>
-            <div class="currency-card-content-item go-right"> $ {{this.basketVolume7Days}}</div>
-            <div class="currency-card-content-item go-right"> $ {{this.basketVolume30Days}}</div>
+            {{/each}}
+
         </div>
+        <div class="content-right-column">
+            <div class="currency-card-content-row">
+                <div class="currency-card-content-item-label go-center">Blockchain</div>
+                <div class="currency-card-content-item-label go-right"> Price </div>
+                <div class="currency-card-content-item-label go-right">Reserve</div>
+                <div class="currency-card-content-item-label go-right">Value</div>
+                <div class="currency-card-content-item-label go-right">Basket Volume 24H</div>
+                <div class="currency-card-content-item-label go-right">Basket Volume 7D</div>
+                <div class="currency-card-content-item-label go-right">Basket Volume 30D</div>
+            </div>
+            {{#each this.currencyList}}
+            <div class="currency-card-content-row">
+                <div class="currency-card-content-item go-center currency-card-content-item-label">
+                    {{this.currencyNetwork}}
+                </div>
+                <div class="currency-card-content-item go-right"> $ {{this.currencyPriceUSD}} </div>
+                <div class="currency-card-content-item go-right">{{this.currencySupply}}</div>
+                <div class="currency-card-content-item go-right"> $ {{this.currencySupplyPriceUSD}}</div>
+                <div class="currency-card-content-item go-right"> $ {{this.basketVolume24Hours}}</div>
+                <div class="currency-card-content-item go-right"> $ {{this.basketVolume7Days}}</div>
+                <div class="currency-card-content-item go-right"> $ {{this.basketVolume30Days}}</div>
+            </div>
 
 
-        {{/each}}
-
-        {{!-- {{#if vrscOnline}}
-        {{#each btcPriceArray}}
-        <div class="card-row-wrapper">
-            <div class="card-row-item">{{{origin}}}</div>
-            <div class="card-row-item-network">{{{network}}}</div>
-            <div class="card-row-item">
-                $ {{{price}}}
+            {{/each}}
+            <div class="currency-card-content-row">
+                <div class="currency-card-content-item"> </div>
+                <div class="currency-card-content-item go-right"> </div>
+                <div class="currency-card-content-item go-right">{{currencySupply}}</div>
+                <div class="currency-card-content-item go-right"> $ {{currencySupplyPriceUSD}}</div>
+                <div class="currency-card-content-item go-right"> $ {{totalVolume24Hours}}</div>
+                <div class="currency-card-content-item go-right"> $ {{totalVolume7Days}}</div>
+                <div class="currency-card-content-item go-right"> $ {{totalVolume30Days}}</div>
             </div>
         </div>
-        {{/each}}
-        <br>
-
-        <div class="card-row-wrapper">
-            <div class="card-row-item">Bitcoin in baskets</div>
-            <div class="card-row-item">
-                {{{btcReserve}}}
-            </div>
-        </div>
-
-        <div class="card-row-wrapper">
-            <div class="card-row-item">Bitcoin value in baskets</div>
-            <div class="card-row-item">
-                $ {{{btcReserveValue}}}
-            </div>
-        </div>
-        {{else}}
-        {{{vrscStatusMessage}}}
-        {{/if}} --}}
     </div>
-
-    <div class="currency-card-footer">
-
-        <div class="currency-card-content-item"> </div>
-        <div class="currency-card-content-item"> </div>
-        <div class="currency-card-content-item go-right"> </div>
-        <div class="currency-card-content-item go-right">{{currencySupply}}</div>
-        <div class="currency-card-content-item go-right"> $ {{currencySupplyPriceUSD}}</div>
-        <div class="currency-card-content-item go-right"> $ {{totalVolume24Hours}}</div>
-        <div class="currency-card-content-item go-right"> $ {{totalVolume7Days}}</div>
-        <div class="currency-card-content-item go-right"> $ {{totalVolume30Days}}</div>
-
-
-        {{!-- <div class="currency-card-content-item"> Summarized </div>
-        <div class="currency-card-content-item"> </div>
-        <div class="currency-card-content-item"> {{currencyName}} in baskets {{currencySupply}}</div>
-        <div> {{currencyName}} value in baskets $ {{currencySupplyPriceUSD}}</div>
-        <div> Total 24H Basket volume $ {{totalVolume24Hours}}</div>
-        <div> Total 7D Basket volume $ {{totalVolume7Days}}</div>
-        <div> Total 30D Basket volume $ {{totalVolume30Days}}</div> --}}
-    </div>
+    {{/each}}
 
 </div>
-{{/each}}
 
 
 
- {{#ifEquals currencyType "Basket"}}
+{{#ifEquals currencyType "Basket"}}
 <div class="currency-card">
     <div class="currency-card-header ">
         {{!-- <img width="16px" src="/img/tbtc.png" /> --}}
@@ -194,33 +161,61 @@
 
 
     {{#each basketReserveCurrencyArray}}
-    <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;"><a href="/currency/{{currencyName}}">{{currencyName}}</a> ({{weight}}%)</div>
-    <div class="currency-card-content">
-        <div class="currency-card-content-row">
-            <div class="currency-card-content-item-label">Reserve</div>
+    <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;"><a
+            href="/currency/{{currencyName}}">{{currencyName}}</a> ({{weight}}%)</div>
+
+    <div class="card-content">
+        
+        <div class="blockchain-card-content-row">
+
+             <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">Reserve</div>
+                <div class="currency-card-content-item ">{{reserves}} </div>
+            </div>
+             <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">Value</div>
+                <div class="currency-card-content-item ">$ {{reservePriceUSD}} </div>
+            </div>
+             <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">Basket Price</div>
+                <div class="currency-card-content-item ">$ {{priceUSD}} </div>
+            </div>
+             <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">Coingecko Price</div>
+                <div class="currency-card-content-item "> {{#if coingeckoprice}}
+                $ {{coingeckoprice}}
+                {{else}}
+                -
+                {{/if}} </div>
+            </div>
+               <div class="blockchain-card-content-item">
+                <div class="currency-card-content-item-label">Price in {{network}}</div>
+                <div class="currency-card-content-item ">{{priceNativeCurrency}} </div>
+            </div>
+
+            {{!-- <div class="currency-card-content-item-label">Reserve</div>
             <div class="currency-card-content-item-label go-center">Value</div>
             <div class="currency-card-content-item-label go-center">Basket Price</div>
             <div class="currency-card-content-item-label go-center">Coingecko Price</div>
-            <div class="currency-card-content-item-label go-center">Price in {{network}}</div>
+            <div class="currency-card-content-item-label go-center">Price in {{network}}</div> --}}
         </div>
-        <div class="currency-card-content-row">
+        {{!-- <div class="currency-card-content-row">
             <div class="currency-card-content-item">{{reserves}}</div>
             <div class="currency-card-content-item go-center">$ {{reservePriceUSD}}</div>
             <div class="currency-card-content-item go-center">$ {{priceUSD}}</div>
             <div class="currency-card-content-item go-center">
-                  {{#if coingeckoprice}} 
-                  $ {{coingeckoprice}}
+                {{#if coingeckoprice}}
+                $ {{coingeckoprice}}
                 {{else}}
-                    -
+                -
                 {{/if}}
-                </div>
+            </div>
             <div class="currency-card-content-item go-center">{{priceNativeCurrency}}</div>
-        </div>
-     
+        </div> --}}
+
     </div>
     {{/each}}
-    
+
 
 </div>
-  {{/ifEquals}}
-
+{{/ifEquals}}
