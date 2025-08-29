@@ -30,6 +30,14 @@ body {
     text-transform: none;
 }
 
+.useful-links {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 20px;
+    column-gap: 20px;
+}
+
 #cache-updated {
     font-size: 12px;
     text-transform: none;
@@ -364,6 +372,7 @@ body {
     font-size: 20px;
     font-weight: bold;
     padding-top: 20px;
+    padding-bottom: 5px;
 }
 
 .qr-code {

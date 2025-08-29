@@ -238,20 +238,20 @@ function enterDarkmode(){
 
     document.body.style.backgroundColor = backgroundColor; 
     document.body.style.color = color; 
-    document.querySelector(".side-menu").style.backgroundColor = darkerBaggrundColor;
-    document.querySelector(".side-menu").style.color = color;
+    // document.querySelector(".side-menu").style.backgroundColor = darkerBaggrundColor;
+    // document.querySelector(".side-menu").style.color = color;
 
     document.querySelector("#cache-updated").style.color = backgroundColor;
 
-    let cards = document.querySelectorAll(".card");
+    let cards = document.querySelectorAll(".card, .currency-card");
     cards.forEach((card) => {
         card.style.backgroundColor = darkerBaggrundColor;
     })
 
-    let graphButtons = document.querySelectorAll('.button-deselected');
-    graphButtons.forEach((label) => {
-        label.style.color = color;
-    })
+    // let graphButtons = document.querySelectorAll('.button-deselected');
+    // graphButtons.forEach((label) => {
+    //     label.style.color = color;
+    // })
 
     let aElements = document.querySelectorAll('a');
     aElements.forEach((a) => {
@@ -270,20 +270,20 @@ function enterLightmode(){
 
     document.body.style.backgroundColor = backgroundColor; 
     document.body.style.color = color; 
-    document.querySelector(".side-menu").style.backgroundColor = darkerBaggrundColor;
-    document.querySelector(".side-menu").style.color = color;
+    // document.querySelector(".side-menu").style.backgroundColor = darkerBaggrundColor;
+    // document.querySelector(".side-menu").style.color = color;
 
     document.querySelector("#cache-updated").style.color = color;
 
-    let cards = document.querySelectorAll(".card");
+    let cards = document.querySelectorAll(".card, .currency-card");
     cards.forEach((card) => {
         card.style.backgroundColor = darkerBaggrundColor;
     })
 
-    let graphButtons = document.querySelectorAll('.button-deselected');
-    graphButtons.forEach((label) => {
-        label.style.color = color;
-    })
+    // let graphButtons = document.querySelectorAll('.button-deselected');
+    // graphButtons.forEach((label) => {
+    //     label.style.color = color;
+    // })
 
     let aElements = document.querySelectorAll('a');
     aElements.forEach((a) => {

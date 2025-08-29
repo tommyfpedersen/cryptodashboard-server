@@ -44,7 +44,7 @@
     {{/ifEquals}}
     <div class="card">
         <div class="card-header go-center-flex">
-            <div class="card-title color-blue">Basket Reserve Value</div>
+            <div class="card-title color-blue">Baskets Reserve Value</div>
         </div>
         <div class="card-content">
             <div class="card-content-row">
@@ -52,6 +52,7 @@
             </div>
         </div>
     </div>
+    {{#ifEquals currencyType "Basket"}}
     <div class="card">
         <div class="card-header go-center-flex">
             <div class="card-title color-blue">24 Hours Volume</div>
@@ -82,7 +83,7 @@
             </div>
         </div>
     </div>
-
+    {{/ifEquals}}
 
 
 </div>
@@ -165,30 +166,30 @@
             href="/currency/{{currencyName}}">{{currencyName}}</a> ({{weight}}%)</div>
 
     <div class="card-content">
-        
+
         <div class="blockchain-card-content-row">
 
-             <div class="blockchain-card-content-item">
+            <div class="blockchain-card-content-item">
                 <div class="currency-card-content-item-label">Reserve</div>
                 <div class="currency-card-content-item ">{{reserves}} </div>
             </div>
-             <div class="blockchain-card-content-item">
+            <div class="blockchain-card-content-item">
                 <div class="currency-card-content-item-label">Value</div>
                 <div class="currency-card-content-item ">$ {{reservePriceUSD}} </div>
             </div>
-             <div class="blockchain-card-content-item">
+            <div class="blockchain-card-content-item">
                 <div class="currency-card-content-item-label">Basket Price</div>
                 <div class="currency-card-content-item ">$ {{priceUSD}} </div>
             </div>
-             <div class="blockchain-card-content-item">
+            <div class="blockchain-card-content-item">
                 <div class="currency-card-content-item-label">Coingecko Price</div>
                 <div class="currency-card-content-item "> {{#if coingeckoprice}}
-                $ {{coingeckoprice}}
-                {{else}}
-                -
-                {{/if}} </div>
+                    $ {{coingeckoprice}}
+                    {{else}}
+                    -
+                    {{/if}} </div>
             </div>
-               <div class="blockchain-card-content-item">
+            <div class="blockchain-card-content-item">
                 <div class="currency-card-content-item-label">Price in {{network}}</div>
                 <div class="currency-card-content-item ">{{priceNativeCurrency}} </div>
             </div>
