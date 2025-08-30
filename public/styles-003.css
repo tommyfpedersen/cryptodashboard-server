@@ -15,7 +15,7 @@ body {
 
 .header {
     font-size: 32px;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     padding: 10px 0px 0px 0px;
     animation: fadeIn 2s;
 }
@@ -28,6 +28,44 @@ body {
     display: none;
     font-size: 12px;
     text-transform: none;
+}
+
+#disclaimer {
+    /* display: flex; */
+    display: none;
+    flex-direction: column;
+    row-gap: 40px;
+    column-gap: 40px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    z-index: 20000;
+    /* animation: fadeIn 2s; */
+    padding: 40px;
+    font-size: 40px;
+}
+
+.disclaimer-title {
+    display: flex;
+    justify-content: center;
+}
+
+.disclaimer-text {
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+#disclaimer-button {
+    display: flex;
+    font-size: 24px;
+    /* max-width: 1200px; */
+    justify-content: center;
 }
 
 .useful-links {
@@ -313,6 +351,10 @@ body {
     display: flex;
     flex-direction: row;
     padding: 2px 0px;
+}
+
+.currency-card-result-row{
+    padding-top: 25px;
 }
 
 .content-left-column {

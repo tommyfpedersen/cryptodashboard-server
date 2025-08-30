@@ -1,6 +1,8 @@
 <div class="header">
 
-    <span class="header-bold">Crypto</span>dashboard
+  
+
+    <span class="header-bold">CRYPTO</span>DASHBOARD
     <span class="header-version">v1.0.0</span>
     <button title="Reset Cryptodashboard" class="reset-button" id="reset-cards"><svg xmlns="http://www.w3.org/2000/svg"
             height="16" width="16" fill="#666" viewBox="0 0 512 512">
@@ -13,7 +15,7 @@
     <div id="cache-updated" {{#if outofsync }} class="cache-out-of-sync" {{else}} {{/if}} {{#if vrscstatus.outofsync }}
         class="cache-out-of-sync" {{else}} {{/if}}>
         Updated {{{timeAgo}}}
-       
+
 
         {{#if outofsync}}
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="alert-icon">
@@ -27,12 +29,14 @@
         <div>
             <br>
             {{{vrscstatus.message}}}
-             <div>({{{vrscstatus.currentBlock}}})</div>
+            <div>({{{vrscstatus.currentBlock}}})</div>
         </div>
         {{else}} {{/if}}
 
 
     </div>
+
+    
 
     <div id="dark-mode" title="darkmode">
         <svg class="light-mode-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

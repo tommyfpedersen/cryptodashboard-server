@@ -10,32 +10,38 @@ function init() {
     /* load settings */
     let settings = JSON.parse(localStorage.getItem("settings"));
     let settingsObject = {
-        cards: [],
-        darkmode: false
+        darkmode: false,
+        disclaimer: true
     }
     if (!settings) {
         localStorage.setItem("settings", JSON.stringify(settingsObject));
         settings = JSON.parse(localStorage.getItem("settings"));
     }
 
-    // add settings - hide cards
+    // add settings 
     if (settings) {
-        settings.cards.forEach((card) => {
-            if (card.visible === false) {
-                let cardElm = document.querySelector("#" + card.cardId);
-                cardElm.classList.add("hide");
-            }
-        })
-        if(settings.darkmode === true){
+
+        //  disclaimer
+        let disclaimerElm = document.querySelector("#disclaimer");
+        if (settings.disclaimer === true) {
+            disclaimerElm.style.display = "flex";
+        }
+        else {
+            disclaimerElm.style.display = "none";
+        }
+
+        // darkmode
+        if (settings.darkmode === true) {
             enterDarkmode();
         }
+
     }
 
     /* verus */
     let getAddressBalanceElm = document.querySelector("#get-address-balance");
     if (getAddressBalanceElm) {
         getAddressBalanceElm.addEventListener('keydown', (evt) => {
-            console.log("value",getAddressBalanceElm.value)
+            console.log("value", getAddressBalanceElm.value)
             if (evt.key === 'Enter') {
                 let string = encodeURIComponent(getAddressBalanceElm.value)
                 var href = new URL(location.href);
@@ -72,45 +78,45 @@ function init() {
         })
     }
 
-     /* verus chips */
-     let getChipsAddressBalanceElm = document.querySelector("#get-chips-address-balance");
-     if (getChipsAddressBalanceElm) {
-         getChipsAddressBalanceElm.addEventListener('keydown', (evt) => {
-             if (evt.key === 'Enter') {
-                 let string = encodeURIComponent(getChipsAddressBalanceElm.value)
-                 var href = new URL(location.href);
-                 href.searchParams.set('chipsaddress', string);
-                 window.history.replaceState(null, null, href.toString());
-                 location.reload();
-             }
-         })
-     }
- 
-     let chipsStakingElm = document.querySelector("#chips-staking-amount");
-     if (chipsStakingElm) {
-         chipsStakingElm.addEventListener('keydown', (evt) => {
-             if (evt.key === 'Enter') {
-                 let string = encodeURIComponent(chipsStakingElm.value)
-                 var href = new URL(location.href);
-                 href.searchParams.set('chipsstakingamount', string);
-                 window.history.replaceState(null, null, href.toString());
-                 location.reload();
-             }
-         })
-     }
- 
-     let chipsMiningElm = document.querySelector("#chips-mining-hash");
-     if (chipsMiningElm) {
-         chipsMiningElm.addEventListener('keydown', (evt) => {
-             if (evt.key === 'Enter') {
-                 let string = encodeURIComponent(chipsMiningElm.value)
-                 var href = new URL(location.href);
-                 href.searchParams.set('chipsmininghash', string);
-                 window.history.replaceState(null, null, href.toString());
-                 location.reload();
-             }
-         })
-     }
+    /* verus chips */
+    let getChipsAddressBalanceElm = document.querySelector("#get-chips-address-balance");
+    if (getChipsAddressBalanceElm) {
+        getChipsAddressBalanceElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(getChipsAddressBalanceElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('chipsaddress', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
+
+    let chipsStakingElm = document.querySelector("#chips-staking-amount");
+    if (chipsStakingElm) {
+        chipsStakingElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(chipsStakingElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('chipsstakingamount', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
+
+    let chipsMiningElm = document.querySelector("#chips-mining-hash");
+    if (chipsMiningElm) {
+        chipsMiningElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(chipsMiningElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('chipsmininghash', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
 
     /* verus varrr */
     let getVarrrAddressBalanceElm = document.querySelector("#get-varrr-address-balance");
@@ -207,23 +213,38 @@ function init() {
     }
 
     /** common */
-     initCardHideButtons();
-    initGraphButtons();
+    initDisclaimerButton()
+    // initCardHideButtons();
+    // initGraphButtons();
     initResetLocalStorage();
     //  initSideMenu();
-    initGraphBarHints();
+    // initGraphBarHints();
+
     initDarkmodeButton();
 }
 
 
-function initDarkmodeButton(){
+function initDisclaimerButton() {
+    let disclaimerButtonElement = document.querySelector("#disclaimer-button");
+
+    disclaimerButtonElement.addEventListener('click', (evt) => {
+
+        let settings = JSON.parse(localStorage.getItem("settings"));
+        settings.disclaimer = false;
+
+        let disclaimerElm = document.querySelector("#disclaimer");
+        disclaimerElm.style.display = "none";
+        localStorage.setItem("settings", JSON.stringify(settings));
+    })
+}
+function initDarkmodeButton() {
     let darkmodeButtonElement = document.querySelector("#dark-mode");
     darkmodeButtonElement.addEventListener('click', (evt) => {
         let settings = JSON.parse(localStorage.getItem("settings"));
 
-        if(settings.darkmode === true){
+        if (settings.darkmode === true) {
             enterLightmode();
-        }else{
+        } else {
             enterDarkmode();
         }
 
@@ -231,17 +252,21 @@ function initDarkmodeButton(){
         localStorage.setItem("settings", JSON.stringify(settings));
     })
 }
-function enterDarkmode(){
+function enterDarkmode() {
     let backgroundColor = "#444";
     let darkerBaggrundColor = "#111";
     let color = "rgb(246, 246, 246)";
 
-    document.body.style.backgroundColor = backgroundColor; 
-    document.body.style.color = color; 
-    // document.querySelector(".side-menu").style.backgroundColor = darkerBaggrundColor;
-    // document.querySelector(".side-menu").style.color = color;
+    document.body.style.backgroundColor = backgroundColor;
+    document.body.style.color = color;
 
     document.querySelector("#cache-updated").style.color = backgroundColor;
+
+    // disclaimer
+    console.log("her",document.querySelector("#disclaimer"))
+    //document.querySelector("#disclaimer").style.color = backgroundColor;
+    document.querySelector("#disclaimer").style.backgroundColor = darkerBaggrundColor;
+
 
     let cards = document.querySelectorAll(".card, .currency-card");
     cards.forEach((card) => {
@@ -258,18 +283,18 @@ function enterDarkmode(){
         a.style.color = color;
     })
 
-    document.querySelector(".light-mode-icon").classList.replace("light-mode-icon","dark-mode-icon")
+    document.querySelector(".light-mode-icon").classList.replace("light-mode-icon", "dark-mode-icon")
 
 }
-function enterLightmode(){
+function enterLightmode() {
     console.log("lightmode");
 
     let backgroundColor = "rgb(246, 246, 246)";
     let darkerBaggrundColor = "#fff";
     let color = "#444";
 
-    document.body.style.backgroundColor = backgroundColor; 
-    document.body.style.color = color; 
+    document.body.style.backgroundColor = backgroundColor;
+    document.body.style.color = color;
     // document.querySelector(".side-menu").style.backgroundColor = darkerBaggrundColor;
     // document.querySelector(".side-menu").style.color = color;
 
@@ -290,7 +315,7 @@ function enterLightmode(){
         a.style.color = color;
     })
 
-    document.querySelector(".dark-mode-icon").classList.replace("dark-mode-icon","light-mode-icon")
+    document.querySelector(".dark-mode-icon").classList.replace("dark-mode-icon", "light-mode-icon")
 
 }
 
@@ -402,147 +427,147 @@ function initResetLocalStorage() {
     })
 }
 
-function initSideMenu() {
+// function initSideMenu() {
 
-    // build from project labels and cards
-    let sectionElement = document.querySelectorAll(".section");
-    let sideMenuElement = document.querySelector(".side-menu");
+//     // build from project labels and cards
+//     let sectionElement = document.querySelectorAll(".section");
+//     let sideMenuElement = document.querySelector(".side-menu");
 
-    // burger menu
-    let sideMenuIcon = document.querySelector(".side-menu-icon");
-    sideMenuIcon.addEventListener("click", (evt) => {
+//     // burger menu
+//     let sideMenuIcon = document.querySelector(".side-menu-icon");
+//     sideMenuIcon.addEventListener("click", (evt) => {
 
-        if (sideMenuElement.classList.contains("side-menu")) {
-            sideMenuElement.classList.replace("side-menu", "side-menu-open");
-        } else {
-            sideMenuElement.classList.replace("side-menu-open", "side-menu");
-        }
-    })
+//         if (sideMenuElement.classList.contains("side-menu")) {
+//             sideMenuElement.classList.replace("side-menu", "side-menu-open");
+//         } else {
+//             sideMenuElement.classList.replace("side-menu-open", "side-menu");
+//         }
+//     })
 
-    sectionElement.forEach((section) => {
-        let children = [...section.children];
+//     sectionElement.forEach((section) => {
+//         let children = [...section.children];
 
-        let sideMenuGroupELm = document.createElement("div");
-        let sideMenuTitleElm = document.createElement("div");
-        let sideMenuItemArray = [];
-        let counter = 0;
+//         let sideMenuGroupELm = document.createElement("div");
+//         let sideMenuTitleElm = document.createElement("div");
+//         let sideMenuItemArray = [];
+//         let counter = 0;
 
-        children.forEach((elm, index) => {//&& sideMenuGroupFilling === false
-            if (elm.classList.contains("project")) {
+//         children.forEach((elm, index) => {//&& sideMenuGroupFilling === false
+//             if (elm.classList.contains("project")) {
 
-                // attach
-                if (counter > 0) {
-                    sideMenuGroupELm.append(sideMenuTitleElm);
-                    sideMenuElement.append(sideMenuGroupELm);
+//                 // attach
+//                 if (counter > 0) {
+//                     sideMenuGroupELm.append(sideMenuTitleElm);
+//                     sideMenuElement.append(sideMenuGroupELm);
 
-                    sideMenuItemArray.forEach((menuItem) => {
-                        sideMenuGroupELm.append(menuItem)
-                    })
+//                     sideMenuItemArray.forEach((menuItem) => {
+//                         sideMenuGroupELm.append(menuItem)
+//                     })
 
-                    // reset
-                    sideMenuItemArray.length = [];
-                    counter = 0;
-                }
+//                     // reset
+//                     sideMenuItemArray.length = [];
+//                     counter = 0;
+//                 }
 
-                // create
-                sideMenuGroupELm = document.createElement("div");
-                sideMenuGroupELm.classList.add("side-menu-group");
-                sideMenuTitleElm = document.createElement("div");
-                sideMenuTitleElm.classList.add("side-menu-title");
+//                 // create
+//                 sideMenuGroupELm = document.createElement("div");
+//                 sideMenuGroupELm.classList.add("side-menu-group");
+//                 sideMenuTitleElm = document.createElement("div");
+//                 sideMenuTitleElm.classList.add("side-menu-title");
 
-                // img, text or svg
-                if (elm.getAttribute("data-image") !== null) {
-                    let imageElm = document.createElement("img");
-                    imageElm.src = elm.getAttribute("data-image");
-                    imageElm.width = "16";
-                    sideMenuTitleElm.append(imageElm);
-                } else if (elm.getAttribute("data-text") !== null) {
-                    let textElm = document.createElement("span");
-                    textElm.innerHTML = elm.getAttribute("data-text");
-                    sideMenuTitleElm.append(textElm);
-                } else {
-                    let svgElm = elm.querySelector("svg");
-                    sideMenuTitleElm.append(svgElm);
-                }
+//                 // img, text or svg
+//                 if (elm.getAttribute("data-image") !== null) {
+//                     let imageElm = document.createElement("img");
+//                     imageElm.src = elm.getAttribute("data-image");
+//                     imageElm.width = "16";
+//                     sideMenuTitleElm.append(imageElm);
+//                 } else if (elm.getAttribute("data-text") !== null) {
+//                     let textElm = document.createElement("span");
+//                     textElm.innerHTML = elm.getAttribute("data-text");
+//                     sideMenuTitleElm.append(textElm);
+//                 } else {
+//                     let svgElm = elm.querySelector("svg");
+//                     sideMenuTitleElm.append(svgElm);
+//                 }
 
-                counter = counter + 1;
-            }
+//                 counter = counter + 1;
+//             }
 
-            if (elm.classList.contains("card")) {
-                // get data from card
-                let title = elm.querySelector(".card-title").innerHTML;
-                let id = elm.id;
+//             if (elm.classList.contains("card")) {
+//                 // get data from card
+//                 let title = elm.querySelector(".card-title").innerHTML;
+//                 let id = elm.id;
 
-                let sideMenuItem = document.createElement("div");
-                sideMenuItem.id = "menu-" + id;
-                sideMenuItem.classList.add("side-menu-item");
+//                 let sideMenuItem = document.createElement("div");
+//                 sideMenuItem.id = "menu-" + id;
+//                 sideMenuItem.classList.add("side-menu-item");
 
-                let sideMenuItemIcon = document.createElement("div");
-                sideMenuItemIcon.classList.add("side-menu-item-icon");
-                sideMenuItemIcon.innerHTML = SVGpower;
+//                 let sideMenuItemIcon = document.createElement("div");
+//                 sideMenuItemIcon.classList.add("side-menu-item-icon");
+//                 sideMenuItemIcon.innerHTML = SVGpower;
 
-                sideMenuItem.addEventListener("click", (evt) => {
+//                 sideMenuItem.addEventListener("click", (evt) => {
 
-                    // card
-                    let cardId = sideMenuItem.id.replace("menu-", "");
-                    let cardElm = document.querySelector("#" + cardId);
-                    let settings = JSON.parse(localStorage.getItem("settings"));
-                    let cardsArray = settings.cards;
-                    let currentCardIndex = cardsArray.findIndex(item => item.cardId === cardId);
+//                     // card
+//                     let cardId = sideMenuItem.id.replace("menu-", "");
+//                     let cardElm = document.querySelector("#" + cardId);
+//                     let settings = JSON.parse(localStorage.getItem("settings"));
+//                     let cardsArray = settings.cards;
+//                     let currentCardIndex = cardsArray.findIndex(item => item.cardId === cardId);
 
-                    // create and add card in card settings array if not exist
-                    if (currentCardIndex === -1) {
-                        let newCard = {
-                            cardId: cardId,
-                            visible: false
-                        }
-                        cardsArray.push(newCard);
-                        currentCardIndex = cardsArray.findIndex(item => item.cardId === cardId);
-                    }
+//                     // create and add card in card settings array if not exist
+//                     if (currentCardIndex === -1) {
+//                         let newCard = {
+//                             cardId: cardId,
+//                             visible: false
+//                         }
+//                         cardsArray.push(newCard);
+//                         currentCardIndex = cardsArray.findIndex(item => item.cardId === cardId);
+//                     }
 
-                    // on off
-                    if (sideMenuItemIcon.classList.contains("side-menu-item-selected")) {
-                        // remove
-                        sideMenuItemIcon.classList.remove("side-menu-item-selected");
-                        cardElm.classList.add("hide");
-                        cardsArray[currentCardIndex].visible = false;
+//                     // on off
+//                     if (sideMenuItemIcon.classList.contains("side-menu-item-selected")) {
+//                         // remove
+//                         sideMenuItemIcon.classList.remove("side-menu-item-selected");
+//                         cardElm.classList.add("hide");
+//                         cardsArray[currentCardIndex].visible = false;
 
-                    } else {
-                        // add
-                        sideMenuItemIcon.classList.add("side-menu-item-selected");
-                        cardElm.classList.remove("hide");
-                        cardsArray[currentCardIndex].visible = true;
-                    }
-                    // update local storage
-                    localStorage.setItem("settings", JSON.stringify(settings));
+//                     } else {
+//                         // add
+//                         sideMenuItemIcon.classList.add("side-menu-item-selected");
+//                         cardElm.classList.remove("hide");
+//                         cardsArray[currentCardIndex].visible = true;
+//                     }
+//                     // update local storage
+//                     localStorage.setItem("settings", JSON.stringify(settings));
 
-                })
-                // sync with local storage
-                if (!elm.classList.contains("hide")) {
-                    sideMenuItemIcon.classList.add("side-menu-item-selected");
-                }
-                let sideMenuItemTitle = document.createElement("div");
-                sideMenuItemTitle.classList.add("side-menu-item-title");
-                sideMenuItemTitle.innerHTML = title;
+//                 })
+//                 // sync with local storage
+//                 if (!elm.classList.contains("hide")) {
+//                     sideMenuItemIcon.classList.add("side-menu-item-selected");
+//                 }
+//                 let sideMenuItemTitle = document.createElement("div");
+//                 sideMenuItemTitle.classList.add("side-menu-item-title");
+//                 sideMenuItemTitle.innerHTML = title;
 
 
-                sideMenuItem.append(sideMenuItemTitle);
-                sideMenuItem.append(sideMenuItemIcon);
-                sideMenuItemArray.push(sideMenuItem);
-            }
+//                 sideMenuItem.append(sideMenuItemTitle);
+//                 sideMenuItem.append(sideMenuItemIcon);
+//                 sideMenuItemArray.push(sideMenuItem);
+//             }
 
-            if (children.length - 1 === index) {
-                sideMenuGroupELm.append(sideMenuTitleElm);
-                sideMenuElement.append(sideMenuGroupELm);
+//             if (children.length - 1 === index) {
+//                 sideMenuGroupELm.append(sideMenuTitleElm);
+//                 sideMenuElement.append(sideMenuGroupELm);
 
-                sideMenuItemArray.forEach((menuItem) => {
-                    sideMenuGroupELm.append(menuItem)
-                })
+//                 sideMenuItemArray.forEach((menuItem) => {
+//                     sideMenuGroupELm.append(menuItem)
+//                 })
 
-                // reset
-                sideMenuItemArray.length = [];
-                counter = 0;
-            }
-        })
-    })
-}
+//                 // reset
+//                 sideMenuItemArray.length = [];
+//                 counter = 0;
+//             }
+//         })
+//     })
+// }
