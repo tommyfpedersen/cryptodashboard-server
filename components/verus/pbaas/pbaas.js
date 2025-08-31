@@ -21,89 +21,89 @@ export async function getAllPbaas() {
         const currencyInfo = await getCurrency(pbaasConfig[i].rpcBaseUrl, pbaasConfig[i].name)
         const marketCapStats = await getMarketCapStats(miningInfo, currencyInfo, pbaasConfig[i])
         const blockAndFeePoolRewards = await getBlockAndFeePoolRewards(miningInfo, pbaasConfig[i]);
-        const stakingRewards = await calculateStakingRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, marketCapStats.circulatingSupply, miningInfo.stakingsupply, null, nativePrice)
-        const miningRewards = await calculateMiningRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, miningInfo.networkhashps, null, nativePrice)
 
-        //  console.log(miningRewards);
+        if (currencyInfo) {
+            const stakingRewards = await calculateStakingRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, marketCapStats.circulatingSupply, miningInfo.stakingsupply, null, nativePrice)
+            const miningRewards = await calculateMiningRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, miningInfo.networkhashps, null, nativePrice)
 
-
-        let currenciesOnBlockchain = currenciesConfig.filter((currency) => {
-            return currency.blockchain === pbaasConfig[i].name
-        })
-
-        pbaasArray.push({
-            blockchain: pbaasConfig[i].name,
-            blockheight: miningInfo.blocks,
-            blocktime: currencyInfo.blocktime,
-            networkHashrate: (Math.round(miningInfo.networkhashps) / 1000000000).toFixed(0).toLocaleString(),
-            currenciesCount: currenciesOnBlockchain.length,
-            marketCap: Math.round(marketCapStats.marketCap).toLocaleString(),
-            fullyDilutedMarketCap: Math.round(marketCapStats.fullyDilutedMarketCap).toLocaleString(),
-            circulatingSupplyPercentage: Math.round(marketCapStats.circulatingSupplyPercentage),
-            circulatingSupply: Math.round(marketCapStats.circulatingSupply).toLocaleString(),
-            maxSupply: Math.round(marketCapStats.maxSupply).toLocaleString(),
-            priceAddrToAddr: pbaasConfig[i].priceAddrToAddr,
-            priceBasketToReserve: pbaasConfig[i].priceBasketToReserve,
-            priceReserveToReserve: pbaasConfig[i].priceReserveToReserve,
-            priceId1RefNotYours: pbaasConfig[i].priceId1RefNotYours,
-            priceId1RefYours: pbaasConfig[i].priceId1RefYours,
-            priceId2RefAllYours: pbaasConfig[i].priceId2RefAllYours,
-            priceId3RefAllYours: pbaasConfig[i].priceId3RefAllYours == null ? "" : pbaasConfig[i].priceId3RefAllYours,
-            priceSubId: pbaasConfig[i].priceSubId,
-            priceStorage: pbaasConfig[i].priceStorage,
-            priceCurrency: pbaasConfig[i].priceCurrency,
-            pricePbaas: pbaasConfig[i].pricePbaas == null ? "" : Math.round(pbaasConfig[i].pricePbaas).toLocaleString(),
-
-            priceAddrToAddrUSD: Math.round(pbaasConfig[i].priceAddrToAddr * nativePrice).toLocaleString(),
-            priceId1RefNotYoursUSD: Math.round(pbaasConfig[i].priceId1RefNotYours * nativePrice).toLocaleString(),
-            priceId1RefYoursUSD: Math.round(pbaasConfig[i].priceId1RefYours * nativePrice).toLocaleString(),
-            priceId2RefAllYoursUSD: Math.round(pbaasConfig[i].priceId2RefAllYours * nativePrice).toLocaleString(),
-            priceId3RefAllYoursUSD: pbaasConfig[i].priceId3RefAllYours == null ? "" : "$ " + Math.round(pbaasConfig[i].priceId3RefAllYours * nativePrice).toLocaleString(),
-            priceSubIdUSD: Math.round(pbaasConfig[i].priceSubId * nativePrice).toLocaleString(),
-            priceStorageUSD: Math.round(pbaasConfig[i].priceStorage * nativePrice).toLocaleString(),
-            priceCurrencyUSD: Math.round(pbaasConfig[i].priceCurrency * nativePrice).toLocaleString(),
-            pricePbaasUSD: pbaasConfig[i].pricePbaas == null ? "" : "$ " + Math.round(pbaasConfig[i].pricePbaas).toLocaleString(),
-
-            blockReward: blockAndFeePoolRewards.blockReward,
-            feeReward: blockAndFeePoolRewards.feeReward,
-            averageblockfees: blockAndFeePoolRewards.averageblockfees,
-            blockRewardUSD: (Math.round(blockAndFeePoolRewards.blockReward * nativePrice * 10000) / 10000).toFixed(4).toLocaleString(),
-            feeRewardUSD: (Math.round(blockAndFeePoolRewards.feeReward * nativePrice * 10000) / 10000).toFixed(4).toLocaleString(),
-            averageblockfeesUSD: (Math.round(blockAndFeePoolRewards.averageblockfees * nativePrice * 10000) / 10000).toFixed(4).toLocaleString(),
-            blockLastSend: blockAndFeePoolRewards.blockLastSend,
-            stakingApy: (stakingRewards.stakingApy).toFixed(2).toLocaleString(),
-            stakingPct: Math.round(stakingRewards.stakingPct),
-            stakingSupply: Math.round(blockAndFeePoolRewards.stakingSupply).toLocaleString(),
-            stakingRewardsDaily: stakingRewards.rewardsDaily,
-            stakingRewardsDailyUSD: stakingRewards.rewardsDailyUSD,
-            stakingRewardsMonthly: stakingRewards.rewardsMonthly,
-            stakingRewardsMonthlyUSD: stakingRewards.rewardsMonthlyUSD,
-            stakingRewardsYearly: stakingRewards.rewardsYearly,
-            stakingRewardsYearlyUSD: stakingRewards.rewardsYearlyUSD,
-            stakingRewardsOneDailyStakeAmount: stakingRewards.oneDailyStakeAmount,
-            stakingRewardsOneMonthlyStakeAmount: stakingRewards.oneMonthlyStakeAmount,
-            stakingRewardsOneYearlyStakeAmount: stakingRewards.oneYearlyStakeAmount,
-            stakingRewardsOneDailyStakeAmountUSD: stakingRewards.oneDailyStakeAmountUSD,
-            stakingRewardsOneMonthlyStakeAmountUSD: stakingRewards.oneMonthlyStakeAmountUSD,
-            stakingRewardsOneYearlyStakeAmountUSD: stakingRewards.oneYearlyStakeAmountUSD,
-            stakingNote: pbaasConfig[i].stakingNote,
+            //  console.log(miningRewards);
 
 
-            miningRewardsDaily: miningRewards.rewardsDaily,
-            miningRewardsDailyUSD: miningRewards.rewardsDailyUSD,
-            miningRewardsMonthly: miningRewards.rewardsMonthly,
-            miningRewardsMonthlyUSD: miningRewards.rewardsMonthlyUSD,
-            miningRewardsYearly: miningRewards.rewardsYearly,
-            miningRewardsYearlyUSD: miningRewards.rewardsYearlyUSD,
-            miningRewardsOneDailyMiningHashReward: miningRewards.oneDailyMiningHashReward,
-            miningRewardsOneMonthlyMiningHashReward: miningRewards.oneMonthlyMiningHashReward,
-            miningRewardsOneYearlyMiningHashReward: miningRewards.oneYearlyMiningHashReward,
+            let currenciesOnBlockchain = currenciesConfig.filter((currency) => {
+                return currency.blockchain === pbaasConfig[i].name
+            })
 
-        })
+            pbaasArray.push({
+                blockchain: pbaasConfig[i].name,
+                blockheight: miningInfo.blocks,
+                blocktime: currencyInfo.blocktime,
+                networkHashrate: (Math.round(miningInfo.networkhashps) / 1000000000).toFixed(0).toLocaleString(),
+                currenciesCount: currenciesOnBlockchain.length,
+                marketCap: Math.round(marketCapStats.marketCap).toLocaleString(),
+                fullyDilutedMarketCap: Math.round(marketCapStats.fullyDilutedMarketCap).toLocaleString(),
+                circulatingSupplyPercentage: Math.round(marketCapStats.circulatingSupplyPercentage),
+                circulatingSupply: Math.round(marketCapStats.circulatingSupply).toLocaleString(),
+                maxSupply: Math.round(marketCapStats.maxSupply).toLocaleString(),
+                priceAddrToAddr: pbaasConfig[i].priceAddrToAddr,
+                priceBasketToReserve: pbaasConfig[i].priceBasketToReserve,
+                priceReserveToReserve: pbaasConfig[i].priceReserveToReserve,
+                priceId1RefNotYours: pbaasConfig[i].priceId1RefNotYours,
+                priceId1RefYours: pbaasConfig[i].priceId1RefYours,
+                priceId2RefAllYours: pbaasConfig[i].priceId2RefAllYours,
+                priceId3RefAllYours: pbaasConfig[i].priceId3RefAllYours == null ? "" : pbaasConfig[i].priceId3RefAllYours,
+                priceSubId: pbaasConfig[i].priceSubId,
+                priceStorage: pbaasConfig[i].priceStorage,
+                priceCurrency: pbaasConfig[i].priceCurrency,
+                pricePbaas: pbaasConfig[i].pricePbaas == null ? "" : Math.round(pbaasConfig[i].pricePbaas).toLocaleString(),
 
+                priceAddrToAddrUSD: Math.round(pbaasConfig[i].priceAddrToAddr * nativePrice).toLocaleString(),
+                priceId1RefNotYoursUSD: Math.round(pbaasConfig[i].priceId1RefNotYours * nativePrice).toLocaleString(),
+                priceId1RefYoursUSD: Math.round(pbaasConfig[i].priceId1RefYours * nativePrice).toLocaleString(),
+                priceId2RefAllYoursUSD: Math.round(pbaasConfig[i].priceId2RefAllYours * nativePrice).toLocaleString(),
+                priceId3RefAllYoursUSD: pbaasConfig[i].priceId3RefAllYours == null ? "" : "$ " + Math.round(pbaasConfig[i].priceId3RefAllYours * nativePrice).toLocaleString(),
+                priceSubIdUSD: Math.round(pbaasConfig[i].priceSubId * nativePrice).toLocaleString(),
+                priceStorageUSD: Math.round(pbaasConfig[i].priceStorage * nativePrice).toLocaleString(),
+                priceCurrencyUSD: Math.round(pbaasConfig[i].priceCurrency * nativePrice).toLocaleString(),
+                pricePbaasUSD: pbaasConfig[i].pricePbaas == null ? "" : "$ " + Math.round(pbaasConfig[i].pricePbaas).toLocaleString(),
+
+                blockReward: blockAndFeePoolRewards.blockReward,
+                feeReward: blockAndFeePoolRewards.feeReward,
+                averageblockfees: blockAndFeePoolRewards.averageblockfees,
+                blockRewardUSD: (Math.round(blockAndFeePoolRewards.blockReward * nativePrice * 10000) / 10000).toFixed(4).toLocaleString(),
+                feeRewardUSD: (Math.round(blockAndFeePoolRewards.feeReward * nativePrice * 10000) / 10000).toFixed(4).toLocaleString(),
+                averageblockfeesUSD: (Math.round(blockAndFeePoolRewards.averageblockfees * nativePrice * 10000) / 10000).toFixed(4).toLocaleString(),
+                blockLastSend: blockAndFeePoolRewards.blockLastSend,
+                stakingApy: (stakingRewards.stakingApy).toFixed(2).toLocaleString(),
+                stakingPct: Math.round(stakingRewards.stakingPct),
+                stakingSupply: Math.round(blockAndFeePoolRewards.stakingSupply).toLocaleString(),
+                stakingRewardsDaily: stakingRewards.rewardsDaily,
+                stakingRewardsDailyUSD: stakingRewards.rewardsDailyUSD,
+                stakingRewardsMonthly: stakingRewards.rewardsMonthly,
+                stakingRewardsMonthlyUSD: stakingRewards.rewardsMonthlyUSD,
+                stakingRewardsYearly: stakingRewards.rewardsYearly,
+                stakingRewardsYearlyUSD: stakingRewards.rewardsYearlyUSD,
+                stakingRewardsOneDailyStakeAmount: stakingRewards.oneDailyStakeAmount,
+                stakingRewardsOneMonthlyStakeAmount: stakingRewards.oneMonthlyStakeAmount,
+                stakingRewardsOneYearlyStakeAmount: stakingRewards.oneYearlyStakeAmount,
+                stakingRewardsOneDailyStakeAmountUSD: stakingRewards.oneDailyStakeAmountUSD,
+                stakingRewardsOneMonthlyStakeAmountUSD: stakingRewards.oneMonthlyStakeAmountUSD,
+                stakingRewardsOneYearlyStakeAmountUSD: stakingRewards.oneYearlyStakeAmountUSD,
+                stakingNote: pbaasConfig[i].stakingNote,
+
+
+                miningRewardsDaily: miningRewards.rewardsDaily,
+                miningRewardsDailyUSD: miningRewards.rewardsDailyUSD,
+                miningRewardsMonthly: miningRewards.rewardsMonthly,
+                miningRewardsMonthlyUSD: miningRewards.rewardsMonthlyUSD,
+                miningRewardsYearly: miningRewards.rewardsYearly,
+                miningRewardsYearlyUSD: miningRewards.rewardsYearlyUSD,
+                miningRewardsOneDailyMiningHashReward: miningRewards.oneDailyMiningHashReward,
+                miningRewardsOneMonthlyMiningHashReward: miningRewards.oneMonthlyMiningHashReward,
+                miningRewardsOneYearlyMiningHashReward: miningRewards.oneYearlyMiningHashReward,
+
+            })
+        }
     }
-
-
 
 
     // pbaasArray.push(apyArray);
@@ -121,21 +121,23 @@ export async function getBlockAndFeePoolRewards(miningInfo, pbaasConfig) {
     let blockFeeReward = 0;
     let feeReward = "";
 
-    const peerinfo = await getPeerInfo(pbaasConfig.rpcBaseUrl);
-    if (Array.isArray(peerinfo) && peerinfo.length > 0) {
-        result.blockLastSend = new Date(peerinfo[0].lastsend * 1000).toLocaleString();
-        result.block = miningInfo.blocks;
-        result.stakingSupply = miningInfo.stakingsupply;
-        result.networkhashps = miningInfo.networkhashps;
-        const block = await getBlock(pbaasConfig.rpcBaseUrl, miningInfo.blocks);
-        const blocksubsidy = await getBlockSubsidy(pbaasConfig.rpcBaseUrl, miningInfo.blocks);
-        block.tx[0].vout.map((item) => {
-            blockFeeReward = blockFeeReward + item.value;
-        })
-        feeReward = Math.round((blockFeeReward - blocksubsidy?.miner) * 100000000) / 100000000;
-        result.blockReward = blocksubsidy.miner;
-        result.feeReward = feeReward;
-        result.averageblockfees = miningInfo.averageblockfees
+    if (miningInfo) {
+        const peerinfo = await getPeerInfo(pbaasConfig.rpcBaseUrl);
+        if (Array.isArray(peerinfo) && peerinfo.length > 0) {
+            result.blockLastSend = new Date(peerinfo[0].lastsend * 1000).toLocaleString();
+            result.block = miningInfo.blocks;
+            result.stakingSupply = miningInfo.stakingsupply;
+            result.networkhashps = miningInfo.networkhashps;
+            const block = await getBlock(pbaasConfig.rpcBaseUrl, miningInfo.blocks);
+            const blocksubsidy = await getBlockSubsidy(pbaasConfig.rpcBaseUrl, miningInfo.blocks);
+            block.tx[0].vout.map((item) => {
+                blockFeeReward = blockFeeReward + item.value;
+            })
+            feeReward = Math.round((blockFeeReward - blocksubsidy?.miner) * 100000000) / 100000000;
+            result.blockReward = blocksubsidy.miner;
+            result.feeReward = feeReward;
+            result.averageblockfees = miningInfo.averageblockfees
+        }
     }
 
     return result;

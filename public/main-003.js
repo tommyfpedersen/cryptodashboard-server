@@ -213,14 +213,15 @@ function init() {
     }
 
     /** common */
-    initDisclaimerButton()
+    initDisclaimerButton();
+    initDarkmodeButton();
+   // initTopMenu();
     // initCardHideButtons();
     // initGraphButtons();
-    initResetLocalStorage();
+   // initResetLocalStorage();
     //  initSideMenu();
     // initGraphBarHints();
 
-    initDarkmodeButton();
 }
 
 
@@ -263,8 +264,6 @@ function enterDarkmode() {
     document.querySelector("#cache-updated").style.color = backgroundColor;
 
     // disclaimer
-    console.log("her",document.querySelector("#disclaimer"))
-    //document.querySelector("#disclaimer").style.color = backgroundColor;
     document.querySelector("#disclaimer").style.backgroundColor = darkerBaggrundColor;
 
 
@@ -319,113 +318,123 @@ function enterLightmode() {
 
 }
 
-function replaceUrlParam(url, paramName, paramValue) {
-    if (paramValue == null) {
-        paramValue = '';
-    }
-    var pattern = new RegExp('\\b(' + paramName + '=).*?(&|#|$)');
-    if (url.search(pattern) >= 0) {
-        return url.replace(pattern, '$1' + paramValue + '$2');
-    }
-    url = url.replace(/[?#]$/, '');
-    return url + (url.indexOf('?') > 0 ? '&' : '?') + paramName + '=' + paramValue;
-}
+// function initTopMenu(){
+//     let topMenuElements = document.querySelectorAll('top-menu');
 
-function initCardHideButtons() {
-    let getAllCardHideButtonElements = document.querySelectorAll(".hide-button");
-    getAllCardHideButtonElements.forEach((buttonElm) => {
+//     topMenuElements.forEach((elm)=>{
+//         elm.addEventListener("click", (evt)=>{
+//             console.log("menu click", evt.target)
+//         })
+//     })
+// }
 
-        buttonElm.addEventListener('click', (evt) => {
+// function replaceUrlParam(url, paramName, paramValue) {
+//     if (paramValue == null) {
+//         paramValue = '';
+//     }
+//     var pattern = new RegExp('\\b(' + paramName + '=).*?(&|#|$)');
+//     if (url.search(pattern) >= 0) {
+//         return url.replace(pattern, '$1' + paramValue + '$2');
+//     }
+//     url = url.replace(/[?#]$/, '');
+//     return url + (url.indexOf('?') > 0 ? '&' : '?') + paramName + '=' + paramValue;
+// }
 
-            let parentElement = evt.target.parentElement;
-            let cardId = parentElement.id;
+// function initCardHideButtons() {
+//     let getAllCardHideButtonElements = document.querySelectorAll(".hide-button");
+//     getAllCardHideButtonElements.forEach((buttonElm) => {
 
-            let settingsObj = JSON.parse(localStorage.getItem("settings"));
-            let cardsArray = settingsObj.cards;
-            let currentCardIndex = cardsArray.findIndex(item => item.cardId === cardId);
+//         buttonElm.addEventListener('click', (evt) => {
 
-            // create and add card in card settings array if not exist
-            if (currentCardIndex === -1) {
-                let newCard = {
-                    cardId: cardId,
-                    visible: false
-                }
-                cardsArray.push(newCard);
-                currentCardIndex = cardsArray.findIndex(item => item.cardId === cardId);
-            }
+//             let parentElement = evt.target.parentElement;
+//             let cardId = parentElement.id;
 
-            // turn off card and menu item
-            cardsArray[currentCardIndex].visible = false;
-            parentElement.classList.add("hide");
-            let menuItemElm = document.querySelector("#menu-" + cardId);
-            let menuItemIconElm = menuItemElm.querySelector(".side-menu-item-icon");
-            menuItemIconElm.classList.remove("side-menu-item-selected");
+//             let settingsObj = JSON.parse(localStorage.getItem("settings"));
+//             let cardsArray = settingsObj.cards;
+//             let currentCardIndex = cardsArray.findIndex(item => item.cardId === cardId);
 
-            // update local storage
-            localStorage.setItem("settings", JSON.stringify(settingsObj));
-        });
+//             // create and add card in card settings array if not exist
+//             if (currentCardIndex === -1) {
+//                 let newCard = {
+//                     cardId: cardId,
+//                     visible: false
+//                 }
+//                 cardsArray.push(newCard);
+//                 currentCardIndex = cardsArray.findIndex(item => item.cardId === cardId);
+//             }
 
-    })
-}
+//             // turn off card and menu item
+//             cardsArray[currentCardIndex].visible = false;
+//             parentElement.classList.add("hide");
+//             let menuItemElm = document.querySelector("#menu-" + cardId);
+//             let menuItemIconElm = menuItemElm.querySelector(".side-menu-item-icon");
+//             menuItemIconElm.classList.remove("side-menu-item-selected");
 
-function initGraphBarHints() {
-    let getAllGraphBarElements = document.querySelectorAll(".graph-bar");
-    let hintElm = document.querySelector("#hint");
+//             // update local storage
+//             localStorage.setItem("settings", JSON.stringify(settingsObj));
+//         });
 
-    getAllGraphBarElements.forEach((elm) => {
-        elm.addEventListener('mouseover', (evt) => {
-            let xPos = evt.clientX;
-            let yPos = evt.clientY - 50;
-            let label = evt.target.getAttribute("data-label");
-            let volume = evt.target.getAttribute("data-volume");
-            hintElm.innerHTML = `${volume}</br> ${label} `;
-            hintElm.style.left = xPos + "px";
-            hintElm.style.top = yPos + "px";
-            // hintElm.style.zindex = 20000; 
-            hintElm.classList.replace("hide", "show");
-        });
-        elm.addEventListener('mouseout', (evt) => {
-            hintElm.classList.replace("show", "hide");
-            hintElm.innerHTML = "";
-        });
-    })
-}
+//     })
+// }
 
-function initGraphButtons() {
-    let getAllGraphContainerElements = document.querySelectorAll(".graph-container");
-    getAllGraphContainerElements.forEach((graphContainerElm) => {
-        let getAllGraphGroupElements = graphContainerElm.querySelectorAll(".graph-group");
-        let getAllGraphButtonsElements = graphContainerElm.querySelectorAll(".graph-button");
-        getAllGraphButtonsElements.forEach((buttonElm, buttonIndex) => {
-            buttonElm.addEventListener('click', (evt) => {
+// function initGraphBarHints() {
+//     let getAllGraphBarElements = document.querySelectorAll(".graph-bar");
+//     let hintElm = document.querySelector("#hint");
 
-                getAllGraphButtonsElements.forEach((element) => {
-                    element.classList.remove("button-selected");
-                    element.classList.add("button-deselected");
-                })
-                getAllGraphGroupElements.forEach((element, groupIndex) => {
-                    if (groupIndex === buttonIndex) {
-                        element.classList.add("show");
-                        element.classList.remove("hide");
-                    } else {
-                        element.classList.remove("show");
-                        element.classList.add("hide");
-                    }
-                })
-                evt.target.classList.replace("button-deselected", "button-selected");
-            })
-        })
-    })
-}
+//     getAllGraphBarElements.forEach((elm) => {
+//         elm.addEventListener('mouseover', (evt) => {
+//             let xPos = evt.clientX;
+//             let yPos = evt.clientY - 50;
+//             let label = evt.target.getAttribute("data-label");
+//             let volume = evt.target.getAttribute("data-volume");
+//             hintElm.innerHTML = `${volume}</br> ${label} `;
+//             hintElm.style.left = xPos + "px";
+//             hintElm.style.top = yPos + "px";
+//             // hintElm.style.zindex = 20000; 
+//             hintElm.classList.replace("hide", "show");
+//         });
+//         elm.addEventListener('mouseout', (evt) => {
+//             hintElm.classList.replace("show", "hide");
+//             hintElm.innerHTML = "";
+//         });
+//     })
+// }
 
-function initResetLocalStorage() {
-    let getResetCardsElement = document.querySelector("#reset-cards");
-    getResetCardsElement.addEventListener('click', (evt) => {
-        console.log("clear")
-        localStorage.clear();
-        location.reload();
-    })
-}
+// function initGraphButtons() {
+//     let getAllGraphContainerElements = document.querySelectorAll(".graph-container");
+//     getAllGraphContainerElements.forEach((graphContainerElm) => {
+//         let getAllGraphGroupElements = graphContainerElm.querySelectorAll(".graph-group");
+//         let getAllGraphButtonsElements = graphContainerElm.querySelectorAll(".graph-button");
+//         getAllGraphButtonsElements.forEach((buttonElm, buttonIndex) => {
+//             buttonElm.addEventListener('click', (evt) => {
+
+//                 getAllGraphButtonsElements.forEach((element) => {
+//                     element.classList.remove("button-selected");
+//                     element.classList.add("button-deselected");
+//                 })
+//                 getAllGraphGroupElements.forEach((element, groupIndex) => {
+//                     if (groupIndex === buttonIndex) {
+//                         element.classList.add("show");
+//                         element.classList.remove("hide");
+//                     } else {
+//                         element.classList.remove("show");
+//                         element.classList.add("hide");
+//                     }
+//                 })
+//                 evt.target.classList.replace("button-deselected", "button-selected");
+//             })
+//         })
+//     })
+// }
+
+// function initResetLocalStorage() {
+//     let getResetCardsElement = document.querySelector("#reset-cards");
+//     getResetCardsElement.addEventListener('click', (evt) => {
+//         console.log("clear")
+//         localStorage.clear();
+//         location.reload();
+//     })
+// }
 
 // function initSideMenu() {
 
