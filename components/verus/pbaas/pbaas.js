@@ -7,7 +7,7 @@ import { getCurrenciesConfig } from './../currencies/currenciesConfig.js';
 import { getMiningInfo, getCoinSupply, getCurrency, getBlockSubsidy, getBlock, getPeerInfo } from "../api/api.js";
 
 
-export async function getAllPbaas() {
+export async function getAllPbaas(allCurrenciesFromBaskets) {
     const pbaasConfig = getPbaasConfig();
     const currenciesConfig = getCurrenciesConfig();
 
@@ -15,19 +15,21 @@ export async function getAllPbaas() {
     let pbaasArray = [];
 
     for (let i = 0; i < pbaasConfig.length; i++) {
-        console.log(pbaasConfig[i].name)
-        const nativePrice = pbaasConfig[i].nativeBasePrice;
+        const nativeCurrencyFromBasket = allCurrenciesFromBaskets.filter((item)=>{return item.blockchain === pbaasConfig[i].name });
+        
+        let nativePrice = 0;
+        if(nativeCurrencyFromBasket.length > 0){
+            nativePrice = nativeCurrencyFromBasket[0].currencyReserve.nativeCurrencyBasePrice;
+        }
+
         const miningInfo = await getMiningInfo(pbaasConfig[i].rpcBaseUrl);
         const currencyInfo = await getCurrency(pbaasConfig[i].rpcBaseUrl, pbaasConfig[i].name)
-        const marketCapStats = await getMarketCapStats(miningInfo, currencyInfo, pbaasConfig[i])
+        const marketCapStats = await getMarketCapStats(miningInfo, currencyInfo, pbaasConfig[i], nativePrice)
         const blockAndFeePoolRewards = await getBlockAndFeePoolRewards(miningInfo, pbaasConfig[i]);
 
         if (currencyInfo) {
             const stakingRewards = await calculateStakingRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, marketCapStats.circulatingSupply, miningInfo.stakingsupply, null, nativePrice)
             const miningRewards = await calculateMiningRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, miningInfo.networkhashps, null, nativePrice)
-
-            //  console.log(miningRewards);
-
 
             let currenciesOnBlockchain = currenciesConfig.filter((currency) => {
                 return currency.blockchain === pbaasConfig[i].name
@@ -198,7 +200,7 @@ export async function calculateMiningRewards(blocktime, blockReward, networkHash
 }
 
 
-export async function getMarketCapStats(miningInfo, currencyInfo, pbaasConfig) {
+export async function getMarketCapStats(miningInfo, currencyInfo, pbaasConfig, nativeBasePrice) {
     let result = {};
     let circulatingSupply = 0;
     let circulatingSupplyPercentage = 0;
@@ -288,9 +290,9 @@ export async function getMarketCapStats(miningInfo, currencyInfo, pbaasConfig) {
             circulatingSupply = pbaasConfig.maxSupply * 0.99
             result.circulatingSupply = circulatingSupply;
             result.circulatingSupplyPercentage = circulatingSupply / pbaasConfig.maxSupply * 100;
-            result.marketCap = circulatingSupply * pbaasConfig.nativeBasePrice;
+            result.marketCap = circulatingSupply * nativeBasePrice;
             result.maxSupply = pbaasConfig.maxSupply;
-            result.fullyDilutedMarketCap = pbaasConfig.maxSupply * pbaasConfig.nativeBasePrice;
+            result.fullyDilutedMarketCap = pbaasConfig.maxSupply * nativeBasePrice;
 
 
         } else {
@@ -301,9 +303,9 @@ export async function getMarketCapStats(miningInfo, currencyInfo, pbaasConfig) {
                     result.totalSupply = circulatingSupply;
                     result.circulatingSupply = circulatingSupply;
                     result.circulatingSupplyPercentage = circulatingSupply / pbaasConfig.maxSupply * 100;
-                    result.marketCap = circulatingSupply * pbaasConfig.nativeBasePrice;
+                    result.marketCap = circulatingSupply * nativeBasePrice;
                     result.maxSupply = pbaasConfig.maxSupply;
-                    result.fullyDilutedMarketCap = pbaasConfig.maxSupply * pbaasConfig.nativeBasePrice;
+                    result.fullyDilutedMarketCap = pbaasConfig.maxSupply * nativeBasePrice;
                 }
             }
             else {

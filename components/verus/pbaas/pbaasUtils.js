@@ -15,11 +15,11 @@ export function getIDPriceListArray(pbaasList) {
     pbaasList.forEach((item) => {
         let resultObject = {
             blockchain: item.blockchain,
-            priceId1RefYoursUSD: item.priceId1RefYoursUSD
+            priceId1RefNotYoursUSD: item.priceId1RefNotYoursUSD
         }
         resultArray.push(resultObject);
     })
-    resultArray.sort((a, b) => parseFloat(b.priceId1RefYoursUSD.replace(/,/g, '')) - parseFloat(a.priceId1RefYoursUSD.replace(/,/g, '')));
+    resultArray.sort((a, b) => parseFloat(b.priceId1RefNotYoursUSD.replace(/,/g, '')) - parseFloat(a.priceId1RefNotYoursUSD.replace(/,/g, '')));
     return resultArray;
 }
 export function getCurrencyPriceListArray(pbaasList) {

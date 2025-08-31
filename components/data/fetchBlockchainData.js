@@ -33,7 +33,7 @@ export async function getBlockchainData() {
     let basketsInfo = getBasketsInfo(allCurrenciesFromBaskets)
 
     /* Get pbaas and earnings */
-    let pbaasList = await getAllPbaas();
+    let pbaasList = await getAllPbaas(allCurrenciesFromBaskets);
     let marketCapArray = getMarketCapArray(pbaasList);
     let idPriceListArray = getIDPriceListArray(pbaasList)
     let currencyPriceListArray = getCurrencyPriceListArray(pbaasList)
