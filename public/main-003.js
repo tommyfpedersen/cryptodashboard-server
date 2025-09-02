@@ -37,6 +37,33 @@ function init() {
 
     }
 
+    // menu highlight
+    const topMenuItemsElm = document.querySelectorAll('.top-menu-item');
+
+    let menuItemFound = false;
+    topMenuItemsElm.forEach((menuItem) => {
+
+        if (menuItemFound) {
+            return;
+        }
+
+        if ((location.href.includes('currency') && menuItem.pathname === "/") || location.pathname === "/") {
+            menuItemFound = true;
+            menuItem.style.textDecorationThickness = "3px";
+        } else if (location.href.includes('blockchain') && menuItem.href.includes('blockchain')) {
+            menuItemFound = true;
+            menuItem.style.textDecorationThickness = "3px";
+        } else if (location.href.includes('earnings') && menuItem.href.includes('earnings')) {
+            menuItemFound = true;
+            menuItem.style.textDecorationThickness = "3px";
+        } else if (location.href.includes('stats') && menuItem.href.includes('stats')) {
+            menuItemFound = true;
+            menuItem.style.textDecorationThickness = "3px";
+        }
+    });
+
+
+
     /* verus */
     let getAddressBalanceElm = document.querySelector("#get-address-balance");
     if (getAddressBalanceElm) {
@@ -215,10 +242,10 @@ function init() {
     /** common */
     initDisclaimerButton();
     initDarkmodeButton();
-   // initTopMenu();
+    // initTopMenu();
     // initCardHideButtons();
     // initGraphButtons();
-   // initResetLocalStorage();
+    // initResetLocalStorage();
     //  initSideMenu();
     // initGraphBarHints();
 
@@ -390,7 +417,7 @@ function enterLightmode() {
 //             hintElm.innerHTML = `${volume}</br> ${label} `;
 //             hintElm.style.left = xPos + "px";
 //             hintElm.style.top = yPos + "px";
-//             // hintElm.style.zindex = 20000; 
+//             // hintElm.style.zindex = 20000;
 //             hintElm.classList.replace("hide", "show");
 //         });
 //         elm.addEventListener('mouseout', (evt) => {
