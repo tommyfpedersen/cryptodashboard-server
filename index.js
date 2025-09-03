@@ -31,7 +31,7 @@ app.get('/', async (req, res) => {
 
   /* page loads */
   pageLoads++;
-  console.log("page loads: ", new Date().toLocaleString(), pageLoads);
+  console.log("page loads: currencies: ", new Date().toLocaleString(), pageLoads);
 
   /* cache */
   let cacheReady = await isCacheReady();
@@ -66,7 +66,7 @@ app.get('/currency/:param', async (req, res) => {
 
   /* page loads */
   pageLoads++;
-  console.log("page loads with param: ", new Date().toLocaleString(), pageLoads);
+  console.log("page loads: currency: ", req.params.param, "", new Date().toLocaleString(), pageLoads);
 
   /* cache */
   let cacheReady = await isCacheReady();
@@ -165,7 +165,7 @@ app.get('/blockchain', async (req, res) => {
 
   /* page loads */
   pageLoads++;
-  console.log("blockchain loads: ", new Date().toLocaleString(), pageLoads);
+  console.log("page loads: blockchain: ", new Date().toLocaleString(), pageLoads);
 
   /* cache */
   let cacheReady = await isCacheReady();
@@ -199,7 +199,7 @@ app.get('/earnings', async (req, res) => {
 
   /* page loads */
   pageLoads++;
-
+  console.log("page loads: earnings: ", new Date().toLocaleString(), pageLoads);
 
   /* cache */
   let cacheReady = await isCacheReady();
@@ -233,7 +233,7 @@ app.get('/stats', async (req, res) => {
 
   /* page loads */
   pageLoads++;
-  console.log("page loads: ", new Date().toLocaleString(), pageLoads);
+  console.log("page loads: stats", new Date().toLocaleString(), pageLoads);
 
   /* cache */
   let cacheReady = await isCacheReady();
@@ -440,6 +440,10 @@ app.get('/api/', async (req, res) => {
 
 app.get('/api/highlights', async (req, res) => {
 
+  /* page loads */
+  pageLoads++;
+  console.log("page loads: api highlights", new Date().toLocaleString(), pageLoads);
+
   /* cache */
   let cacheReady = await isCacheReady();
   let mainRenderData = {};
@@ -451,7 +455,7 @@ app.get('/api/highlights', async (req, res) => {
     mainRenderData = cacheData;
 
     res.json({
-      data: mainRenderData,
+      // data: mainRenderData,
       cachetimestamp: mainRenderData.cachetimestamp,
       timeAgo: mainRenderData.timeAgo,
       totalBasketReserves: mainRenderData.basketsInfo[0].currencySupplyPriceUSD,

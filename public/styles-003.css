@@ -413,6 +413,12 @@ body {
     font-size: 16px;
 }
 
+.blockchain-card-content-item-label {
+    text-transform: uppercase;
+    font-size: 12px;
+    min-width: 145px;
+}
+
 .bottom {}
 
 .sub-title {
