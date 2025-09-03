@@ -66,7 +66,7 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
                 priceSubIdUSD: Math.round(pbaasConfig[i].priceSubId * nativePrice).toLocaleString(),
                 priceStorageUSD: Math.round(pbaasConfig[i].priceStorage * nativePrice).toLocaleString(),
                 priceCurrencyUSD: Math.round(pbaasConfig[i].priceCurrency * nativePrice).toLocaleString(),
-                pricePbaasUSD: pbaasConfig[i].pricePbaas == null ? "" : "$ " + Math.round(pbaasConfig[i].pricePbaas).toLocaleString(),
+                pricePbaasUSD: pbaasConfig[i].pricePbaas == null ? "" : "$ " + Math.round(pbaasConfig[i].pricePbaas * nativePrice).toLocaleString(),
 
                 blockReward: blockAndFeePoolRewards.blockReward,
                 feeReward: blockAndFeePoolRewards.feeReward,
