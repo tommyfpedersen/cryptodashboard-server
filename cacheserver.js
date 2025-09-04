@@ -14,9 +14,11 @@ let syncTroubleTimestamp = 0;
 let syncTroubleTimestampActivated = false;
 let syncTroubleThreshold = 1000*60*10;
 
+await fetchAndUpdateData();
+
 setInterval(async () => {
   await fetchAndUpdateData();
-}, 60000);
+}, 60000*2);
 
 async function fetchAndUpdateData() {
   console.log("get blockchain data: ");

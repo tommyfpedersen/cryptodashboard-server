@@ -1,0 +1,200 @@
+<div class="top-card-container">
+    <div class="card">
+        <div class="card-header ">
+            <div class="card-title">Market Cap</div>
+        </div>
+
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item-label">Blockchain</div>
+                <div class="card-content-item-label go-right">Market Cap</div>
+            </div>
+            {{#each marketCapArray}}
+            <div class="card-content-row">
+                <div class="card-content-item"> {{blockchain}}</div>
+                <div class="card-content-item go-right"> $ {{marketCap}}</div>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header ">
+            <div class="card-title">ID Price List </div>
+        </div>
+
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item-label">Blockchain</div>
+                <div class="card-content-item-label go-right">ID, 1.ref, not yours</div>
+            </div>
+            {{#each idPriceListArray}}
+            <div class="card-content-row">
+                <div class="card-content-item"> {{blockchain}}</div>
+                <div class="card-content-item go-right">$ {{priceId1RefNotYoursUSD}}</div>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+
+    <div class="card ">
+        <div class="card-header ">
+            <div class="card-title">Currency Price List</div>
+        </div>
+
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item-label">Blockchain</div>
+                <div class="card-content-item-label go-right">Currency Price</div>
+            </div>
+            {{#each currencyPriceListArray}}
+            <div class="card-content-row">
+                <div class="card-content-item"> {{blockchain}}</div>
+                <div class="card-content-item go-right"> $ {{priceCurrencyUSD}}</div>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header ">
+            <div class="card-title">Network Hashrate </div>
+        </div>
+
+        <div class="card-content">
+            <div class="card-content-row">
+                <div class="card-content-item-label">Blockchain</div>
+                <div class="card-content-item-label go-right">Network Hashrate</div>
+            </div>
+            {{#each networkHashrateArray}}
+            <div class="card-content-row">
+                <div class="card-content-item"> {{blockchain}}</div>
+                <div class="card-content-item go-right"> {{networkHashrate}} GH/s</div>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+</div>
+
+{{#each pbaasList}}
+<div class="currency-card">
+    <div class="currency-card-header ">
+        {{!-- <img width="16px" src="/img/tbtc.png" /> --}}
+        <div class="card-title"> {{blockchain}}</div>
+    </div>
+
+
+    <div class="card-content">
+
+        <div class="blockchain-card-content-row">
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label">Market Cap</div>
+                <div class="blockchain-card-content-item ">$ {{marketCap}} </div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label">Total Market Cap</div>
+                <div class="blockchain-card-content-item ">$ {{fullyDilutedMarketCap}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label ">Cir. Supply. Pct.</div>
+                <div class="blockchain-card-content-item "> {{circulatingSupplyPercentage}} %</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label">Cir. Supply</div>
+                <div class="blockchain-card-content-item ">{{circulatingSupply}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label ">Max. Supply</div>
+                <div class="blockchain-card-content-item ">{{maxSupply}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label ">Currencies </div>
+                <div class="currency-card-content-item">{{currenciesCount}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label ">Block Time</div>
+                <div class="blockchain-card-content-item ">{{blocktime}} SEC</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label ">Network Hashrate</div>
+                <div class="currency-card-content-item">{{networkHashrate}} GH/s</div>
+            </div>
+        </div>
+
+
+    </div>
+    <div style="padding: 16px 0 8px 0; font-size: 14px; font-weight:bold;">Price List</div>
+    <div class="card-content">
+        <div class="blockchain-card-content-row">
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label">Addr <-> Addr</div>
+                <div class="blockchain-card-content-item ">{{priceAddrToAddr}} </div>
+                <div class="blockchain-card-content-item small-label">$ {{priceAddrToAddrUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label">Basket <-> Reserve</div>
+                <div class="blockchain-card-content-item ">{{priceBasketToReserve}}%</div>
+                <div class="blockchain-card-content-item small-label"></div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label">Reserve <-> Reserve</div>
+                <div class="blockchain-card-content-item ">{{priceReserveToReserve}}%</div>
+                <div class="blockchain-card-content-item small-label"></div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label">ID 1.ref, not yours</div>
+                <div class="blockchain-card-content-item ">{{priceId1RefNotYours}}</div>
+                <div class="blockchain-card-content-item small-label">$ {{priceId1RefNotYoursUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label">ID 1.ref, yours</div>
+                <div class="blockchain-card-content-item ">{{priceId1RefYours}}</div>
+                <div class="blockchain-card-content-item small-label">$ {{priceId1RefYoursUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label">ID 2.ref, all yours</div>
+                <div class="blockchain-card-content-item ">{{priceId2RefAllYours}}</div>
+                <div class="blockchain-card-content-item small-label">$ {{priceId2RefAllYoursUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label">ID 3.ref, all yours</div>
+                <div class="blockchain-card-content-item ">{{priceId3RefAllYours}}</div>
+                <div class="blockchain-card-content-item small-label">{{priceId3RefAllYoursUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label">SubID (ID + Currency)</div>
+                <div class="blockchain-card-content-item ">>{{priceSubId}}</div>
+                <div class="blockchain-card-content-item small-label">$ > {{priceSubIdUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label">Storage (1k)</div>
+                <div class="blockchain-card-content-item ">{{priceStorage}}</div>
+                <div class="blockchain-card-content-item small-label">$ {{priceStorageUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label">Currency</div>
+                <div class="blockchain-card-content-item "> {{priceCurrency}}</div>
+                <div class="blockchain-card-content-item small-label">$ {{priceCurrencyUSD}}</div>
+            </div>
+            <div class="blockchain-card-content-item">
+                <div class="blockchain-card-content-item-label">
+                    {{#if pricePbaas}}PBaaS
+                    {{else}}
+
+                    {{/if}}</div>
+                <div class="blockchain-card-content-item "> {{pricePbaas}}</div>
+                <div class="blockchain-card-content-item small-label">{{pricePbaasUSD}}</div>
+            </div>
+
+        </div>
+
+    </div>
+   
+
+
+</div>
+{{/each}}

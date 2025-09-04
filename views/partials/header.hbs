@@ -1,6 +1,8 @@
 <div class="header">
 
-    <span class="header-bold">Crypto</span>dashboard
+  
+
+    <span class="header-bold">CRYPTO</span>DASHBOARD
     <span class="header-version">v1.0.0</span>
     <button title="Reset Cryptodashboard" class="reset-button" id="reset-cards"><svg xmlns="http://www.w3.org/2000/svg"
             height="16" width="16" fill="#666" viewBox="0 0 512 512">
@@ -13,7 +15,7 @@
     <div id="cache-updated" {{#if outofsync }} class="cache-out-of-sync" {{else}} {{/if}} {{#if vrscstatus.outofsync }}
         class="cache-out-of-sync" {{else}} {{/if}}>
         Updated {{{timeAgo}}}
-       
+
 
         {{#if outofsync}}
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="alert-icon">
@@ -27,12 +29,14 @@
         <div>
             <br>
             {{{vrscstatus.message}}}
-             <div>({{{vrscstatus.currentBlock}}})</div>
+            <div>({{{vrscstatus.currentBlock}}})</div>
         </div>
         {{else}} {{/if}}
 
 
     </div>
+
+    
 
     <div id="dark-mode" title="darkmode">
         <svg class="light-mode-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -41,12 +45,18 @@
         </svg>
     </div>
 
-    <div class="side-menu-icon">
+    <div class="top-menu">
+        <a class="top-menu-item" href="/" target="_self">Currencies</a>
+        <a class="top-menu-item" href="/blockchain" target="_self">Blockchains</a>
+        <a class="top-menu-item" href="/earnings" target="_self">Earnings</a>
+        <a class="top-menu-item" href="/stats" target="_self">Stats</a>
+    </div>
+    {{!-- <div class="side-menu-icon">
         <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"
             style="padding-bottom: 0px; padding-left: 0px; padding-right: 3px;">
             <path
                 d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
         </svg>
-    </div>
+    </div> --}}
 
 </div>
