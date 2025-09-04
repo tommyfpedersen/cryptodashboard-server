@@ -40,7 +40,14 @@ app.get('/', async (req, res) => {
       timeAgo: mainRenderData.timeAgo,
       currencyGroupList: mainRenderData.currencyGroupList,
       totalBasketsVolume: mainRenderData.totalBasketsVolume,
-      basketsInfo: mainRenderData.basketsInfo
+      basketsInfo: mainRenderData.basketsInfo,
+      // legacy info
+      totalBasketReserves: mainRenderData.basketsInfo[0].currencySupplyPriceUSD,
+      totalVolume24h: mainRenderData.totalBasketsVolume[0].totalVolume24HoursUSD,
+      totalVolume7d: mainRenderData.totalBasketsVolume[0].totalVolume7DaysUSD,
+      totalVolume30d: mainRenderData.totalBasketsVolume[0].totalVolume30DaysUSD,
+      vrscInBaskets: mainRenderData.basketsInfo[0].vrscInReserve,
+      vrscInBasketsUSD: mainRenderData.basketsInfo[0].vrscInReserveUSD
     });
     return;
   } else {

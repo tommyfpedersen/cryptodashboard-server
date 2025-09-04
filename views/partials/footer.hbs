@@ -1,14 +1,14 @@
-  <div id="disclaimer">
-        <div class="disclaimer-title">Disclaimer</div>
-        <div class="disclaimer-text">
-            <p>All decisions based on the info on cryptodashboard.faldt.net is done at the users own responsibility.
-            </p>
-            <p>Blockchain nodes can go out of sync and can therefore show old data.</p>
-             <p>All data on cryptodashboard.faldt.net is at least 60 seconds old.</p>
-             <p>VRSC dollars price in baskets without tBTC and vETH is based on VRSC price in the Bridge.vETH basket.</p>
-        </div>
-        <button id="disclaimer-button">Accept</button>
+<div id="disclaimer">
+    <div class="disclaimer-title">Disclaimer</div>
+    <div class="disclaimer-text">
+        <p>All decisions based on the info on cryptodashboard.faldt.net is done at the users own responsibility.
+        </p>
+        <p>Blockchain nodes can go out of sync and can therefore show old data.</p>
+        <p>All data on cryptodashboard.faldt.net is at least 60 seconds old.</p>
+        <p>VRSC dollars price in baskets without tBTC and vETH is based on VRSC price in the Bridge.vETH basket.</p>
     </div>
+    <button id="disclaimer-button">Accept</button>
+</div>
 
 <div class="bottom">
     <div class="sub-title">Useful Links</div>
@@ -27,4 +27,13 @@
     <div><img class="qr-code" src="/svg/donation_qr_code.svg" /></div>
     <div class="sub-title">Contact</div>
     <div class="sub-title-value">support@faldt.net</div>
+    <div class="legacy-ids" style="font-size: 1px">
+        <span id="total-basket-reserve">$ {{totalBasketReserves}}</span>
+        <span id="total-volume-24h">$ {{totalVolume24h}}</span>
+        <span id="total-volume-7d">$ {{totalVolume7d}}</span>
+        <span id="total-volume-30d">{{totalVolume30d}}</span>
+        <span id="vrsc-in-baskets">{{vrscInBaskets}}</span>
+        <span id="total-basket-reserve">$ {{vrscInBasketsUSD}}</span>
+
+    </div>
 </div>
