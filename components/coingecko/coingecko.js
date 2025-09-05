@@ -155,16 +155,6 @@ export async function getCoingeckoPrice() {
                                 marketRank: item.market_cap_rank
                             })
                         }
-                        if (item.id === "illuminaticoin") {
-                            priceArray.push({
-                                currencyId: "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx",
-                                price: item.current_price,
-                                totalVolume: item.total_volume,
-                                name: "IlluminatiCoin",
-                                origin: "Coingecko",
-                                marketRank: item.market_cap_rank
-                            })
-                        }
                     })
                 }
             }

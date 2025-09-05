@@ -1,0 +1,25 @@
+<div class="card" id="verus-vdex-get-address-balance-card">
+    {{!-- <img width="16px" src="/img/Pirate_Logo_Coin_Gold.png" /> --}}
+    vDEX
+    <button class="hide-button">x</button>
+    <div class="card-content">
+        <div class="card-title">Address Balance</div>
+        {{#if vdexOnline}}
+
+        <div class="card-sub-title">vDEX address</div>
+        <div class="card-sub-title-value"><input id="get-vdex-address-balance" class="card-input"
+                value="{{{getVdexAddress}}}"></div>
+
+        {{#each getVdexAddressBalanceArray}}
+        <div class="card-row-wrapper">
+            <div class="card-row-item">{{{currencyName}}}</div>
+            <div class="card-row-item">{{{amount}}} </div>
+        </div>
+        {{/each}}
+
+        {{else}}
+        {{{vdexStatusMessage}}}
+        {{/if}}
+
+    </div>
+</div>

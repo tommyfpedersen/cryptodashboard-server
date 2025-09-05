@@ -1,0 +1,23 @@
+<div class="card" id="varrr-price-list">
+    <img width="16px" src="/img/Pirate_Logo_Coin_Gold.png" />
+    <button class="hide-button">x</button>
+    <div class="card-content">
+        <div class="card-title">Price List</div>
+        {{#if varrrOnline}}
+
+        {{#each varrrPriceList}}
+        <div class="card-row-wrapper">
+            <div class="card-row-item">{{{label}}}</div>
+            <div class="card-row-item-network">{{{nativePrice}}}</div>
+            <div class="card-row-item">{{{price}}}</div>
+        </div>
+        {{/each}}
+        <br>
+        <div style="font-size: 12px">* vARRR subId needs a vARRR ID and a Currency</div>
+
+        {{!-- <div class="card-row-item-details">Last 100 blocks</div> --}}
+        {{else}}
+        {{{varrrStatusMessage}}}
+        {{/if}}
+    </div>
+</div>

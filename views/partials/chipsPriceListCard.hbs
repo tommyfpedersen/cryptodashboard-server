@@ -1,0 +1,23 @@
+<div class="card" id="chips-price-list">
+  CHIPS
+    <button class="hide-button">x</button>
+    <div class="card-content">
+        <div class="card-title">Price List</div>
+        {{#if chipsOnline}}
+
+        {{#each chipsPriceList}}
+        <div class="card-row-wrapper">
+            <div class="card-row-item">{{{label}}}</div>
+            <div class="card-row-item-network">{{{nativePrice}}}</div>
+            <div class="card-row-item">{{{price}}}</div>
+        </div>
+        {{/each}}
+        <br>
+        <div style="font-size: 12px">* CHIPS subId needs a CHIPS ID and a Currency</div>
+
+        {{!-- <div class="card-row-item-details">Last 100 blocks</div> --}}
+        {{else}}
+        {{{chipsStatusMessage}}}
+        {{/if}}
+    </div>
+</div>
