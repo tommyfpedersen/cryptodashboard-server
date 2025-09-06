@@ -69,7 +69,9 @@ export async function currencyReserveNati(priceArray, vrscBridgePrice) {
                             if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                                 currency.priceNative = Math.round(NATIvETHReserve / currency.reserves * 1000) / 1000;
                                 currency.pricelabel = "NATI.vETH";
-                                currency.price = vrscBridgePrice;
+                                currency.price =  Math.round(NATIvETHCoingeckoPrice * currency.priceNative * 100*10000) / 100;
+                             //   currency.price = vrscBridgePrice;
+                                //  currency.price = vrscBasketPrice = Math.round(NATIvETHCoingeckoPrice * currency.priceNative * 100) / 100;
                             }
                             if (currencyId === "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx") {
                                 currency.priceNative = (Math.round(vrscReserve / currency.reserves * 100000000) / 100000000 ).toFixed(5);
