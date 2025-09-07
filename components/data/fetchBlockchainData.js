@@ -135,6 +135,15 @@ export async function getBlockchainData() {
         const superBasketVolume7Days = await getCurrencyVolume("SUPER🛒", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
         const superBasketVolume30Days = await getCurrencyVolume("SUPER🛒", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
 
+        /* Get trillium volume and reserve info */
+        const currencyReserveTrillium = await getCurrencyReserve("trillium", coingeckoPriceArray, currencyReserveBridge.vrscBridgePrice);
+        const trilliumVolume24Hours = await getCurrencyVolume("trillium", currentBlock - 1440, currentBlock, 60, "vrsc");
+        const trilliumVolume7Days = await getCurrencyVolume("trillium", currentBlock - 1440 * 7, currentBlock, 1440, "vrsc");
+        const trilliumVolume30Days = await getCurrencyVolume("trillium", currentBlock - 1440 * 30, currentBlock, 1440, "vrsc");
+
+
+
+        //  console.log("currencyReserveTrillium", currencyReserveTrillium)
         // console.log("superBasketVolume24Hours", superBasketVolume24Hours)
 
 
@@ -352,7 +361,23 @@ export async function getBlockchainData() {
             estimatedSuperBasketReserveValue: currencyReserveSuperBasket.estimatedSuperBasketReserveValue,
             estimatedSuperBasketValue: currencyReserveSuperBasket.estimatedSuperBasketValue,
             estimatedSuperBasketValueUSDVRSC: Math.round(currencyReserveSuperBasket.estimatedSuperBasketReserveValueUSDVRSC).toLocaleString(),
-            estimatedSuperBasketReserveValueUSDtBTC: currencyReserveSuperBasket.estimatedSuperBasketValueUSDtBTC
+            estimatedSuperBasketReserveValueUSDtBTC: currencyReserveSuperBasket.estimatedSuperBasketValueUSDtBTC,
+            // Verus trillium
+            currencyVolumeTrillium24Hours: trilliumVolume24Hours.totalVolume,
+            currencyVolumeTrillium24HoursArray: trilliumVolume24Hours.volumeArray,
+            currencyVolumeTrillium24HoursArrayYAxis: trilliumVolume24Hours.yAxisArray,
+            currencyVolumeTrillium7Days: trilliumVolume7Days.totalVolume,
+            currencyVolumeTrillium7DaysArray: trilliumVolume7Days.volumeArray,
+            currencyVolumeTrillium7DaysArrayYAxis: trilliumVolume7Days.yAxisArray,
+            currencyVolumeTrillium30Days: trilliumVolume30Days.totalVolume,
+            currencyVolumeTrillium30DaysArray: trilliumVolume30Days.volumeArray,
+            currencyVolumeTrillium30DaysArrayYAxis: trilliumVolume30Days.yAxisArray,
+            currencyTrilliumArray: currencyReserveTrillium.currencyTrilliumArray,
+            estimatedTrilliumSupply: Math.round(currencyReserveTrillium.estimatedTrilliumSupply).toLocaleString(),
+            estimatedTrilliumValueUSD: currencyReserveTrillium.estimatedTrilliumValueUSD,
+            estimatedTrilliumValueVRSC: currencyReserveTrillium.estimatedTrilliumValueVRSC,
+            estimatedTrilliumReserveValueUSDBTC: currencyReserveTrillium.estimatedTrilliumValueUSDBTC,
+            estimatedTrilliumReserveValueUSDVRSC: currencyReserveTrillium.estimatedTrilliumValueUSDVRSC,
             // Bridge.CHIPS
             // currencyBridgeChipsArray: currencyReserveBridgeChips.currencyBridgeChipsArray,
             // estimatedBridgeChipsSupply: Math.round(currencyReserveBridgeChips.estimatedBridgeChipsSupply).toLocaleString(),
@@ -377,6 +402,7 @@ export async function getBlockchainData() {
             ...vrscRenderData.currencyVyieldArray,
             ...vrscRenderData.currencyKekFrogArray,
             ...vrscRenderData.currencySuperBasketArray,
+            ...vrscRenderData.currencyTrilliumArray,
             ];
 
             // adding to reserveArray
@@ -390,7 +416,8 @@ export async function getBlockchainData() {
             { basket: "SUPERVRSC", reserve: currencyReserveSuperVRSC.estimatedSuperVRSCValueUSDVRSC, via: "via VRSC" },
             { basket: "vYIELD", reserve: currencyReserveVyield.estimatedVyieldReserveValue, via: "via VRSC" },
             { basket: "Kek🐸", reserve: currencyReserveKekFrog.estimatedKekFrogValueUSDVRSC, via: "via VRSC" },
-            { basket: "SUPER🛒", reserve: Math.round(currencyReserveSuperBasket.estimatedSuperBasketReserveValueUSDVRSC).toLocaleString(), via: "via VRSC" }
+            { basket: "SUPER🛒", reserve: Math.round(currencyReserveSuperBasket.estimatedSuperBasketReserveValueUSDVRSC).toLocaleString(), via: "via VRSC" },
+            { basket: "Trillium", reserve: currencyReserveTrillium.estimatedTrilliumValueUSDVRSC, via: "via VRSC" },
             ];
 
             // adding to 24H volume array
@@ -403,7 +430,8 @@ export async function getBlockchainData() {
             { basket: "SUPERVRSC", volume: ((Math.round(parseFloat((superVRSCVolume24Hours.totalVolume === 0 ? "0" : superVRSCVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             { basket: "vYIELD", volume: ((Math.round(parseFloat((vyieldVolume24Hours.totalVolume === 0 ? "0" : vyieldVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             { basket: "Kek🐸", volume: ((Math.round(parseFloat((kekFrogVolume24Hours.totalVolume === 0 ? "0" : kekFrogVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-            { basket: "SUPER🛒", volume: ((Math.round(parseFloat((superBasketVolume24Hours.totalVolume === 0 ? "0" : superBasketVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }
+            { basket: "SUPER🛒", volume: ((Math.round(parseFloat((superBasketVolume24Hours.totalVolume === 0 ? "0" : superBasketVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+            { basket: "Trillium", volume: ((Math.round(parseFloat((trilliumVolume24Hours.totalVolume === 0 ? "0" : trilliumVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             ]
 
             // adding to 7D volume array
@@ -416,7 +444,8 @@ export async function getBlockchainData() {
             { basket: "SUPERVRSC", volume: ((Math.round(parseFloat((superVRSCVolume7Days.totalVolume === 0 ? "0" : superVRSCVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             { basket: "vYIELD", volume: ((Math.round(parseFloat((vyieldVolume7Days.totalVolume === 0 ? "0" : vyieldVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             { basket: "Kek🐸", volume: ((Math.round(parseFloat((kekFrogVolume7Days.totalVolume === 0 ? "0" : kekFrogVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-            { basket: "SUPER🛒", volume: ((Math.round(parseFloat((superBasketVolume7Days.totalVolume === 0 ? "0" : superBasketVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }
+            { basket: "SUPER🛒", volume: ((Math.round(parseFloat((superBasketVolume7Days.totalVolume === 0 ? "0" : superBasketVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+            { basket: "Trillium", volume: ((Math.round(parseFloat((trilliumVolume7Days.totalVolume === 0 ? "0" : trilliumVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             ]
 
             // adding to 30D volume array
@@ -429,7 +458,8 @@ export async function getBlockchainData() {
             { basket: "SUPERVRSC", volume: ((Math.round(parseFloat((superVRSCVolume30Days.totalVolume === 0 ? "0" : superVRSCVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             { basket: "vYIELD", volume: ((Math.round(parseFloat((vyieldVolume30Days.totalVolume === 0 ? "0" : vyieldVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             { basket: "Kek🐸", volume: ((Math.round(parseFloat((kekFrogVolume30Days.totalVolume === 0 ? "0" : kekFrogVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-            { basket: "SUPER🛒", volume: ((Math.round(parseFloat((superBasketVolume30Days.totalVolume === 0 ? "0" : superBasketVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" }
+            { basket: "SUPER🛒", volume: ((Math.round(parseFloat((superBasketVolume30Days.totalVolume === 0 ? "0" : superBasketVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+             { basket: "Trillium", volume: ((Math.round(parseFloat((trilliumVolume30Days.totalVolume === 0 ? "0" : trilliumVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             ]
         }
 
@@ -555,30 +585,30 @@ export async function getBlockchainData() {
         // check fetching error
         let fetchingError = await client.get("fetchingerror");
         if (fetchingError === "false") {
-            priceArray = [...priceArray, 
-                ...chipsRenderData.currencyBridgeChipsArray, 
-                ...chipsRenderData.currencyBankrollArray,
-                ...chipsRenderData.currencyHighrollerArray
+            priceArray = [...priceArray,
+            ...chipsRenderData.currencyBridgeChipsArray,
+            ...chipsRenderData.currencyBankrollArray,
+            ...chipsRenderData.currencyHighrollerArray
             ];
             vrscReserveArray = [...vrscReserveArray,
-            {basket: "Bridge.CHIPS", reserve: currencyReserveChipsBridge.estimatedBridgeChipsValueUSDVRSC, via: "via VRSC"},
-           //  {basket: "Bankroll.CHIPS", reserve: currencyReserveChipsBridge.estimatedBridgeChipsValueUSDVRSC, via: "via VRSC"},
-            // {basket: "Highroller.CHIPS", reserve: currencyReserveChipsBridge.estimatedBridgeChipsValueUSDVRSC, via: "via VRSC"}
+            { basket: "Bridge.CHIPS", reserve: currencyReserveChipsBridge.estimatedBridgeChipsValueUSDVRSC, via: "via VRSC" },
+                //  {basket: "Bankroll.CHIPS", reserve: currencyReserveChipsBridge.estimatedBridgeChipsValueUSDVRSC, via: "via VRSC"},
+                // {basket: "Highroller.CHIPS", reserve: currencyReserveChipsBridge.estimatedBridgeChipsValueUSDVRSC, via: "via VRSC"}
             ];
-            vrsc24HVolumeArray = [...vrsc24HVolumeArray, 
-                { basket: "Bridge.CHIPS", volume: ((Math.round(parseFloat((chipsVolume24Hours.totalVolume === 0 ? "0" : chipsVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-          //      { basket: "Bankroll.CHIPS", volume: ((Math.round(parseFloat((chipsBankrollVolume24Hours.totalVolume === 0 ? "0" : chipsBankrollVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-             //   { basket: "Highroller.CHIPS", volume: ((Math.round(parseFloat((chipsHighrollerVolume24Hours.totalVolume === 0 ? "0" : chipsHighrollerVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+            vrsc24HVolumeArray = [...vrsc24HVolumeArray,
+            { basket: "Bridge.CHIPS", volume: ((Math.round(parseFloat((chipsVolume24Hours.totalVolume === 0 ? "0" : chipsVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+                //      { basket: "Bankroll.CHIPS", volume: ((Math.round(parseFloat((chipsBankrollVolume24Hours.totalVolume === 0 ? "0" : chipsBankrollVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+                //   { basket: "Highroller.CHIPS", volume: ((Math.round(parseFloat((chipsHighrollerVolume24Hours.totalVolume === 0 ? "0" : chipsHighrollerVolume24Hours.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             ]
-            vrsc7DVolumeArray = [...vrsc7DVolumeArray, 
-                { basket: "Bridge.CHIPS", volume: ((Math.round(parseFloat((chipsVolume7Days.totalVolume === 0 ? "0" : chipsVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-           //     { basket: "Bankroll.CHIPS", volume: ((Math.round(parseFloat((chipsBankrollVolume7Days.totalVolume === 0 ? "0" : chipsBankrollVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-               // { basket: "Highroller.CHIPS", volume: ((Math.round(parseFloat((chipsHighrollerVolume7Days.totalVolume === 0 ? "0" : chipsHighrollerVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+            vrsc7DVolumeArray = [...vrsc7DVolumeArray,
+            { basket: "Bridge.CHIPS", volume: ((Math.round(parseFloat((chipsVolume7Days.totalVolume === 0 ? "0" : chipsVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+                //     { basket: "Bankroll.CHIPS", volume: ((Math.round(parseFloat((chipsBankrollVolume7Days.totalVolume === 0 ? "0" : chipsBankrollVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+                // { basket: "Highroller.CHIPS", volume: ((Math.round(parseFloat((chipsHighrollerVolume7Days.totalVolume === 0 ? "0" : chipsHighrollerVolume7Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             ]
-            vrsc30DVolumeArray = [...vrsc30DVolumeArray, 
-                { basket: "Bridge.CHIPS", volume: ((Math.round(parseFloat((chipsVolume30Days.totalVolume === 0 ? "0" : chipsVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-           //     { basket: "Bankroll.CHIPS", volume: ((Math.round(parseFloat((chipsBankrollVolume30Days.totalVolume === 0 ? "0" : chipsBankrollVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-              //  { basket: "Highroller.CHIPS", volume: ((Math.round(parseFloat((chipsHighrollerVolume30Days.totalVolume === 0 ? "0" : chipsHighrollerVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+            vrsc30DVolumeArray = [...vrsc30DVolumeArray,
+            { basket: "Bridge.CHIPS", volume: ((Math.round(parseFloat((chipsVolume30Days.totalVolume === 0 ? "0" : chipsVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+                //     { basket: "Bankroll.CHIPS", volume: ((Math.round(parseFloat((chipsBankrollVolume30Days.totalVolume === 0 ? "0" : chipsBankrollVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+                //  { basket: "Highroller.CHIPS", volume: ((Math.round(parseFloat((chipsHighrollerVolume30Days.totalVolume === 0 ? "0" : chipsHighrollerVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             ]
         }
     } else {

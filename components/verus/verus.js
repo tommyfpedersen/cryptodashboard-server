@@ -14,6 +14,7 @@ import { currencyReserveVyield } from './vyield/vyield.js';
 import { currencyReserveKekFrog } from './kekfrog/kekfrog.js';
 import { currencyReserveBridgeChips } from './chipsbridge/chipsbridge.js';
 import { currencyReserveSuperBasket } from './superbasket/superbasket.js';
+import { currencyReserveTrillium } from './trillium/trillium.js';
 
 export async function getNodeStatus() {
     let result = {};
@@ -87,18 +88,18 @@ export async function getVerusPriceList(vrscPrice) {
     let result = {}
     let priceList = [];
 
-    priceList.push({ label: "Addr <-> Addr", nativePrice: "VRSC 0.0001", price: "$ " +Number.parseFloat(Math.round(vrscPrice * 0.0001)).toFixed(2) })
+    priceList.push({ label: "Addr <-> Addr", nativePrice: "VRSC 0.0001", price: "$ " + Number.parseFloat(Math.round(vrscPrice * 0.0001)).toFixed(2) })
     priceList.push({ label: "Basket <-> Reserve", nativePrice: "", price: "0.025%" })
     priceList.push({ label: "Reserve <-> Reserve", nativePrice: "", price: "0.050%" })
-    priceList.push({ label: "Storage (1k)", nativePrice: "VRSC 0.01", price: "$ " + Math.round(vrscPrice * 0.01*100)/100 })
-    priceList.push({ label: "ID no ref", nativePrice: "VRSC 100", price:  "$ " +Math.round(vrscPrice * 100) })
-    priceList.push({ label: "ID 1.ref, not yours", nativePrice: "VRSC 80", price:  "$ " +Math.round(vrscPrice * 80) })
-    priceList.push({ label: "ID 1.ref, yours", nativePrice: "VRSC 60", price:  "$ " +Math.round(vrscPrice * 60) })
-    priceList.push({ label: "ID 2.ref, all yours", nativePrice: "VRSC 40", price:  "$ " +Math.round(vrscPrice * 40) })
-    priceList.push({ label: "ID 3.ref, all yours", nativePrice: "VRSC 20", price:  "$ " +Math.round(vrscPrice * 20) })
-    priceList.push({ label: "SubID *", nativePrice: "VRSC >0.01", price:  "$ >" +Math.round(vrscPrice * 0.01 * 100) / 100 })
-    priceList.push({ label: "Currency", nativePrice: "VRSC 200", price:  "$ " +Math.round(vrscPrice * 200) })
-    priceList.push({ label: "PBaaS", nativePrice: "VRSC 10000", price:  "$ " +Math.round(vrscPrice * 10000).toLocaleString() })
+    priceList.push({ label: "Storage (1k)", nativePrice: "VRSC 0.01", price: "$ " + Math.round(vrscPrice * 0.01 * 100) / 100 })
+    priceList.push({ label: "ID no ref", nativePrice: "VRSC 100", price: "$ " + Math.round(vrscPrice * 100) })
+    priceList.push({ label: "ID 1.ref, not yours", nativePrice: "VRSC 80", price: "$ " + Math.round(vrscPrice * 80) })
+    priceList.push({ label: "ID 1.ref, yours", nativePrice: "VRSC 60", price: "$ " + Math.round(vrscPrice * 60) })
+    priceList.push({ label: "ID 2.ref, all yours", nativePrice: "VRSC 40", price: "$ " + Math.round(vrscPrice * 40) })
+    priceList.push({ label: "ID 3.ref, all yours", nativePrice: "VRSC 20", price: "$ " + Math.round(vrscPrice * 20) })
+    priceList.push({ label: "SubID *", nativePrice: "VRSC >0.01", price: "$ >" + Math.round(vrscPrice * 0.01 * 100) / 100 })
+    priceList.push({ label: "Currency", nativePrice: "VRSC 200", price: "$ " + Math.round(vrscPrice * 200) })
+    priceList.push({ label: "PBaaS", nativePrice: "VRSC 10000", price: "$ " + Math.round(vrscPrice * 10000).toLocaleString() })
 
     result.priceList = priceList;
     result.note = "* SubId needs a ID and a currency";
@@ -209,6 +210,9 @@ export async function getAddressBalance(address) {
             if ("iFPazWbwUnTHQYUiH5upZMqBtcEhfRdE4v" === item) {
                 getAddressBalanceArray.push({ currencyName: "SUPER🛒", amount: getAddressBalance.currencybalance.iFPazWbwUnTHQYUiH5upZMqBtcEhfRdE4v })
             }
+            if ("iMBAiZzWSYRmABmiXjxsJju7Rusai2WPUf" === item) {
+                getAddressBalanceArray.push({ currencyName: "Trillium", amount: getAddressBalance.currencybalance.iMBAiZzWSYRmABmiXjxsJju7Rusai2WPUf })
+            }
         })
     }
     result.verusAddress = verusAddress;
@@ -295,7 +299,7 @@ export async function getCurrencyVolume(currencyName, fromBlock, toBlock, interv
 
     if (currencyState.length > 0) {
         currencyState.map((item) => {
-        //    console.log(currencyName, item)
+            //    console.log(currencyName, item)
             if (item.conversiondata) {
                 let volume = Math.round(item.conversiondata.volumethisinterval);
                 volumeArray.push({
@@ -364,10 +368,13 @@ export async function getCurrencyReserve(currencyName, priceArray, vrscBridgePri
     if (currencyName === "SUPER🛒") {
         return currencyReserveSuperBasket(priceArray, vrscBridgePrice);
     }
+    if (currencyName === "trillium") {
+        return currencyReserveTrillium(priceArray, vrscBridgePrice);
+    }
 }
 
-export async function getCurrencyPriceArray(currencyName, currentBlock, days){
-     // do magic
+export async function getCurrencyPriceArray(currencyName, currentBlock, days) {
+    // do magic
     const blockend = 1440 * days;
 
     return "";//getCurrencyState(currencyName, currentBlock, blockend, 1, "vrsc");
