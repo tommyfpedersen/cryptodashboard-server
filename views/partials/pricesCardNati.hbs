@@ -1,10 +1,10 @@
-<div class="card" id="prices-card-maker">
-    <img width="16px" src="/img/maker.webp" />
+<div class="card" id="prices-card-illuminaticoin">
+    <img width="16px" src="/img/nati.png" />
     <button class="hide-button">x</button>
     <div class="card-content">
-        <div class="card-title">Maker</div>
+        <div class="card-title">IlluminatiCoin</div>
         {{#if vrscOnline}}
-        {{#each makerPriceArray}}
+        {{#each natiPriceArray}}
         <div class="card-row-wrapper">
             <div class="card-row-item">{{{origin}}}</div>
             <div class="card-row-item-network">{{{network}}}</div>
@@ -13,20 +13,22 @@
             </div>
         </div>
         {{/each}}
-         <br>
+        <br>
         <div class="card-row-wrapper">
-            <div class="card-row-item">Maker in baskets</div>
+            <div class="card-row-item">IlluminatiCoin in baskets</div>
             <div class="card-row-item">
-                {{{makerReserve}}}
+                {{{natiReserve}}}
             </div>
         </div>
 
         <div class="card-row-wrapper">
-            <div class="card-row-item">Maker value in baskets</div>
+            <div class="card-row-item">IlluminatiCoin value in baskets</div>
             <div class="card-row-item">
-                $ {{{makerReserveValue}}}
+                $ {{{natiReserveValue}}}
             </div>
         </div>
+        <br>
+        <div style="font-size: 12px">1 NATI.vETH on Verus = 10,000 NATI ERC20 on Ethereum</div>
         {{else}}
         {{{vrscStatusMessage}}}
         {{/if}}

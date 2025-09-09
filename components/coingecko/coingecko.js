@@ -160,7 +160,7 @@ export async function getCoingeckoPrice() {
                                 currencyId: "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx",
                                 price: item.current_price,
                                 totalVolume: item.total_volume,
-                                name: "IlluminatiCoin",
+                                name: "illuminaticoin",
                                 origin: "Coingecko",
                                 marketRank: item.market_cap_rank
                             })

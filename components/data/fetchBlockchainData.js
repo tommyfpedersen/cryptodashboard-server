@@ -32,6 +32,8 @@ export async function getBlockchainData() {
     let bitcoinPriceItem = coingeckoPriceArray.find(item => item.name === "bitcoin");
     let bitcoinPrice = bitcoinPriceItem?.price.toLocaleString() || "0";
     let ethereumPriceItem = coingeckoPriceArray.find(item => item.name === "ethereum");
+    let makerPriceItem = coingeckoPriceArray.find(item => item.name === "maker");
+    let natiPriceItem = coingeckoPriceArray.find(item => item.name === "illuminaticoin");
 
     priceArray = [...coingeckoPriceArray];
 
@@ -789,8 +791,9 @@ export async function getBlockchainData() {
     let btcPriceArray = priceArray.filter(item => item.currencyId === 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU').sort((a, b) => b.price - a.price);
     let ethereumPriceArray = priceArray.filter(item => item.currencyId === 'i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X').sort((a, b) => b.price - a.price);
     let makerPriceArray = priceArray.filter(item => item.currencyId === 'iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4').sort((a, b) => b.price - a.price);
-    let vrscPriceArray = priceArray.filter(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV').sort((a, b) => b.price - a.price);
+    let natiPriceArray = priceArray.filter(item => item.currencyId === 'iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx').sort((a, b) => b.price - a.price);
     let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
+    let vrscPriceArray = priceArray.filter(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV').sort((a, b) => b.price - a.price);
 
     let btcReserve = 0;
     priceArray.filter(item => item.currencyId === 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU').map((item) => { return btcReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
@@ -803,6 +806,18 @@ export async function getBlockchainData() {
     ethReserve = Math.round(ethReserve)
     let ethReserveValue = (Math.round(ethReserve * ethereumPriceItem?.price)).toLocaleString() || "0";
     ethReserve = ethReserve.toLocaleString();
+    
+    let makerReserve = 0;
+    priceArray.filter(item => item.currencyId === 'iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4').map((item) => { return makerReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
+    makerReserve = Math.round(makerReserve)
+    let makerReserveValue = (Math.round(makerReserve * makerPriceItem?.price)).toLocaleString() || "0";
+    makerReserve = makerReserve.toLocaleString();
+
+    let natiReserve = 0;
+    priceArray.filter(item => item.currencyId === 'iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx').map((item) => { return natiReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
+    natiReserve = Math.round(natiReserve)
+    let natiReserveValue = (Math.round(natiReserve * natiPriceItem?.price*10000)).toLocaleString() || "0";
+    natiReserve = natiReserve.toLocaleString();
 
     let vrscReserve = 0;
     priceArray.filter(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV').map((item) => { return vrscReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
@@ -848,12 +863,17 @@ export async function getBlockchainData() {
             btcPriceArray,
             ethereumPriceArray,
             makerPriceArray,
+            natiPriceArray,
             vrscPriceArray,
             arrrPriceArray,
             btcReserve,
             btcReserveValue,
             ethReserve,
             ethReserveValue,
+            makerReserve,
+            makerReserveValue,
+            natiReserve,
+            natiReserveValue,
             vrscReserveArray,
             vrsc24HVolumeArray,
             vrsc7DVolumeArray,
