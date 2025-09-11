@@ -89,7 +89,7 @@ export async function currencyReserveBankroll(priceArray, vrscBasePrice, chipsBa
 
                             if (currencyId === "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP") {
                                 currency.priceNative = Math.round((daivETHReserve * 1 / 0.25) / (currency.reserves * 1 / 0.25) * 100) / 100;
-                                currency.price = Math.round(chipsBasePrice * 100) / 100;
+                                currency.price = (Math.round(chipsBasePrice * 100) / 100).toFixed(2);
                                 currency.priceLabel = "Bridge.CHIPS";//"SUPER🛒";
                             }
                             if (currencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {

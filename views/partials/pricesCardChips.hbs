@@ -1,10 +1,10 @@
-<div class="card" id="prices-card-varrr">
-    <img width="16px" src="/img/Pirate_Logo_Coin_Gold.png" />
+<div class="card" id="prices-card-chips">
+    <img width="16px" src="/img/chips-logo-emblem.png" />
     <button class="hide-button">x</button>
     <div class="card-content">
-        <div class="card-title">Pirate Chain</div>
-        {{#if varrrOnline}}
-        {{#each arrrPriceArray}}
+        <div class="card-title">Chips</div>
+        {{#if vrscOnline}}
+        {{#each chipsPriceArray}}
         <div class="card-row-wrapper">
             <div class="card-row-item">{{{origin}}}</div>
             <div class="card-row-item-network">{{{network}}}</div>
@@ -16,21 +16,20 @@
         <br>
 
         <div class="card-row-wrapper">
-            <div class="card-row-item">Pirate Chain in baskets</div>
+            <div class="card-row-item">Chips in baskets</div>
             <div class="card-row-item">
-                {{{arrrReserve}}}
+                {{{chipsReserve}}}
             </div>
         </div>
 
         <div class="card-row-wrapper">
-            <div class="card-row-item">Pirate Chain value in baskets</div>
+            <div class="card-row-item">Chips value in baskets</div>
             <div class="card-row-item">
-                $ {{{arrrReserveValue}}}
+                $ {{{chipsReserveValue}}}
             </div>
         </div>
-
         {{else}}
-        {{{varrrStatusMessage}}}
+        {{{vrscStatusMessage}}}
         {{/if}}
     </div>
 </div>

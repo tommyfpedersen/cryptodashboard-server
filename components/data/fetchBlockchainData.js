@@ -461,7 +461,7 @@ export async function getBlockchainData() {
             { basket: "vYIELD", volume: ((Math.round(parseFloat((vyieldVolume30Days.totalVolume === 0 ? "0" : vyieldVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             { basket: "Kek🐸", volume: ((Math.round(parseFloat((kekFrogVolume30Days.totalVolume === 0 ? "0" : kekFrogVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             { basket: "SUPER🛒", volume: ((Math.round(parseFloat((superBasketVolume30Days.totalVolume === 0 ? "0" : superBasketVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
-             { basket: "Trillium", volume: ((Math.round(parseFloat((trilliumVolume30Days.totalVolume === 0 ? "0" : trilliumVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
+            { basket: "Trillium", volume: ((Math.round(parseFloat((trilliumVolume30Days.totalVolume === 0 ? "0" : trilliumVolume30Days.totalVolume).replace(/,/g, '')) * currencyReserveBridge.vrscBridgePrice) * 100) / 100).toLocaleString(), via: "via VRSC" },
             ]
         }
 
@@ -788,7 +788,8 @@ export async function getBlockchainData() {
     }
     mainRenderData = { ...mainRenderData, ...vdexRenderData };
 
-    let btcPriceArray = priceArray.filter(item => item.currencyId === 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU').sort((a, b) => b.price - a.price);
+    let btcPriceArray = priceArray.filter(item => item.currencyId === 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU').sort((a, b) => (b.price - a.price).toLocaleString());
+    let chipsPriceArray = priceArray.filter(item => item.currencyId === 'iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP').sort((a, b) => b.price - a.price);
     let ethereumPriceArray = priceArray.filter(item => item.currencyId === 'i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X').sort((a, b) => b.price - a.price);
     let makerPriceArray = priceArray.filter(item => item.currencyId === 'iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4').sort((a, b) => b.price - a.price);
     let natiPriceArray = priceArray.filter(item => item.currencyId === 'iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx').sort((a, b) => b.price - a.price);
@@ -801,12 +802,20 @@ export async function getBlockchainData() {
     let btcReserveValue = (Math.round(btcReserve * bitcoinPriceItem?.price)).toLocaleString() || "0";
     btcReserve = btcReserve.toLocaleString();
 
+    let chipsReserve = 0;
+    priceArray.filter(item => item.currencyId === 'iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP').map((item) => { return chipsReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
+    chipsReserve = Math.round(chipsReserve)
+    let chipsBasePrice = chipsPriceArray.filter(item => item.origin === 'Bridge.CHIPS')[0]?.price || "0";
+    chipsBasePrice = Number(chipsBasePrice.replace(/,/g, ''));
+    let chipsReserveValue = (Math.round(chipsReserve * chipsBasePrice)).toLocaleString() || "0";
+    chipsReserve = chipsReserve.toLocaleString();
+
     let ethReserve = 0;
     priceArray.filter(item => item.currencyId === 'i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X').map((item) => { return ethReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
     ethReserve = Math.round(ethReserve)
     let ethReserveValue = (Math.round(ethReserve * ethereumPriceItem?.price)).toLocaleString() || "0";
     ethReserve = ethReserve.toLocaleString();
-    
+
     let makerReserve = 0;
     priceArray.filter(item => item.currencyId === 'iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4').map((item) => { return makerReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
     makerReserve = Math.round(makerReserve)
@@ -816,8 +825,16 @@ export async function getBlockchainData() {
     let natiReserve = 0;
     priceArray.filter(item => item.currencyId === 'iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx').map((item) => { return natiReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
     natiReserve = Math.round(natiReserve)
-    let natiReserveValue = (Math.round(natiReserve * natiPriceItem?.price*10000)).toLocaleString() || "0";
+    let natiReserveValue = (Math.round(natiReserve * natiPriceItem?.price * 10000)).toLocaleString() || "0";
     natiReserve = natiReserve.toLocaleString();
+
+    let arrrReserve = 0;
+    priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').map((item) => { return arrrReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
+    arrrReserve = Math.round(arrrReserve)
+    let arrrBasePrice = arrrPriceArray.filter(item => item.origin === 'Bridge.vARRR')[0]?.price || "0";
+    //arrrBasePrice = Number(arrrBasePrice.replace(/,/g, ''));
+    let arrrReserveValue = (Math.round(arrrReserve * arrrBasePrice)).toLocaleString() || "0";
+    arrrReserve = arrrReserve.toLocaleString();
 
     let vrscReserve = 0;
     priceArray.filter(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV').map((item) => { return vrscReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
@@ -861,6 +878,7 @@ export async function getBlockchainData() {
     mainRenderData = {
         ...mainRenderData, ...{
             btcPriceArray,
+            chipsPriceArray,
             ethereumPriceArray,
             makerPriceArray,
             natiPriceArray,
@@ -868,12 +886,16 @@ export async function getBlockchainData() {
             arrrPriceArray,
             btcReserve,
             btcReserveValue,
+            chipsReserve,
+            chipsReserveValue,
             ethReserve,
             ethReserveValue,
             makerReserve,
             makerReserveValue,
             natiReserve,
             natiReserveValue,
+            arrrReserve,
+            arrrReserveValue,
             vrscReserveArray,
             vrsc24HVolumeArray,
             vrsc7DVolumeArray,
