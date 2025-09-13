@@ -1,10 +1,10 @@
-<div class="card" id="prices-card-chips">
-    <img width="16px" src="/img/chips-logo-emblem.png" />
+<div class="card" id="prices-card-vdex">
+    <img width="16px" src="/img/vdex.png" />
     <button class="hide-button">x</button>
     <div class="card-content">
-        <div class="card-title">CHIPS</div>
+        <div class="card-title">vDEX</div>
         {{#if vrscOnline}}
-        {{#each chipsPriceArray}}
+        {{#each vdexPriceArray}}
         <div class="card-row-wrapper">
             <div class="card-row-item">{{{origin}}}</div>
             <div class="card-row-item-network">{{{network}}}</div>
@@ -16,16 +16,16 @@
         <br>
 
         <div class="card-row-wrapper">
-            <div class="card-row-item">CHIPS in baskets</div>
+            <div class="card-row-item">vDEX in baskets</div>
             <div class="card-row-item">
-                {{{chipsReserve}}}
+                {{{vdexReserve}}}
             </div>
         </div>
 
         <div class="card-row-wrapper">
-            <div class="card-row-item">CHIPS value in baskets</div>
+            <div class="card-row-item">vDEX value in baskets</div>
             <div class="card-row-item">
-                $ {{{chipsReserveValue}}}
+                $ {{{vdexReserveValue}}}
             </div>
         </div>
         {{else}}

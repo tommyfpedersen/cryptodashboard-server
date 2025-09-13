@@ -794,6 +794,7 @@ export async function getBlockchainData() {
     let makerPriceArray = priceArray.filter(item => item.currencyId === 'iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4').sort((a, b) => b.price - a.price);
     let natiPriceArray = priceArray.filter(item => item.currencyId === 'iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx').sort((a, b) => b.price - a.price);
     let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
+    let vdexPriceArray = priceArray.filter(item => item.currencyId === 'iHog9UCTrn95qpUBFCZ7kKz7qWdMA8MQ6N').sort((a, b) => b.price - a.price);
     let vrscPriceArray = priceArray.filter(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV').sort((a, b) => b.price - a.price);
 
     let btcReserve = 0;
@@ -835,6 +836,14 @@ export async function getBlockchainData() {
     //arrrBasePrice = Number(arrrBasePrice.replace(/,/g, ''));
     let arrrReserveValue = (Math.round(arrrReserve * arrrBasePrice)).toLocaleString() || "0";
     arrrReserve = arrrReserve.toLocaleString();
+
+    let vdexReserve = 0;
+    priceArray.filter(item => item.currencyId === 'iHog9UCTrn95qpUBFCZ7kKz7qWdMA8MQ6N').map((item) => { return vdexReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
+    vdexReserve = Math.round(vdexReserve)
+    let vdexBasePrice = vdexPriceArray.filter(item => item.origin === 'Bridge.vDEX')[0]?.price || "0";
+   // vdexBasePrice = Number(vdexBasePrice.replace(/,/g, ''));
+    let vdexReserveValue = (Math.round(vdexReserve * vdexBasePrice)).toLocaleString() || "0";
+    vdexReserve = vdexReserve.toLocaleString();
 
     let vrscReserve = 0;
     priceArray.filter(item => item.currencyId === 'i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV').map((item) => { return vrscReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
@@ -882,12 +891,15 @@ export async function getBlockchainData() {
             ethereumPriceArray,
             makerPriceArray,
             natiPriceArray,
+            vdexPriceArray,
             vrscPriceArray,
             arrrPriceArray,
             btcReserve,
             btcReserveValue,
             chipsReserve,
             chipsReserveValue,
+            vdexReserve,
+            vdexReserveValue,
             ethReserve,
             ethReserveValue,
             makerReserve,

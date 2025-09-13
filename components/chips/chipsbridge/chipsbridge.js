@@ -79,7 +79,7 @@ export async function currencyReserveChipsBridge(priceArray, vrscBridgePrice) {
                             if (currencyId === "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP") {
                                 currency.priceNative = (Math.round(vrscReserve / currency.reserves * 1000) / 1000).toFixed(4);
                                 currency.pricelabel = "VRSC";
-                                currency.price = chipsBasketPrice = (vrscBridgePrice * currency.priceNative).toFixed(2);
+                                currency.price = chipsBasketPrice = (vrscBridgePrice * currency.priceNative).toFixed(3);
                             }
                         }
 
@@ -91,7 +91,7 @@ export async function currencyReserveChipsBridge(priceArray, vrscBridgePrice) {
                                         currency.coingeckoLabel = "Bridge.vETH";
                                     }
                                     if (currencyId === "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP") {
-                                        currency.coingeckoprice = (Math.round(price.price * 1000) / 1000).toFixed(2);//Math.round(price.price.toFixed(10) * 10000) / 10000;//Math.round(price.price * 100000000) / 100000000;
+                                        currency.coingeckoprice = (Math.round(price.price * 1000) / 1000).toFixed(3);//Math.round(price.price.toFixed(10) * 10000) / 10000;//Math.round(price.price * 100000000) / 100000000;
                                         currency.coingeckoLabel = "Coingecko";
                                     }
                                 }

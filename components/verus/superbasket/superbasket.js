@@ -142,7 +142,7 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
                             if (currencyId === "iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP") {
                                 currency.priceNative = Math.round((tBTCvETHReserve * 1 / 0.20) / (currency.reserves * 1 / 0.05) * 100000000) / 100000000;
                                 currency.pricelabel = "tBTCvETH";
-                                currency.price = (Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 100) / 100).toFixed(2);
+                                currency.price = (Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 100) / 100).toFixed(3);
                             }
                             if (currencyId === "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj") {
                                 currency.priceNative = Math.round((tBTCvETHReserve * 1 / 0.20) / (currency.reserves * 1 / 0.05) * 100000000) / 100000000;
