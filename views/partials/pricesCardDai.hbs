@@ -1,0 +1,34 @@
+<div class="card" id="prices-card-dai">
+    <img width="16px" src="/img/dai.png" />
+    <button class="hide-button">x</button>
+    <div class="card-content">
+        <div class="card-title">Dai</div>
+        {{#if vrscOnline}}
+        {{#each daiPriceArray}}
+        <div class="card-row-wrapper">
+            <div class="card-row-item">{{{origin}}}</div>
+            <div class="card-row-item-network">{{{network}}}</div>
+            <div class="card-row-item">
+                $ {{{price}}}
+            </div>
+        </div>
+        {{/each}}
+        <br>
+        <div class="card-row-wrapper">
+            <div class="card-row-item">Dai in baskets</div>
+            <div class="card-row-item">
+                {{{daiReserve}}}
+            </div>
+        </div>
+
+        <div class="card-row-wrapper">
+            <div class="card-row-item">Dai value in baskets</div>
+            <div class="card-row-item">
+                $ {{{daiReserveValue}}}
+            </div>
+        </div>
+        {{else}}
+        {{{vrscStatusMessage}}}
+        {{/if}}
+    </div>
+</div>
