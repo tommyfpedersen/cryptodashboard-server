@@ -138,7 +138,7 @@ export async function getCoingeckoPrice() {
                         if (item.id === "savings-crvusd") {
                             priceArray.push({
                                 currencyId: "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj",
-                                price: item.current_price,
+                                price: item.current_price.toFixed(3),
                                 totalVolume: item.total_volume,
                                 name: "scrvusd",
                                 origin: "Coingecko",

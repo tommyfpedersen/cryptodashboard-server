@@ -93,7 +93,7 @@ export async function currencyReserveHighroller(priceArray, vrscBasePrice, chips
                             if (currencyId === "i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X") {
                                 currency.priceNative = Math.round((tBTCReserve * 1 / 0.25) / (currency.reserves * 1 / 0.25) * 100000000) / 100000000;
                                 currency.priceLabel = "tBTCvETH";
-                                currency.price = Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 100) / 100;
+                                currency.price = Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 1000) / 1000;
                             }
                             if (currencyId === "iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU") {
                                 currency.priceNative = Math.round((vETHReserve * 1 / 0.25) / (currency.reserves * 1 / 0.25) * 100000000) / 100000000;

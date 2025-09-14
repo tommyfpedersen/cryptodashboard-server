@@ -99,7 +99,7 @@ export async function currencyReserveBankroll(priceArray, vrscBasePrice, chipsBa
                                 currency.priceNative = Math.round((daivETHReserve * 1 / 0.25) / (currency.reserves * 1 / 0.25) * 100) / 100;
                             }
                             if (currencyId === "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj") {
-                                currency.priceNative = Math.round((daivETHReserve * 1 / 0.25) / (currency.reserves * 1 / 0.25) * 100) / 100;
+                                currency.priceNative = Math.round((daivETHReserve * 1 / 0.25) / (currency.reserves * 1 / 0.25) * 1000) / 1000;
                             }
                         }
 
@@ -115,7 +115,7 @@ export async function currencyReserveBankroll(priceArray, vrscBasePrice, chipsBa
                                         currency.priceLabel = "Coingecko";
                                     }
                                     if (currencyId === "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj") {
-                                        currency.price = Math.round(price.price * 100) / 100;
+                                        currency.price = Math.round(price.price * 1000) / 1000;
                                         currency.priceLabel = "Coingecko";
                                     }
                                 }

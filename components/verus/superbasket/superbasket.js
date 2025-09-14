@@ -147,7 +147,7 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
                             if (currencyId === "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj") {
                                 currency.priceNative = Math.round((tBTCvETHReserve * 1 / 0.20) / (currency.reserves * 1 / 0.05) * 100000000) / 100000000;
                                 currency.pricelabel = "tBTCvETH";
-                                currency.price = Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 100) / 100;
+                                currency.price = Math.round(tBTCvETHCoingeckoPrice * currency.priceNative * 1000) / 1000;
                             }
                         }
 
@@ -183,7 +183,7 @@ export async function currencyReserveSuperBasket(priceArray, vrscBridgePrice) {
                                         currency.coingeckoLabel = "Coingecko";
                                     }
                                     if (currencyId === "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj") {
-                                        currency.coingeckoprice = Math.round(price.price * 100) / 100;
+                                        currency.coingeckoprice = Math.round(price.price * 1000) / 1000;
                                         currency.coingeckoLabel = "Coingecko";
                                     }
                                 }

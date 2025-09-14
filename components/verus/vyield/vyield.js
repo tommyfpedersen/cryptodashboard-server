@@ -94,9 +94,9 @@ export async function currencyReserveVyield(priceArray, vrscBridgePrice) {
                                 // scrvUSDPrice = (vrscReserve * 1 / 0.5) / (currency.reserves * 1 / 0.5);
                                 // currency.price = Math.round(scrvUSDPrice * 100) / 100;
 
-                                currency.priceNative = Math.round(vrscReserve / currency.reserves * 100) / 100;
+                                currency.priceNative = Math.round(vrscReserve / currency.reserves * 1000) / 1000;
                                 currency.pricelabel = "VRSC";
-                                currency.price = Math.round(vrscBridgePrice * currency.priceNative * 10000) / 10000;
+                                currency.price = Math.round(vrscBridgePrice * currency.priceNative * 1000) / 1000;
                             }
                         }
                     })
@@ -110,7 +110,7 @@ export async function currencyReserveVyield(priceArray, vrscBridgePrice) {
                         }
                         foundCurrency = priceArray.find(price => price.currencyId === "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj");
                         if (foundCurrency && currencyId === "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj") {
-                            currency.coingeckoprice = Math.round(foundCurrency.price * 10000) / 10000;
+                            currency.coingeckoprice = Math.round(foundCurrency.price * 1000) / 1000;
                             currency.coingeckoLabel = "Coingecko";
                         }
                     }
