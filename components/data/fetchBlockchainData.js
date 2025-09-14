@@ -802,6 +802,7 @@ export async function getBlockchainData() {
     let natiPriceArray = priceArray.filter(item => item.currencyId === 'iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx').sort((a, b) => b.price - a.price);
     let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
     let scrvUSDPriceArray = priceArray.filter(item => item.currencyId === 'i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj').sort((a, b) => b.price - a.price);
+    let supernetPriceArray = priceArray.filter(item => item.currencyId === 'i6SapneNdvpkrLPgqPhDVim7Ljek3h2UQZ').sort((a, b) => b.price - a.price);
     let usdcPriceArray = priceArray.filter(item => item.currencyId === 'i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd').sort((a, b) => b.price - a.price);
     let usdtPriceArray = priceArray.filter(item => item.currencyId === 'i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY').sort((a, b) => b.price - a.price);
     let vdexPriceArray = priceArray.filter(item => item.currencyId === 'iHog9UCTrn95qpUBFCZ7kKz7qWdMA8MQ6N').sort((a, b) => b.price - a.price);
@@ -864,6 +865,14 @@ export async function getBlockchainData() {
     scrvUSDReserve = Math.round(scrvUSDReserve)
     let scrvUSDReserveValue = (Math.round(scrvUSDReserve * scrvUSDPriceItem?.price)).toLocaleString() || "0";
     scrvUSDReserve = scrvUSDReserve.toLocaleString();
+
+    let supernetReserve = 0;
+    priceArray.filter(item => item.currencyId === 'i6SapneNdvpkrLPgqPhDVim7Ljek3h2UQZ').map((item) => { return supernetReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
+    supernetReserve = Math.round(supernetReserve)
+    let supernetBasePrice = supernetPriceArray.filter(item => item.origin === 'SUPER🛒')[0]?.price || "0";
+    // supernetBasePrice = Number(vdexBasePrice.replace(/,/g, ''));
+    let supernetReserveValue = (Math.round(supernetReserve * supernetBasePrice)).toLocaleString() || "0";
+    supernetReserve = supernetReserve.toLocaleString();
    
     let usdcReserve = 0;
     priceArray.filter(item => item.currencyId === 'i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd').map((item) => { return usdcReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
@@ -934,6 +943,7 @@ export async function getBlockchainData() {
             makerPriceArray,
             natiPriceArray,
             scrvUSDPriceArray,
+            supernetPriceArray,
             usdcPriceArray,
             usdtPriceArray,
             vdexPriceArray,
@@ -945,6 +955,8 @@ export async function getBlockchainData() {
             chipsReserveValue,
             scrvUSDReserve,
             scrvUSDReserveValue,
+            supernetReserve,
+            supernetReserveValue,
             usdcReserve,
             usdcReserveValue,
             usdtReserve,
