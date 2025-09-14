@@ -148,7 +148,7 @@ export async function getCoingeckoPrice() {
                         if (item.id === "pepecoin-2") {
                             priceArray.push({
                                 currencyId: "i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR",
-                                price: item.current_price,
+                                price: item.current_price.toFixed(3),
                                 totalVolume: item.total_volume,
                                 name: "pepecoin",
                                 origin: "Coingecko",

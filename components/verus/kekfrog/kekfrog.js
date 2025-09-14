@@ -83,7 +83,7 @@ export async function currencyReserveKekFrog(priceArray, vrscBridgePrice) {
                             if (currencyId === "i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR") {
                                 currency.priceNative = Math.round(vrscReserve / currency.reserves * 100) / 100;
                                 currency.pricelabel = "VRSC";
-                                currency.price = Math.round(vrscBasketPrice * currency.priceNative * 100) / 100;
+                                currency.price = Math.round(vrscBasketPrice * currency.priceNative * 1000) / 1000;
                             }
                         }
 
@@ -95,7 +95,7 @@ export async function currencyReserveKekFrog(priceArray, vrscBridgePrice) {
                                         currency.coingeckoLabel = "Bridge.vETH";
                                     }
                                     if (currencyId === "i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR") {
-                                        currency.coingeckoprice = Math.round(price.price * 100) / 100;
+                                        currency.coingeckoprice = Math.round(price.price * 1000) / 1000;
                                         currency.coingeckoLabel = "Coingecko";
                                     }
                                 }

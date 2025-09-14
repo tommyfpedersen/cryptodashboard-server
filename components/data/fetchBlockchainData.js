@@ -36,6 +36,7 @@ export async function getBlockchainData() {
     let eurcPriceItem = coingeckoPriceArray.find(item => item.name === "eurc");
     let makerPriceItem = coingeckoPriceArray.find(item => item.name === "maker");
     let natiPriceItem = coingeckoPriceArray.find(item => item.name === "illuminaticoin");
+    let pepecoinPriceItem = coingeckoPriceArray.find(item => item.name === "pepecoin");
     let scrvUSDPriceItem = coingeckoPriceArray.find(item => item.name === "scrvusd");
     let usdcPriceItem = coingeckoPriceArray.find(item => item.name === "usdc");
     let usdtPriceItem = coingeckoPriceArray.find(item => item.name === "usdt");
@@ -800,6 +801,7 @@ export async function getBlockchainData() {
     let eurcPriceArray = priceArray.filter(item => item.currencyId === 'iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE').sort((a, b) => b.price - a.price);
     let makerPriceArray = priceArray.filter(item => item.currencyId === 'iCkKJuJScy4Z6NSDK7Mt42ZAB2NEnAE1o4').sort((a, b) => b.price - a.price);
     let natiPriceArray = priceArray.filter(item => item.currencyId === 'iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx').sort((a, b) => b.price - a.price);
+    let pepecoinPriceArray = priceArray.filter(item => item.currencyId === 'i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR').sort((a, b) => b.price - a.price);
     let arrrPriceArray = priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').sort((a, b) => b.price - a.price);
     let scrvUSDPriceArray = priceArray.filter(item => item.currencyId === 'i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj').sort((a, b) => b.price - a.price);
     let supernetPriceArray = priceArray.filter(item => item.currencyId === 'i6SapneNdvpkrLPgqPhDVim7Ljek3h2UQZ').sort((a, b) => b.price - a.price);
@@ -851,6 +853,12 @@ export async function getBlockchainData() {
     natiReserve = Math.round(natiReserve)
     let natiReserveValue = (Math.round(natiReserve * natiPriceItem?.price * 10000)).toLocaleString() || "0";
     natiReserve = natiReserve.toLocaleString();
+    
+    let pepecoinReserve = 0;
+    priceArray.filter(item => item.currencyId === 'i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR').map((item) => { return pepecoinReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
+    pepecoinReserve = Math.round(pepecoinReserve)
+    let pepecoinReserveValue = (Math.round(pepecoinReserve * pepecoinPriceItem?.price)).toLocaleString() || "0";
+    pepecoinReserve = pepecoinReserve.toLocaleString();
 
     let arrrReserve = 0;
     priceArray.filter(item => item.currencyId === 'iExBJfZYK7KREDpuhj6PzZBzqMAKaFg7d2').map((item) => { return arrrReserve += (Number(item.reserves === undefined ? 0 : item.reserves.replace(/,/g, '')) || 0); })
@@ -942,6 +950,7 @@ export async function getBlockchainData() {
             eurcPriceArray,
             makerPriceArray,
             natiPriceArray,
+            pepecoinPriceArray,
             scrvUSDPriceArray,
             supernetPriceArray,
             usdcPriceArray,
@@ -973,6 +982,8 @@ export async function getBlockchainData() {
             makerReserveValue,
             natiReserve,
             natiReserveValue,
+            pepecoinReserve,
+            pepecoinReserveValue,
             arrrReserve,
             arrrReserveValue,
             vrscReserveArray,
