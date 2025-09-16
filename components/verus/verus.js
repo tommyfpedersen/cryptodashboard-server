@@ -168,6 +168,9 @@ export async function getAddressBalance(address) {
             if ("i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd" === item) {
                 getAddressBalanceArray.push({ currencyName: "vUSDC.vETH", amount: getAddressBalance.currencybalance.i61cV2uicKSi1rSMQCBNQeSYC3UAi9GVzd })
             }
+            if ("i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY" === item) {
+                getAddressBalanceArray.push({ currencyName: "vUSDT.vETH", amount: getAddressBalance.currencybalance.i9oCSqKALwJtcv49xUKS2U2i79h1kX6NEY })
+            }
             if ("iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE" === item) {
                 getAddressBalanceArray.push({ currencyName: "EURC.vETH", amount: getAddressBalance.currencybalance.iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE })
             }
@@ -182,6 +185,9 @@ export async function getAddressBalance(address) {
             }
             if ("iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx" === item) {
                 getAddressBalanceArray.push({ currencyName: "NATI.vETH", amount: getAddressBalance.currencybalance.iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx })
+            }
+            if ("iH37kRsdfoHtHK5TottP1Yfq8hBSHz9btw" === item) {
+                getAddressBalanceArray.push({ currencyName: "NATI🦉", amount: getAddressBalance.currencybalance.iH37kRsdfoHtHK5TottP1Yfq8hBSHz9btw })
             }
             if ("iHnYAmrS45Hb8GVgyzy7nVQtZ5vttJ9N3X" === item) {
                 getAddressBalanceArray.push({ currencyName: "SUPERVRSC", amount: getAddressBalance.currencybalance.iHnYAmrS45Hb8GVgyzy7nVQtZ5vttJ9N3X })
