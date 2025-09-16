@@ -794,7 +794,7 @@ export async function getBlockchainData() {
     }
     mainRenderData = { ...mainRenderData, ...vdexRenderData };
 
-    let btcPriceArray = priceArray.filter(item => item.currencyId === 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU').sort((a, b) => (b.price - a.price).toLocaleString());
+    let btcPriceArray = priceArray.filter(item => item.currencyId === 'iS8TfRPfVpKo5FVfSUzfHBQxo9KuzpnqLU').sort((a, b) => (b.price - a.price));
     let chipsPriceArray = priceArray.filter(item => item.currencyId === 'iJ3WZocnjG9ufv7GKUA4LijQno5gTMb7tP').sort((a, b) => b.price - a.price);
     let daiPriceArray = priceArray.filter(item => item.currencyId === 'iGBs4DWztRNvNEJBt4mqHszLxfKTNHTkhM').sort((a, b) => b.price - a.price);
     let ethereumPriceArray = priceArray.filter(item => item.currencyId === 'i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X').sort((a, b) => b.price - a.price);
