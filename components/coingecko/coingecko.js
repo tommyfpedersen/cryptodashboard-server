@@ -138,7 +138,7 @@ export async function getCoingeckoPrice() {
                         if (item.id === "savings-crvusd") {
                             priceArray.push({
                                 currencyId: "i9nLSK4S1U5sVMq4eJUHR1gbFALz56J9Lj",
-                                price: item.current_price.toFixed(3),
+                                price: item.current_price,
                                 totalVolume: item.total_volume,
                                 name: "scrvusd",
                                 origin: "Coingecko",
@@ -148,7 +148,7 @@ export async function getCoingeckoPrice() {
                         if (item.id === "pepecoin-2") {
                             priceArray.push({
                                 currencyId: "i5VVBEi6efBrXMaeqFW3MTPSzbmpNLysGR",
-                                price: item.current_price.toFixed(3),
+                                price: item.current_price,
                                 totalVolume: item.total_volume,
                                 name: "pepecoin",
                                 origin: "Coingecko",
@@ -160,7 +160,7 @@ export async function getCoingeckoPrice() {
                                 currencyId: "iL62spNN42Vqdxh8H5nrfNe8d6Amsnfkdx",
                                 price: item.current_price,
                                 totalVolume: item.total_volume,
-                                name: "illuminaticoin",
+                                name: "IlluminatiCoin",
                                 origin: "Coingecko",
                                 marketRank: item.market_cap_rank
                             })

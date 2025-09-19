@@ -200,11 +200,49 @@ app.get('/', async (req, res) => {
       // add userData to renderData
       mainRenderData = { ...mainRenderData, ...userData, ...threeFoldRenderData };
     }
-
+    
     res.render('main', mainRenderData);
     return;
   } else {
     res.render('main', { vrscOnline: false, varrrOnline: false, vdexOnline: false });
+    return;
+  }
+
+})
+
+/* API Highlights* */
+app.get('/api/highlights', async (req, res) => {
+
+  /* page loads */
+  pageLoads++;
+  console.log("page loads: api highlights", new Date().toLocaleString(), pageLoads);
+
+  /* cache */
+  let cacheReady = await isCacheReady();
+  let mainRenderData = {};
+
+  if (cacheReady) {
+
+    // cache data
+    const cacheData = await readFromCache('cache.json');
+    mainRenderData = cacheData;
+
+    res.json({
+      data: mainRenderData,
+      cachetimestamp: mainRenderData.cachetimestamp,
+      timeAgo: mainRenderData.timeAgo,
+      totalBasketReserves: mainRenderData.basketsInfo[0].currencySupplyPriceUSD,
+      totalVolume24h: mainRenderData.totalBasketsVolume[0].totalVolume24HoursUSD,
+      totalVolume7d: mainRenderData.totalBasketsVolume[0].totalVolume7DaysUSD,
+      totalVolume30d: mainRenderData.totalBasketsVolume[0].totalVolume30DaysUSD,
+      vrscInBaskets: mainRenderData.basketsInfo[0].vrscInReserve,
+      vrscInBasketsUSD: mainRenderData.basketsInfo[0].vrscInReserveUSD,
+
+    });
+    return;
+  } else {
+
+    res.json({ errorMessage: "service offline" });
     return;
   }
 
