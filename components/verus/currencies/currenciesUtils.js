@@ -1,4 +1,5 @@
 import { getCurrenciesConfig } from './currenciesConfig.js';
+import { getCurrenciesInfo } from './currenciesInfo.js';
 
 
 export function getBasketsInfo(allCurrenciesFromBaskets) {
@@ -99,6 +100,8 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
 
     const currencyNameList = new Set();
 
+    const currenciesInfo = getCurrenciesInfo();
+
     // Find a list of currencies
     allCurrenciesFromBaskets.forEach((item) => {
         if (item.currencyReserve) {
@@ -123,6 +126,11 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
 
         currencyItem.currencyName = currencyName;
         currencyItem.currencyList = currencyList;
+
+        let currenciesInfoArray = currenciesInfo.filter(item => item.currencyName === currencyName);
+        if (currenciesInfoArray.length > 0) {
+            currencyItem.currencyAlias = currenciesInfoArray[0].currencyAlias;
+        }
 
 
         let coingeckoPriceAdded = [];
@@ -163,6 +171,7 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
                         currencyList.push({
                             basketName: item.currencyReserve.currencyName,
                             currencyName: basketItem.currencyName,
+                            currencyAlias: basketItem.currencyAlias,
                             currencyNetwork: basketItem.network,
                             currencyPriceUSD: basketItem.priceUSD < 1 ? Number(basketItem.priceUSD.toFixed(4)).toLocaleString() : Number(basketItem.priceUSD.toFixed(2)).toLocaleString(),
                             currencySupply: basketItem.reserves < 1 ? Number(basketItem.reserves.toFixed(4)).toLocaleString() : Number(basketItem.reserves.toFixed(0)).toLocaleString(),

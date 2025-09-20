@@ -5,12 +5,14 @@ dotenv.config();
 import { getCurrenciesConfig } from './currenciesConfig.js';
 import { getMiningInfo, getCurrencyState } from "../api/api.js";
 import { getPbaasConfig } from '../pbaas/pbaasConfig.js';
+import { getCurrenciesInfo } from './currenciesInfo.js';
 
 
 
 
 export async function getAllCurrenciesFromBaskets(coingeckoPriceArray) {
     const currenciesConfig = getCurrenciesConfig();
+    
 
     const vrscBasePrice = await getNativeCurrencyBasePrice(coingeckoPriceArray, "Bridge.vETH", 0);
 
@@ -113,6 +115,8 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
     let currencyIcon = currencyConfig.currencyIcon;
     let currencyScale = currencyConfig.currencyScale || [];
     let currencyNote = currencyConfig.note === undefined ? "" : currencyConfig.note;
+
+    const currenciesInfo = getCurrenciesInfo();
 
     //console.log(currencyName, currencyScale)
 
@@ -279,6 +283,10 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                     })
                     currency.currencyId = currencyId;
                     currency.currencyName = item[1];
+                    let currenciesInfoArray = currenciesInfo.filter(item =>item.currencyName === currency.currencyName);
+                    if(currenciesInfoArray.length > 0){
+                        currency.currencyAlias = currenciesInfoArray[0].currencyAlias;
+                    }
                     basketCurrencyArray.push(currency);
                 }
             })
