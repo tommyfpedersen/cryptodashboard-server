@@ -126,10 +126,14 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
 
         currencyItem.currencyName = currencyName;
         currencyItem.currencyList = currencyList;
+        currencyItem.currencyType = "Basket";
+
 
         let currenciesInfoArray = currenciesInfo.filter(item => item.currencyName === currencyName);
         if (currenciesInfoArray.length > 0) {
             currencyItem.currencyAlias = currenciesInfoArray[0].currencyAlias;
+            currencyItem.currencyIcon = currenciesInfoArray[0].currencyIcon;
+            currencyItem.currencyType = "Token";
         }
 
 
@@ -222,7 +226,32 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
         currencyGroupList.push(currencyItem);
     })
 
-    currencyGroupList.sort((a, b) => parseFloat(b.currencySupplyPriceUSD.replace(/,/g, '')) - parseFloat(a.currencySupplyPriceUSD.replace(/,/g, '')));
+    currencyGroupList.sort((a, b) => {
+        let nameA = "zzz"; // ignore upper and lowercase
+        let nameB = "zzz"; // ignore upper and lowercase
+
+        if (a.currencyAlias) {
+            nameA = a.currencyAlias.toUpperCase()
+        }
+
+        if (b.currencyAlias) {
+            nameB = b.currencyAlias.toUpperCase()
+        }
+
+        if (nameA < nameB) {
+            return -1;
+        }
+        if (nameA > nameB) {
+            return 1;
+        }
+
+        // names must be equal
+        return 0;
+        // (a.currencyAlias).localeCompare(b.currencyAlias)
+    }
+    );
+    // currencyGroupList.sort((a, b) => b.currencyAlias -a.currencyAlias);
+    //currencyGroupList.sort((a, b) => parseFloat(b.currencySupplyPriceUSD.replace(/,/g, '')) - parseFloat(a.currencySupplyPriceUSD.replace(/,/g, '')));
     return currencyGroupList;
 }
 
