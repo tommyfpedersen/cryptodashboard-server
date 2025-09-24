@@ -170,6 +170,8 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
 
                 item.currencyReserve.basketCurrencyArray.forEach((basketItem) => {
 
+                  //  console.log(basketItem.currencyName, currencyName)
+
                     if (basketItem.currencyName === currencyName) {
 
                         currencyList.push({
@@ -186,6 +188,7 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
                             currencyType: "Token"
                         })
 
+                    //    console.log(currencyName, basketItem.coingeckoprice, !coingeckoPriceAdded.includes(currencyName),basketItem.coingeckoprice && !coingeckoPriceAdded.includes(currencyName))
                         //add coingecko price if exist
                         if (basketItem.coingeckoprice && !coingeckoPriceAdded.includes(currencyName)) {
 
@@ -200,7 +203,8 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
                                 basketVolume7Days: "",
                                 basketVolume30Days: ""
                             })
-                            coingeckoPriceAdded.push(currencyName);
+                           
+                            coingeckoPriceAdded.push(currencyName, basketItem.coingeckoprice);
                         }
 
                         totalVolume24Hours = totalVolume24Hours + item.currencyVolume24Hours.totalVolumeUSD;
@@ -212,6 +216,8 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
                 })
             }
         })
+
+      //  console.log(coingeckoPriceAdded)
 
         currencyItem.currencySupply = currencySupply < 1 ? Number(currencySupply.toFixed(4)).toLocaleString() : Number(currencySupply.toFixed(0)).toLocaleString();
         currencyItem.currencySupplyPriceUSD = Number(currencySupplyPriceUSD.toFixed(0)).toLocaleString();
@@ -247,11 +253,9 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
 
         // names must be equal
         return 0;
-        // (a.currencyAlias).localeCompare(b.currencyAlias)
     }
     );
-    // currencyGroupList.sort((a, b) => b.currencyAlias -a.currencyAlias);
-    //currencyGroupList.sort((a, b) => parseFloat(b.currencySupplyPriceUSD.replace(/,/g, '')) - parseFloat(a.currencySupplyPriceUSD.replace(/,/g, '')));
+    
     return currencyGroupList;
 }
 
