@@ -450,9 +450,12 @@ function initSideMenu() {
                 // img, text or svg
                 if (elm.getAttribute("data-image") !== null) {
                     let imageElm = document.createElement("img");
+                    let textElm = document.createElement("span");
+                    textElm.innerHTML = elm.id;
                     imageElm.src = elm.getAttribute("data-image");
                     imageElm.width = "16";
                     sideMenuTitleElm.append(imageElm);
+                    sideMenuTitleElm.append(textElm);
                 } else if (elm.getAttribute("data-text") !== null) {
                     let textElm = document.createElement("span");
                     textElm.innerHTML = elm.getAttribute("data-text");

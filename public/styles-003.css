@@ -140,6 +140,9 @@ body {
 
 .side-menu-title{
     padding-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
 }
 
 .side-menu-item {
