@@ -62,11 +62,11 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
                 priceId1RefNotYoursUSD: Math.round(pbaasConfig[i].priceId1RefNotYours * nativePrice).toLocaleString(),
                 priceId1RefYoursUSD: Math.round(pbaasConfig[i].priceId1RefYours * nativePrice).toLocaleString(),
                 priceId2RefAllYoursUSD: Math.round(pbaasConfig[i].priceId2RefAllYours * nativePrice).toLocaleString(),
-                priceId3RefAllYoursUSD: pbaasConfig[i].priceId3RefAllYours == null ? "" : "$ " + Math.round(pbaasConfig[i].priceId3RefAllYours * nativePrice).toLocaleString(),
+                priceId3RefAllYoursUSD: pbaasConfig[i].priceId3RefAllYours == null ? "" :  Math.round(pbaasConfig[i].priceId3RefAllYours * nativePrice).toLocaleString(),
                 priceSubIdUSD: Math.round(pbaasConfig[i].priceSubId * nativePrice).toLocaleString(),
                 priceStorageUSD: Math.round(pbaasConfig[i].priceStorage * nativePrice).toLocaleString(),
                 priceCurrencyUSD: Math.round(pbaasConfig[i].priceCurrency * nativePrice).toLocaleString(),
-                pricePbaasUSD: pbaasConfig[i].pricePbaas == null ? "" : "$ " + Math.round(pbaasConfig[i].pricePbaas * nativePrice).toLocaleString(),
+                pricePbaasUSD: pbaasConfig[i].pricePbaas == null ? "" :  Math.round(pbaasConfig[i].pricePbaas * nativePrice).toLocaleString(),
 
                 icon: pbaasConfig[i].icon,
                 links: pbaasConfig[i].links,
