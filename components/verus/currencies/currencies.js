@@ -74,6 +74,7 @@ export async function getAllCurrenciesFromBaskets(coingeckoPriceArray) {
             currency.name = currenciesConfig[i].currencyName;
             currency.type = "Basket"
             currency.currencyReserve = currencyReserve;
+            currency.currencyReserveBasketValueUSD = currencyReserve.basketValueAnchorCurrencyUSD;
             currency.currencyVolume24Hours = currencyVolume24Hours;
             currency.currencyVolume7Days = currencyVolume7Days;
             currency.currencyVolume30Days = currencyVolume30Days;

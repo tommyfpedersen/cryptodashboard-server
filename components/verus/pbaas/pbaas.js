@@ -15,11 +15,69 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
     let pbaasArray = [];
 
     for (let i = 0; i < pbaasConfig.length; i++) {
-        const nativeCurrencyFromBasket = allCurrenciesFromBaskets.filter((item)=>{return item.blockchain === pbaasConfig[i].name });
-        
+        const currentCurrenciesFromBasket = allCurrenciesFromBaskets.filter((item) => { return item.blockchain === pbaasConfig[i].name });
+
         let nativePrice = 0;
-        if(nativeCurrencyFromBasket.length > 0){
-            nativePrice = nativeCurrencyFromBasket[0].currencyReserve.nativeCurrencyBasePrice;
+        let basketReservesList = [];
+        let basketReservesValueUSD = 0;
+        let basketVolume24HoursList = [];
+        let basketVolume24HoursUSD = 0;
+        let basketVolume7DaysList = [];
+        let basketVolume7DaysUSD = 0;
+        let basketVolume30DaysList = [];
+        let basketVolume30DaysUSD = 0;
+        
+
+        if (currentCurrenciesFromBasket.length > 0) {
+            nativePrice = currentCurrenciesFromBasket[0].currencyReserve.nativeCurrencyBasePrice;
+
+            // basket reserves
+            currentCurrenciesFromBasket.forEach((item) => {  
+                basketReservesValueUSD = basketReservesValueUSD + item.currencyReserveBasketValueUSD;
+                basketReservesList.push({
+                    blockchain: item.blockchain,
+                    name: item.name,
+                    currencyReserveBasketValueUSD: Math.round(item.currencyReserveBasketValueUSD).toLocaleString()
+                })
+            })
+            basketReservesValueUSD = Math.round(basketReservesValueUSD).toLocaleString();
+            basketReservesList.sort((a, b) => parseFloat(b.currencyReserveBasketValueUSD.replace(/,/g, '')) - parseFloat(a.currencyReserveBasketValueUSD.replace(/,/g, '')));
+
+            // 24 hours Volume
+            currentCurrenciesFromBasket.forEach((item) => {
+                basketVolume24HoursUSD = basketVolume24HoursUSD + item.currencyVolume24Hours.totalVolumeUSD;
+                basketVolume24HoursList.push({
+                    blockchain: item.blockchain,
+                    name: item.name,
+                    basketVolumeValueUSD: Math.round(item.currencyVolume24Hours.totalVolumeUSD).toLocaleString()
+                })
+            })
+            basketVolume24HoursUSD = Math.round(basketVolume24HoursUSD).toLocaleString();
+            basketVolume24HoursList.sort((a, b) => parseFloat(b.basketVolumeValueUSD.replace(/,/g, '')) - parseFloat(a.basketVolumeValueUSD.replace(/,/g, '')));
+            
+            // 7 days Volume
+            currentCurrenciesFromBasket.forEach((item) => {
+                basketVolume7DaysUSD = basketVolume7DaysUSD + item.currencyVolume7Days.totalVolumeUSD;
+                basketVolume7DaysList.push({
+                    blockchain: item.blockchain,
+                    name: item.name,
+                    basketVolumeValueUSD: Math.round(item.currencyVolume7Days.totalVolumeUSD).toLocaleString()
+                })
+            })
+            basketVolume7DaysUSD = Math.round(basketVolume7DaysUSD).toLocaleString();
+            basketVolume7DaysList.sort((a, b) => parseFloat(b.basketVolumeValueUSD.replace(/,/g, '')) - parseFloat(a.basketVolumeValueUSD.replace(/,/g, '')));
+            
+            // 30 days Volume
+            currentCurrenciesFromBasket.forEach((item) => {
+                basketVolume30DaysUSD = basketVolume30DaysUSD + item.currencyVolume30Days.totalVolumeUSD;
+                basketVolume30DaysList.push({
+                    blockchain: item.blockchain,
+                    name: item.name,
+                    basketVolumeValueUSD: Math.round(item.currencyVolume30Days.totalVolumeUSD).toLocaleString()
+                })
+            })
+            basketVolume30DaysUSD = Math.round(basketVolume30DaysUSD).toLocaleString();
+            basketVolume30DaysList.sort((a, b) => parseFloat(b.basketVolumeValueUSD.replace(/,/g, '')) - parseFloat(a.basketVolumeValueUSD.replace(/,/g, '')));
         }
 
         const miningInfo = await getMiningInfo(pbaasConfig[i].rpcBaseUrl);
@@ -62,12 +120,20 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
                 priceId1RefNotYoursUSD: Math.round(pbaasConfig[i].priceId1RefNotYours * nativePrice).toLocaleString(),
                 priceId1RefYoursUSD: Math.round(pbaasConfig[i].priceId1RefYours * nativePrice).toLocaleString(),
                 priceId2RefAllYoursUSD: Math.round(pbaasConfig[i].priceId2RefAllYours * nativePrice).toLocaleString(),
-                priceId3RefAllYoursUSD: pbaasConfig[i].priceId3RefAllYours == null ? "" :  Math.round(pbaasConfig[i].priceId3RefAllYours * nativePrice).toLocaleString(),
+                priceId3RefAllYoursUSD: pbaasConfig[i].priceId3RefAllYours == null ? "" : Math.round(pbaasConfig[i].priceId3RefAllYours * nativePrice).toLocaleString(),
                 priceSubIdUSD: Math.round(pbaasConfig[i].priceSubId * nativePrice).toLocaleString(),
                 priceStorageUSD: Math.round(pbaasConfig[i].priceStorage * nativePrice).toLocaleString(),
                 priceCurrencyUSD: Math.round(pbaasConfig[i].priceCurrency * nativePrice).toLocaleString(),
-                pricePbaasUSD: pbaasConfig[i].pricePbaas == null ? "" :  Math.round(pbaasConfig[i].pricePbaas * nativePrice).toLocaleString(),
+                pricePbaasUSD: pbaasConfig[i].pricePbaas == null ? "" : Math.round(pbaasConfig[i].pricePbaas * nativePrice).toLocaleString(),
 
+                basketReservesList: basketReservesList,
+                basketReservesValueUSD: basketReservesValueUSD,
+                basketVolume24HoursList: basketVolume24HoursList,
+                basketVolume24HoursUSD: basketVolume24HoursUSD,
+                basketVolume7DaysList: basketVolume7DaysList,
+                basketVolume7DaysUSD: basketVolume7DaysUSD,
+                basketVolume30DaysList: basketVolume30DaysList,
+                basketVolume30DaysUSD: basketVolume30DaysUSD,
                 icon: pbaasConfig[i].icon,
                 links: pbaasConfig[i].links,
 

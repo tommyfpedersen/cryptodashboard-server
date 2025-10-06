@@ -91,10 +91,6 @@ export function getTotalBasketsVolume(allCurrenciesFromBaskets) {
     return resultArray
 }
 
-
-
-
-
 export function getCurrencyGroupList(allCurrenciesFromBaskets) {
     let currencyGroupList = [];
 
@@ -141,6 +137,7 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
 
         allCurrenciesFromBaskets.forEach((item) => {
 
+            currencyItem.blockchain = item.blockchain;
             if (item.currencyReserve) {
                 if (item.currencyReserve.currencyName === currencyName) {
 
@@ -170,7 +167,7 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
 
                 item.currencyReserve.basketCurrencyArray.forEach((basketItem) => {
 
-                  //  console.log(basketItem.currencyName, currencyName)
+                    //  console.log(basketItem.currencyName, currencyName)
 
                     if (basketItem.currencyName === currencyName) {
 
@@ -188,7 +185,7 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
                             currencyType: "Token"
                         })
 
-                    //    console.log(currencyName, basketItem.coingeckoprice, !coingeckoPriceAdded.includes(currencyName),basketItem.coingeckoprice && !coingeckoPriceAdded.includes(currencyName))
+                        //    console.log(currencyName, basketItem.coingeckoprice, !coingeckoPriceAdded.includes(currencyName),basketItem.coingeckoprice && !coingeckoPriceAdded.includes(currencyName))
                         //add coingecko price if exist
                         if (basketItem.coingeckoprice && !coingeckoPriceAdded.includes(currencyName)) {
 
@@ -203,7 +200,7 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
                                 basketVolume7Days: "",
                                 basketVolume30Days: ""
                             })
-                           
+
                             coingeckoPriceAdded.push(currencyName, basketItem.coingeckoprice);
                         }
 
@@ -217,7 +214,7 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
             }
         })
 
-      //  console.log(coingeckoPriceAdded)
+        //  console.log(coingeckoPriceAdded)
 
         currencyItem.currencySupply = currencySupply < 1 ? Number(currencySupply.toFixed(4)).toLocaleString() : Number(currencySupply.toFixed(0)).toLocaleString();
         currencyItem.currencySupplyPriceUSD = Number(currencySupplyPriceUSD.toFixed(0)).toLocaleString();
@@ -255,7 +252,7 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
         return 0;
     }
     );
-    
+
     return currencyGroupList;
 }
 
