@@ -1,16 +1,16 @@
-export function calculateUserStakingRewards(blockchain, mainRenderData, stakingAmount){
-     let pbaasItem = mainRenderData.pbaasList.filter((item)=>{return item.blockchain === blockchain})[0];
-      let circulatingSupply = parseFloat(pbaasItem.circulatingSupply.replace(/,/g, ''));
-      let stakingSupply =  parseFloat(pbaasItem.stakingSupply.replace(/,/g, ''));
-      let calculateStakingResult = calculateStakingRewards(pbaasItem.blocktime, pbaasItem.blockReward, circulatingSupply, stakingSupply, stakingAmount, pbaasItem.nativePrice);
+export function calculateUserStakingRewards(blockchain, mainRenderData, stakingAmount) {
+    let pbaasItem = mainRenderData.pbaasList.filter((item) => { return item.blockchain === blockchain })[0];
+    let circulatingSupply = parseFloat(pbaasItem.circulatingSupply.replace(/,/g, ''));
+    let stakingSupply = parseFloat(pbaasItem.stakingSupply.replace(/,/g, ''));
+    let calculateStakingResult = calculateStakingRewards(pbaasItem.blocktime, pbaasItem.blockReward, circulatingSupply, stakingSupply, stakingAmount, pbaasItem.nativePrice);
 
-      pbaasItem.stakingAmount = calculateStakingResult.stakingAmount;
-      pbaasItem.rewardsDaily = calculateStakingResult.rewardsDaily;
-      pbaasItem.rewardsDailyUSD = calculateStakingResult.rewardsDailyUSD;
-      pbaasItem.rewardsMonthly = calculateStakingResult.rewardsMonthly;
-      pbaasItem.rewardsMonthlyUSD = calculateStakingResult.rewardsMonthlyUSD;
-      pbaasItem.rewardsYearly = calculateStakingResult.rewardsYearly;
-      pbaasItem.rewardsYearlyUSD = calculateStakingResult.rewardsYearlyUSD;
+    pbaasItem.stakingAmount = calculateStakingResult.stakingAmount;
+    pbaasItem.stakingRewardsDaily = calculateStakingResult.stakingRewardsDaily;
+    pbaasItem.stakingRewardsDailyUSD = calculateStakingResult.stakingRewardsDailyUSD;
+    pbaasItem.stakingRewardsMonthly = calculateStakingResult.stakingRewardsMonthly;
+    pbaasItem.stakingRewardsMonthlyUSD = calculateStakingResult.stakingRewardsMonthlyUSD;
+    pbaasItem.stakingRewardsYearly = calculateStakingResult.stakingRewardsYearly;
+    pbaasItem.stakingRewardsYearlyUSD = calculateStakingResult.stakingRewardsYearlyUSD;
 }
 
 export function calculateStakingRewards(blocktime, blockReward, totalSupply, stakingSupply, stakingAmountUnencoded, nativePrice) {
@@ -20,21 +20,19 @@ export function calculateStakingRewards(blocktime, blockReward, totalSupply, sta
         stakingAmount = parseInt(decodeURIComponent(stakingAmountUnencoded));
     }
 
-    console.log(blocktime, blockReward, totalSupply, stakingSupply,  stakingAmount, nativePrice)
-
     result.stakingAmount = stakingAmount;
     result.stakingPct = stakingSupply / totalSupply * 100;
     let apy = (24 * (3600 / blocktime) / 2) * blockReward * 365 / stakingSupply;
     result.stakingApy = Math.round(apy * 10000) / 100;
 
-    result.rewardsDaily = Math.round(apy * stakingAmount / 365 * 10000) / 10000;
-    result.rewardsDailyUSD = Math.round(apy * stakingAmount / 365 * nativePrice * 10000) / 10000;
+    result.stakingRewardsDaily = Math.round(apy * stakingAmount / 365 * 10000) / 10000;
+    result.stakingRewardsDailyUSD = Math.round(apy * stakingAmount / 365 * nativePrice * 10000) / 10000;
 
-    result.rewardsMonthly = Math.round(apy * stakingAmount / 12 * 10000) / 10000;
-    result.rewardsMonthlyUSD = Math.round(apy * stakingAmount / 12 * nativePrice * 10000) / 10000;
+    result.stakingRewardsMonthly = Math.round(apy * stakingAmount / 12 * 10000) / 10000;
+    result.stakingRewardsMonthlyUSD = Math.round(apy * stakingAmount / 12 * nativePrice * 10000) / 10000;
 
-    result.rewardsYearly = Math.round(apy * stakingAmount * 10000) / 10000;
-    result.rewardsYearlyUSD = Math.round(apy * stakingAmount * nativePrice * 10000) / 10000;
+    result.stakingRewardsYearly = Math.round(apy * stakingAmount * 10000) / 10000;
+    result.stakingRewardsYearlyUSD = Math.round(apy * stakingAmount * nativePrice * 10000) / 10000;
 
     result.oneDailyStakeAmount = Math.round(blockReward / apy * 365);
     result.oneMonthlyStakeAmount = Math.round(blockReward / apy * 12);
@@ -45,22 +43,36 @@ export function calculateStakingRewards(blocktime, blockReward, totalSupply, sta
 
     return result;
 }
+
+export function calculateUserMiningRewards(blockchain, mainRenderData, miningHashInput) {
+    let pbaasItem = mainRenderData.pbaasList.filter((item) => { return item.blockchain === blockchain })[0];
+    let networkHashrate = parseInt(pbaasItem.networkHashrate.replace(/,/g, '')) * 1000000000;
+    let calculateMiningResult = calculateMiningRewards(pbaasItem.blocktime, pbaasItem.blockReward, networkHashrate, miningHashInput, pbaasItem.nativePrice);
+    pbaasItem.miningHash = calculateMiningResult.miningHash;
+    pbaasItem.miningRewardsDaily = calculateMiningResult.miningRewardsDaily;
+    pbaasItem.miningRewardsDailyUSD = calculateMiningResult.miningRewardsDailyUSD;
+    pbaasItem.miningRewardsMonthly = calculateMiningResult.miningRewardsMonthly;
+    pbaasItem.miningRewardsMonthlyUSD = calculateMiningResult.miningRewardsMonthlyUSD;
+    pbaasItem.miningRewardsYearly = calculateMiningResult.miningRewardsYearly;
+    pbaasItem.miningRewardsYearlyUSD = calculateMiningResult.miningRewardsYearlyUSD;
+}
+
 export function calculateMiningRewards(blocktime, blockReward, networkHashPerSecond, miningHashUnencoded, nativePrice) {
     let result = {};
     let miningHash = 1;
     if (miningHashUnencoded) {
-        miningHash = decodeURIComponent(miningHashUnencoded);
+        miningHash = parseInt(decodeURIComponent(miningHashUnencoded));
     }
 
     result.miningHash = miningHash;
-    let apy = (24 * (3600 / blocktime) / 2) * blockReward * 365 / networkHashPerSecond * 1000000;
+    let apy = (24 * (3600 / blocktime) / 2) * blockReward * 365 /  parseInt(networkHashPerSecond) * 1000000;
 
-    result.rewardsDaily = Math.round(apy * miningHash / 365 * 10000) / 10000;
-    result.rewardsDailyUSD = Math.round(apy * miningHash / 365 * nativePrice * 10000) / 10000;
-    result.rewardsMonthly = Math.round(apy * miningHash / 12 * 10000) / 10000;
-    result.rewardsMonthlyUSD = Math.round(apy * miningHash / 12 * nativePrice * 10000) / 10000;
-    result.rewardsYearly = Math.round(apy * miningHash * 10000) / 10000;
-    result.rewardsYearlyUSD = Math.round(apy * miningHash * nativePrice * 10000) / 10000;
+    result.miningRewardsDaily = Math.round(apy * miningHash / 365 * 10000) / 10000;
+    result.miningRewardsDailyUSD = Math.round(apy * miningHash / 365 * nativePrice * 10000) / 10000;
+    result.miningRewardsMonthly = Math.round(apy * miningHash / 12 * 10000) / 10000;
+    result.miningRewardsMonthlyUSD = Math.round(apy * miningHash / 12 * nativePrice * 10000) / 10000;
+    result.miningRewardsYearly = Math.round(apy * miningHash * 10000) / 10000;
+    result.miningRewardsYearlyUSD = Math.round(apy * miningHash * nativePrice * 10000) / 10000;
 
     result.oneDailyMiningHashReward = Math.round(blockReward / apy * 365);
     result.oneMonthlyMiningHashReward = Math.round(blockReward / apy * 12);
@@ -121,7 +133,7 @@ export function getDailyEarningsPerGHArray(pbaasList) {
     const resultArray = [];
 
     pbaasList.forEach((item) => {
-        let dailyEarningsPerGH = parseFloat( item.blockRewardUSD.replace(/,/g, '') + item.feeRewardUSD.replace(/,/g, '')) / parseFloat(item.networkHashrate.replace(/,/g, '')) * (24 * (3600 / item.blocktime) / 2);
+        let dailyEarningsPerGH = parseFloat(item.blockRewardUSD.replace(/,/g, '') + item.feeRewardUSD.replace(/,/g, '')) / parseFloat(item.networkHashrate.replace(/,/g, '')) * (24 * (3600 / item.blocktime) / 2);
         let resultObject = {
             blockchain: item.blockchain,
             dailyEarningsPerGH: (Math.round(dailyEarningsPerGH * 10000) / 10000).toFixed(4)
@@ -136,7 +148,7 @@ export function getFeePoolRewardArray(pbaasList) {
     pbaasList.forEach((item) => {
         let resultObject = {
             blockchain: item.blockchain,
-            feeReward: (Math.round(item.feeReward*100000000)/100000000).toFixed(8).toLocaleString()
+            feeReward: (Math.round(item.feeReward * 100000000) / 100000000).toFixed(8).toLocaleString()
         }
         resultArray.push(resultObject);
     })

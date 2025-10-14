@@ -24,7 +24,7 @@ import { calculateChipsMiningRewards, calculateChipsStakingRewards, getChipsAddr
 import { getCoingeckoPrice } from './components/coingecko/coingecko.js';
 import { getThreeFoldNodeArray } from './components/threefold/threefold.js';
 
-import {calculateStakingRewards, calculateUserStakingRewards } from './components/verus/pbaas/pbaasUtils.js';
+import {calculateStakingRewards, calculateUserMiningRewards, calculateUserStakingRewards } from './components/verus/pbaas/pbaasUtils.js';
 
 /* dashboard */
 app.get('/', async (req, res) => {
@@ -52,20 +52,22 @@ app.get('/', async (req, res) => {
     // staking
     if(req.query.vrscstakingamount){
       calculateUserStakingRewards("VRSC", mainRenderData, req.query.vrscstakingamount);
-      
-      // let pbaasItem = mainRenderData.pbaasList.filter((item)=>{return item.blockchain === "VRSC"})[0];
-      // let circulatingSupply = parseFloat(pbaasItem.circulatingSupply.replace(/,/g, ''));
-      // let stakingSupply =  parseFloat(pbaasItem.stakingSupply.replace(/,/g, ''));
-      // let calculateStakingResult = calculateStakingRewards(pbaasItem.blocktime, pbaasItem.blockReward, circulatingSupply, stakingSupply, req.query.vrscstakingamount, pbaasItem.nativePrice);
-
-      // pbaasItem.stakingAmount = calculateStakingResult.stakingAmount;
-      // pbaasItem.rewardsDaily = calculateStakingResult.rewardsDaily;
-      // pbaasItem.rewardsDailyUSD = calculateStakingResult.rewardsDailyUSD;
-      // pbaasItem.rewardsMonthly = calculateStakingResult.rewardsMonthly;
-      // pbaasItem.rewardsMonthlyUSD = calculateStakingResult.rewardsMonthlyUSD;
-      // pbaasItem.rewardsYearly = calculateStakingResult.rewardsYearly;
-      // pbaasItem.rewardsYearlyUSD = calculateStakingResult.rewardsYearlyUSD;
     }
+    if(req.query.varrrstakingamount){
+      calculateUserStakingRewards("vARRR", mainRenderData, req.query.varrrstakingamount);
+    }
+    if(req.query.vdexstakingamount){
+      calculateUserStakingRewards("vDEX", mainRenderData, req.query.vdexstakingamount);
+    }
+    if(req.query.chipsstakingamount){
+      calculateUserStakingRewards("CHIPS", mainRenderData, req.query.chipsstakingamount);
+    }
+    
+    // mining
+    if(req.query.vrscmininghash){
+      calculateUserMiningRewards("VRSC", mainRenderData, req.query.vrscmininghash);
+    }
+    
 
 
     if (req.query.address || req.query.vrscstakingamount || req.query.vrscmininghash || req.query.varrraddress || req.query.varrrstakingamount || req.query.varrrmininghash || req.query.vdexstakingamount || req.query.vdexmininghash || req.query.chipsaddress || req.query.chipsstakingamount || req.query.chipsmininghash || req.query.tfnodes) {

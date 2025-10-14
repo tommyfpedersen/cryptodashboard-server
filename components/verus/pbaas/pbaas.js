@@ -87,8 +87,8 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
         const blockAndFeePoolRewards = await getBlockAndFeePoolRewards(miningInfo, pbaasConfig[i]);
 
         if (currencyInfo) {
-            const stakingRewards = calculateStakingRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, marketCapStats.circulatingSupply, miningInfo.stakingsupply, null, nativePrice)
-            const miningRewards = calculateMiningRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, miningInfo.networkhashps, null, nativePrice)
+            const stakingRewards = calculateStakingRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, marketCapStats.circulatingSupply, miningInfo.stakingsupply, 100, nativePrice)
+            const miningRewards = calculateMiningRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, miningInfo.networkhashps, 1, nativePrice)
 
             let currenciesOnBlockchain = currenciesConfig.filter((currency) => {
                 return currency.blockchain === pbaasConfig[i].name
