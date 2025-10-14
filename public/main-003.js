@@ -43,7 +43,7 @@ function init() {
         })
     }
 
-    let vrscStakingElm = document.querySelector("#vrsc-staking-amount");
+    let vrscStakingElm = document.querySelector("#VRSC-staking-amount");
     if (vrscStakingElm) {
         vrscStakingElm.addEventListener('keydown', (evt) => {
             if (evt.key === 'Enter') {
@@ -56,7 +56,7 @@ function init() {
         })
     }
 
-    let vrscMiningElm = document.querySelector("#vrsc-mining-hash");
+    let vrscMiningElm = document.querySelector("#VRSC-mining-hash");
     if (vrscMiningElm) {
         vrscMiningElm.addEventListener('keydown', (evt) => {
             if (evt.key === 'Enter') {
@@ -83,7 +83,7 @@ function init() {
          })
      }
  
-     let chipsStakingElm = document.querySelector("#chips-staking-amount");
+     let chipsStakingElm = document.querySelector("#CHIPS-staking-amount");
      if (chipsStakingElm) {
          chipsStakingElm.addEventListener('keydown', (evt) => {
              if (evt.key === 'Enter') {
@@ -96,7 +96,7 @@ function init() {
          })
      }
  
-     let chipsMiningElm = document.querySelector("#chips-mining-hash");
+     let chipsMiningElm = document.querySelector("#CHIPS-mining-hash");
      if (chipsMiningElm) {
          chipsMiningElm.addEventListener('keydown', (evt) => {
              if (evt.key === 'Enter') {
@@ -123,7 +123,7 @@ function init() {
         })
     }
 
-    let varrrStakingElm = document.querySelector("#varrr-staking-amount");
+    let varrrStakingElm = document.querySelector("#vARRR-staking-amount");
     if (varrrStakingElm) {
         varrrStakingElm.addEventListener('keydown', (evt) => {
             if (evt.key === 'Enter') {
@@ -136,7 +136,7 @@ function init() {
         })
     }
 
-    let varrrMiningElm = document.querySelector("#varrr-mining-hash");
+    let varrrMiningElm = document.querySelector("#vARRR-mining-hash");
     if (varrrMiningElm) {
         varrrMiningElm.addEventListener('keydown', (evt) => {
             if (evt.key === 'Enter') {
@@ -163,7 +163,7 @@ function init() {
         })
     }
 
-    let vdexStakingElm = document.querySelector("#vdex-staking-amount");
+    let vdexStakingElm = document.querySelector("#vDEX-staking-amount");
     if (vdexStakingElm) {
         vdexStakingElm.addEventListener('keydown', (evt) => {
             if (evt.key === 'Enter') {
@@ -176,7 +176,7 @@ function init() {
         })
     }
 
-    let vdexMiningElm = document.querySelector("#vdex-mining-hash");
+    let vdexMiningElm = document.querySelector("#vDEX-mining-hash");
     if (vdexMiningElm) {
         vdexMiningElm.addEventListener('keydown', (evt) => {
             if (evt.key === 'Enter') {
