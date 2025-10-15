@@ -30,13 +30,13 @@ function init() {
     }
 
     /* verus */
-    let getAddressBalanceElm = document.querySelector("#get-address-balance");
+    let getAddressBalanceElm = document.querySelector("#VRSC-address-balance");
     if (getAddressBalanceElm) {
         getAddressBalanceElm.addEventListener('keydown', (evt) => {
             if (evt.key === 'Enter') {
                 let string = encodeURIComponent(getAddressBalanceElm.value)
                 var href = new URL(location.href);
-                href.searchParams.set('address', string);
+                href.searchParams.set('vrscaddress', string);
                 window.history.replaceState(null, null, href.toString());
                 location.reload();
             }
@@ -70,7 +70,7 @@ function init() {
     }
 
      /* verus chips */
-     let getChipsAddressBalanceElm = document.querySelector("#get-chips-address-balance");
+     let getChipsAddressBalanceElm = document.querySelector("#CHIPS-address-balance");
      if (getChipsAddressBalanceElm) {
          getChipsAddressBalanceElm.addEventListener('keydown', (evt) => {
              if (evt.key === 'Enter') {
@@ -110,7 +110,7 @@ function init() {
      }
 
     /* verus varrr */
-    let getVarrrAddressBalanceElm = document.querySelector("#get-varrr-address-balance");
+    let getVarrrAddressBalanceElm = document.querySelector("#vARRR-address-balance");
     if (getVarrrAddressBalanceElm) {
         getVarrrAddressBalanceElm.addEventListener('keydown', (evt) => {
             if (evt.key === 'Enter') {
@@ -150,7 +150,7 @@ function init() {
     }
 
     /* verus vdex */
-    let getVdexAddressBalanceElm = document.querySelector("#get-vdex-address-balance");
+    let getVdexAddressBalanceElm = document.querySelector("#vDEX-address-balance");
     if (getVdexAddressBalanceElm) {
         getVdexAddressBalanceElm.addEventListener('keydown', (evt) => {
             if (evt.key === 'Enter') {
