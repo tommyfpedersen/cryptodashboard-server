@@ -38,7 +38,8 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
                 basketReservesList.push({
                     blockchain: item.blockchain,
                     name: item.name,
-                    currencyReserveBasketValueUSD: Math.round(item.currencyReserveBasketValueUSD).toLocaleString()
+                    currencyReserveBasketValueUSD: Math.round(item.currencyReserveBasketValueUSD).toLocaleString(),
+                    ...item.currencyReserve
                 })
             })
             basketReservesValueUSD = Math.round(basketReservesValueUSD).toLocaleString();
