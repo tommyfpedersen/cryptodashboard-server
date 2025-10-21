@@ -5,59 +5,73 @@
     <button class="hide-button">x</button>
     <div class="card-content">
         <div class="card-title">{{this.name}} Basket </div>
+        <div class="chart-container">
+            <canvas id="{{this.currencyId}}-my-chart"></canvas>
+        </div>
+
+        <script>
+           
+            // Get the data passed from the server
+            let chartData{{this.currencyId}} = [{ name: "Danmark", sales: 2 }, { name: "Tyskland", sales: 5 }];
+
+            // Get the canvas context
+            let ctx{{this.currencyId}} = document.getElementById("{{this.currencyId}}-my-chart").getContext('2d');
+
+            // Create the chart using a charting library
+            let myChart{{this.currencyId}} = new Chart(ctx{{this.currencyId}}, {
+                type: 'bar', // or any other chart type
+                data: {
+                    labels: chartData{{this.currencyId}}.map(item => item.name),
+                    datasets: [{
+                        label: '# of Sales',
+                        data: chartData{{this.currencyId}}.map(item => item.sales),
+                        backgroundColor: 'rgba(54, 162, 235, 0.9)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
 
 
         <div class="card-row-wrapper">
             <div class="card-row-item">Reserves Value</div>
             <div class="card-row-item-network">via {{ blockchain}}</div>
-            <div class="card-row-item"> $ {{{basketReserveValueNativeCurrencyUSD}}}</div>
+            <div class="card-row-item"> $ {{toFixed basketReserveValueNativeCurrencyUSD 0}}</div>
         </div>
         <br>
         <div class="card-row-wrapper">
             <div class="card-row-item">{{ this.name}} price</div>
-            <div class="card-row-item-network">{{ blockchain}} {{this.currencyPriceNative}}</div>
-            <div class="card-row-item"> $ {{this.currencyPriceUSD}}</div>
+            <div class="card-row-item-network">{{ blockchain}} {{toFixed this.currencyPriceNative 2}}</div>
+            <div class="card-row-item"> $ {{toFixed this.currencyPriceUSD 2}}</div>
         </div>
         <div class="card-row-wrapper">
             <div class="card-row-item">{{ this.name}} supply</div>
-            <div class="card-row-item"> {{this.currencySupply}}</div>
+            <div class="card-row-item"> {{toFixed this.currencySupply 0}}</div>
         </div>
         {{#each this.basketCurrencyArray}}
 
         <div style="text-transform:none;" class="card-sub-title">{{this.currencyName}} ({{this.weight}}%)</div>
         <div class="card-row-wrapper">
             <div class="card-row-item">Reserve</div>
-            <div class="card-row-item"> {{this.reserves}}</div>
+            <div class="card-row-item"> {{toFixed this.reserves 0}}</div>
         </div>
         <div class="card-row-wrapper">
             <div class="card-row-item">Basket Price</div>
-            <div class="card-row-item"> {{this.price}}</div>
+            <div class="card-row-item"> $ {{toFixed this.priceUSD 2}}</div>
         </div>
         <div class="card-row-wrapper">
             <div class="card-row-item">Coingecko Price</div>
-            <div class="card-row-item"> $ {{this.coingeckoprice}}</div>
+            <div class="card-row-item"> $ {{toFixed this.coingeckoprice 2}}</div>
         </div>
         {{/each}}
-
-
-
-        {{!-- {{#each currencyBridgeChipsArray}}
-        <div style="text-transform:none;" class="card-sub-title">{{currencyName}} ({{weight}}%)</div>
-        <div class="card-row-wrapper">
-            <div class="card-row-item">Reserve</div>
-            <div class="card-row-item"> {{reserves}}</div>
-        </div>
-        <div class="card-row-wrapper">
-            <div class="card-row-item">{{pricelabel}} Price</div>
-            <div class="card-row-item"> {{priceNative}}</div>
-        </div>
-        <div class="card-row-wrapper">
-            <div class="card-row-item">Basket Price</div>
-            <div class="card-row-item"> $ {{price}}</div>
-        </div>
-
-        {{/each}} --}}
-
 
     </div>
 </div>

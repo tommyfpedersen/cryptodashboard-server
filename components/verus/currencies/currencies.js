@@ -203,10 +203,10 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                             currency.price = Math.round((anchorReserve * 1 / anchorWeight / 100) / (currency.reserves * 1 / currency.weight) * 100000000) / 100000000;
                             currency.pricePrefix = anchorCurrencyName;
                             currency.priceNativeCurrency = Math.round((nativeCurrencyReserve * 1 / currency.weight) / (currency.reserves * 1 / currency.weight) * 100000000) / 100000000;
-                            currency.priceUSD = Math.round(currency.price * 10000) / 10000;
+                            currency.priceUSD = currency.price;
 
                             if (anchorPriceDominance === "coingecko") {
-                                currency.priceUSD = Math.round(currency.price * anchorCurrencyFromCoingeckoPriceArray * 100000) / 100000;
+                                currency.priceUSD = currency.price * anchorCurrencyFromCoingeckoPriceArray;
                             }
 
                             if (currencyId === anchorCurrencyId) {
@@ -221,7 +221,7 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
 
                                     currency.price = nativeCurrencyBasePrice;
                                 }
-                                currency.priceUSD = Math.round(currency.price * 10000) / 10000;
+                                currency.priceUSD = currency.price;
 
                                 if (secondaryPriceDominance === "coingecko") {
                                     currency.price = secondaryAnchorCurrencyFromCoingeckoPriceArray * currency.price;
@@ -230,7 +230,7 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                                     if (currencyScale.length > 0) {
                                         currencyScale.forEach((item) => {
                                             if (item.currencyId === secondaryAnchorCurrencyId) {
-                                                currency.priceUSD = Math.round(currency.priceUSD * item.scale * 10000) / 10000;
+                                                currency.priceUSD = currency.priceUSD * item.scale;
 
                                             }
                                         })
@@ -250,7 +250,7 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                                     currency.price = currency.price * nativeCurrencyBasePrice;
                                 }
 
-                                currency.priceUSD = Math.round(currency.price * 10000) / 10000;
+                                currency.priceUSD = currency.price;
                             }
 
 
@@ -265,7 +265,7 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                                 if (anchorPriceDominance === "native" && secondaryPriceDominance === "native" && nativeCurrencyId !== "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" && anchorCurrencyId === "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV") {
                                     nativeCurrencyBasketPrice = nativeCurrencyBasketPrice * vrscBasePrice;
                                     currency.price = nativeCurrencyBasketPrice;
-                                    currency.priceUSD = Math.round(currency.price * 10000) / 10000;
+                                    currency.priceUSD = currency.price;
                                 }
                             }
 
@@ -277,7 +277,7 @@ export async function getCurrencyReserves(currencyConfig, coingeckoPriceArray, n
                         if (coingeckoPriceArray.length > 0) {
                             coingeckoPriceArray.forEach((price) => {
                                 if (price.currencyId === currencyId) {
-                                    currency.coingeckoprice = Math.round(price.price * 10000) / 10000;
+                                    currency.coingeckoprice = price.price;// Math.round(price.price * 10000) / 10000;
                                 }
                             })
                         }

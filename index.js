@@ -386,6 +386,20 @@ hbs.registerHelper('ifEquals', function (arg1, arg2, options) {
   return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
 });
 
+hbs.registerHelper('toFixed', function (num, precision) {
+  // Check if num is a valid number
+  if (typeof num !== 'number' || isNaN(num)) {
+    return num; // Return as is or handle error
+  }
+  if (num < 2) {
+    precision = 3;
+  }
+  if (num < 0.01) {
+    precision = 8;
+  }
+
+  return parseFloat(num.toFixed(precision)).toLocaleString();
+});
 
 
 
