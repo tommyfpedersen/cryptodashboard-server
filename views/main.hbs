@@ -7,6 +7,42 @@
     <link rel="stylesheet" type="text/css" href="/styles-003.css">
     <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
     <script src="chart.js"></script>
+    <script>
+        // global variables for charts
+        var dataArray = []; 
+        function initChartData(blocktime, value) {
+            dataArray.push({
+                blocktime: blocktime,
+                value: value
+            })
+        }
+        function buildChart(context){
+            var ctx = context;
+             // Create the chart using a charting library
+            let chart{{this.currencyId}} = new Chart(ctx{{this.currencyId}}, {
+                type: 'bar', // or any other chart type
+                data: {
+                    labels: dataArray.map(item => item.value),
+                    datasets: [{
+                        label: '# of Sales',
+                        data: dataArray.map(item => item.blocktime),
+                        backgroundColor: 'rgba(54, 162, 235, 0.9)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            // clear chart data
+            dataArray = [];
+        }
+    </script>
     <title>Cryptodashboard</title>
 </head>
 

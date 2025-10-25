@@ -6,6 +6,7 @@ import { getCurrenciesConfig } from './../currencies/currenciesConfig.js';
 
 import { getMiningInfo, getCoinSupply, getCurrency, getBlockSubsidy, getBlock, getPeerInfo } from "../api/api.js";
 import { calculateMiningRewards, calculateStakingRewards } from './pbaasUtils.js';
+import { json } from 'express';
 
 
 export async function getAllPbaas(allCurrenciesFromBaskets) {
@@ -38,8 +39,11 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
                 basketReservesList.push({
                     blockchain: item.blockchain,
                     name: item.name,
+                    currencyId: item.currencyReserve.currencyId,
                     currencyReserveBasketValueUSD: Math.round(item.currencyReserveBasketValueUSD).toLocaleString(),
-                    ...item.currencyReserve, ...item.basketVolume24HoursList, ...basketVolume7DaysList, ...basketVolume30DaysList
+                    currencyVolume24Hours: item.currencyVolume24Hours.volumeArray, 
+                    currencyVolume7Days: item.currencyVolume7Days.volumeArray, 
+                    currencyVolume30Days: item.currencyVolume30Days.volumeArray
                 })
             })
             basketReservesValueUSD = Math.round(basketReservesValueUSD).toLocaleString();

@@ -6,38 +6,42 @@
     <div class="card-content">
         <div class="card-title">{{this.name}} Basket </div>
         <div class="chart-container">
-            <canvas id="{{this.currencyId}}-my-chart"></canvas>
+            <canvas id="{{this.currencyId}}-24h-chart"></canvas>
         </div>
-
+        <div class="chart-container">
+            <canvas id="{{this.currencyId}}-7d-chart"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="{{this.currencyId}}-30d-chart"></canvas>
+        </div>
         <script>
-           
-            // Get the data passed from the server
-            let chartData{{this.currencyId}} = [{ name: "Danmark", sales: 2 }, { name: "Tyskland", sales: 5 }];
+            
+            /* 24 hours volume */
+            {{#each this.currencyVolume24Hours}}
+               initChartData({{this.blocktime}}, {{this.volume}});
+            {{/each}}
 
-            // Get the canvas context
-            let ctx{{this.currencyId}} = document.getElementById("{{this.currencyId}}-my-chart").getContext('2d');
+            // build chart
+            buildChart(document.getElementById("{{this.currencyId}}-24h-chart").getContext('2d'));
 
-            // Create the chart using a charting library
-            let myChart{{this.currencyId}} = new Chart(ctx{{this.currencyId}}, {
-                type: 'bar', // or any other chart type
-                data: {
-                    labels: chartData{{this.currencyId}}.map(item => item.name),
-                    datasets: [{
-                        label: '# of Sales',
-                        data: chartData{{this.currencyId}}.map(item => item.sales),
-                        backgroundColor: 'rgba(54, 162, 235, 0.9)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
+
+            /* 7 days volume */
+            {{#each this.currencyVolume7Days}}
+               initChartData({{this.blocktime}}, {{this.volume}});
+            {{/each}}
+
+            // build chart
+            buildChart(document.getElementById("{{this.currencyId}}-7d-chart").getContext('2d'));
+
+
+            /* 30days volume */
+            {{#each this.currencyVolume30Days}}
+               initChartData({{this.blocktime}}, {{this.volume}});
+            {{/each}}
+
+            // build chart
+            buildChart(document.getElementById("{{this.currencyId}}-30d-chart").getContext('2d'));
+
         </script>
 
 

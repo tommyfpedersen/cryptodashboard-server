@@ -401,6 +401,11 @@ hbs.registerHelper('toFixed', function (num, precision) {
   return parseFloat(num.toFixed(precision)).toLocaleString();
 });
 
+hbs.registerHelper('toJson', function (object) {
+  console.log("object", object);
+  return object;
+});
+
 
 
 app.use(express.static(path.join(__dirname, 'public'), {
