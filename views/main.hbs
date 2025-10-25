@@ -22,10 +22,10 @@
             let chart{{this.currencyId}} = new Chart(ctx{{this.currencyId}}, {
                 type: 'bar', // or any other chart type
                 data: {
-                    labels: dataArray.map(item => item.value),
+                    labels: dataArray.map(item => item.blocktime),
                     datasets: [{
                         label: '# of Sales',
-                        data: dataArray.map(item => item.blocktime),
+                        data: dataArray.map(item => item.value),
                         backgroundColor: 'rgba(54, 162, 235, 0.9)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
