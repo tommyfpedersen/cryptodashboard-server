@@ -42,8 +42,11 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
                     currencyId: item.currencyReserve.currencyId,
                     currencyReserveBasketValueUSD: Math.round(item.currencyReserveBasketValueUSD).toLocaleString(),
                     currencyVolume24Hours: item.currencyVolume24Hours.volumeArray, 
+                    currencyVolume24HoursUSD: item.currencyVolume24Hours.totalVolumeUSD, 
                     currencyVolume7Days: item.currencyVolume7Days.volumeArray, 
-                    currencyVolume30Days: item.currencyVolume30Days.volumeArray
+                    currencyVolume7DaysUSD: item.currencyVolume7Days.totalVolumeUSD, 
+                    currencyVolume30Days: item.currencyVolume30Days.volumeArray,
+                    currencyVolume30DaysUSD: item.currencyVolume30Days.totalVolumeUSD
                 })
             })
             basketReservesValueUSD = Math.round(basketReservesValueUSD).toLocaleString();

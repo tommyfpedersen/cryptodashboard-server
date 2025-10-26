@@ -5,15 +5,27 @@
     <button class="hide-button">x</button>
     <div class="card-content">
         <div class="card-title">{{this.name}} Basket </div>
+
         <div class="chart-container">
+            <div class="card-sub-title">24 hours Volume</div>
+            <div class="card-sub-title-main-value">$ {{toFixed this.currencyVolume24HoursUSD 0}} </div>
+            <br>
             <canvas id="{{this.currencyId}}-24h-chart"></canvas>
         </div>
         <div class="chart-container">
+            <div class="card-sub-title">7 days Volume</div>
+            <div class="card-sub-title-main-value">$ {{toFixed this.currencyVolume7DaysUSD 0}} </div>
+            <br>
             <canvas id="{{this.currencyId}}-7d-chart"></canvas>
         </div>
         <div class="chart-container">
+            <div class="card-sub-title">30 days Volume</div>
+            <div class="card-sub-title-main-value">$ {{toFixed this.currencyVolume30DaysUSD 0}} </div>
+            <br>
             <canvas id="{{this.currencyId}}-30d-chart"></canvas>
         </div>
+
+
         <script>
             
             /* 24 hours volume */
