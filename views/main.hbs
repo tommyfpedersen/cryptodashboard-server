@@ -23,19 +23,32 @@
 
         function initChartData(blocktime, value, interval) {
 
+        
             var currentTime = Date.now();
-            var timeDifference = currentTime - (blocktime*1000);
-            var hoursAgo = Math.floor(timeDifference / (1000 * 60 * 60));
+            var timeDifference = currentTime - (blocktime * 1000);
+
+            var timeAgo = Math.floor(timeDifference / (1000 * 60 * 60));
             var blocktimeLabel = "";
 
-            if (hoursAgo === 0) {
-                blocktimeLabel = "Now";
-            } else if (hoursAgo === 1) {
-                blocktimeLabel = "1H ago";
-            } else {
-                 blocktimeLabel = `${hoursAgo}H ago`;
+            if (interval.localeCompare("days")) {
+                if (timeAgo === 0) {
+                    blocktimeLabel = "Now";
+                } else if (timeAgo === 1) {
+                    blocktimeLabel = "1H";
+                } else {
+                    blocktimeLabel = `${timeAgo}H`;
+                }
+            }   else {
+                timeAgo = Math.floor(timeDifference / (1000 * 60 * 60*24));
+                if (timeAgo === 0) {
+                    blocktimeLabel = "Now";
+                } else if (timeAgo === 1) {
+                    blocktimeLabel = "1D";
+                } else {
+                    blocktimeLabel = `${timeAgo}D`;
+                }
             }
-   
+          
 
             dataArray.push({
                 blocktime: blocktimeLabel,
@@ -53,106 +66,106 @@
 
             var ctx = context;
             // Create the chart using a charting library
-            let chart{{ this.currencyId }} = new Chart(ctx{{ this.currencyId }}, {
-            type: 'bar', // or any other chart type
-            data: {
-                labels: dataArray.map(item => item.blocktime),
-                datasets: [{
-                    label: '$',
-                    data: dataArray.map(item => item.value),
-                    backgroundColor: 'rgba(54, 162, 235, 0.9)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }],
-                backgroundColor: "#444",
-                borderColor: "#444",
-                borderWidth: 1,
-                borderRadius: 0,
-                borderSkipped: false,
-            },
-            options: {
-                plugins: {
-                    title: {
-                        display: false,
-                        text: "Hourly Volume Distribution",
-                        font: {
-                        size: 16,
-                        weight: "bold",
-                        },
-                        color: "white",
-                    },
-                    legend: {
-                        display: false,
-                    },
+            let chart = new Chart(ctx, {
+                type: 'bar', // or any other chart type
+                data: {
+                    labels: dataArray.map(item => item.blocktime),
+                    datasets: [{
+                        label: '$',
+                        data: dataArray.map(item => item.value),
+                        backgroundColor: 'rgba(54, 162, 235, 0.9)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }],
+                    backgroundColor: "#444",
+                    borderColor: "#444",
+                    borderWidth: 1,
+                    borderRadius: 0,
+                    borderSkipped: false,
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    },
-                    x: {
+                options: {
+                    plugins: {
                         title: {
-                            display: true,
+                            display: false,
+                            text: "Hourly Volume Distribution",
+                            font: {
+                                size: 16,
+                                weight: "bold",
+                            },
                             color: "white",
                         },
-                            ticks: {
+                        legend: {
                             display: false,
                         },
                     },
-                },
-                interaction: {
-                    intersect: false,
-                    mode: "index",
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                color: "white",
+                            },
+                            ticks: {
+                                display: true,
+                            },
+                        },
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: "index",
                     },
                     hover: {
-                    animationDuration: 300,
+                        animationDuration: 300,
                     },
                     animation: {
-                    duration: 1000,
-                    easing: "easeInOutQuart",
-                },
-            }
-        });
-        // clear chart data
-        dataArray = [];
-
-
-        /*
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              //   text: "Volume",
-              color: "white",
-            },
-            ticks: {
-              color: "white",
-              stepSize: maxVolume / 2,
-              min: 0,
-              callback: function (value) {
-                if (value === 0) {
-                  return "0";
-                } else if (value === maxVolume / 2) {
-                  return formatVolume(midVolume);
-                } else if (value === maxVolume) {
-                  return formatVolume(maxVolume);
+                        duration: 1000,
+                        easing: "easeInOutQuart",
+                    },
                 }
-                return "";
+            });
+            // clear chart data
+            dataArray = [];
+
+
+            /*
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  //   text: "Volume",
+                  color: "white",
+                },
+                ticks: {
+                  color: "white",
+                  stepSize: maxVolume / 2,
+                  min: 0,
+                  callback: function (value) {
+                    if (value === 0) {
+                      return "0";
+                    } else if (value === maxVolume / 2) {
+                      return formatVolume(midVolume);
+                    } else if (value === maxVolume) {
+                      return formatVolume(maxVolume);
+                    }
+                    return "";
+                  },
+                },
+              },
+              x: {
+                title: {
+                  display: true,
+                  //   text: "Relative Time",
+                  color: "white",
+                },
+                ticks: {
+                  display: false,
+                },
               },
             },
-          },
-          x: {
-            title: {
-              display: true,
-              //   text: "Relative Time",
-              color: "white",
-            },
-            ticks: {
-              display: false,
-            },
-          },
-        },
-        */
+            */
 
         }
     </script>

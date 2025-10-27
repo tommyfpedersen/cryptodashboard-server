@@ -30,7 +30,7 @@
             
             /* 24 hours volume */
             {{#each this.currencyVolume24Hours}}
-               initChartData({{this.blocktime}}, {{this.volume}});
+               initChartData({{this.blocktime}}, {{this.volume}}, "hours");
             {{/each}}
 
             // build chart
@@ -39,7 +39,7 @@
 
             /* 7 days volume */
             {{#each this.currencyVolume7Days}}
-               initChartData({{this.blocktime}}, {{this.volume}});
+               initChartData({{this.blocktime}}, {{this.volume}}, "days");
             {{/each}}
 
             // build chart
@@ -48,7 +48,7 @@
 
             /* 30days volume */
             {{#each this.currencyVolume30Days}}
-               initChartData({{this.blocktime}}, {{this.volume}});
+               initChartData({{this.blocktime}}, {{this.volume}}, "days");
             {{/each}}
 
             // build chart
