@@ -291,6 +291,8 @@ right: 100px;
 
 .graph-group {
     position: relative;
+    width: 100%;
+    height: 220px;
 }
 
 .graph-y-axis {
