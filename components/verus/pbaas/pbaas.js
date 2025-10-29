@@ -40,18 +40,23 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
                     blockchain: item.blockchain,
                     name: item.name,
                     currencyId: item.currencyReserve.currencyId,
-                    currencyReserveBasketValueUSD: Math.round(item.currencyReserveBasketValueUSD).toLocaleString(),
+                    currencyReserveBasketValueUSD: item.currencyReserveBasketValueUSD,
                     currencyVolume24Hours: item.currencyVolume24Hours.volumeArray, 
                     currencyVolume24HoursUSD: item.currencyVolume24Hours.totalVolumeUSD, 
                     currencyVolume7Days: item.currencyVolume7Days.volumeArray, 
                     currencyVolume7DaysUSD: item.currencyVolume7Days.totalVolumeUSD, 
                     currencyVolume30Days: item.currencyVolume30Days.volumeArray,
                     currencyVolume30DaysUSD: item.currencyVolume30Days.totalVolumeUSD,
-                    basketCurrencyArray: item.currencyReserve.basketCurrencyArray
+                    basketCurrencyArray: item.currencyReserve.basketCurrencyArray,
+                    basketReserveValueNativeCurrencyUSD: item.currencyReserve.basketReserveValueNativeCurrencyUSD,
+                    currencySupply: item.currencyReserve.currencySupply,
+                    currencyPriceUSD: item.currencyReserve.currencyPriceUSD
                 })
             })
-            basketReservesValueUSD = Math.round(basketReservesValueUSD).toLocaleString();
-            basketReservesList.sort((a, b) => parseFloat(b.currencyReserveBasketValueUSD.replace(/,/g, '')) - parseFloat(a.currencyReserveBasketValueUSD.replace(/,/g, '')));
+            //basketReservesValueUSD = Math.round(basketReservesValueUSD).toLocaleString();
+           // basketReservesList.sort((a, b) => parseFloat(b.currencyReserveBasketValueUSD.replace(/,/g, '')) - parseFloat(a.currencyReserveBasketValueUSD.replace(/,/g, '')));
+            basketReservesList.sort((a, b) => (b.currencyReserveBasketValueUSD - a.currencyReserveBasketValueUSD));
+           // basketReservesList.sort((a, b) => (b.name - a.name));
 
             // 24 hours Volume
             currentCurrenciesFromBasket.forEach((item) => {

@@ -57,12 +57,12 @@
         }
         function buildChart(context) {
 
-            var volumes = dataArray.map((item) => item.volume);
+           // var volumes = dataArray.map((item) => item.volume);
 
             // Calculate dynamic min, max, and middle values
-            var minVolume = Math.min(...volumes);
-            var maxVolume = Math.max(...volumes);
-            var midVolume = Math.round((minVolume + maxVolume) / 2);
+           // var minVolume = Math.min(...volumes);
+           // var maxVolume = Math.max(...volumes);
+            //var midVolume = Math.round((minVolume + maxVolume) / 2);
 
             var ctx = context;
             // Create the chart using a charting library
@@ -100,7 +100,12 @@
                     },
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            ticks:{
+                                callback: function (value) {
+                                    return formatVolume(value);
+                                },
+                            }
                         },
                         x: {
                             title: {

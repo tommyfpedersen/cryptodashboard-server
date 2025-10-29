@@ -10,7 +10,7 @@
             <div class="card-row-item">{{{this.name}}}</div>
             <div class="card-row-item-network"></div>
             <div class="card-row-item">
-                $ {{{this.currencyReserveBasketValueUSD}}}
+                $ {{{toFixed this.currencyReserveBasketValueUSD 0}}}
             </div>
         </div>
         {{!-- {{/ifEquals}} --}}
@@ -29,7 +29,7 @@
         <div class="card-row-wrapper">
             <div class="card-row-item"> Total reserve</div>
             <div class="card-row-item" id="total-basket-reserve">
-                $ {{basketReservesValueUSD}}
+                $ {{toFixed basketReservesValueUSD 0}}
             </div>
         </div>
         <br>
