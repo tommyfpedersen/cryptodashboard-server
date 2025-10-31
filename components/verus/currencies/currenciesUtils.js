@@ -317,12 +317,12 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
                             currencyName: basketItem.currencyName,
                             currencyAlias: basketItem.currencyAlias,
                             currencyNetwork: basketItem.network,
-                            currencyPriceUSD: basketItem.priceUSD < 1 ? Number(basketItem.priceUSD.toFixed(4)).toLocaleString() : Number(basketItem.priceUSD.toFixed(2)).toLocaleString(),
-                            currencySupply: basketItem.reserves < 1 ? Number(basketItem.reserves.toFixed(4)).toLocaleString() : Number(basketItem.reserves.toFixed(0)).toLocaleString(),
-                            currencySupplyPriceUSD: Number(basketItem.reservePriceUSD.toFixed(0)).toLocaleString(),
-                            basketVolume24Hours: Number(item.currencyVolume24Hours.totalVolumeUSD.toFixed(0)).toLocaleString(),
-                            basketVolume7Days: Number(item.currencyVolume7Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
-                            basketVolume30Days: Number(item.currencyVolume30Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
+                            currencyPriceUSD: basketItem.priceUSD,// < 1 ? Number(basketItem.priceUSD.toFixed(4)).toLocaleString() : Number(basketItem.priceUSD.toFixed(2)).toLocaleString(),
+                            currencySupply: basketItem.reserves,// < 1 ? Number(basketItem.reserves.toFixed(4)).toLocaleString() : Number(basketItem.reserves.toFixed(0)).toLocaleString(),
+                            currencySupplyPriceUSD: basketItem.reservePriceUSD, //Number(basketItem.reservePriceUSD.toFixed(0)).toLocaleString(),
+                            basketVolume24Hours: item.currencyVolume24Hours.totalVolumeUSD,//Number(item.currencyVolume24Hours.totalVolumeUSD.toFixed(0)).toLocaleString(),
+                            basketVolume7Days: item.currencyVolume7Days,//Number(item.currencyVolume7Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
+                            basketVolume30Days: item.currencyVolume30Days.totalVolumeUSD,  //Number(item.currencyVolume30Days.totalVolumeUSD.toFixed(0)).toLocaleString(),
                             currencyType: "Token"
                         })
 
@@ -334,7 +334,7 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
                             currencyList.push({
                                 basketName: "Coingecko",
                                 currencyNetwork: "CEX/DEX",
-                                currencyPriceUSD: basketItem.coingeckoprice < 1 ? Number(basketItem.coingeckoprice.toFixed(4)).toLocaleString() : Number(basketItem.coingeckoprice.toFixed(2)).toLocaleString(),
+                                currencyPriceUSD: basketItem.coingeckoprice,// < 1 ? Number(basketItem.coingeckoprice.toFixed(10)).toLocaleString() : Number(basketItem.coingeckoprice.toFixed(2)).toLocaleString(),
                                 currencySupply: "-",
                                 currencySupplyPriceUSD: "",
                                 basketVolume24Hours: "",
@@ -360,12 +360,13 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
         currencyItem.currencySupply = currencySupply < 1 ? Number(currencySupply.toFixed(4)).toLocaleString() : Number(currencySupply.toFixed(0)).toLocaleString();
         currencyItem.currencySupplyPriceUSD = Number(currencySupplyPriceUSD.toFixed(0)).toLocaleString();
         // sort currency list by price
-        currencyItem.currencyList.sort((a, b) => parseFloat(b.currencyPriceUSD.replace(/,/g, '')) - parseFloat(a.currencyPriceUSD.replace(/,/g, '')));
+        currencyItem.currencyList.sort((a, b) => (b.currencyPriceUSD - a.currencyPriceUSD));
+       // currencyItem.currencyList.sort((a, b) => parseFloat(b.currencyPriceUSD.replace(/,/g, '')) - parseFloat(a.currencyPriceUSD.replace(/,/g, '')));
 
         // total basket volume usd
-        currencyItem.totalVolume24Hours = Number(totalVolume24Hours.toFixed(0)).toLocaleString();
-        currencyItem.totalVolume7Days = Number(totalVolume7Days.toFixed(0)).toLocaleString();
-        currencyItem.totalVolume30Days = Number(totalVolume30Days.toFixed(0)).toLocaleString();
+        currencyItem.totalVolume24Hours = totalVolume24Hours;// Number(totalVolume24Hours.toFixed(0)).toLocaleString();
+        currencyItem.totalVolume7Days = totalVolume7Days;//Number(totalVolume7Days.toFixed(0)).toLocaleString();
+        currencyItem.totalVolume30Days = totalVolume30Days; //Number(totalVolume30Days.toFixed(0)).toLocaleString();
 
         currencyGroupList.push(currencyItem);
     })

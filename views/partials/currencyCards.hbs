@@ -18,7 +18,7 @@
             <div class="card-row-item">{{{this.basketName}}}</div>
             <div class="card-row-item-network">{{{this.currencyNetwork}}}</div>
             <div class="card-row-item">
-                $ {{{this.currencyPriceUSD}}}
+                $ {{{toFixed this.currencyPriceUSD 2}}}
             </div>
         </div>
         {{/each}}

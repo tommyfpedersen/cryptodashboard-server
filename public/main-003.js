@@ -454,6 +454,7 @@ function initSideMenu() {
                     textElm.innerHTML = elm.id;
                     imageElm.src = elm.getAttribute("data-image");
                     imageElm.width = "16";
+                    imageElm.height = "16";
                     sideMenuTitleElm.append(imageElm);
                     sideMenuTitleElm.append(textElm);
                 } else if (elm.getAttribute("data-text") !== null) {
