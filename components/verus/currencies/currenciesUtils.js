@@ -270,6 +270,7 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
         if (currenciesInfoArray.length > 0) {
             currencyItem.currencyAlias = currenciesInfoArray[0].currencyAlias;
             currencyItem.currencyIcon = currenciesInfoArray[0].currencyIcon;
+            currencyItem.currencyNote = currenciesInfoArray[0].currencyNote;
             currencyItem.currencyType = "Token";
         }
 

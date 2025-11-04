@@ -8,7 +8,7 @@ export function getCurrenciesInfo() {
     { currencyAlias: "Dai", currencyName: "DAI.vETH", currencyIcon: "/img/dai.png" },
     { currencyAlias: "Ethereum", currencyName: "vETH", currencyIcon: "/img/ethereum.webp" },
     { currencyAlias: "EURC", currencyName: "EURC.vETH", currencyIcon: "/img/eurc.png" },
-    { currencyAlias: "IlluminatiCoin", currencyName: "NATI.vETH", currencyIcon: "/img/nati.png" },
+    { currencyAlias: "IlluminatiCoin", currencyName: "NATI.vETH", currencyIcon: "/img/nati.png", currencyNote:"1 NATI.vETH on Verus = 10,000 NATI ERC20 on Ethereum" },
     { currencyAlias: "Maker", currencyName: "MKR.vETH", currencyIcon: "/img/maker.webp" },
     { currencyAlias: "Pirate Chain", currencyName: "vARRR", currencyIcon: "/img/Pirate_Logo_Coin_Gold.png" },
     { currencyAlias: "PepeCoin", currencyName: "pepecoin.vETH", currencyIcon: "/img/pepecoin.webp" },
