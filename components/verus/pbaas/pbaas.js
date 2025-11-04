@@ -28,23 +28,23 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
         let basketVolume7DaysUSD = 0;
         let basketVolume30DaysList = [];
         let basketVolume30DaysUSD = 0;
-        
+
 
         if (currentCurrenciesFromBasket.length > 0) {
             nativePrice = currentCurrenciesFromBasket[0].currencyReserve.nativeCurrencyBasePrice;
 
             // basket reserves
-            currentCurrenciesFromBasket.forEach((item) => {  
+            currentCurrenciesFromBasket.forEach((item) => {
                 basketReservesValueUSD = basketReservesValueUSD + item.currencyReserveBasketValueUSD;
                 basketReservesList.push({
                     blockchain: item.blockchain,
                     name: item.name,
                     currencyId: item.currencyReserve.currencyId,
                     currencyReserveBasketValueUSD: item.currencyReserveBasketValueUSD,
-                    currencyVolume24Hours: item.currencyVolume24Hours.volumeArray, 
-                    currencyVolume24HoursUSD: item.currencyVolume24Hours.totalVolumeUSD, 
-                    currencyVolume7Days: item.currencyVolume7Days.volumeArray, 
-                    currencyVolume7DaysUSD: item.currencyVolume7Days.totalVolumeUSD, 
+                    currencyVolume24Hours: item.currencyVolume24Hours.volumeArray,
+                    currencyVolume24HoursUSD: item.currencyVolume24Hours.totalVolumeUSD,
+                    currencyVolume7Days: item.currencyVolume7Days.volumeArray,
+                    currencyVolume7DaysUSD: item.currencyVolume7Days.totalVolumeUSD,
                     currencyVolume30Days: item.currencyVolume30Days.volumeArray,
                     currencyVolume30DaysUSD: item.currencyVolume30Days.totalVolumeUSD,
                     basketCurrencyArray: item.currencyReserve.basketCurrencyArray,
@@ -53,10 +53,22 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
                     currencyPriceUSD: item.currencyReserve.currencyPriceUSD
                 })
             })
-            //basketReservesValueUSD = Math.round(basketReservesValueUSD).toLocaleString();
-           // basketReservesList.sort((a, b) => parseFloat(b.currencyReserveBasketValueUSD.replace(/,/g, '')) - parseFloat(a.currencyReserveBasketValueUSD.replace(/,/g, '')));
-            basketReservesList.sort((a, b) => (b.currencyReserveBasketValueUSD - a.currencyReserveBasketValueUSD));
-           // basketReservesList.sort((a, b) => (b.name - a.name));
+
+            // sort by name
+            basketReservesList.sort((a, b) => {
+            const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+            const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            
+            // names must be equal
+            return 0;
+            });
+            
 
             // 24 hours Volume
             currentCurrenciesFromBasket.forEach((item) => {
@@ -69,7 +81,7 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
             })
             basketVolume24HoursUSD = Math.round(basketVolume24HoursUSD).toLocaleString();
             basketVolume24HoursList.sort((a, b) => parseFloat(b.basketVolumeValueUSD.replace(/,/g, '')) - parseFloat(a.basketVolumeValueUSD.replace(/,/g, '')));
-            
+
             // 7 days Volume
             currentCurrenciesFromBasket.forEach((item) => {
                 basketVolume7DaysUSD = basketVolume7DaysUSD + item.currencyVolume7Days.totalVolumeUSD;
@@ -81,7 +93,7 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
             })
             basketVolume7DaysUSD = Math.round(basketVolume7DaysUSD).toLocaleString();
             basketVolume7DaysList.sort((a, b) => parseFloat(b.basketVolumeValueUSD.replace(/,/g, '')) - parseFloat(a.basketVolumeValueUSD.replace(/,/g, '')));
-            
+
             // 30 days Volume
             currentCurrenciesFromBasket.forEach((item) => {
                 basketVolume30DaysUSD = basketVolume30DaysUSD + item.currencyVolume30Days.totalVolumeUSD;
