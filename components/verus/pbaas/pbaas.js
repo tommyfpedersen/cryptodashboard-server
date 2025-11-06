@@ -9,6 +9,33 @@ import { calculateMiningRewards, calculateStakingRewards } from './pbaasUtils.js
 import { json } from 'express';
 
 
+export async function getAllPbaasStatus() {
+    const pbaasConfig = getPbaasConfig();
+    let pbaasStatusArray = [];
+  
+
+     for (let i = 0; i < pbaasConfig.length; i++) {
+        let result = {};
+        result.name = pbaasConfig[i].name;
+        result.online = false;
+        result.statusMessage = "Updating and syncing node...";
+
+        const miningInfo = await getMiningInfo(pbaasConfig[i].rpcBaseUrl);
+
+        if (miningInfo) {
+            result.online = true;
+            result.blocks = miningInfo.blocks;
+            result.statusMessage = "Node Running";
+        }
+
+        pbaasStatusArray.push(result);
+
+     }
+
+     return pbaasStatusArray;
+}
+
+
 export async function getAllPbaas(allCurrenciesFromBaskets) {
     const pbaasConfig = getPbaasConfig();
     const currenciesConfig = getCurrenciesConfig();

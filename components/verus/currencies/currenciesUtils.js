@@ -44,6 +44,9 @@ export async function getAddressBalance(blockchain, mainRenderData, address) {
                 return;
             }
 
+            if ("iKaSEU4KPrKahpemwHLoQVLPUof6fSE1uk" === item) {
+                addressBalanceArray.push({ currencyName: "Ⓐ", amount: getAddressBalance.currencybalance.iKaSEU4KPrKahpemwHLoQVLPUof6fSE1uk })
+            }
             if ("iDetLA1snrDVhCCk42rdWfqmJcYCMcEFry" === item) {
                 addressBalanceArray.push({ currencyName: "Bankroll.CHIPS", amount: getAddressBalance.currencybalance.iDetLA1snrDVhCCk42rdWfqmJcYCMcEFry })
             }
@@ -67,6 +70,9 @@ export async function getAddressBalance(blockchain, mainRenderData, address) {
             }
             if ("iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE" === item) {
                 addressBalanceArray.push({ currencyName: "EURC.vETH", amount: getAddressBalance.currencybalance.iC5TQFrFXSYLQGkiZ8FYmZHFJzaRF5CYgE })
+            }
+            if ("i3d4vSCbXYEC3u6TzwohMvdghHkhBrXWpE" === item) {
+                addressBalanceArray.push({ currencyName: "Floralis", amount: getAddressBalance.currencybalance.i3d4vSCbXYEC3u6TzwohMvdghHkhBrXWpE })
             }
             if ("iNLBYPcNM3c5mzRdtfjd9Hk86WPijQfZhW" === item) {
                 addressBalanceArray.push({ currencyName: "Highroller.CHIPS", amount: getAddressBalance.currencybalance.iNLBYPcNM3c5mzRdtfjd9Hk86WPijQfZhW })
@@ -121,6 +127,9 @@ export async function getAddressBalance(blockchain, mainRenderData, address) {
             }
             if ("i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X" === item) {
                 addressBalanceArray.push({ currencyName: "vETH", amount: getAddressBalance.currencybalance.i9nwxtKuVYX4MSbeULLiK2ttVi6rUEhh4X })
+            }
+            if ("i8Rar9Z64hDXtpBRJBhK9b6S6dMV1EttiS" === item) {
+                addressBalanceArray.push({ currencyName: "VerusIDX", amount: getAddressBalance.currencybalance.i8Rar9Z64hDXtpBRJBhK9b6S6dMV1EttiS })
             }
             if ("i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV" === item) {
                 addressBalanceArray.push({ currencyName: "VRSC", amount: getAddressBalance.currencybalance.i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV })
