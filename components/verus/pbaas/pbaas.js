@@ -181,6 +181,7 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
                 pricePbaasUSD: pbaasConfig[i].pricePbaas == null ? "" : Math.round(pbaasConfig[i].pricePbaas * nativePrice).toLocaleString(),
 
                 basketReservesList: basketReservesList,
+                basketReservesListSortByValue: basketReservesList.sort((a, b) => (b.currencyReserveBasketValueUSD - a.currencyReserveBasketValueUSD)),
                 basketReservesValueUSD: basketReservesValueUSD,
                 basketVolume24HoursList: basketVolume24HoursList,
                 basketVolume24HoursUSD: basketVolume24HoursUSD,
