@@ -29,7 +29,13 @@ async function fetchAndUpdateData() {
 
 
   // verusd sync check
-  currentBlock = fetchedData.blocks;
+  let pbaas = fetchedData.pbaasList.filter(elm=>elm.blockchain==="VRSC") || [];
+  
+  if(pbaas.lenght > 0){
+     currentBlock = pbaas.blockheight;
+  }
+ 
+
   if(currentBlock === latestFetchedVRSCBlock){
 
     if(syncTroubleTimestampActivated === true && syncTroubleTimestamp + syncTroubleThreshold  < Date.now()  ){

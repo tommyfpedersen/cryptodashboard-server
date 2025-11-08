@@ -16,6 +16,7 @@ export async function getAllCurrenciesFromBaskets(coingeckoPriceArray) {
 
     const vrscBasePrice = await getNativeCurrencyBasePrice(coingeckoPriceArray, "Bridge.vETH", 0);
 
+    //TODO make dynamic
     // calculate native currency price for each blockchain
     const nativeCurrencyArray = [
         {

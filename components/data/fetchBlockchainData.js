@@ -17,11 +17,7 @@ export async function getBlockchainData() {
     /* Get price from coingecko */
     let coingeckoPriceArray = await getCoingeckoPrice();
 
-    /* Get pbaas status */
-    let allPbaasStatus = await getAllPbaasStatus();
-
-    //console.log(allPbaasStatus);
-
+    
     /* Get currencies, baskets and volume*/
     let allCurrenciesFromBaskets = await getAllCurrenciesFromBaskets(coingeckoPriceArray, allPbaasStatus);
     let currencyGroupList = getCurrencyGroupList(allCurrenciesFromBaskets);
