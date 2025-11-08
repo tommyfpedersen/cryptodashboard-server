@@ -16,10 +16,6 @@ let pageLoads = 0;
 // components
 import { writeToCache, readFromCache, isCacheReady } from './components/cache/cache.js';
 
-import { getNodeStatus, getBlockAndFeePoolRewards, calculateMiningRewards, getCurrencyVolume, getCurrencyReserve, getMarketCapStats } from './components/verus/verus.js';
-import { getVarrrNodeStatus, getVarrrBlockAndFeePoolRewards, getVarrrAddressBalance, calculateVarrrStakingRewards, calculateVarrrMiningRewards, getVarrrCurrencyVolume, getVarrrCurrencyReserve } from './components/varrr/varrr.js';
-import { getVdexNodeStatus, getVdexBlockAndFeePoolRewards, getVdexAddressBalance, calculateVdexStakingRewards, calculateVdexMiningRewards, getVdexCurrencyVolume, getVdexCurrencyReserve } from './components/vdex/vdex.js';
-import { calculateChipsMiningRewards, calculateChipsStakingRewards, getChipsAddressBalance, getChipsBlockAndFeePoolRewards, getChipsCurrencyReserve, getChipsNodeStatus } from './components/chips/chips.js';
 import { getCoingeckoPrice } from './components/coingecko/coingecko.js';
 import { getThreeFoldNodeArray } from './components/threefold/threefold.js';
 

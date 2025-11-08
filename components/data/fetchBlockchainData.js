@@ -19,13 +19,13 @@ export async function getBlockchainData() {
 
     
     /* Get currencies, baskets and volume*/
-    let allCurrenciesFromBaskets = await getAllCurrenciesFromBaskets(coingeckoPriceArray, allPbaasStatus);
+    let allCurrenciesFromBaskets = await getAllCurrenciesFromBaskets(coingeckoPriceArray);
     let currencyGroupList = getCurrencyGroupList(allCurrenciesFromBaskets);
     let totalBasketsVolume = getTotalBasketsVolume(allCurrenciesFromBaskets)
     let basketsInfo = getBasketsInfo(allCurrenciesFromBaskets)
 
     /* Get pbaas and earnings */
-    let pbaasList = await getAllPbaas(allCurrenciesFromBaskets, allPbaasStatus);
+    let pbaasList = await getAllPbaas(allCurrenciesFromBaskets);
     let marketCapArray = getMarketCapArray(pbaasList);
     let idPriceListArray = getIDPriceListArray(pbaasList)
     let currencyPriceListArray = getCurrencyPriceListArray(pbaasList)
