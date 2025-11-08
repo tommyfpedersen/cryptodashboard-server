@@ -142,7 +142,7 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
         if (currencyInfo) {
             const stakingRewards = calculateStakingRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, marketCapStats.circulatingSupply, miningInfo.stakingsupply, 100, nativePrice)
             const miningRewards = calculateMiningRewards(currencyInfo.blocktime, blockAndFeePoolRewards.blockReward, miningInfo.networkhashps, 1, nativePrice)
-
+            let basketReservesListSortByValue = [...basketReservesList];
             let currenciesOnBlockchain = currenciesConfig.filter((currency) => {
                 return currency.blockchain === pbaasConfig[i].name
             })
@@ -181,7 +181,7 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
                 pricePbaasUSD: pbaasConfig[i].pricePbaas == null ? "" : Math.round(pbaasConfig[i].pricePbaas * nativePrice).toLocaleString(),
 
                 basketReservesList: basketReservesList,
-                basketReservesListSortByValue: basketReservesList.sort((a, b) => (b.currencyReserveBasketValueUSD - a.currencyReserveBasketValueUSD)),
+                basketReservesListSortByValue: basketReservesListSortByValue.sort((a, b) => (b.currencyReserveBasketValueUSD - a.currencyReserveBasketValueUSD)),
                 basketReservesValueUSD: basketReservesValueUSD,
                 basketVolume24HoursList: basketVolume24HoursList,
                 basketVolume24HoursUSD: basketVolume24HoursUSD,
@@ -238,7 +238,7 @@ export async function getAllPbaas(allCurrenciesFromBaskets) {
     // pbaasArray.push(apyArray);
 
     // sort pbaas list by market cap
-    pbaasArray.sort((a, b) => parseFloat(b.networkHashrate.replace(/,/g, '')) - parseFloat(a.networkHashrate.replace(/,/g, '')));
+//    pbaasArray.sort((a, b) => parseFloat(b.networkHashrate.replace(/,/g, '')) - parseFloat(a.networkHashrate.replace(/,/g, '')));
 
     return pbaasArray;
 }

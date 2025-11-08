@@ -3,6 +3,21 @@ export function getPbaasConfig() {
 
     return [
         {
+            name: "VRSC", maxSupply: 83540184, rpcBaseUrl: process.env.VERUS_REST_API,
+            priceAddrToAddr: 0.0001, priceBasketToReserve: 0.025, priceReserveToReserve: 0.050,
+            priceId1RefNotYours: 80, priceId1RefYours: 60, priceId2RefAllYours: 40, priceId3RefAllYours: 20,
+            priceSubId: 0.01, priceStorage: 0.01, priceCurrency: 200, pricePbaas: 10000,
+            icon: "/img/verus-icon-blue.png",
+            links: [
+                {title: "Verus Website", href: "https://verus.io"},
+                {title: "Verus Explorer", href: "https://insight.verus.io"},
+                {title: "Verus Discord", href: "https://verus.io/discord"},
+                {title: "Verus Raw Trading", href: "https://raw.verus.trading"},
+                {title: "Verus Wisdom", href: "https://veruswisdom.com"},
+                {title: "VerusIDX", href: "https://verusidx-lite.vercel.app"}
+            ]
+        },
+        {
             name: "CHIPS", maxSupply: 20048053.58478936, rpcBaseUrl: process.env.VERUS_REST_API_CHIPS,
             priceAddrToAddr: 0.0001, priceBasketToReserve: 0.025, priceReserveToReserve: 0.050,
             priceId1RefNotYours: 62.16, priceId1RefYours: 46.62, priceId2RefAllYours: 31.08, priceId3RefAllYours: 15.54,
@@ -37,21 +52,7 @@ export function getPbaasConfig() {
                 {title: "vDEX Explorer", href: "https://explorer.vdex.to"},
                 {title: "Verus Discord", href: "https://verus.io/discord"}
             ]
-        },
-        {
-            name: "VRSC", maxSupply: 83540184, rpcBaseUrl: process.env.VERUS_REST_API,
-            priceAddrToAddr: 0.0001, priceBasketToReserve: 0.025, priceReserveToReserve: 0.050,
-            priceId1RefNotYours: 80, priceId1RefYours: 60, priceId2RefAllYours: 40, priceId3RefAllYours: 20,
-            priceSubId: 0.01, priceStorage: 0.01, priceCurrency: 200, pricePbaas: 10000,
-            icon: "/img/verus-icon-blue.png",
-            links: [
-                {title: "Verus Website", href: "https://verus.io"},
-                {title: "Verus Explorer", href: "https://insight.verus.io"},
-                {title: "Verus Discord", href: "https://verus.io/discord"},
-                {title: "Verus Raw Trading", href: "https://raw.verus.trading"},
-                {title: "Verus Wisdom", href: "https://veruswisdom.com"},
-                {title: "VerusIDX", href: "https://verusidx-lite.vercel.app"}
-            ]
         }
+        
     ]
 }
