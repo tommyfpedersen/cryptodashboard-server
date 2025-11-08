@@ -31,7 +31,7 @@ async function fetchAndUpdateData() {
   // verusd sync check
   let pbaas = fetchedData.pbaasList.filter(elm=>elm.blockchain==="VRSC") || [];
   
-  if(pbaas.lenght > 0){
+  if(pbaas.length > 0){
      currentBlock = pbaas.blockheight;
   }
  
