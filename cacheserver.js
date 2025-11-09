@@ -5,16 +5,12 @@ import { getBlockchainData } from './components/data/fetchBlockchainData.js';
 console.log("cache server running");
 client.set("cacheready", JSON.stringify(false));
 
-
-//let result = await client.get("data");
-let latestFetchedVRSCBlock = 0;
-let currentBlock = 0;
-let vrscstatus = {};
-let syncTroubleTimestamp = 0;
-let syncTroubleTimestampActivated = false;
-let syncTroubleThreshold = 1000*60*10;
+let syncTroubleThreshold = 1000 * 60 * 10;
 let syncTimeInterval = 120000;
-  
+
+let pbaasStatusArray = [];
+let blockchainOutofsync = false;
+
 await fetchAndUpdateData();
 
 setInterval(async () => {
@@ -29,37 +25,64 @@ async function fetchAndUpdateData() {
 
 
   // verusd sync check
-  let pbaas = fetchedData.pbaasList.filter(elm=>elm.blockchain==="VRSC") || [];
+  //add data to pbaas array if first time
+  if (pbaasStatusArray.length <= 0) {
+    fetchedData.pbaasList.forEach((pbaas) => {
+      pbaasStatusArray.push({
+        name: pbaas.blockchain,
+        currentBlock: pbaas.blockheight,
+        syncTroubleTimestamp: 0,
+        syncTroubleTimestampActivated: false,
+        outofsync: false,
+        message: ""
+      })
+    })
+  }
+
+
+  let pbaasList = fetchedData.pbaasList;
+
+  if (pbaasList.length > 0) {
+
+    pbaasList.forEach((pbaas) => {
+      let pbaasStatus = pbaasStatusArray.find((item) => item.name === pbaas.blockchain);
+
+      if (pbaas.blockchain === pbaasStatus.name) {
+        if (pbaasStatus.currentBlock === pbaas.blockheight) {
+
+          if (pbaasStatus.syncTroubleTimestampActivated === true && pbaasStatus.syncTroubleTimestamp + syncTroubleThreshold < Date.now()) {
+            pbaasStatus.currentBlock = pbaasStatus.currentBlock;
+            pbaasStatus.outofsync = true;
+            pbaasStatus.message = pbaasStatus.name + " blockchain data may be out of sync";
+          }
+
+          if (pbaasStatus.syncTroubleTimestampActivated === false) {
+            pbaasStatus.syncTroubleTimestamp = Date.now();
+            pbaasStatus.syncTroubleTimestampActivated = true;
+          }
+
+        } else {
+          pbaasStatus.currentBlock = pbaas.blockheight;
+          pbaasStatus.outofsync = false;
+          pbaasStatus.message = "";
+          pbaasStatus.syncTroubleTimestampActivated = false;
+          pbaasStatus.syncTroubleTimestamp = Date.now();
+        }
+      }
+
+    })
+  }
   
-  if(pbaas.length > 0){
-     currentBlock = pbaas.blockheight;
-  }
- 
+  blockchainOutofsync = false;
 
-  if(currentBlock === latestFetchedVRSCBlock){
-
-    if(syncTroubleTimestampActivated === true && syncTroubleTimestamp + syncTroubleThreshold  < Date.now()  ){
-      console.log("verusd out of sync", currentBlock );
-      vrscstatus.currentBlock = currentBlock;
-      vrscstatus.outofsync = true;
-      vrscstatus.message = "Verus blockchain data may be out of sync";
+  pbaasStatusArray.forEach((pbaas) => {
+    if (pbaas.outofsync === true) {
+      blockchainOutofsync = true;
     }
-   
-    if(syncTroubleTimestampActivated === false){
-      syncTroubleTimestamp = Date.now();
-      syncTroubleTimestampActivated = true;
-    }
-   
-  }else{
-      latestFetchedVRSCBlock = currentBlock;
-      vrscstatus.currentBlock = currentBlock;
-      vrscstatus.outofsync = false;
-      vrscstatus.message = "";  
-      syncTroubleTimestampActivated = false;
-  }
+  })
 
-  // client.set("vrscstatus", JSON.stringify(vrscstatus));
-  fetchedData.vrscstatus = vrscstatus;
+  fetchedData.pbaasStatusList = pbaasStatusArray;
+  fetchedData.blockchainOutofsync = blockchainOutofsync;
 
   client.set("data", JSON.stringify(fetchedData));
   client.set("cacheready", JSON.stringify(true));
