@@ -336,7 +336,7 @@ export async function getMarketCapStats(miningInfo, currencyInfo, pbaasConfig, n
     if (currencyInfo) {
 
         if (currencyInfo.preallocations) {
-            console.log("preallocations - " + pbaasConfig.name)
+           // console.log("preallocations - " + pbaasConfig.name)
 
             /*    let currentEraFound = false;
                 let blockCounter = 0;
