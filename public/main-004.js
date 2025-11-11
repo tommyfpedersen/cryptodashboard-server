@@ -17,6 +17,8 @@ function init() {
     }
 
     // add settings - hide cards
+    let body = document.querySelector(".body");
+  
     if (settings) {
         settings.cards.forEach((card) => {
             if (card.visible === false) {
@@ -28,6 +30,7 @@ function init() {
             enterDarkmode();
         }
     }
+    body.classList.remove("hide");
 
     /* verus */
     let getAddressBalanceElm = document.querySelector("#VRSC-address-balance");
