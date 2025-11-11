@@ -405,6 +405,10 @@ hbs.registerHelper('toJson', function (object) {
   return object;
 });
 
+hbs.registerHelper('cleanId', function (str) {
+  return str.replace(" ","-");
+});
+
 
 
 app.use(express.static(path.join(__dirname, 'public'), {

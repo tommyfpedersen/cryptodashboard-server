@@ -7,7 +7,7 @@
     <div>{{this.basketName}} </div>
 </div> --}}
  {{#ifEquals currencyType "Token"}} 
-<div class="card" id="prices-card-{{currencyAlias}}">
+<div class="card" id="prices-card-{{cleanId currencyAlias}}">
     <img width="16px" src="{{currencyIcon}}" />
     <button class="hide-button">x</button>
     <div class="card-content">
