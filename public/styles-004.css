@@ -201,7 +201,7 @@ body {
     display: inline-block;
     vertical-align: top;
     min-height: 321px;
-    animation: fadeIn 2s;
+    animation: fadeIn 1s;
     align-self: flex-start;
 }
 
