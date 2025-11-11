@@ -405,7 +405,19 @@ export function getCurrencyGroupList(allCurrenciesFromBaskets) {
     }
     );
 
-    return currencyGroupList;
+    // making sure that Eth and vrsc is placed right after btc
+    let newCustomArray = moveItemInArray(currencyGroupList, "Ethereum", 1);
+    let resultCustomArray = moveItemInArray(newCustomArray, "VerusCoin", 2);
+
+    return resultCustomArray;//currencyGroupList;
+}
+
+function moveItemInArray(arr, currencyAlias, pos) {
+    const idx = arr.findIndex(item => item.currencyAlias === currencyAlias);
+    if (idx === -1) return arr; // Not found
+    const [item] = arr.splice(idx, 1);
+    arr.splice(pos, 0, item);
+    return arr;
 }
 
 // export async function getAddressBalance(rpcBaseUrl, address, allCurrenciesFromBaskets) {
