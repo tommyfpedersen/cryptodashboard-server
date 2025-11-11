@@ -1,0 +1,19 @@
+<div class="card" id="stats-pbaas-id-price-list-card">
+    <img width="16px" src="/img/stats.png" />
+    <button class="hide-button">x</button>
+    <div class="card-content">
+        <div class="card-title">PBaaS Id Price List</div>
+        {{#each idPriceListArray}}
+        <div class="card-row-wrapper">
+            <div class="card-row-item">{{{this.blockchain}}}</div>
+            <div class="card-row-item">
+                $ {{{this.priceId1RefNotYoursUSD}}}
+            </div>
+        </div>
+        {{/each}}
+        <br>
+        <div class="card-row-wrapper">
+           <div class="card-row-item">Comparing prices when using 1.ref, not yours.</div>
+        </div>
+    </div>
+</div>

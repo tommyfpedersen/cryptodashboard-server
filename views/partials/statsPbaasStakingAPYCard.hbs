@@ -1,0 +1,17 @@
+<div class="card" id="stats-pbaas-staking-apy-card">
+    <img width="16px" src="/img/stats.png" />
+    <button class="hide-button">x</button>
+    <div class="card-content">
+        <div class="card-title">PBaaS Staking APY</div>
+        {{!-- {{#if vrscOnline}} --}}
+        {{#each apyArray}}
+        <div class="card-row-wrapper">
+            <div class="card-row-item">{{{this.blockchain}}}</div>
+            <div class="card-row-item">
+                 {{{this.stakingApy}}} %
+            </div>
+        </div>
+        {{/each}}
+
+    </div>
+</div>

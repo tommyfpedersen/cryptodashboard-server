@@ -1,0 +1,15 @@
+<div class="card" id="stats-pbaas-currency-price-list-card">
+    <img width="16px" src="/img/stats.png" />
+    <button class="hide-button">x</button>
+    <div class="card-content">
+        <div class="card-title">PBaaS Currency Price List</div>
+        {{#each currencyPriceListArray}}
+        <div class="card-row-wrapper">
+            <div class="card-row-item">{{{this.blockchain}}}</div>
+            <div class="card-row-item">
+                $ {{{this.priceCurrencyUSD}}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
