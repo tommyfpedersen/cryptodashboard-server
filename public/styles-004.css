@@ -122,9 +122,6 @@ body {
     left: -310px;
 }
 
-.side-menu-open {
-    left: 0px;
-}
 
 .lock-side-menu-icon {
     position: fixed;
@@ -371,6 +368,30 @@ right: 100px;
     display: inline-block;
     border-radius: 3px;
 }
+.on{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top:10px;
+    user-select: none;
+}
+.off{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px;
+    cursor: pointer;
+    position: absolute;
+    right: 35px;
+    top:10px;
+    user-select: none;
+}
 
 
 /*  mobile view */
@@ -380,6 +401,9 @@ right: 100px;
     }
     .side-menu {
        display: none;
+    }
+    .side-menu-open {
+        top: 148px;
     }
     .section {
         padding: 10px;

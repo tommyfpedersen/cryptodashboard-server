@@ -406,7 +406,7 @@ hbs.registerHelper('toJson', function (object) {
 });
 
 hbs.registerHelper('cleanId', function (str) {
-  return str.replace(" ","-");
+  return str.replace(" ","-").replace(".","-");
 });
 
 

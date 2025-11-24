@@ -18,7 +18,7 @@ function init() {
 
     // add settings - hide cards
     let body = document.querySelector(".body");
-  
+
     if (settings) {
         settings.cards.forEach((card) => {
             if (card.visible === false) {
@@ -26,7 +26,7 @@ function init() {
                 cardElm.classList.add("hide");
             }
         })
-        if(settings.darkmode === true){
+        if (settings.darkmode === true) {
             enterDarkmode();
         }
     }
@@ -72,45 +72,45 @@ function init() {
         })
     }
 
-     /* verus chips */
-     let getChipsAddressBalanceElm = document.querySelector("#CHIPS-address-balance");
-     if (getChipsAddressBalanceElm) {
-         getChipsAddressBalanceElm.addEventListener('keydown', (evt) => {
-             if (evt.key === 'Enter') {
-                 let string = encodeURIComponent(getChipsAddressBalanceElm.value)
-                 var href = new URL(location.href);
-                 href.searchParams.set('chipsaddress', string);
-                 window.history.replaceState(null, null, href.toString());
-                 location.reload();
-             }
-         })
-     }
- 
-     let chipsStakingElm = document.querySelector("#CHIPS-staking-amount");
-     if (chipsStakingElm) {
-         chipsStakingElm.addEventListener('keydown', (evt) => {
-             if (evt.key === 'Enter') {
-                 let string = encodeURIComponent(chipsStakingElm.value)
-                 var href = new URL(location.href);
-                 href.searchParams.set('chipsstakingamount', string);
-                 window.history.replaceState(null, null, href.toString());
-                 location.reload();
-             }
-         })
-     }
- 
-     let chipsMiningElm = document.querySelector("#CHIPS-mining-hash");
-     if (chipsMiningElm) {
-         chipsMiningElm.addEventListener('keydown', (evt) => {
-             if (evt.key === 'Enter') {
-                 let string = encodeURIComponent(chipsMiningElm.value)
-                 var href = new URL(location.href);
-                 href.searchParams.set('chipsmininghash', string);
-                 window.history.replaceState(null, null, href.toString());
-                 location.reload();
-             }
-         })
-     }
+    /* verus chips */
+    let getChipsAddressBalanceElm = document.querySelector("#CHIPS-address-balance");
+    if (getChipsAddressBalanceElm) {
+        getChipsAddressBalanceElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(getChipsAddressBalanceElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('chipsaddress', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
+
+    let chipsStakingElm = document.querySelector("#CHIPS-staking-amount");
+    if (chipsStakingElm) {
+        chipsStakingElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(chipsStakingElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('chipsstakingamount', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
+
+    let chipsMiningElm = document.querySelector("#CHIPS-mining-hash");
+    if (chipsMiningElm) {
+        chipsMiningElm.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Enter') {
+                let string = encodeURIComponent(chipsMiningElm.value)
+                var href = new URL(location.href);
+                href.searchParams.set('chipsmininghash', string);
+                window.history.replaceState(null, null, href.toString());
+                location.reload();
+            }
+        })
+    }
 
     /* verus varrr */
     let getVarrrAddressBalanceElm = document.querySelector("#vARRR-address-balance");
@@ -216,14 +216,14 @@ function init() {
 }
 
 
-function initDarkmodeButton(){
+function initDarkmodeButton() {
     let darkmodeButtonElement = document.querySelector("#dark-mode");
     darkmodeButtonElement.addEventListener('click', (evt) => {
         let settings = JSON.parse(localStorage.getItem("settings"));
 
-        if(settings.darkmode === true){
+        if (settings.darkmode === true) {
             enterLightmode();
-        }else{
+        } else {
             enterDarkmode();
         }
 
@@ -231,13 +231,13 @@ function initDarkmodeButton(){
         localStorage.setItem("settings", JSON.stringify(settings));
     })
 }
-function enterDarkmode(){
+function enterDarkmode() {
     let backgroundColor = "#444";
     let darkerBaggrundColor = "#111";
     let color = "rgb(246, 246, 246)";
 
-    document.body.style.backgroundColor = backgroundColor; 
-    document.body.style.color = color; 
+    document.body.style.backgroundColor = backgroundColor;
+    document.body.style.color = color;
     document.querySelector(".side-menu").style.backgroundColor = darkerBaggrundColor;
     document.querySelector(".side-menu").style.color = color;
 
@@ -258,18 +258,18 @@ function enterDarkmode(){
         a.style.color = color;
     })
 
-    document.querySelector(".light-mode-icon").classList.replace("light-mode-icon","dark-mode-icon")
+    document.querySelector(".light-mode-icon").classList.replace("light-mode-icon", "dark-mode-icon")
 
 }
-function enterLightmode(){
+function enterLightmode() {
     console.log("lightmode");
 
     let backgroundColor = "rgb(246, 246, 246)";
     let darkerBaggrundColor = "#fff";
     let color = "#444";
 
-    document.body.style.backgroundColor = backgroundColor; 
-    document.body.style.color = color; 
+    document.body.style.backgroundColor = backgroundColor;
+    document.body.style.color = color;
     document.querySelector(".side-menu").style.backgroundColor = darkerBaggrundColor;
     document.querySelector(".side-menu").style.color = color;
 
@@ -290,7 +290,7 @@ function enterLightmode(){
         a.style.color = color;
     })
 
-    document.querySelector(".dark-mode-icon").classList.replace("dark-mode-icon","light-mode-icon")
+    document.querySelector(".dark-mode-icon").classList.replace("dark-mode-icon", "light-mode-icon")
 
 }
 
@@ -356,7 +356,7 @@ function initGraphBarHints() {
             hintElm.innerHTML = `${volume}</br> ${label} `;
             hintElm.style.left = xPos + "px";
             hintElm.style.top = yPos + "px";
-            // hintElm.style.zindex = 20000; 
+            // hintElm.style.zindex = 20000;
             hintElm.classList.replace("hide", "show");
         });
         elm.addEventListener('mouseout', (evt) => {
@@ -418,6 +418,66 @@ function initSideMenu() {
             sideMenuElement.classList.replace("side-menu-open", "side-menu");
         }
     })
+
+
+    // controls
+    let settings = JSON.parse(localStorage.getItem("settings"));
+    let onButton = document.createElement("div");
+    let offButton = document.createElement("div");
+    
+
+    onButton.innerHTML = "ON";
+    offButton.innerHTML = "OFF";
+    onButton.classList.add("on");
+    offButton.classList.add("off");
+
+    offButton.addEventListener("click", (evt) => {
+        // turn all off
+        settings.cards = [];
+        let sideMenuItemsElmArray = document.querySelectorAll(".side-menu-item");
+
+        sideMenuItemsElmArray.forEach((elm) => {
+
+            let cleanId = elm.id.replace("menu-", "");
+
+            let newCard = {
+                cardId: cleanId,
+                visible: false
+            }
+            settings.cards.push(newCard);
+        })
+
+        localStorage.setItem("settings", JSON.stringify(settings));
+        let menuItemIconElms = document.querySelectorAll(".side-menu-item-icon");
+        let cardElms = document.querySelectorAll(".card");
+        menuItemIconElms.forEach(elm => {
+            elm.classList.remove("side-menu-item-selected");
+            
+        })
+        cardElms.forEach(elm =>{
+              elm.classList.add("hide");
+        })
+    })
+
+    onButton.addEventListener("click", (evt) => {
+        // turn all on
+        // remove all cards
+        settings.cards = [];
+
+        // update local storage
+        localStorage.setItem("settings", JSON.stringify(settings));
+        let menuItemIconElms = document.querySelectorAll(".side-menu-item-icon");
+        let cardElms = document.querySelectorAll(".card");
+        menuItemIconElms.forEach(elm => {
+            elm.classList.add("side-menu-item-selected");
+        })
+         cardElms.forEach(elm =>{
+              elm.classList.remove("hide");
+        })
+    })
+
+    sideMenuElement.append(onButton);
+    sideMenuElement.append(offButton);
 
     sectionElement.forEach((section) => {
         let children = [...section.children];
