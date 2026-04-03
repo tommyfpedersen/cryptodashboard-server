@@ -15,6 +15,7 @@ export function getPbaasConfig() {
                 {title: "Verus Raw Trading", href: "https://raw.verus.trading"},
                 {title: "Verus Wisdom", href: "https://veruswisdom.com"},
                 {title: "VerusIDX", href: "https://verusidx-lite.vercel.app"},
+                {title: "VerusCX", href: "https://verus.cx"},
                 {title: "Verus Blaster", href: "https://verusblaster.faldt.net/"}
             ]
         },
