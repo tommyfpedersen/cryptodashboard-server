@@ -167,3 +167,15 @@ export function getNetworkHashrateArray(pbaasList) {
     resultArray.sort((a, b) => parseFloat(b.networkHashrate.replace(/,/g, '')) - parseFloat(a.networkHashrate.replace(/,/g, '')));
     return resultArray;
 }
+export function getBlockHeightArray(pbaasList) {
+    const resultArray = [];
+    pbaasList.forEach((item) => {
+        let resultObject = {
+            blockchain: item.blockchain,
+            blockheight: item.blockheight
+        }
+        resultArray.push(resultObject);
+    })
+    resultArray.sort((a, b) => b.blockheight - a.blockheight);
+    return resultArray;
+}

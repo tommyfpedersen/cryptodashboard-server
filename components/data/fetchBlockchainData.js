@@ -3,7 +3,7 @@ import { getCoingeckoPrice } from '../coingecko/coingecko.js';
 import client from '../../redisClient.js';
 import { getBasketsInfo, getCurrencyGroupList, getTotalBasketsVolume } from '../verus/currencies/currenciesUtils.js';
 import { getAllPbaas, getAllPbaasStatus } from '../verus/pbaas/pbaas.js';
-import { getAPYArray, getCurrencyPriceListArray, getDailyEarningsPerGHArray, getFeePoolRewardArray, getIDPriceListArray, getMarketCapArray, getNetworkHashrateArray } from '../verus/pbaas/pbaasUtils.js';
+import { getAPYArray, getBlockHeightArray, getCurrencyPriceListArray, getDailyEarningsPerGHArray, getFeePoolRewardArray, getIDPriceListArray, getMarketCapArray, getNetworkHashrateArray } from '../verus/pbaas/pbaasUtils.js';
 import { getAllCurrenciesFromBaskets } from '../verus/currencies/currencies.js';
 
 export async function getBlockchainData() {
@@ -30,6 +30,7 @@ export async function getBlockchainData() {
     let idPriceListArray = getIDPriceListArray(pbaasList)
     let currencyPriceListArray = getCurrencyPriceListArray(pbaasList)
     let networkHashrateArray = getNetworkHashrateArray(pbaasList);
+    let blockheightArray = getBlockHeightArray(pbaasList);
     let apyArray = getAPYArray(pbaasList);
     let dailyEarningsPerGHArray = getDailyEarningsPerGHArray(pbaasList)
     let feePoolRewardArray = getFeePoolRewardArray(pbaasList)
@@ -46,7 +47,8 @@ export async function getBlockchainData() {
         networkHashrateArray,
         apyArray,
         dailyEarningsPerGHArray,
-        feePoolRewardArray
+        feePoolRewardArray,
+        blockheightArray
     };
 
     return mainRenderData;
