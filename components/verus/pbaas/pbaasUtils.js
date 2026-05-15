@@ -179,3 +179,37 @@ export function getBlockHeightArray(pbaasList) {
     resultArray.sort((a, b) => b.blockheight - a.blockheight);
     return resultArray;
 }
+export function getMaxSupplyArray(pbaasList) {
+    const resultArray = [];
+    pbaasList.forEach((item) => {
+        let resultObject = {
+            blockchain: item.blockchain,
+            maxSupply: item.maxSupply
+        }
+        resultArray.push(resultObject);
+    })
+    return resultArray;
+}
+export function getBlocktimeArray(pbaasList) {
+    const resultArray = [];
+    pbaasList.forEach((item) => {
+        let resultObject = {
+            blockchain: item.blockchain,
+            blocktime: item.blocktime
+        }
+        resultArray.push(resultObject);
+    })
+    return resultArray;
+}
+export function getBlockRewardArray(pbaasList) {
+    const resultArray = [];
+    pbaasList.forEach((item) => {
+        let resultObject = {
+            blockchain: item.blockchain,
+            blockReward: item.blockReward
+        }
+        resultArray.push(resultObject);
+    })
+    resultArray.sort((a, b) => b.blockReward - a.blockReward);
+    return resultArray;
+}

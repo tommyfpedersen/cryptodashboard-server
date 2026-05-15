@@ -1,0 +1,17 @@
+<div class="card" id="stats-pbaas-block-time-card">
+    <img width="16px" src="/img/stats.png" />
+    <button class="hide-button">x</button>
+    <div class="card-content">
+        <div class="card-title">PBaaS Blocktime</div>
+        {{!-- {{#if vrscOnline}} --}}
+        {{#each blocktimeArray}}
+        <div class="card-row-wrapper">
+            <div class="card-row-item">{{{this.blockchain}}}</div>
+            <div class="card-row-item">
+                 {{{ this.blocktime }}} s
+            </div>
+        </div>
+        {{/each}}
+
+    </div>
+</div>

@@ -3,7 +3,7 @@ import { getCoingeckoPrice } from '../coingecko/coingecko.js';
 import client from '../../redisClient.js';
 import { getBasketsInfo, getCurrencyGroupList, getTotalBasketsVolume } from '../verus/currencies/currenciesUtils.js';
 import { getAllPbaas, getAllPbaasStatus } from '../verus/pbaas/pbaas.js';
-import { getAPYArray, getBlockHeightArray, getCurrencyPriceListArray, getDailyEarningsPerGHArray, getFeePoolRewardArray, getIDPriceListArray, getMarketCapArray, getNetworkHashrateArray } from '../verus/pbaas/pbaasUtils.js';
+import { getAPYArray, getBlockHeightArray, getBlockRewardArray, getBlocktimeArray, getCurrencyPriceListArray, getDailyEarningsPerGHArray, getFeePoolRewardArray, getIDPriceListArray, getMarketCapArray, getMaxSupplyArray, getNetworkHashrateArray } from '../verus/pbaas/pbaasUtils.js';
 import { getAllCurrenciesFromBaskets } from '../verus/currencies/currencies.js';
 
 export async function getBlockchainData() {
@@ -27,13 +27,16 @@ export async function getBlockchainData() {
     /* Get pbaas and earnings */
     let pbaasList = await getAllPbaas(allCurrenciesFromBaskets);
     let marketCapArray = getMarketCapArray(pbaasList);
+    let maxSupplyArray = getMaxSupplyArray(pbaasList);
     let idPriceListArray = getIDPriceListArray(pbaasList)
     let currencyPriceListArray = getCurrencyPriceListArray(pbaasList)
     let networkHashrateArray = getNetworkHashrateArray(pbaasList);
     let blockheightArray = getBlockHeightArray(pbaasList);
+    let blocktimeArray = getBlocktimeArray(pbaasList);
     let apyArray = getAPYArray(pbaasList);
     let dailyEarningsPerGHArray = getDailyEarningsPerGHArray(pbaasList)
     let feePoolRewardArray = getFeePoolRewardArray(pbaasList)
+    let blockRewardArray = getBlockRewardArray(pbaasList)
 
     mainRenderData = {
         allCurrenciesFromBaskets,
@@ -42,13 +45,16 @@ export async function getBlockchainData() {
         basketsInfo,
         pbaasList,
         marketCapArray,
+        maxSupplyArray,
         idPriceListArray,
         currencyPriceListArray,
         networkHashrateArray,
         apyArray,
         dailyEarningsPerGHArray,
         feePoolRewardArray,
-        blockheightArray
+        blockRewardArray,
+        blockheightArray,
+        blocktimeArray
     };
 
     return mainRenderData;
